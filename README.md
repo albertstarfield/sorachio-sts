@@ -216,8 +216,7 @@ Python Orchestrator (asyncio event loop)
 ```
 Sorachio-STS/
 |
-+-- main.py                 # Entry point (uses MBG system)
-+-- mbg.py                  # MBG: Master Bootstrap Guardian
++-- main.py                 # Entry point (MBG runs automatically)
 +-- bootstrapper.py         # Legacy bootstrapper (kept for compatibility)
 +-- pyproject.toml          # Ruff + pyrefly configuration
 +-- README.md
@@ -345,13 +344,10 @@ Main Thread (asyncio event loop)
 
 ### One-Command Setup
 
-The **MBG: Master Bootstrap Guardian** system handles everything automatically:
+The **MBG: Master Bootstrap Guardian** system handles everything automatically — all setup runs before the app starts:
 
 ```bash
-# Full setup (installs dependencies, builds binaries, downloads models)
-python mbg.py
-
-# Or use main.py (automatically runs MBG first)
+# Full setup (auto-installs dependencies, builds binaries, downloads models)
 python main.py --help
 ```
 
@@ -364,20 +360,20 @@ python main.py --help
 5. **Model Downloads** - Downloads STT and LLM models
 6. **Platform Detection** - Handles macOS, Linux, and Windows
 
-### MBG Commands
+### Useful Commands
 
 ```bash
 # Check system status
-python mbg.py --check
+python main.py --check
 
 # Force rebuild everything
-python mbg.py --force
+python main.py --force
 
 # Download models only
-python mbg.py --models
+python main.py --models
 
 # Build binaries only
-python mbg.py --build
+python main.py --build
 ```
 
 ---
@@ -407,10 +403,7 @@ python mbg.py --build
 ### Quick Start -- Text Mode (no microphone required)
 
 ```bash
-# 1. Run MBG (if not already done)
-python mbg.py
-
-# 2. Run in text mode
+# Run in text mode (MBG auto-runs on first launch)
 python main.py text
 ```
 
@@ -652,23 +645,20 @@ python main.py memory clear [--yes]
 ### Usage
 
 ```bash
-# Full bootstrap (recommended)
-python mbg.py
-
 # Check system status
-python mbg.py --check
+python main.py --check
 
 # Force rebuild everything
-python mbg.py --force
+python main.py --force
 
 # Download models only
-python mbg.py --models
+python main.py --models
 
 # Build binaries only
-python mbg.py --build
+python main.py --build
 
 # Show version
-python mbg.py --version
+python main.py --version
 ```
 
 ### What Gets Built
@@ -701,7 +691,7 @@ MBG will automatically try to find and relaunch with a compatible Python version
 
 Run MBG to build the missing binary:
 ```bash
-python mbg.py
+python main.py
 ```
 
 ### "No module named 'sounddevice'"
