@@ -61,7 +61,13 @@ The system is designed from the ground up as a **scalable AI companion operating
 | **Vision Ready** | LLM #2 supports multimodal input via mmproj projector |
 | **Bilingual** | Automatic English / Indonesian language detection & voice routing |
 | **Interruptible** | VAD-based barge-in stops playback instantly; self-interrupt shielded |
-| **Persistent Memory** | Remembers you across sessions (JSON file) |
+| **Adaptive AEC** | Calibration-based room impulse response echo cancellation (3s chirp sweep + Wiener/LMS filter) |
+| **Streaming STT** | Whisper partial transcript streaming for lower latency |
+| **Vector Memory** | ChromaDB semantic search + sentence-transformers embeddings for LTM |
+| **Emotion Persistence** | Long-term mood trend detection and emotion pattern tracking |
+| **Rate Limiting** | Sliding window algorithm to prevent rapid-fire input spikes |
+| **Anteque Ashing** | Built-in Python quality code verifier (ruff + pyrefly) enforced on bootstrap |
+| **Persistent Memory** | Remembers you across sessions (JSON file + ChromaDB vector store) |
 | **Modular** | Each component is a separate async worker |
 | **Rich CLI UI** | Transient spinners, animated loaders, and cognitive status pills |
 | **Cross-Platform** | Works on macOS, Linux, and Windows |
@@ -96,6 +102,12 @@ The system is designed from the ground up as a **scalable AI companion operating
 |                                   |                               |
 |                                   v                               |
 |                  +-------------------------------------------+    |
+|                  | CalibrationAEC / SpectralSubAEC           |    |
+|                  | (3s chirp room calibration, Wiener/LMS)   |    |
+|                  +-------------------------------------------+    |
+|                                   |                               |
+|                                   v                               |
+|                  +-------------------------------------------+    |
 |                  | Peak Follower + Playback Gate Shield       |    |
 |                  | (blocks speaker bleed during TTS, -15dBFS) |    |
 |                  +-------------------------------------------+    |
@@ -110,11 +122,18 @@ The system is designed from the ground up as a **scalable AI companion operating
 |                        v              +---------------------+     |
 |               +-----------------+     |   STT Worker        |     |
 |               | Interrupt Event |     | (faster-whisper)    |     |
-|               +-----------------+     | + text lang verify  |     |
+|               +-----------------+     | + Streaming STT     |     |
+|                                       | + text lang verify  |     |
 |                                       | + hallucination flt |     |
 |                                       +--------+------------+     |
 |                                                |transcript        |
 |                                                |+ language        |
+|                                                v                  |
+|                                       +---------------------+     |
+|                                       |    Rate Limiter     |     |
+|                                       |   (sliding window)  |     |
+|                                       +--------+------------+     |
+|                                                | allowed          |
 |                                                v                  |
 |                                       +---------------------+     |
 |                                       |  Cognitive Worker   |     |
@@ -125,12 +144,13 @@ The system is designed from the ground up as a **scalable AI companion operating
 |                                                | decision         |
 |                                                | + detected_lang  |
 |                                                v                  |
-|                           +-------------------------------+        |
-|                           |       Memory System           |        |
-|                           |  STM (in-memory) + LTM (JSON)|        |
-|                           +---------------+---------------+        |
-|                                           | context               |
-|                                           v                       |
+|                           +---------------------------------------+        |
+|                           |            Memory System              |        |
+|                           | STM + LTM (JSON + ChromaDB Vector)    |        |
+|                           | + EmotionTracker (Mood trends)        |        |
+|                           +-------------------+-------------------+        |
+|                                               | context                    |
+|                                               v                            |
 |                           +-------------------------------+        |
 |                           |       Context Manager         |        |
 |                           | system prompt + STM + LTM +   |        |
@@ -192,6 +212,9 @@ Python Orchestrator (asyncio event loop)
 [Acoustic Gate] -- drops frames below -45 dBFS
     |
     v
+[CalibrationAEC / SpectralSubAEC] -- 3-second chirp room impulse calibration & Wiener/LMS filter
+    |
+    v
 [Peak Follower + Playback Gate Shield]
     | during TTS: threshold = max(-15.0 dBFS, speaker_peak + 7.0 dB)
     | blocks speaker bleed, prevents self-interruption
@@ -201,18 +224,25 @@ Python Orchestrator (asyncio event loop)
     |
     v audio bytes
 [STT Worker: faster-whisper]
+    |  Streaming partial transcripts + batch transcription
     |  Language detection: audio classifier + text-level verifier
     |  Hallucination filter (noise, repetition, domain names)
     |  local_files_only=True -- instant offline load
     v transcript + verified_language
+[Rate Limiter] -- sliding window check (protects Cognitive Worker from rapid-fire spikes)
+    |
+    v
 [Cognitive Worker: LLM #1]
     |  POST /v1/chat/completions to llama-server:8001
     |  --reasoning off
     v JSON: {respond, emotion, topic, store_memory, importance, memory_queries}
     + detected_language injected by pipeline
     |
+[Memory System & Emotion Tracker]
+    |  STM + LTM retrieval (JSON keyword matching + ChromaDB Vector Store semantic search)
+    |  EmotionTracker: mood trend detection & periodic emotion summaries to LTM
+    |
 [Context Manager]
-    |  STM + LTM retrieval
     |  Emotional context injection
     |  [Spoken Language: English. You MUST respond in English.]  <- per-turn directive
     v messages[]
@@ -237,7 +267,7 @@ Python Orchestrator (asyncio event loop)
 Sorachio-STS/
 |
 +-- main.py                 # Entry point (MBG runs automatically)
-+-- mbg.py                  # Master Bootstrap Guardian (build + model downloads)
++-- mbg.py                  # Master Bootstrap Guardian + Anteque Ashing quality checks
 +-- pyproject.toml          # Ruff + pyrefly configuration
 +-- README.md
 |
@@ -246,20 +276,22 @@ Sorachio-STS/
 |   +-- settings.py         # Pydantic settings loader + model auto-scanner
 |
 +-- core/
-|   +-- pipeline.py         # Master async pipeline (STT lang routing, interrupt)
+|   +-- pipeline.py         # Master async pipeline (AEC calibration, STT, interrupt)
 |   +-- events.py           # Event bus (pub/sub)
 |
 +-- audio/
 |   +-- capture.py          # Mic capture + VAD + peak follower + pre-roll ring buffer
 |   +-- playback.py         # Interruptible playback queue
 |   +-- acoustic_gate.py    # Pre-VAD energy filter + silence sentinel injection
-|   +-- echo_cancellation.py # AEC scaffold (null passthrough by default)
+|   +-- echo_cancellation.py # CalibrationAEC (3s chirp sweep) + SpectralSubAEC + NullAEC
 |
 +-- vision/
 |   +-- capture.py          # Webcam snapshot capture (OpenCV)
 |
 +-- stt/
 |   +-- whisper_client.py   # faster-whisper in-process client
+|                           #  - Streaming STT (transcribe_streaming) for minimal latency
+|                           #  - Configurable models_dir and model_size
 |                           #  - Audio language classifier + text-level verifier
 |                           #  - Hallucination filter (noise, repetition, domains)
 |                           #  - Pre-trigger ring buffer (onset capture)
@@ -285,7 +317,9 @@ Sorachio-STS/
 |
 +-- memory/
 |   +-- short_term.py       # Rolling conversation window
-|   +-- long_term.py        # JSON persistent memory + retrieval
+|   +-- long_term.py        # Hybrid LTM: JSON persistent storage + VectorStore integration
+|   +-- vector_store.py     # ChromaDB vector store + sentence-transformers (all-MiniLM-L6-v2)
+|   +-- emotion_tracker.py  # Rolling emotion history & mood trend detection
 |
 +-- personality/
 |   +-- personality_core.py # Streaming conversation engine (model-agnostic)
@@ -296,6 +330,7 @@ Sorachio-STS/
 +-- utils/
 |   +-- logging_setup.py    # Structured logging (Rich + file)
 |   +-- chunk_assembler.py  # Token -> speech chunk converter
+|   +-- rate_limiter.py     # Sliding window rate limiter for pipeline input protection
 |
 +-- cli/
 |   +-- main.py             # All commands (run, text, test-*, ...)
@@ -319,6 +354,7 @@ Sorachio-STS/
 +-- data/
 |   +-- memory/
 |       +-- ltm.json        # Long-term memory (auto-created)
+|       +-- chroma/         # ChromaDB vector embeddings database (auto-created)
 |
 +-- logs/
 |   +-- sorachio.log
@@ -516,37 +552,36 @@ stt:
   model_size: "small"      # tiny | base | small | medium
   language: "auto"         # "auto" = bilingual EN/ID
   beam_size: 2             # 1=fastest, 5=most accurate
+  streaming: true          # Whisper streaming mode for minimal latency
+  chunk_length_s: 5.0      # Audio chunk duration for streaming
+  models_dir: "models/stt" # Directory storing STT model weights
 
-# TTS settings
-tts:
-  voice: "af_heart"        # Default Kokoro voice for English
-  speed: 1.0
-  sample_rate: 24000       # Native Kokoro output rate (24kHz)
-  lang: "auto"             # Routes by detected text language automatically
-
-# LLM creativity
-llm:
-  personality_core:
-    temperature: 0.7
-    max_tokens: 200        # Shorter = faster streaming
-
-# GPU acceleration
-llm:
-  cognitive_gateway:
-    n_gpu_layers: 99
-  personality_core:
-    n_gpu_layers: 99
-
-# Acoustic gate (adjust for your room noise)
+# Acoustic Echo Cancellation (AEC)
 audio:
-  capture:
-    acoustic_gate:
-      threshold_dbfs: -45.0    # -50=sensitive, -30=noisy room
+  aec:
+    provider: "calibration" # "null" | "simple" | "spectral" | "calibration"
+    calibration:
+      duration_seconds: 3.0
+      sweep_start_hz: 100.0
+      sweep_end_hz: 8000.0
+      filter_length: 512
+      step_size: 0.01
 
-# Memory
+# Memory (JSON + Vector Store + Emotion Tracker)
 memory:
   long_term:
     importance_threshold: 0.5
+  vector_store:
+    storage_path: "data/memory/chroma"
+    embedding_model: "all-MiniLM-L6-v2"
+  emotion_tracker:
+    history_size: 50
+    summary_interval_turns: 10
+
+# Rate Limiter
+rate_limiter:
+  max_requests: 10
+  window_seconds: 60.0
 ```
 
 ---
@@ -595,9 +630,13 @@ The VAD worker maintains a rolling **8-frame (~240ms) history**. When VAD fires,
 
 During TTS playback, the gate threshold is tracked by a **peak follower with slow decay** (-0.2 dB/frame). Minimum cap: **-15.0 dBFS**. Typical speaker bleed (-17 to -19 dBFS) stays safely below this — preventing self-interruptions.
 
-### 4. Playback Pre-Roll Warmup
+### 4. Calibration-Based Adaptive Echo Cancellation (CalibrationAEC)
 
-On TTS start, the gate is forced to `-10.0 dBFS` for 6 frames (180ms) to let the audio driver buffer stabilize without false interrupts.
+To ensure the mic never triggers VAD from speaker playback, Sorachio includes `CalibrationAEC`:
+- **3-second chirp sweep** (100Hz–8kHz) during startup calibration phase.
+- Learns room impulse response, transfer function $H(f)$, and round-trip delay.
+- Combines Wiener filtering and LMS adaptive filtering for continuous real-time echo suppression.
+- Auto-calculates dynamic barge-in amplitude thresholds based on measured speaker-to-mic leakage.
 
 ---
 
@@ -661,11 +700,17 @@ Audio Queue:        [audio1] -> speaker
 - Content: role, content, emotion, topic, importance, timestamp
 - Cleared on session end
 
-### Long-Term Memory (LTM)
+### Long-Term Memory (LTM) & Vector Store
 
-- JSON file (`data/memory/ltm.json`), up to 500 entries
-- Keyword matching + importance scoring + recency weighting
-- Persists across sessions
+- **JSON Persistent Store**: (`data/memory/ltm.json`), up to 500 entries. Stores key facts, importance scoring, and recency metadata.
+- **ChromaDB Vector Store**: (`data/memory/chroma`). Uses `sentence-transformers` (`all-MiniLM-L6-v2`) for semantic embedding search.
+- **Hybrid Retrieval**: Combines keyword matching with semantic vector similarity for high-precision memory recall across sessions.
+
+### Emotion Persistence & Mood Tracking
+
+- `EmotionTracker` records rolling emotional patterns from Cognitive Gateway decisions.
+- Tracks mood trends over time and signals personality adaptation to LLM #2.
+- Periodically summarizes emotional state and saves summaries into LTM.
 
 ---
 
@@ -709,6 +754,7 @@ python main.py memory clear [--yes]
 - Python 3.10–3.12 version management and auto-relaunch
 - Creates and manages `venv_runtime/` virtual environment
 - Installs Python packages + system dependencies (Vulkan, PortAudio)
+- **Anteque Ashing Quality Code Verifier**: Mandatory `ruff` and `pyrefly` code quality checks executed automatically during bootstrap
 - Builds `llama-server` from source (Linux/macOS) with **Vulkan GPU backend** (auto-detected)
 - Copies all Vulkan/GGML shared libraries (`libggml-vulkan.so`, `libllama.so`, etc.) alongside binary
 - Applies `cap_ipc_lock` for zero-swap RAM locking on Linux
@@ -798,7 +844,7 @@ Sorachio-STS is architected as the **brain** of a future companion robot.
 | `sensors/imu.py` | Accelerometer/gyroscope | Planned |
 | `actuators/servo.py` | Facial expression servos | Planned |
 | `actuators/led.py` | LED ring for emotional state | Planned |
-| `memory/vector_ltm.py` | ChromaDB/FAISS semantic memory | Planned |
+| `memory/vector_store.py` | ChromaDB semantic vector memory | **Implemented** |
 | `cognition/vision_gate.py` | Visual cognitive gateway | Planned |
 | `core/ros2_bridge.py` | ROS2 topic publisher/subscriber | Planned |
 | `agents/task_agent.py` | Goal-oriented sub-agent | Planned |
