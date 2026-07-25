@@ -21,6 +21,8 @@ import re
 import threading
 from collections.abc import AsyncIterator
 
+from pathlib import Path
+
 import numpy as np
 
 from utils.logging_setup import get_logger
@@ -193,6 +195,7 @@ class WhisperClient:
         compute_type: str = "int8",
         streaming: bool = True,
         chunk_length_s: float = 5.0,
+        models_dir: str | Path = "models/stt",
     ):
         self.model_size = model_size
         # None or "auto" = auto-detect; otherwise pin to a language
@@ -205,6 +208,7 @@ class WhisperClient:
         self.compute_type = compute_type
         self.streaming = streaming
         self.chunk_length_s = chunk_length_s
+        self.models_dir = Path(models_dir)
 
         self._model = None
         self._available = False

@@ -128,6 +128,7 @@ class SorachioPipeline:
             compute_type=stt_cfg.compute_type,
             streaming=stt_cfg.streaming,
             chunk_length_s=stt_cfg.chunk_length_s,
+            models_dir=str(root / stt_cfg.models_dir),
         )
         stt_ok = await self._stt.initialize()
         if not stt_ok:

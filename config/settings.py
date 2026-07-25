@@ -74,6 +74,7 @@ class STTConfig(BaseModel):
     # Streaming mode
     streaming: bool = True            # Use Whisper streaming for lower latency
     chunk_length_s: float = 5.0       # Audio chunk length for streaming (seconds)
+    models_dir: str = "models/stt"    # Directory for STT models
 
 
 class LLMInstanceConfig(BaseModel):
