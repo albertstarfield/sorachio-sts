@@ -128,7 +128,7 @@ class STMConfig(BaseModel):
 class LTMConfig(BaseModel):
     storage_path: str = "data/memory/ltm.json"
     max_entries: int = 500
-    importance_threshold: float = 0.5
+    importance_threshold: float = 0.8
     retrieval_top_k: int = 5
     keyword_weight: float = 0.6
     recency_weight: float = 0.4
@@ -136,6 +136,7 @@ class LTMConfig(BaseModel):
     use_vector_store: bool = True
     vector_store_path: str = "data/memory/chroma"
     embedding_model: str = "all-MiniLM-L6-v2"
+    vector_model_dir: str = "models/vector/all-MiniLM-L6-v2"
     vector_weight: float = 0.7
 
 

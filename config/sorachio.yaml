@@ -151,10 +151,15 @@ memory:
   long_term:
     storage_path: "data/memory/ltm.json"
     max_entries: 500
-    importance_threshold: 0.5  # Only store if importance >= this
+    importance_threshold: 0.8  # Only store if importance >= this
     retrieval_top_k: 5         # Top K memories to retrieve
     keyword_weight: 0.6
     recency_weight: 0.4
+    use_vector_store: true
+    vector_store_path: "data/memory/chroma"
+    vector_model_dir: "models/vector/all-MiniLM-L6-v2"
+    embedding_model: "all-MiniLM-L6-v2"
+    vector_weight: 0.7
 
 # =============================================================================
 # Context Manager Configuration

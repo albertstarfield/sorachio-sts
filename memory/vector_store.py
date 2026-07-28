@@ -33,9 +33,11 @@ class VectorStore:
         self,
         storage_path: str = "data/memory/chroma",
         embedding_model: str = "all-MiniLM-L6-v2",
+        vector_model_dir: str | None = None,
     ):
         self.storage_path = Path(storage_path)
         self.embedding_model = embedding_model
+        self.vector_model_dir = Path(vector_model_dir) if vector_model_dir else None
         self._collection = None
         self._embedding_fn = None
         self._available = False
@@ -50,7 +52,23 @@ class VectorStore:
         """Synchronous initialization (runs in executor)."""
         try:
             import chromadb  # type: ignore[import-untyped]
+            from chromadb.api.types import Documents, EmbeddingFunction, Embeddings  # type: ignore[import-untyped]
             from chromadb.config import Settings as ChromaSettings  # type: ignore[import-untyped]
+
+            class OfflineSentenceTransformerEmbeddingFunction(EmbeddingFunction[Documents]):
+                def __init__(self, model_path_or_name: str | Path):
+                    from sentence_transformers import SentenceTransformer  # type: ignore[import-untyped]
+                    model_path = Path(model_path_or_name)
+                    if model_path.exists():
+                        log.info(f"[VectorStore] Loading offline embedding model from {model_path}...")
+                        self.model = SentenceTransformer(str(model_path), local_files_only=True)
+                    else:
+                        log.info(f"[VectorStore] Loading embedding model '{model_path_or_name}'...")
+                        self.model = SentenceTransformer(str(model_path_or_name))
+
+                def __call__(self, input: Documents) -> Embeddings:
+                    embeddings = self.model.encode(list(input), convert_to_numpy=True)
+                    return embeddings.tolist()
 
             self.storage_path.mkdir(parents=True, exist_ok=True)
 
@@ -59,9 +77,16 @@ class VectorStore:
                 settings=ChromaSettings(anonymized_telemetry=False),
             )
 
+            has_local = self.vector_model_dir and self.vector_model_dir.exists()
+            model_target = (
+                self.vector_model_dir if has_local else self.embedding_model
+            )
+            self._embedding_fn = OfflineSentenceTransformerEmbeddingFunction(model_target)
+
             self._collection = self._client.get_or_create_collection(
                 name="memories",
                 metadata={"hnsw:space": "cosine"},
+                embedding_function=self._embedding_fn,
             )
 
             log.info(
@@ -71,12 +96,13 @@ class VectorStore:
             self._available = True
             return True
 
-        except ImportError:
+        except ImportError as e:
             log.warning(
-                "[VectorStore] chromadb not installed. "
-                "Install with: pip install chromadb"
+                f"[VectorStore] chromadb / sentence-transformers not installed ({e}). "
+                "Install with: pip install chromadb sentence-transformers"
             )
             return False
+
         except Exception as e:
             log.error(f"[VectorStore] Init failed: {e}")
             return False

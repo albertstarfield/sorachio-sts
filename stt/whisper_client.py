@@ -20,7 +20,6 @@ import queue
 import re
 import threading
 from collections.abc import AsyncIterator
-
 from pathlib import Path
 
 import numpy as np

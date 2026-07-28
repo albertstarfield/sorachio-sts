@@ -155,11 +155,15 @@ class SorachioPipeline:
         # Initialize vector store if enabled
         vector_store = None
         if mem_cfg.long_term.use_vector_store:
+            _default_vec = "models/vector/all-MiniLM-L6-v2"
+            _vec_model_dir = getattr(mem_cfg.long_term, "vector_model_dir", _default_vec)
             vector_store = VectorStore(
                 storage_path=str(root / mem_cfg.long_term.vector_store_path),
                 embedding_model=mem_cfg.long_term.embedding_model,
+                vector_model_dir=str(root / _vec_model_dir),
             )
             vs_ok = await vector_store.initialize()
+
             if not vs_ok:
                 log.warning("[Pipeline] Vector store unavailable — falling back to keyword search")
                 vector_store = None

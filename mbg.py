@@ -192,7 +192,11 @@ class MasterBootstrapGuardian:
         kokoro_dir = MODELS_DIR / "tts" / "kokoro"
         kokoro_ok = kokoro_dir.exists() and any(kokoro_dir.rglob("*.pth"))
         parts.append("Kokoro [OK]" if kokoro_ok else "Kokoro [FAIL]")
+        vec_dir = MODELS_DIR / "vector" / "all-MiniLM-L6-v2"
+        vec_ok = vec_dir.exists() and any(vec_dir.iterdir())
+        parts.append("VectorStore [OK]" if vec_ok else "VectorStore [FAIL]")
         # LLM models (auto-detected)
+
         for name, config in LLM_MODEL_DIRS.items():
             model_dir = config["dir"]
             gguf_files = list(model_dir.glob("*.gguf")) if model_dir.exists() else []
@@ -269,7 +273,13 @@ class MasterBootstrapGuardian:
         if not kokoro_dir.exists() or not any(kokoro_dir.rglob("*.pth")):
             return False
 
+        # Vector Embedding model present in models/vector/all-MiniLM-L6-v2?
+        vec_dir = MODELS_DIR / "vector" / "all-MiniLM-L6-v2"
+        if not vec_dir.exists() or not any(vec_dir.iterdir()):
+            return False
+
         # LLM model directories have .gguf files?
+
         for _name, config in LLM_MODEL_DIRS.items():
             model_dir = config["dir"]
             if not model_dir.exists():
@@ -286,12 +296,14 @@ class MasterBootstrapGuardian:
             "httpx", "aiohttp", "pydantic", "sounddevice",
             "numpy", "rich", "typer", "faster_whisper", "piper",
             "kokoro", "misaki", "langdetect", "cv2", "PIL",
+            "chromadb", "sentence_transformers",
         ]
         for pkg in critical_packages:
             try:
                 __import__(pkg)
             except (ImportError, OSError):
                 return False
+
 
         # Check dev tools (Anteque Ashing quality verifiers)
         # DO NOT REMOVE THESE CHECKS - Anteque Ashing
@@ -557,6 +569,8 @@ class MasterBootstrapGuardian:
             "langdetect",
             "opencv-python",
             "Pillow",
+            "chromadb",
+            "sentence-transformers",
         ]
 
         # Dev tools (quality & type checking)
@@ -807,10 +821,6 @@ class MasterBootstrapGuardian:
         """Ensure STT, TTS, and LLM model dependencies are fully downloaded upfront."""
         log.info("Checking and downloading models...")
 
-        if not self._are_dependencies_installed():
-            log.info("[MBG] Installing dependencies before model verification...")
-            self._install_dependencies()
-
         # 1. Verify LLM model directories (user-managed, auto-detected)
         for name, config in LLM_MODEL_DIRS.items():
             self._verify_llm_model_dir(name, config)
@@ -883,6 +893,31 @@ class MasterBootstrapGuardian:
             log.info("[MBG] Kokoro TTS model ('hexgrad/Kokoro-82M') is ready [OK]")
         except Exception as e:
             log.warning(f"[MBG] Kokoro TTS model verification failed: {e}")
+
+        # 5. Pre-download Vector Embedding model to models/vector/all-MiniLM-L6-v2/
+        try:
+            vec_dir = MODELS_DIR / "vector" / "all-MiniLM-L6-v2"
+            vec_dir.mkdir(parents=True, exist_ok=True)
+            # Check for actual model files (not just metadata/gitattributes)
+            model_files = list(vec_dir.glob("*.bin")) + list(vec_dir.glob("*.safetensors"))
+            if not model_files:
+                log.info(
+                    "[MBG] Pre-downloading Vector Embedding model "
+                    f"('sentence-transformers/all-MiniLM-L6-v2') to {vec_dir}..."
+                )
+                from huggingface_hub import snapshot_download
+                snapshot_download(
+                    repo_id="sentence-transformers/all-MiniLM-L6-v2",
+                    local_dir=str(vec_dir),
+                )
+                log.info("[MBG] Vector Embedding model ('all-MiniLM-L6-v2') downloaded [OK]")
+            else:
+                log.info("[MBG] Vector Embedding model ('all-MiniLM-L6-v2') is ready [OK]")
+        except Exception as e:
+            log.warning(f"[MBG] Vector Embedding model verification failed: {e}")
+
+
+
 
     def _download_model(self, name: str, config: dict) -> None:
         """Download a single model."""
@@ -1058,6 +1093,13 @@ class MasterBootstrapGuardian:
         kokoro_dir = MODELS_DIR / "tts" / "kokoro"
         kokoro_ok = kokoro_dir.exists() and any(kokoro_dir.rglob("*.pth"))
         print(f"    {'✓' if kokoro_ok else '✗'} Kokoro TTS English (models/tts/kokoro/)")
+
+        # Vector Embedding
+        vec_dir = MODELS_DIR / "vector" / "all-MiniLM-L6-v2"
+        vec_ok = vec_dir.exists() and any(vec_dir.iterdir())
+        print(f"    {'✓' if vec_ok else '✗'} Vector Store Embedding Model (models/vector/all-MiniLM-L6-v2/)")
+
+
 
         # LLM Models (auto-detected)
         print()

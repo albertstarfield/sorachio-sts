@@ -544,7 +544,7 @@ All configuration lives in `config/sorachio.yaml`.
 context:
   companion_name: "Sorachio"
   personality_prompt: |
-    You are Sorachio, a close human friend of the user. Created by IzzulGod.
+    You are Sorachio, an AI companion. Created by IzzulGod.
     ...
 
 # STT settings
