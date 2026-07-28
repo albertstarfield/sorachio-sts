@@ -76,11 +76,12 @@ The system is designed from the ground up as a **scalable AI companion operating
 
 | Slot | Model | Size | Role | Local Path |
 |------|-------|------|------|------------|
-| LLM #1 | Qwen3.5-0.8B (Q8_0) | 774 MB | Cognitive Gateway (JSON router) | `models/llm1/` |
-| LLM #2 | Qwen3.5-2B (Q8_0) | ~1.9 GB | Personality Core (conversation) + **Vision** | `models/llm2/` |
+| LLM #1 | Qwen2.5-Coder-0.5B-Instruct (Q8_0) | ~644 MB | Cognitive Gateway (JSON router) | `models/llm1/` |
+| LLM #2 | Qwen3.5-4B (Q4_K_M) | ~2.6 GB | Personality Core (conversation) + **Vision** | `models/llm2/` |
 | STT | faster-whisper small | ~484 MB | Speech-to-Text (multilingual ID/EN) | `models/stt/` |
 | TTS (EN) | Kokoro-82M (`af_heart`) | ~327 MB | English female voice — 24kHz native | `models/tts/kokoro/` |
 | TTS (ID) | Piper `id_ID-news_tts-medium` | ~67 MB | Indonesian female voice — 22.05kHz→24kHz | `models/tts/` |
+| Vector Embed | all-MiniLM-L6-v2 | ~90 MB | Semantic memory embeddings (offline) | `models/vector/all-MiniLM-L6-v2/` |
 
 > **All model weights live inside the project** under `models/` — no cloud cache, no `~/.cache` writes. Everything is self-contained and portable.
 
@@ -475,6 +476,7 @@ MBG handles everything else automatically:
 | faster-whisper-small | ~484 MB | STT model | `models/stt/` |
 | Kokoro-82M + voices | ~327 MB | English TTS (`af_heart`) | `models/tts/kokoro/` |
 | id_ID-news_tts-medium | ~67 MB | Indonesian TTS voice (Piper ONNX) | `models/tts/` |
+| all-MiniLM-L6-v2 | ~90 MB | Vector embedding model (offline LTM search) | `models/vector/all-MiniLM-L6-v2/` |
 
 > All downloads are stored **inside the project directory** under `models/`. Nothing is written to your home directory cache.
 
@@ -544,44 +546,42 @@ All configuration lives in `config/sorachio.yaml`.
 context:
   companion_name: "Sorachio"
   personality_prompt: |
-    You are Sorachio, an AI companion. Created by IzzulGod.
+    You are Sorachio, an AI companion. Created by izzulgod.
     ...
 
-# STT settings
+# STT settings (streaming is enabled by default in settings.py)
 stt:
   model_size: "small"      # tiny | base | small | medium
   language: "auto"         # "auto" = bilingual EN/ID
   beam_size: 2             # 1=fastest, 5=most accurate
-  streaming: true          # Whisper streaming mode for minimal latency
-  chunk_length_s: 5.0      # Audio chunk duration for streaming
   models_dir: "models/stt" # Directory storing STT model weights
 
-# Acoustic Echo Cancellation (AEC)
+# Acoustic Echo Cancellation (AEC) — disabled by default
 audio:
-  aec:
-    provider: "calibration" # "null" | "simple" | "spectral" | "calibration"
-    calibration:
-      duration_seconds: 3.0
-      sweep_start_hz: 100.0
-      sweep_end_hz: 8000.0
-      filter_length: 512
-      step_size: 0.01
+  echo_cancellation:
+    enabled: false         # Set to true to activate
+    provider: "null"       # "null" | "simple_energy" | "calibration"
+    attenuation_factor: 0.3
+    calibration_duration_s: 3.0
+    lms_filter_length: 512
+    lms_step_size: 0.01
+    wiener_noise_margin: 1.5
+    calibration_auto_run: true
 
 # Memory (JSON + Vector Store + Emotion Tracker)
 memory:
   long_term:
-    importance_threshold: 0.5
-  vector_store:
-    storage_path: "data/memory/chroma"
+    importance_threshold: 0.8
+    use_vector_store: true             # Enable ChromaDB semantic search
+    vector_store_path: "data/memory/chroma"
+    vector_model_dir: "models/vector/all-MiniLM-L6-v2"  # Offline model
     embedding_model: "all-MiniLM-L6-v2"
-  emotion_tracker:
-    history_size: 50
-    summary_interval_turns: 10
+    vector_weight: 0.7                 # 70% vector, 30% keyword in hybrid retrieval
 
-# Rate Limiter
-rate_limiter:
-  max_requests: 10
-  window_seconds: 60.0
+# Rate Limiter (configured in settings.py defaults)
+# enable_rate_limiting: true
+# rate_limit_max_requests: 10
+# rate_limit_window_seconds: 60.0
 ```
 
 ---
@@ -620,7 +620,7 @@ The pipeline then injects `detected_language` before passing to Context Manager.
 
 ### 1. Acoustic Gate
 
-Every frame is energy-checked before reaching VAD. Frames below `-45.0 dBFS` are immediately dropped — no wasted STT/LLM cycles on silence.
+Every frame is energy-checked before reaching VAD. Frames below `-40.0 dBFS` are immediately dropped — no wasted STT/LLM cycles on silence. Configurable via `audio.capture.acoustic_gate.threshold_dbfs` in `sorachio.yaml`.
 
 ### 2. Pre-Trigger Ring Buffer (Onset Capture)
 
@@ -753,7 +753,7 @@ python main.py memory clear [--yes]
 
 - Python 3.10–3.12 version management and auto-relaunch
 - Creates and manages `venv_runtime/` virtual environment
-- Installs Python packages + system dependencies (Vulkan, PortAudio)
+- Installs all Python packages including `chromadb` and `sentence-transformers` + system dependencies (Vulkan, PortAudio)
 - **Anteque Ashing Quality Code Verifier**: Mandatory `ruff` and `pyrefly` code quality checks executed automatically during bootstrap
 - Builds `llama-server` from source (Linux/macOS) with **Vulkan GPU backend** (auto-detected)
 - Copies all Vulkan/GGML shared libraries (`libggml-vulkan.so`, `libllama.so`, etc.) alongside binary
@@ -761,7 +761,9 @@ python main.py memory clear [--yes]
 - Downloads `faster-whisper-small` STT model to `models/stt/` (self-contained, no `~/.cache`)
 - Downloads `Kokoro-82M` English TTS weights + voice files to `models/tts/kokoro/`
 - Downloads Piper ONNX Indonesian TTS voice (`id_ID-news_tts-medium`) to `models/tts/`
+- Downloads `all-MiniLM-L6-v2` vector embedding model to `models/vector/` for offline LTM semantic search
 - Auto-detects GGUF models and vision projectors in `models/llm1/` and `models/llm2/`
+- Smart re-run detection: checks for actual model weight files (`.bin`/`.safetensors`) — skips download if already present
 
 ### Commands
 
@@ -844,7 +846,8 @@ Sorachio-STS is architected as the **brain** of a future companion robot.
 | `sensors/imu.py` | Accelerometer/gyroscope | Planned |
 | `actuators/servo.py` | Facial expression servos | Planned |
 | `actuators/led.py` | LED ring for emotional state | Planned |
-| `memory/vector_store.py` | ChromaDB semantic vector memory | **Implemented** |
+| `memory/vector_store.py` | ChromaDB + sentence-transformers semantic vector memory (offline) | ✅ Live |
+| `memory/emotion_tracker.py` | Rolling mood trend detection + LTM emotion summaries | ✅ Live |
 | `cognition/vision_gate.py` | Visual cognitive gateway | Planned |
 | `core/ros2_bridge.py` | ROS2 topic publisher/subscriber | Planned |
 | `agents/task_agent.py` | Goal-oriented sub-agent | Planned |
@@ -871,5 +874,5 @@ MIT License — see [LICENSE](LICENSE)
 - Bug fixes and improvements
 - New sensor/actuator integrations
 - Alternative STT/TTS backends
-- Vector database LTM implementation
+- Wake word detection integration (e.g. `openwakeword`)
 - ROS2 bridge
