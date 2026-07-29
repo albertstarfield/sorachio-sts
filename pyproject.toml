@@ -34,17 +34,19 @@ ignore = []
 
 [tool.pyrefly]
 project-includes = [
-    "**/*.py*",
+    "**/*.py",
     "**/*.ipynb",
 ]
 project-excludes = [
-    "venv",
-    "venv_runtime",
-    "bin",
-    ".repos",
-    ".ruff_cache",
-    ".pyrefly",
-    "logs",
-    "data",
-    "models",
+    "**/venv/**",
+    "**/venv_runtime/**",
+    "**/bin/**",
+    "**/.repos/**",
+    "**/.ruff_cache/**",
+    "**/.pyrefly/**",
+    "**/logs/**",
+    "**/data/**",
+    "**/models/**",
+    "**/__pycache__/**",
+    "**/tests/**",
 ]

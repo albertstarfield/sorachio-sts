@@ -391,6 +391,7 @@ class WhisperClient:
 
         def _stream_gen():
             try:
+                assert self._model is not None
                 segments_gen, info = self._model.transcribe(
                     audio,
                     language=target_lang,
@@ -445,6 +446,7 @@ class WhisperClient:
             return self.language
 
         try:
+            assert self._model is not None
             audio = _pcm_to_float32(audio_bytes)
             _, _, all_probs = self._model.detect_language(audio)
             probs = dict(all_probs)
@@ -481,6 +483,7 @@ class WhisperClient:
             'id' or 'en' to prevent random language misdetection.
         """
         try:
+            assert self._model is not None
             audio = _pcm_to_float32(audio_bytes)
             audio_duration_s = len(audio) / 16000.0
 

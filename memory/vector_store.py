@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import asyncio
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from utils.logging_setup import get_logger
 
@@ -77,16 +77,16 @@ class VectorStore:
                 settings=ChromaSettings(anonymized_telemetry=False),
             )
 
-            has_local = self.vector_model_dir and self.vector_model_dir.exists()
-            model_target = (
-                self.vector_model_dir if has_local else self.embedding_model
+            has_local = bool(self.vector_model_dir and self.vector_model_dir.exists())
+            model_target: Path | str = (
+                self.vector_model_dir if (has_local and self.vector_model_dir) else self.embedding_model
             )
-            self._embedding_fn = OfflineSentenceTransformerEmbeddingFunction(model_target)
+            self._embedding_fn: Any = OfflineSentenceTransformerEmbeddingFunction(model_target)
 
             self._collection = self._client.get_or_create_collection(
                 name="memories",
                 metadata={"hnsw:space": "cosine"},
-                embedding_function=self._embedding_fn,
+                embedding_function=cast(Any, self._embedding_fn),
             )
 
             log.info(

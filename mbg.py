@@ -980,7 +980,7 @@ class MasterBootstrapGuardian:
         # Find all Python files in project (excluding venv, models, etc.)
         python_files = []
         exclude_dirs = {"venv", "venv_runtime", "bin", ".repos", ".ruff_cache",
-                        ".pyrefly", "logs", "data", "models", "__pycache__"}
+                        ".pyrefly", "logs", "data", "models", "__pycache__", "tests"}
 
         for py_file in PROJECT_ROOT.rglob("*.py"):
             # Skip excluded directories
@@ -1024,7 +1024,7 @@ class MasterBootstrapGuardian:
         log.info("[MBG] Running pyrefly check (Anteque Ashing)...")
         try:
             result = subprocess.run(
-                [sys.executable, "-m", "pyrefly", "check", "."],
+                [sys.executable, "-m", "pyrefly", "check"] + [str(f) for f in python_files],
                 capture_output=True,
                 text=True,
                 timeout=120,

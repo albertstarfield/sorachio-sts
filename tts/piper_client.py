@@ -21,6 +21,7 @@ import json
 import os
 import urllib.request
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 
@@ -102,7 +103,7 @@ class PiperTTSClient:
         self.sample_rate = sample_rate
         self.models_dir = Path(models_dir)
 
-        self._voices: dict[str, object] = {}  # lang_code → loaded PiperVoice
+        self._voices: dict[str, Any] = {}  # lang_code → loaded PiperVoice
         self._voice_names: dict[str, str] = {}  # lang_code → voice file stem
         self._current_lang: str = "id"
         self._available = False
@@ -265,7 +266,7 @@ class PiperTTSClient:
             log.info(f"[TTS] Voice language switched: {getattr(self, '_current_lang', 'en')} → {target}")
         self._current_lang = target
 
-    def _get_current_voice(self) -> tuple[object, str] | None:
+    def _get_current_voice(self) -> tuple[Any, str] | None:
         """Get the currently active PiperVoice based on language setting."""
         lang = self._current_lang
 

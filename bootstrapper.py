@@ -130,9 +130,10 @@ class Bootstrapper:
                     bufsize=1
                 )
                 output = []
-                for line in process.stdout:
-                    print(line, end="")
-                    output.append(line)
+                if process.stdout:
+                    for line in process.stdout:
+                        print(line, end="")
+                        output.append(line)
 
                 return_code = process.wait()
                 if check and return_code != 0:
@@ -150,7 +151,7 @@ class Bootstrapper:
             log.error(f"Command failed: {' '.join(cmd)}\nError: {e.stderr}")
             if check:
                 raise e
-            return e
+            return subprocess.CompletedProcess(cmd, e.returncode, stdout=e.stdout, stderr=e.stderr)
 
     def _is_binary_valid(self, binary_path: Path, check_args: list[str]) -> bool:
         """Check if a binary exists, is the correct architecture, and is functional."""

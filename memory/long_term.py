@@ -367,9 +367,9 @@ class LongTermMemory:
         words = re.findall(r"\b[a-zA-Z]{3,}\b", text.lower())
         keywords = [w for w in words if w not in stopwords]
         # Return unique, most distinctive (longer) words first
-        seen = set()
-        result = []
-        for w in sorted(keywords, key=len, reverse=True):
+        seen: set[str] = set()
+        result: list[str] = []
+        for w in sorted(keywords, key=lambda x: len(x), reverse=True):
             if w not in seen:
                 seen.add(w)
                 result.append(w)

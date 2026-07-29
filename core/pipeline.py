@@ -409,6 +409,8 @@ class SorachioPipeline:
         # Subscribe to playback-finished to unmute the mic
         self.bus.subscribe(EventType.PLAYBACK_FINISHED, self._on_playback_finished)
 
+        assert self._playback is not None and self._capture is not None and self._tts is not None
+
         # Launch async worker tasks (playback must run for greeting)
         self._tasks = [
             asyncio.create_task(self._stt_worker(), name="STTWorker"),
@@ -476,6 +478,7 @@ class SorachioPipeline:
             except asyncio.CancelledError:
                 break
 
+            assert self._stt is not None
             # Use streaming if available for lower latency
             if self._stt.streaming:
                 transcript_parts: list[str] = []
@@ -564,7 +567,12 @@ class SorachioPipeline:
             if self._capture:
                 self._capture.mute()
 
-            # Cognitive Gateway analysis
+            assert (
+                self._cognitive is not None
+                and self._playback is not None
+                and self._context is not None
+                and self._personality is not None
+            )
             decision = await self._cognitive.analyze(transcript)
             decision["detected_language"] = getattr(self, "_last_stt_lang", None)
             self._cognitive_queue.task_done()
@@ -654,6 +662,7 @@ class SorachioPipeline:
     async def _tts_worker(self) -> None:
         """Worker: TTS chunk queue → synthesize → audio queue."""
         log.info("[TTS Worker] Started")
+        assert self._tts is not None
         await self._tts.process_tts_queue(
             tts_chunk_queue=self._tts_chunk_queue,
             interrupt_event=self._interrupt_event,
@@ -674,6 +683,7 @@ class SorachioPipeline:
         self._interrupt_event.set()
 
         # 2. Stop playback — calls sd.stop() and drains audio_queue
+        assert self._playback is not None
         self._playback.interrupt()
 
         # Unmute the mic immediately so the barge-in speech can be captured

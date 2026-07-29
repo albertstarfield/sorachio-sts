@@ -300,6 +300,7 @@ async def _run_text_mode(settings, single_message=None, no_servers=False):
     # Workers
     # ------------------------------------------------------------------
 
+    assert pipeline._playback is not None
     tasks = [
         asyncio.create_task(
             pipeline._cognitive_worker(),

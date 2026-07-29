@@ -133,7 +133,7 @@ class SingleServerManager:
                 stdout=self._log_file,
                 stderr=self._log_file,
                 preexec_fn=_raise_memlock if os.name != "nt" else None,
-                creationflags=subprocess.CREATE_NEW_PROCESS_GROUP
+                creationflags=getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0)
                 if os.name == "nt"
                 else 0,
             )
