@@ -139,6 +139,8 @@ class MasterBootstrapGuardian:
         # ── Fast path: everything already ready ──────────────────────
         if not self.force and self._is_all_ready():
             self._print_status_compact()
+            # Still ensure warmup markers exist — pipeline loading depends on them
+            self._ensure_warmup_markers()
             return
 
         # ── Slow path: run full bootstrap ────────────────────────────
@@ -152,6 +154,10 @@ class MasterBootstrapGuardian:
 
         # 5. Download models
         self._download_models()
+
+        # 5.5 Ensure warmup markers exist (written by _download_models if first run,
+        # or by _ensure_warmup_markers if models were already present)
+        self._ensure_warmup_markers()
 
         # 6. Run Anteque Ashing quality checks (ruff + pyrefly)
         # DO NOT REMOVE THIS - Anteque Ashing (Python quality code verifier)
@@ -817,6 +823,84 @@ class MasterBootstrapGuardian:
         except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired):
             return False
 
+    def _ensure_warmup_markers(self) -> None:
+        """
+        Ensure JIT warmup has been performed and marker files exist for both
+        Whisper STT and Kokoro TTS. Called from both the fast path (models
+        already installed) and the slow path (full bootstrap).
+
+        Marker files tell the pipeline loading code to skip re-running warmup:
+          - models/stt/.warmed     → WhisperClient.initialize() skips dummy transcription
+          - models/tts/kokoro/.warmed → KokoroTTSClient.initialize() skips synthesis warmup
+        """
+        # --- Whisper STT warmup ---
+        stt_dir = MODELS_DIR / "stt"
+        stt_warmed_marker = stt_dir / ".warmed"
+        if not stt_warmed_marker.exists():
+            stt_model_name = "small"
+            try:
+                yaml_path = PROJECT_ROOT / "config" / "sorachio.yaml"
+                if yaml_path.exists():
+                    import yaml
+                    with open(yaml_path, encoding="utf-8") as f:
+                        cfg_data = yaml.safe_load(f)
+                        stt_model_name = cfg_data.get("stt", {}).get("model_size", "small")
+            except Exception:
+                pass
+            try:
+                log.info(f"[MBG] Warming up Whisper STT model ('{stt_model_name}')...")
+                from faster_whisper import WhisperModel
+                _warmup_model = WhisperModel(
+                    stt_model_name,
+                    device="cpu",
+                    compute_type="int8",
+                    download_root=str(stt_dir),
+                    local_files_only=True,
+                )
+                import numpy as _np
+                dummy = _np.zeros(16000, dtype=_np.float32)
+                segs, _ = _warmup_model.transcribe(dummy, language="en", beam_size=1, temperature=0.0)
+                _ = list(segs)
+                del _warmup_model
+                stt_warmed_marker.touch()
+                log.info("[MBG] Whisper STT warmup complete [OK] — marker written")
+            except Exception as warmup_err:
+                log.warning(f"[MBG] Whisper STT warmup failed (non-fatal): {warmup_err}")
+                if stt_warmed_marker.exists():
+                    stt_warmed_marker.unlink()
+        else:
+            log.info("[MBG] Whisper STT warmup marker already present [OK]")
+
+        # --- Kokoro TTS warmup ---
+        kokoro_dir = MODELS_DIR / "tts" / "kokoro"
+        kokoro_warmed_marker = kokoro_dir / ".warmed"
+        if not kokoro_warmed_marker.exists():
+            try:
+                kokoro_dir.mkdir(parents=True, exist_ok=True)
+                os.environ["HF_HOME"] = str(kokoro_dir)
+                try:
+                    import huggingface_hub.constants
+                    huggingface_hub.constants.HF_HOME = str(kokoro_dir)
+                    huggingface_hub.constants.HF_HUB_CACHE = str(kokoro_dir / "hub")
+                except Exception:
+                    pass
+                log.info("[MBG] Warming up Kokoro TTS model...")
+                from kokoro import KPipeline
+                _kokoro_pipeline = KPipeline(lang_code="a", repo_id="hexgrad/Kokoro-82M")
+                _gen = _kokoro_pipeline("Hello", voice="af_heart", speed=1.0, split_pattern=None)
+                for res in _gen:
+                    _ = res[-1]
+                    break
+                del _kokoro_pipeline
+                kokoro_warmed_marker.touch()
+                log.info("[MBG] Kokoro TTS warmup complete [OK] — marker written")
+            except Exception as e:
+                log.warning(f"[MBG] Kokoro TTS warmup failed (non-fatal): {e}")
+                if kokoro_warmed_marker.exists():
+                    kokoro_warmed_marker.unlink()
+        else:
+            log.info("[MBG] Kokoro TTS warmup marker already present [OK]")
+
     def _download_models(self) -> None:
         """Ensure STT, TTS, and LLM model dependencies are fully downloaded upfront."""
         log.info("Checking and downloading models...")
@@ -871,7 +955,8 @@ class MasterBootstrapGuardian:
             else:
                 log.info(f"[MBG] TTS voice '{voice_name}' is ready [OK]")
 
-        # 4. Pre-download & warm up Kokoro TTS model into models/tts/kokoro/
+        # 4. Pre-download Kokoro TTS model into models/tts/kokoro/
+        # (Warmup happens in _ensure_warmup_markers — not here to avoid double warmup)
         try:
             kokoro_dir = MODELS_DIR / "tts" / "kokoro"
             kokoro_dir.mkdir(parents=True, exist_ok=True)
@@ -885,11 +970,8 @@ class MasterBootstrapGuardian:
 
             log.info(f"[MBG] Verifying Kokoro TTS model ('hexgrad/Kokoro-82M') in {kokoro_dir}...")
             from kokoro import KPipeline
-            pipeline = KPipeline(lang_code="a", repo_id="hexgrad/Kokoro-82M")
-            generator = pipeline("Hello", voice="af_heart", speed=1.0, split_pattern=None)
-            for res in generator:
-                _ = res[-1]
-                break
+            _verify_pipeline = KPipeline(lang_code="a", repo_id="hexgrad/Kokoro-82M")
+            del _verify_pipeline  # Just download/verify, warmup is in _ensure_warmup_markers
             log.info("[MBG] Kokoro TTS model ('hexgrad/Kokoro-82M') is ready [OK]")
         except Exception as e:
             log.warning(f"[MBG] Kokoro TTS model verification failed: {e}")

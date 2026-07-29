@@ -10,7 +10,7 @@ Features:
   - Streams per-chunk audio immediately
   - Falls back gracefully if piper-tts unavailable
   - Bilingual female voice routing (Indonesian / English)
-  - Auto-downloads missing Piper ONNX models from Hugging Face
+  - Offline-only loading by default (downloads only happen in MBG bootstrap)
   - Defensive sanitization for unstable TTS input
 """
 
@@ -113,10 +113,17 @@ class PiperTTSClient:
         self._response_text_acc: str = ""       # accumulated text so far
         self._response_lang_locked: bool = False  # True once lang is resolved
 
-    async def initialize(self) -> bool:
-        """Load Piper voices (blocking, run once at startup)."""
+    async def initialize(self, offline_only: bool = True) -> bool:
+        """
+        Load Piper voices (blocking, run once at startup).
+
+        Args:
+            offline_only: If True (default), only load models that are already
+                          downloaded. No network requests will be made. Set to
+                          False only from MBG bootstrap to allow downloading.
+        """
         loop = asyncio.get_event_loop()
-        ok = await loop.run_in_executor(None, self._load_voices)
+        ok = await loop.run_in_executor(None, self._load_voices, offline_only)
 
         self._available = ok
 
@@ -127,13 +134,19 @@ class PiperTTSClient:
             log.info(f"[TTS] Piper ready — voices: {loaded}")
         else:
             log.warning(
-                "[TTS] Piper not available — install with: pip install piper-tts"
+                "[TTS] Piper not available — voices not found or piper-tts not installed"
             )
 
         return ok
 
-    def _load_voices(self) -> bool:
-        """Load Piper voice models in thread (avoids blocking event loop)."""
+    def _load_voices(self, offline_only: bool = True) -> bool:
+        """
+        Load Piper voice models in thread (avoids blocking event loop).
+
+        Args:
+            offline_only: If True, skip any voice whose model file is missing
+                          (no download). If False, attempt to download missing models.
+        """
         try:
             from piper import PiperVoice
 
@@ -145,7 +158,7 @@ class PiperTTSClient:
                 loaded = False
                 for voice_name in voice_candidates:
                     try:
-                        onnx_path = self._ensure_model(voice_name)
+                        onnx_path = self._ensure_model(voice_name, offline_only=offline_only)
                         voice_obj = PiperVoice.load(str(onnx_path))
                         self._voices[lang_code] = voice_obj
                         self._voice_names[lang_code] = voice_name
@@ -165,6 +178,15 @@ class PiperTTSClient:
                         loaded_any = True
                         break
 
+                    except FileNotFoundError:
+                        if offline_only:
+                            log.info(
+                                f"[TTS] Voice '{voice_name}' not found locally — "
+                                "will be downloaded on next MBG bootstrap."
+                            )
+                        else:
+                            log.warning(f"[TTS] Voice '{voice_name}' download failed")
+                        continue
                     except Exception as e:
                         log.warning(
                             f"[TTS] Failed to load voice '{voice_name}': {e}"
@@ -176,8 +198,9 @@ class PiperTTSClient:
                         f"[TTS] No voice available for language '{lang_code}'"
                     )
 
-            if loaded_any:
-                # Warmup with a short synthesis to JIT-compile ONNX kernels
+            # Only warmup if this is not offline_only (i.e. called from MBG)
+            # During pipeline loading, warmup was already done by MBG bootstrap.
+            if loaded_any and not offline_only:
                 try:
                     first_lang = next(iter(self._voices))
                     voice_obj = self._voices[first_lang]
@@ -197,10 +220,15 @@ class PiperTTSClient:
             log.error(f"[TTS] Failed to load Piper: {e}", exc_info=True)
             return False
 
-    def _ensure_model(self, voice_name: str) -> Path:
+    def _ensure_model(self, voice_name: str, offline_only: bool = True) -> Path:
         """
         Ensure a Piper voice model (.onnx + .onnx.json) exists locally.
-        Downloads from Hugging Face if missing.
+
+        Args:
+            voice_name: The voice model name (e.g. 'id_ID-news_tts-medium')
+            offline_only: If True (default), raise FileNotFoundError if model
+                          files are missing — no download is attempted. If False,
+                          download from Hugging Face if missing (MBG only).
 
         Returns the path to the .onnx file.
         """
@@ -211,6 +239,13 @@ class PiperTTSClient:
             log.debug(f"[TTS] Model already exists: {voice_name}")
             return onnx_path
 
+        if offline_only:
+            raise FileNotFoundError(
+                f"Voice model '{voice_name}' not found at {onnx_path}. "
+                "Run 'python main.py run' once to trigger MBG bootstrap download."
+            )
+
+        # --- Download path (only from MBG bootstrap, offline_only=False) ---
         log.info(f"[TTS] Downloading voice model: {voice_name}...")
         onnx_url, json_url = _voice_download_url(voice_name)
 

@@ -221,7 +221,14 @@ class WhisperClient:
     async def initialize(self) -> bool:
         """Load the faster-whisper model (blocking, run once at startup)."""
         loop = asyncio.get_event_loop()
-        ok = await loop.run_in_executor(None, self._load_model)
+
+        # Skip warmup if MBG already did it (detected via marker file)
+        stt_warmed_marker = self.models_dir / ".warmed"
+        skip_warmup = stt_warmed_marker.exists()
+        if skip_warmup:
+            log.info("[STT] Whisper warmup marker found — skipping JIT warmup (already done by MBG)")
+
+        ok = await loop.run_in_executor(None, self._load_model, skip_warmup)
         self._available = ok
 
         if ok:
@@ -236,7 +243,7 @@ class WhisperClient:
             )
         return ok
 
-    def _load_model(self) -> bool:
+    def _load_model(self, skip_warmup: bool = False) -> bool:
         """Load faster-whisper model in thread (avoids blocking event loop)."""
         try:
             from faster_whisper import WhisperModel
@@ -265,21 +272,25 @@ class WhisperClient:
 
             log.info(f"[STT] Model '{self.model_size}' loaded successfully")
 
-            # Warmup: run a dummy transcription to trigger ONNX JIT
-            # compilation now, not on the first real user utterance.
-            # Pin to 'en' to skip Whisper's language detection in warmup.
-            try:
-                dummy = np.zeros(16000, dtype=np.float32)  # 1s silence
-                segs, _info = self._model.transcribe(
-                    dummy,
-                    language="en",
-                    beam_size=1,
-                    temperature=0.0,
-                )
-                _ = list(segs)  # consume generator
-                log.info("[STT] Warmup complete — model is hot")
-            except Exception as wu_err:
-                log.warning(f"[STT] Warmup failed (non-fatal): {wu_err}")
+            if skip_warmup:
+                log.info("[STT] Warmup skipped — already done by MBG bootstrap")
+            else:
+                # Warmup: run a dummy transcription to trigger ONNX JIT
+                # compilation now, not on the first real user utterance.
+                # Pin to 'en' to skip Whisper's language detection in warmup.
+                try:
+                    assert self._model is not None
+                    dummy = np.zeros(16000, dtype=np.float32)  # 1s silence
+                    segs, _info = self._model.transcribe(
+                        dummy,
+                        language="en",
+                        beam_size=1,
+                        temperature=0.0,
+                    )
+                    _ = list(segs)  # consume generator
+                    log.info("[STT] Warmup complete — model is hot")
+                except Exception as wu_err:
+                    log.warning(f"[STT] Warmup failed (non-fatal): {wu_err}")
 
             return True
 

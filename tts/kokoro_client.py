@@ -91,8 +91,14 @@ class KokoroTTSClient:
         """Initialize both Kokoro (English) and Piper (Indonesian) models."""
         loop = asyncio.get_event_loop()
 
-        # Load Kokoro in thread pool
-        kokoro_ok = await loop.run_in_executor(None, self._load_kokoro)
+        # Load Kokoro in thread pool.
+        # Pass skip_warmup=True if MBG already warmed it up (marker file present).
+        kokoro_warmed_marker = self.models_dir / "kokoro" / ".warmed"
+        skip_warmup = kokoro_warmed_marker.exists()
+        if skip_warmup:
+            log.info("[TTS] Kokoro warmup marker found — skipping JIT warmup (already done by MBG)")
+
+        kokoro_ok = await loop.run_in_executor(None, self._load_kokoro, skip_warmup)
         self._kokoro_available = kokoro_ok
 
         # Load Piper for Indonesian
@@ -119,7 +125,7 @@ class KokoroTTSClient:
 
         return self._available
 
-    def _load_kokoro(self) -> bool:
+    def _load_kokoro(self, skip_warmup: bool = False) -> bool:
         """Load Kokoro pipeline in thread."""
         try:
             kokoro_models_dir = self.models_dir / "kokoro"
@@ -139,20 +145,23 @@ class KokoroTTSClient:
                 repo_id="hexgrad/Kokoro-82M",
             )
 
-            # Warmup synthesis
-            try:
-                generator = self._pipeline(
-                    "Hello",
-                    voice=self.voice,
-                    speed=self.speed,
-                    split_pattern=None,
-                )
-                for result in generator:
-                    _ = result[-1]
-                    break
-                log.info("[TTS] Kokoro warmup complete [OK]")
-            except Exception as warmup_error:
-                log.warning(f"[TTS] Kokoro warmup failed: {warmup_error}")
+            if skip_warmup:
+                log.info("[TTS] Kokoro loaded (warmup skipped — already done by MBG)")
+            else:
+                # Warmup synthesis to trigger ONNX JIT compilation
+                try:
+                    generator = self._pipeline(
+                        "Hello",
+                        voice=self.voice,
+                        speed=self.speed,
+                        split_pattern=None,
+                    )
+                    for result in generator:
+                        _ = result[-1]
+                        break
+                    log.info("[TTS] Kokoro warmup complete [OK]")
+                except Exception as warmup_error:
+                    log.warning(f"[TTS] Kokoro warmup failed: {warmup_error}")
 
             return True
 
