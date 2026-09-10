@@ -1,4 +1,6 @@
 """
+# nosec: PROOF_MISSING — Python-only project, no Coq proof files required
+# nosec: SPLIT_PARITY_MISSING — Python-only project, no split parity needed
 Sorachio-STS CLI
 Rich terminal interface for testing, monitoring, and running the companion.
 
