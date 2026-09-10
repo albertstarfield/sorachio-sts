@@ -50,12 +50,12 @@ class RateLimiter:
             f"max={max_requests} requests per {window_seconds:.1f}s"
         )
 
-    async def allow(self) -> bool:
+    async def check_allow(self) -> tuple[bool, float]:
         """
-        Check if a request is allowed under the rate limit.
+        Check if a request is allowed and return wait time if rejected.
 
         Returns:
-            True if request is allowed, False if rate limit exceeded.
+            (allowed: bool, retry_after_s: float)
         """
         async with self._lock:
             now = time.monotonic()
@@ -68,15 +68,26 @@ class RateLimiter:
             # Check if under limit
             if len(self._timestamps) < self.max_requests:
                 self._timestamps.append(now)
-                return True
+                return True, 0.0
 
-            # Rate limit exceeded
+            # Rate limit exceeded — calculate time until oldest expires
+            wait_time = max(0.0, self._timestamps[0] + self.window_seconds - now)
             log.debug(
                 f"[RateLimiter] Rate limit exceeded — "
                 f"{len(self._timestamps)}/{self.max_requests} "
-                f"requests in {self.window_seconds:.1f}s window"
+                f"requests in {self.window_seconds:.1f}s window (retry in {wait_time:.1f}s)"
             )
-            return False
+            return False, wait_time
+
+    async def allow(self) -> bool:
+        """
+        Check if a request is allowed under the rate limit.
+
+        Returns:
+            True if request is allowed, False if rate limit exceeded.
+        """
+        allowed, _ = await self.check_allow()
+        return allowed
 
     async def wait(self) -> bool:
         """

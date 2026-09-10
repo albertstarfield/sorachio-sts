@@ -65,9 +65,11 @@ class ShortTermMemory:
         self,
         max_messages: int = 20,
         include_emotions: bool = True,
+        summary_threshold: int = 15,
     ):
         self.max_messages = max_messages
         self.include_emotions = include_emotions
+        self.summary_threshold = summary_threshold
         self._window: deque[STMEntry] = deque(maxlen=max_messages)
         self._lock = asyncio.Lock()
         self._turn_count = 0
@@ -103,6 +105,73 @@ class ShortTermMemory:
             if n is not None:
                 entries = entries[-n:]
             return entries
+
+    async def get_recent_summary(self, n: int = 3) -> str:
+        """Get compact context string of the last N turns for cognitive decision making."""
+        async with self._lock:
+            recent = list(self._window)[-n:]
+            if not recent:
+                return ""
+            formatted = []
+            for entry in recent:
+                role_str = "User" if entry.role == "user" else ("Assistant" if entry.role == "assistant" else "System")
+                formatted.append(f"{role_str}: {entry.content}")
+            return " | ".join(formatted)
+
+    async def summarize(self, llm_client: Any, n_to_summarize: int = 10) -> str | None:
+        """
+        Summarize oldest n_to_summarize messages using LLM and replace them with a system summary.
+        """
+        async with self._lock:
+            if len(self._window) < n_to_summarize:
+                return None
+            to_summarize = [self._window.popleft() for _ in range(n_to_summarize)]
+
+        conv_text = "\n".join([f"{e.role.upper()}: {e.content}" for e in to_summarize])
+        messages = [
+            {
+                "role": "system",
+                "content": (
+                    "You are a concise conversation summarizer. "
+                    "Summarize key facts, topics, and preferences in 2-3 sentences."
+                ),
+            },
+            {
+                "role": "user",
+                "content": f"Summarize this conversation briefly:\n\n{conv_text}",
+            },
+        ]
+
+        try:
+            summary_text = await llm_client.complete(messages=messages, temperature=0.3, max_tokens=150)
+            summary_text = summary_text.strip()
+        except Exception as e:
+            log.error(f"[STM] Summarization failed: {e}")
+            async with self._lock:
+                for entry in reversed(to_summarize):
+                    self._window.appendleft(entry)
+            return None
+
+        if summary_text:
+            summary_entry = STMEntry(
+                role="system",
+                content=f"[Conversation Summary]: {summary_text}",
+                topic="summary",
+                importance=0.8,
+            )
+            async with self._lock:
+                self._window.appendleft(summary_entry)
+            log.info(f"[STM] Auto-summarized {n_to_summarize} messages: {summary_text[:80]}...")
+            return summary_text
+        return None
+
+    async def auto_summarize_if_needed(self, llm_client: Any) -> str | None:
+        """Auto summarize if current window size reaches or exceeds summary_threshold."""
+        current_len = await self.size()
+        if current_len >= self.summary_threshold:
+            n_sum = max(5, current_len // 2)
+            return await self.summarize(llm_client, n_to_summarize=n_sum)
+        return None
 
     async def mark_last_interrupted(self) -> None:
         """Mark the most recent assistant message in the window as interrupted."""
@@ -146,3 +215,4 @@ class ShortTermMemory:
     async def size(self) -> int:
         async with self._lock:
             return len(self._window)
+

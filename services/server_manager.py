@@ -168,6 +168,19 @@ class SingleServerManager:
                 pass
             self._log_file = None
 
+    async def health_check(self) -> bool:
+        """Check if server endpoint responds to health query."""
+        if not self.is_running():
+            return False
+        import httpx
+
+        try:
+            async with httpx.AsyncClient(timeout=2.0) as client:
+                res = await client.get(f"http://127.0.0.1:{self.port}/health")
+                return res.status_code == 200
+        except Exception:
+            return False
+
     def is_running(self) -> bool:
         return self._process is not None and self._process.poll() is None
 
@@ -218,7 +231,51 @@ class ServerManager:
                 ),
             ),
         }
+        self._watchdog_task: asyncio.Task | None = None
+        self._restart_counts: dict[str, int] = {k: 0 for k in self._servers}
+        self.max_restart_attempts = 3
 
+    async def health_check_all(self) -> dict[str, bool]:
+        """Check health of all managed servers."""
+        results = {}
+        for name, srv in self._servers.items():
+            results[name] = await srv.health_check()
+        return results
+
+    async def start_watchdog(self, check_interval_s: float = 30.0) -> None:
+        """Start watchdog background loop to monitor server health and auto-restart if needed."""
+        if self._watchdog_task and not self._watchdog_task.done():
+            return
+
+        async def _watchdog_loop() -> None:
+            log.info(f"[ServerManager] Watchdog started (interval={check_interval_s}s)")
+            while True:
+                await asyncio.sleep(check_interval_s)
+                for name, srv in self._servers.items():
+                    if not srv.is_running():
+                        count = self._restart_counts[name]
+                        if count < self.max_restart_attempts:
+                            log.warning(
+                                f"[ServerManager] Server {name} is down "
+                                f"(attempt {count + 1}/{self.max_restart_attempts}). Restarting..."
+                            )
+                            self._restart_counts[name] += 1
+                            srv.stop()
+                            await srv.start()
+                        else:
+                            log.error(
+                                f"[ServerManager] Server {name} reached max restart attempts "
+                                f"({self.max_restart_attempts}). Giving up."
+                            )
+
+        self._watchdog_task = asyncio.create_task(_watchdog_loop())
+
+    def stop_watchdog(self) -> None:
+        """Stop the watchdog background task."""
+        if self._watchdog_task and not self._watchdog_task.done():
+            self._watchdog_task.cancel()
+            self._watchdog_task = None
+            log.info("[ServerManager] Watchdog stopped")
 
     async def start_all(self, wait_ready: bool = True) -> bool:
         """Start all servers. Returns True if all started."""
@@ -263,8 +320,10 @@ class ServerManager:
 
     def stop_all(self) -> None:
         """Stop all servers gracefully."""
+        self.stop_watchdog()
         for srv in self._servers.values():
             srv.stop()
 
     def status(self) -> dict[str, bool]:
         return {name: srv.is_running() for name, srv in self._servers.items()}
+

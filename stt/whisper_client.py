@@ -109,21 +109,53 @@ _HALLUCINATION_PHRASES: set[str] = {
     "untuk melihat diri sendiri",
     "dan.",
     "dan",
+    # Subtitle / Credits hallucinations
+    "subtitles by",
+    "subtitles created by",
+    "amara.org",
+    "copyright",
+    "all rights reserved",
+    "captioned by",
+    "transcribed by",
+    "translated by",
+    "english subtitles",
+    "subtitle by",
 }
 
 
 def _is_hallucination(text: str) -> bool:
     """Return True if the transcript looks like a Whisper hallucination."""
+    import re
+
     normalised = text.strip().lower()
     if normalised in _HALLUCINATION_PHRASES:
         return True
 
+    # Bracketed audio/annotation tags e.g. [music], (applause), [coughing]
+    if re.match(r"^[\[\({].*?[\]\)}]$", normalised):
+        return True
+
+    # Subtitle / Credits metadata substrings
+    subtitle_markers = (
+        "subtitles by",
+        "amara.org",
+        "copyright",
+        "all rights reserved",
+        "transcribed by",
+        "captioned by",
+    )
+    if any(m in normalised for m in subtitle_markers):
+        return True
+
+    # Repeated character loops e.g. "aaaaaa", "??????"
+    if re.search(r"(.)\1{5,}", normalised):
+        return True
+
     # 1. Check for phrase-level repetition
-    # Split text by commas, periods, or other punctuation, and strip whitespace.
-    import re
-    phrases = [p.strip() for p in re.split(r'[,.!?]+', normalised) if p.strip()]
+    phrases = [p.strip() for p in re.split(r"[,.!?]+", normalised) if p.strip()]
     if len(phrases) >= 3:
         from collections import Counter
+
         counts = Counter(phrases)
         for phrase, count in counts.items():
             if len(phrase) >= 4 and count >= 3:
@@ -135,7 +167,7 @@ def _is_hallucination(text: str) -> bool:
     if len(words) >= 4:
         consecutive_repeats = 0
         for i in range(len(words) - 1):
-            if words[i] == words[i+1]:
+            if words[i] == words[i + 1]:
                 consecutive_repeats += 1
             else:
                 consecutive_repeats = 0
@@ -160,7 +192,7 @@ def _is_hallucination(text: str) -> bool:
                         return True
 
     # 4. Filter out developer name/domain name hallucinations generated on silence/noise
-    if "izzulgod.com" in normalised or "translated by" in normalised or normalised == "izzulgod":
+    if "izzulgod.com" in normalised or normalised == "izzulgod":
         log.debug(f"[STT] Filtered developer/domain hallucination: '{text}'")
         return True
 

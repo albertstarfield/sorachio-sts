@@ -841,7 +841,7 @@ class MasterBootstrapGuardian:
             try:
                 yaml_path = PROJECT_ROOT / "config" / "sorachio.yaml"
                 if yaml_path.exists():
-                    import yaml
+                    import yaml  # type: ignore[import-untyped]
                     with open(yaml_path, encoding="utf-8") as f:
                         cfg_data = yaml.safe_load(f)
                         stt_model_name = cfg_data.get("stt", {}).get("model_size", "small")
@@ -914,7 +914,7 @@ class MasterBootstrapGuardian:
             stt_model_name = "small"
             yaml_path = PROJECT_ROOT / "config" / "sorachio.yaml"
             if yaml_path.exists():
-                import yaml
+                import yaml  # type: ignore[import-untyped]
                 with open(yaml_path, encoding="utf-8") as f:
                     cfg_data = yaml.safe_load(f)
                     stt_model_name = cfg_data.get("stt", {}).get("model_size", "small")

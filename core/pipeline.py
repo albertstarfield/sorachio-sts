@@ -188,6 +188,8 @@ class SorachioPipeline:
             history_size=50,
             summary_interval_turns=10,
         )
+        self._emotion_state_path = root / "data" / "memory" / "emotion_state.json"
+        self._emotion_tracker.load(self._emotion_state_path)
 
         self._context = ContextManager(
             stm=self._stm,
@@ -249,49 +251,54 @@ class SorachioPipeline:
         else:
             aec_provider = create_aec("null")
 
-        self._capture = AudioCapture(
-            stt_queue=self._stt_queue,
-            interrupt_callback=self._on_interrupt if cfg.pipeline.enable_interruption else None,
-            sample_rate=audio_cfg.capture.sample_rate,
-            channels=audio_cfg.capture.channels,
-            chunk_duration_ms=audio_cfg.capture.chunk_duration_ms,
-            device_index=audio_cfg.capture.device_index,
-            silence_timeout_ms=audio_cfg.capture.silence_timeout_ms,
-            vad_aggressiveness=audio_cfg.capture.vad_aggressiveness,
-            min_speech_duration_ms=audio_cfg.capture.min_speech_duration_ms,
-            max_speech_duration_s=audio_cfg.capture.max_speech_duration_s,
-            playback_active_event=self._playback_active_event,
-            interrupt_event=self._interrupt_event if cfg.pipeline.enable_interruption else None,
-            interruption_debounce_frames=cfg.pipeline.interruption_debounce_frames,
-            acoustic_gate_config=audio_cfg.capture.acoustic_gate,
-            aec=aec_provider,
-        )
+        try:
+            self._capture = AudioCapture(
+                stt_queue=self._stt_queue,
+                interrupt_callback=self._on_interrupt if cfg.pipeline.enable_interruption else None,
+                sample_rate=audio_cfg.capture.sample_rate,
+                channels=audio_cfg.capture.channels,
+                chunk_duration_ms=audio_cfg.capture.chunk_duration_ms,
+                device_index=audio_cfg.capture.device_index,
+                silence_timeout_ms=audio_cfg.capture.silence_timeout_ms,
+                vad_aggressiveness=audio_cfg.capture.vad_aggressiveness,
+                min_speech_duration_ms=audio_cfg.capture.min_speech_duration_ms,
+                max_speech_duration_s=audio_cfg.capture.max_speech_duration_s,
+                playback_active_event=self._playback_active_event,
+                interrupt_event=self._interrupt_event if cfg.pipeline.enable_interruption else None,
+                interruption_debounce_frames=cfg.pipeline.interruption_debounce_frames,
+                acoustic_gate_config=audio_cfg.capture.acoustic_gate,
+                aec=aec_provider,
+            )
+        except Exception as e:
+            log.warning(f"[Pipeline] Audio capture initialization failed: {e} — mic input disabled")
+            self._capture = None
 
-        self._playback = AudioPlayback(
-            audio_queue=self._audio_queue,
-            playback_active_event=self._playback_active_event,
-            sample_rate=audio_cfg.playback.sample_rate,
-            channels=audio_cfg.playback.channels,
-            dtype=audio_cfg.playback.dtype,
-            device_index=audio_cfg.playback.device_index,
-            aec=aec_provider,
-        )
+        try:
+            self._playback = AudioPlayback(
+                audio_queue=self._audio_queue,
+                playback_active_event=self._playback_active_event,
+                sample_rate=audio_cfg.playback.sample_rate,
+                channels=audio_cfg.playback.channels,
+                dtype=audio_cfg.playback.dtype,
+                device_index=audio_cfg.playback.device_index,
+                aec=aec_provider,
+            )
+        except Exception as e:
+            log.warning(f"[Pipeline] Audio playback initialization failed: {e} — speaker output disabled")
+            self._playback = None
 
         # ---- Model Warm-up ----
         # Send the ACTUAL system prompts so llama-server pre-fills the KV cache.
-        # The first real user message then gets a near-100% cache hit on the system
-        # portion, instead of evaluating hundreds of tokens from scratch.
-        #
-        # IMPORTANT: warm-ups run SEQUENTIALLY (not parallel) to avoid RAM bandwidth
-        # contention. Running both at once causes each model to read weights from
-        # disk/swap simultaneously, halving effective throughput (3.7 tok/s instead of 7+).
         log.info("[Pipeline] Warming up LLM servers (pre-filling KV cache with system prompts)...")
-        from cognition.cognitive_gateway import SYSTEM_PROMPT as GW_SYSTEM_PROMPT
-        gw_system_prompt = GW_SYSTEM_PROMPT
-        pc_system_prompt = self._context._build_system_prompt()
+        try:
+            from cognition.cognitive_gateway import SYSTEM_PROMPT as GW_SYSTEM_PROMPT
+            gw_system_prompt = GW_SYSTEM_PROMPT
+            pc_system_prompt = self._context._build_system_prompt()
 
-        await self._llm_gateway.warm_up(system_prompt=gw_system_prompt)
-        await self._llm_personality.warm_up(system_prompt=pc_system_prompt)
+            await self._llm_gateway.warm_up(system_prompt=gw_system_prompt)
+            await self._llm_personality.warm_up(system_prompt=pc_system_prompt)
+        except Exception as e:
+            log.warning(f"[Pipeline] LLM warm-up encountered non-fatal error: {e}")
 
         # ---- AEC Calibration ----
         # Run calibration if enabled and AEC provider supports it
@@ -555,13 +562,20 @@ class SorachioPipeline:
             log.info(f"[Cognitive] Input: {transcript!r}")
 
             # Rate limiting check
-            if self._rate_limiter and not await self._rate_limiter.allow():
-                log.warning("[Cognitive] Rate limit exceeded — dropping input")
-                self._cognitive_queue.task_done()
-                # Unmute mic so user can try again
-                if self._capture:
-                    self._capture.unmute()
-                continue
+            if self._rate_limiter:
+                allowed, retry_after = await self._rate_limiter.check_allow()
+                if not allowed:
+                    log.warning(f"[Cognitive] Rate limit exceeded — retry in {retry_after:.1f}s")
+                    await self.bus.emit(
+                        EventType.RATE_LIMITED,
+                        data={"retry_after_s": retry_after, "transcript": transcript},
+                        source="rate_limiter",
+                    )
+                    self._cognitive_queue.task_done()
+                    # Unmute mic so user can try again
+                    if self._capture:
+                        self._capture.unmute()
+                    continue
 
             # ── Mute the mic while the pipeline is busy ─────────────────
             if self._capture:
@@ -572,8 +586,13 @@ class SorachioPipeline:
                 and self._playback is not None
                 and self._context is not None
                 and self._personality is not None
+                and self._stm is not None
             )
-            decision = await self._cognitive.analyze(transcript)
+            recent_ctx = await self._stm.get_recent_summary(n=3)
+            decision = await self._cognitive.analyze(
+                transcript,
+                conversation_context=recent_ctx if recent_ctx else None,
+            )
             decision["detected_language"] = getattr(self, "_last_stt_lang", None)
             self._cognitive_queue.task_done()
 
@@ -657,6 +676,7 @@ class SorachioPipeline:
                     user_input=transcript,
                     assistant_response=response,
                     cognitive_decision=decision,
+                    llm_client=self._llm_gateway,
                 )
 
     async def _tts_worker(self) -> None:
@@ -741,6 +761,10 @@ class SorachioPipeline:
                 task.cancel()
         if self._tasks:
             await asyncio.gather(*self._tasks, return_exceptions=True)
+
+        # Save emotion tracker state
+        if hasattr(self, "_emotion_tracker") and self._emotion_tracker and hasattr(self, "_emotion_state_path"):
+            self._emotion_tracker.save(self._emotion_state_path)
 
         # Close LLM clients
         if self._llm_gateway:

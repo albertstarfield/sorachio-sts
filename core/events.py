@@ -70,8 +70,9 @@ class EventType(Enum):
     # Memory
     MEMORY_STORED = auto()
 
-    # Error
+    # Error & Limit
     ERROR = auto()
+    RATE_LIMITED = auto()
 
 
 # ---------------------------------------------------------------------------

@@ -179,6 +179,7 @@ class ContextManager:
         user_input: str,
         assistant_response: str,
         cognitive_decision: dict[str, Any],
+        llm_client: Any | None = None,
     ) -> None:
         """
         Store this interaction in STM and optionally LTM.
@@ -233,5 +234,19 @@ class ContextManager:
                 topic=topic,
                 emotion=emotion,
                 importance=importance,
+                metadata={"role": "user"},
+            )
+            await self.ltm.store(
+                content=f"Sorachio responded: {assistant_response[:200]}",
+                topic=topic,
+                emotion="neutral",
+                importance=importance * 0.7,
+                metadata={"role": "assistant"},
             )
             log.info(f"[Context] Stored in LTM: topic={topic}, importance={importance:.2f}")
+
+        # Auto-summarize STM if threshold reached
+        if llm_client:
+            await self.stm.auto_summarize_if_needed(llm_client)
+
+

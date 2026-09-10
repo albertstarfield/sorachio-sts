@@ -226,3 +226,70 @@ class EmotionTracker:
         if stability < 0.8:
             return "medium"
         return "normal"
+
+    def save(self, path: Any) -> None:
+        """Save emotion state to a JSON file."""
+        import json
+        from pathlib import Path
+
+        file_path = Path(path)
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+
+        history_data = [
+            {
+                "emotion": entry.emotion,
+                "timestamp": entry.timestamp.isoformat(),
+                "topic": entry.topic,
+                "intensity": entry.intensity,
+            }
+            for entry in self._history
+        ]
+        data = {
+            "turn_count": self._turn_count,
+            "current_mood": self._current_mood,
+            "mood_history": list(self._mood_history),
+            "history": history_data,
+        }
+        try:
+            with open(file_path, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=2)
+            log.info(f"[EmotionTracker] Saved emotion state to {file_path}")
+        except Exception as e:
+            log.error(f"[EmotionTracker] Failed to save state to {file_path}: {e}")
+
+    def load(self, path: Any) -> None:
+        """Load emotion state from a JSON file."""
+        import json
+        from pathlib import Path
+
+        file_path = Path(path)
+        if not file_path.exists():
+            log.debug(f"[EmotionTracker] Save file {file_path} not found, starting fresh")
+            return
+
+        try:
+            with open(file_path, encoding="utf-8") as f:
+                data = json.load(f)
+            self._turn_count = data.get("turn_count", 0)
+            self._current_mood = data.get("current_mood", "neutral")
+            self._mood_history.clear()
+            self._mood_history.extend(data.get("mood_history", []))
+            self._history.clear()
+            for entry_data in data.get("history", []):
+                ts = (
+                    datetime.fromisoformat(entry_data["timestamp"])
+                    if "timestamp" in entry_data
+                    else datetime.now()
+                )
+                self._history.append(
+                    EmotionEntry(
+                        emotion=entry_data.get("emotion", "neutral"),
+                        timestamp=ts,
+                        topic=entry_data.get("topic", "general"),
+                        intensity=entry_data.get("intensity", 0.5),
+                    )
+                )
+            log.info(f"[EmotionTracker] Loaded emotion state from {file_path} ({len(self._history)} entries)")
+        except Exception as e:
+            log.error(f"[EmotionTracker] Failed to load state from {file_path}: {e}")
+

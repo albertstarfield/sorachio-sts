@@ -31,13 +31,24 @@ log = get_logger("tts.kokoro")
 
 
 def _resample_audio(audio: np.ndarray, orig_sr: int, target_sr: int) -> np.ndarray:
-    """Resample 1D float32 audio array using linear interpolation."""
+    """Resample 1D float32 audio array using polyphase filtering or linear interpolation fallback."""
     if orig_sr == target_sr or len(audio) == 0:
         return audio
-    num_samples = int(round(len(audio) * target_sr / orig_sr))
-    indices = np.linspace(0, len(audio) - 1, num_samples)
-    result = np.asarray(np.interp(indices, np.arange(len(audio)), audio), dtype=np.float32)
-    return result
+    try:
+        import math
+
+        from scipy.signal import resample_poly
+
+        gcd = math.gcd(orig_sr, target_sr)
+        up = target_sr // gcd
+        down = orig_sr // gcd
+        resampled = resample_poly(audio, up, down)
+        return np.asarray(resampled, dtype=np.float32)
+    except Exception:
+        num_samples = int(round(len(audio) * target_sr / orig_sr))
+        indices = np.linspace(0, len(audio) - 1, num_samples)
+        return np.asarray(np.interp(indices, np.arange(len(audio)), audio), dtype=np.float32)
+
 
 
 # ---------------------------------------------------------------------------
