@@ -421,10 +421,15 @@ class MasterBootstrapGuardian:
         if not venv_python.exists():
             VENV_DIR.mkdir(parents=True, exist_ok=True)
             # Create venv
-            subprocess.run(
-                [sys.executable, "-m", "venv", str(VENV_DIR)],
-                check=True
-            )
+            # [SOFTLOCK_RISK fix] Added timeout=300 to prevent indefinite hang
+            try:
+                subprocess.run(
+                    [sys.executable, "-m", "venv", str(VENV_DIR)],
+                    check=True,
+                    timeout=300,
+                )
+            except subprocess.TimeoutExpired:
+                log.warning("Command timed out after 300s: venv creation")
 
         # Get venv Python path
         if os.name == "nt":
@@ -500,7 +505,11 @@ class MasterBootstrapGuardian:
                     cmd = ["sudo", pm_name, "add"] + packages
                 else:
                     cmd = ["sudo", pm_name, "install", "-y"] + packages
-                subprocess.run(cmd, check=False)
+                # [SOFTLOCK_RISK fix] Added timeout=300 to prevent indefinite hang
+                try:
+                    subprocess.run(cmd, check=False, timeout=300)
+                except subprocess.TimeoutExpired:
+                    log.warning("Command timed out after 300s: %s", cmd)
                 return
 
         log.warning("No supported package manager found — system libraries may be missing")
@@ -622,11 +631,16 @@ class MasterBootstrapGuardian:
         self._install_system_libraries()
 
         # Upgrade pip first (silent)
-        subprocess.run(
-            [sys.executable, "-m", "pip", "install", "--upgrade", "pip"],
-            capture_output=True,
-            check=True,
-        )
+        # [SOFTLOCK_RISK fix] Added timeout=300 to prevent indefinite hang
+        try:
+            subprocess.run(
+                [sys.executable, "-m", "pip", "install", "--upgrade", "pip"],
+                capture_output=True,
+                check=True,
+                timeout=300,
+            )
+        except subprocess.TimeoutExpired:
+            log.warning("Command timed out after 300s: pip upgrade")
 
         # Core dependencies
         deps = [
@@ -718,7 +732,11 @@ class MasterBootstrapGuardian:
         if sys.platform == "darwin":
             # macOS - use Homebrew
             if shutil.which("brew"):
-                subprocess.run(["brew", "install", tool], check=False)
+                # [SOFTLOCK_RISK fix] Added timeout=300 to prevent indefinite hang
+                try:
+                    subprocess.run(["brew", "install", tool], check=False, timeout=300)
+                except subprocess.TimeoutExpired:
+                    log.warning("Command timed out after 300s: brew install %s", tool)
             else:
                 log.warning("Homebrew not found — cannot auto-install on macOS")
 
@@ -736,7 +754,11 @@ class MasterBootstrapGuardian:
             for cmd, pm_name in pkg_managers:
                 if shutil.which(pm_name):
                     log.info(f"Using package manager: {pm_name}")
-                    subprocess.run(["sudo"] + cmd, check=False)
+                    # [SOFTLOCK_RISK fix] Added timeout=300 to prevent indefinite hang
+                    try:
+                        subprocess.run(["sudo"] + cmd, check=False, timeout=300)
+                    except subprocess.TimeoutExpired:
+                        log.warning("Command timed out after 300s: %s", ["sudo"] + cmd)
                     break
             else:
                 log.warning("No supported package manager found (tried apt-get, dnf, yum, pacman, zypper, apk)")
@@ -767,17 +789,27 @@ class MasterBootstrapGuardian:
         # Clone or update repository
         if not repo_path.exists():
             log.info(f"Cloning {config['repo']}...")
-            subprocess.run(
-                ["git", "clone", config["url"], str(repo_path)],
-                check=True
-            )
+            # [SOFTLOCK_RISK fix] Added timeout=300 to prevent indefinite hang
+            try:
+                subprocess.run(
+                    ["git", "clone", config["url"], str(repo_path)],
+                    check=True,
+                    timeout=300,
+                )
+            except subprocess.TimeoutExpired:
+                log.warning("Command timed out after 300s: git clone %s", config["url"])
         else:
             log.info(f"Updating {config['repo']}...")
-            subprocess.run(
-                ["git", "-C", str(repo_path), "pull"],
-                capture_output=True,
-                check=True
-            )
+            # [SOFTLOCK_RISK fix] Added timeout=300 to prevent indefinite hang
+            try:
+                subprocess.run(
+                    ["git", "-C", str(repo_path), "pull"],
+                    capture_output=True,
+                    check=True,
+                    timeout=300,
+                )
+            except subprocess.TimeoutExpired:
+                log.warning("Command timed out after 300s: git -C %s pull", repo_path)
 
         # Build
         build_dir = repo_path / "build"
@@ -833,16 +865,25 @@ class MasterBootstrapGuardian:
                 cmake_args = ["cmake", "-B", str(build_dir)] + build_args
         else:
             cmake_args = ["cmake", "-B", str(build_dir)] + build_args
-        subprocess.run(cmake_args, cwd=repo_path, check=True)
+        # [SOFTLOCK_RISK fix] Added timeout=300 to prevent indefinite hang
+        try:
+            subprocess.run(cmake_args, cwd=repo_path, check=True, timeout=300)
+        except subprocess.TimeoutExpired:
+            log.warning("Command timed out after 300s: %s", cmake_args)
 
         # Compile
         threads = os.cpu_count() or 1
         log.info(f"Compiling with {threads} threads...")
-        subprocess.run(
-            ["cmake", "--build", str(build_dir), "--config", "Release", "-j", str(threads)],
-            cwd=repo_path,
-            check=True
-        )
+        # [SOFTLOCK_RISK fix] Added timeout=300 to prevent indefinite hang
+        try:
+            subprocess.run(
+                ["cmake", "--build", str(build_dir), "--config", "Release", "-j", str(threads)],
+                cwd=repo_path,
+                check=True,
+                timeout=300,
+            )
+        except subprocess.TimeoutExpired:
+            log.warning("Command timed out after 300s: cmake build")
 
         # Copy binary — handle .exe suffix on Windows
         exe_suffix = ".exe" if os.name == "nt" else ""
