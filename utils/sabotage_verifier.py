@@ -2901,13 +2901,25 @@ _PYTHON_EXTERNAL_CALLS: dict[str, tuple[list[str], bool, str]] = {
         True, "External process execution",
     ),
     "subprocess.Popen": (["FileNotFoundError", "OSError"], True, "External process spawn"),
-    "subprocess.check_output": (["CalledProcessError", "FileNotFoundError", "TimeoutExpired"], True, "External process output"),
-    "subprocess.check_call": (["CalledProcessError", "FileNotFoundError", "TimeoutExpired"], True, "External process call"),
+    "subprocess.check_output": (
+        ["CalledProcessError", "FileNotFoundError", "TimeoutExpired"],
+        True,
+        "External process output"
+    ),
+    "subprocess.check_call": (
+        ["CalledProcessError", "FileNotFoundError", "TimeoutExpired"],
+        True,
+        "External process call"
+    ),
     # os
     "os.path.join": (["TypeError"], False, "Path construction"),
     "os.path.isdir": (["OSError"], False, "Directory check"),
     "os.path.exists": (["OSError"], False, "File existence check"),
-    "os.listdir": (["FileNotFoundError", "NotADirectoryError", "PermissionError", "OSError"], True, "Directory listing"),
+    "os.listdir": (
+        ["FileNotFoundError", "NotADirectoryError", "PermissionError", "OSError"],
+        True,
+        "Directory listing"
+    ),
     "os.makedirs": (["FileExistsError", "OSError"], True, "Directory creation"),
     "os.remove": (["FileNotFoundError", "IsADirectoryError", "PermissionError", "OSError"], True, "File deletion"),
     "os.rename": (["FileNotFoundError", "FileExistsError", "OSError"], True, "File rename"),
@@ -3108,7 +3120,10 @@ def _parse_python_functions_ast(source: str) -> list[dict]:
                     has_none_guard = True
 
             # isinstance checks (type hints)
-            if isinstance(child, ast.Call) and isinstance(child.func, ast.Name) and child.func.id == "isinstance" and len(child.args) >= 2:
+            if (
+                isinstance(child, ast.Call) and isinstance(child.func, ast.Name)
+                and child.func.id == "isinstance" and len(child.args) >= 2
+            ):
                     var_name = ""
                     type_name = ""
                     if isinstance(child.args[0], ast.Name):
@@ -5226,7 +5241,10 @@ def _build_python_softlock_patterns() -> list[Pattern]:
                     break
                 body_line = lines[j].strip()
                 # Pattern 1: if with return or comparison
-                if body_line.startswith("if ") and ("return" in body_line or "==" in body_line or "<=" in body_line or ">=" in body_line or "!=" in body_line or " in " in body_line or " not in " in body_line or "is None" in body_line or "is not None" in body_line):
+                if (
+                    body_line.startswith("if ")
+                    and ("return" in body_line or "==" in body_line or "<=" in body_line or ">=" in body_line or "!=" in body_line or " in " in body_line or " not in " in body_line or "is None" in body_line or "is not None" in body_line)
+                ):
                     has_base_case = True
                     break
                 # Pattern 2: try/except blocks (exception handling as termination)
@@ -5234,11 +5252,17 @@ def _build_python_softlock_patterns() -> list[Pattern]:
                     has_base_case = True
                     break
                 # Pattern 3: Comments indicating base case
-                if body_line.startswith("#") and ("base case" in body_line.lower() or "termination" in body_line.lower() or "guard" in body_line.lower() or "nosec" in body_line.lower()):
+                if (
+                    body_line.startswith("#")
+                    and ("base case" in body_line.lower() or "termination" in body_line.lower() or "guard" in body_line.lower() or "nosec" in body_line.lower())
+                ):
                     has_base_case = True
                     break
                 # Pattern 4: while loop with break
-                if body_line.startswith("while ") and any("break" in lines[k] for k in range(j, min(j + 20, len(lines))) if k < len(lines)):
+                if (
+                    body_line.startswith("while ")
+                    and any("break" in lines[k] for k in range(j, min(j + 20, len(lines))) if k < len(lines))
+                ):
                     has_base_case = True
                     break
 
@@ -5662,7 +5686,10 @@ def _build_python_exception_patterns() -> list[Pattern]:
                     if j >= len(lines):
                         break
                     handler_line = lines[j].strip()
-                    if handler_line and not handler_line.startswith("except") and not handler_line.startswith("#") and not handler_line.startswith(("pass", "...", "continue")):
+                    if (
+                        handler_line and not handler_line.startswith("except") and not handler_line.startswith("#")
+                        and not handler_line.startswith(("pass", "...", "continue"))
+                    ):
                             has_action = True
                             break
 
@@ -6351,7 +6378,10 @@ def _build_python_venv_prefix_comparison_patterns() -> list[Pattern]:
                 continue
 
             # Detect direct comparison of sys.prefix or prefix variables with BASE_DIR or PROJECT_ROOT
-            if re.search(r"\b(?:old_prefix|prefix|sys\.prefix)\s*!=?\s*(?:BASE_DIR|PROJECT_ROOT|root_dir)\b", line) and not re.search(r"venv|expected_prefix|main_venv|os\.path\.join", line):
+            if (
+                re.search(r"\b(?:old_prefix|prefix|sys\.prefix)\s*!=?\s*(?:BASE_DIR|PROJECT_ROOT|root_dir)\b", line)
+                and not re.search(r"venv|expected_prefix|main_venv|os\.path\.join", line)
+            ):
                     # Check for nosec annotation on this line
                     if "nosec" in stripped.lower():
                         continue
@@ -6509,7 +6539,10 @@ def _build_coq_proof_patterns() -> list[Pattern]:
                             break
                         proof_lines_count += 1
                         # Substantial tactics (not just auto/trivial/reflexivity)
-                        if proof_line and not proof_line.startswith("--") and not re.match(r"^(Proof|Qed|Defined|auto|trivial|reflexivity|intros|apply|exact)\s", proof_line):
+                        if (
+                            proof_line and not proof_line.startswith("--")
+                            and not re.match(r"^(Proof|Qed|Defined|auto|trivial|reflexivity|intros|apply|exact)\s", proof_line)
+                        ):
                                 has_substantial_tactic = True
 
                     if proof_lines_count <= 2 and not has_substantial_tactic:
@@ -8736,7 +8769,10 @@ def _build_gpu_vendor_lockin_patterns() -> list[Pattern]:
             # ── Pattern 4: CUDA-specific error messages that blame user ────
             # e.g., "CUDA not available. Please install NVIDIA drivers."
             # This is deceptive — the user may have a perfectly good AMD/Intel/Moore Threads GPU
-            if re.search(r"(?i)cuda\s+not\s+(available|found|installed|detected)", stripped) and re.search(r"(?i)nvidia|geforce|tesla|quadro", stripped) and not re.search(r"(?i)MUSA|MPS|OneAPI|ROCm|OpenCL|AMD|Intel|Moore\s*Threads", stripped):
+            if (
+                re.search(r"(?i)cuda\s+not\s+(available|found|installed|detected)", stripped) and re.search(r"(?i)nvidia|geforce|tesla|quadro", stripped)
+                and not re.search(r"(?i)MUSA|MPS|OneAPI|ROCm|OpenCL|AMD|Intel|Moore\s*Threads", stripped)
+            ):
                     violations.append(Violation(
                             filepath=filepath,
                             line=line_num,
@@ -9608,9 +9644,15 @@ def _parse_ada_functions(source: str) -> list[dict]:
             pline_stripped = re.sub(r"^--\s*", "", pline).strip()
             pline_low = pline_stripped.lower()
             pline_raw_low = pline.lower()
-            if (pline_low.startswith("pre") or pline_raw_low.startswith("-- pre")) and ("=>" in pline_stripped or ":" in pline_stripped or "true" in pline_low or "false" in pline_low):
+            if (
+                (pline_low.startswith("pre") or pline_raw_low.startswith("-- pre"))
+                and ("=>" in pline_stripped or ":" in pline_stripped or "true" in pline_low or "false" in pline_low)
+            ):
                 pre_post.append({"type": "pre", "expr": pline_stripped, "line": j + 1})
-            elif (pline_low.startswith("post") or pline_raw_low.startswith("-- post")) and ("=>" in pline_stripped or ":" in pline_stripped or "true" in pline_low or "false" in pline_low):
+            elif (
+                (pline_low.startswith("post") or pline_raw_low.startswith("-- post"))
+                and ("=>" in pline_stripped or ":" in pline_stripped or "true" in pline_low or "false" in pline_low)
+            ):
                 pre_post.append({"type": "post", "expr": pline_stripped, "line": j + 1})
             elif pline_raw_low.startswith(("with pre", "with post")):
                 # SPARK aspect syntax: with Pre => ..., with Post => ...
@@ -10108,11 +10150,17 @@ def _extract_alt_ergo_counterexample(assertions: list[str], goal: str, label: st
             # Extract variable names (words that are not operators or numbers)
             for word in assertion.split():
                 word = word.strip("()")
-                if word and word[0].isalpha() and word not in ("true", "false", "and", "or", "not", "implies", "iff", "QF_LIA"):
+                if (
+                    word and word[0].isalpha()
+                    and word not in ("true", "false", "and", "or", "not", "implies", "iff", "QF_LIA")
+                ):
                     var_names.add(word)
         for word in goal.split():
             word = word.strip("()")
-            if word and word[0].isalpha() and word not in ("true", "false", "and", "or", "not", "implies", "iff", "QF_LIA"):
+            if (
+                word and word[0].isalpha()
+                and word not in ("true", "false", "and", "or", "not", "implies", "iff", "QF_LIA")
+            ):
                 var_names.add(word)
 
         smtlib = "(set-logic QF_LIA)\n"
@@ -10145,7 +10193,10 @@ def _extract_alt_ergo_counterexample(assertions: list[str], goal: str, label: st
             lines = [f"[Counterexample-alt-ergo] {label}:"]
             for line in output.splitlines():
                 # Look for define-fun lines which contain the model
-                if "define-fun" in line or ("=" in line and ("x" in line.lower() or "y" in line.lower() or "v" in line.lower())):
+                if (
+                    "define-fun" in line
+                    or ("=" in line and ("x" in line.lower() or "y" in line.lower() or "v" in line.lower()))
+                ):
                     lines.append(f"  {line.strip()}")
             if len(lines) > 1:
                 return "\n".join(lines)
@@ -10425,7 +10476,10 @@ def _verify_python_function_with_z3(func: dict) -> list[dict]:
                                 has_guard = True
                                 break
                             # Path division: parent / child — result is a Path, not a number
-                            if re.search(rf"{re.escape(denominator)}\s*=\s*\w+\s*/\s*\w+", bl_stripped) and "/" in bl_stripped:
+                            if (
+                                re.search(rf"{re.escape(denominator)}\s*=\s*\w+\s*/\s*\w+", bl_stripped)
+                                and "/" in bl_stripped
+                            ):
                                 has_guard = True
                                 break
                     # [Citation: code-quality.md §False Positive Guard - isinstance chain]
@@ -10513,7 +10567,10 @@ def _verify_python_function_with_z3(func: dict) -> list[dict]:
                 # Skip known safe patterns:
                 # sys.argv[0] — always exists (script name)
                 # sys.argv[1] — guarded by len(sys.argv) > 1 typically
-                if arr_name == "argv" and index_var.isdigit() or arr_name == "environ" or arr_name == "MEMORY_CACHE" or arr_name in ("result", "timer_id", "_build_result") and index_var == "0" or arr_name == "cmd" and index_var == "0" or re.search(rf"lambda\s+\w+\s*:\s*{re.escape(arr_name)}\[{re.escape(index_var)}\]", bline) or re.search(rf"{re.escape(arr_name)}\s*=\s*\[", bline):
+                if (
+                    arr_name == "argv" and index_var.isdigit() or arr_name == "environ" or arr_name == "MEMORY_CACHE" or arr_name in ("result", "timer_id", "_build_result") and index_var == "0"
+                    or arr_name == "cmd" and index_var == "0" or re.search(rf"lambda\s+\w+\s*:\s*{re.escape(arr_name)}\[{re.escape(index_var)}\]", bline) or re.search(rf"{re.escape(arr_name)}\s*=\s*\[", bline)
+                ):
                     has_bound_check = True
                 # data[field] — dict access with variable key, not array indexing
                 elif index_var.isdigit() is False:
@@ -10571,7 +10628,10 @@ def _verify_python_function_with_z3(func: dict) -> list[dict]:
                     if not has_bound_check:
                         for bl in func["body_lines"]:
                             bl_stripped = bl.split("#")[0]
-                            if arr_name in bl_stripped and re.search(rf"len\s*\(\s*{re.escape(arr_name)}\s*\)", bl_stripped):
+                            if (
+                                arr_name in bl_stripped
+                                and re.search(rf"len\s*\(\s*{re.escape(arr_name)}\s*\)", bl_stripped)
+                            ):
                                 has_bound_check = True
                                 break
 
@@ -10660,7 +10720,10 @@ def _verify_python_function_with_z3(func: dict) -> list[dict]:
                         continue
                     if in_docstring:
                         continue
-                    if re.search(rf"\b{re.escape(p['name'])}\b", bl) and "is None" not in bl and "is not None" not in bl and "!= None" not in bl and "== None" not in bl:
+                    if (
+                        re.search(rf"\b{re.escape(p['name'])}\b", bl) and "is None" not in bl
+                        and "is not None" not in bl and "!= None" not in bl and "== None" not in bl
+                    ):
                         # Also skip truthiness checks: if aad:, if not aad:, if aad is truthy
                         if re.search(rf"\bif\s+{re.escape(p['name'])}\s*[:\)]|"
                                      rf"\bif\s+not\s+{re.escape(p['name'])}\s*[:\)]|"
@@ -11326,7 +11389,10 @@ def _verify_ada_function_with_z3(func: dict) -> list[dict]:
             has_bound_check = False
             for bl in func["body_lines"]:
                 bl_stripped = bl.split("--")[0]
-                if index_var in bl_stripped and any(op in bl_stripped for op in ("<", ">", "<=", ">=", "range", "First", "Last", "Length")):
+                if (
+                    index_var in bl_stripped
+                    and any(op in bl_stripped for op in ("<", ">", "<=", ">=", "range", "First", "Last", "Length"))
+                ):
                     has_bound_check = True
                     break
 
@@ -11426,7 +11492,10 @@ def _verify_ada_function_with_z3(func: dict) -> list[dict]:
             # Check if parameter is used in body without null check
             used_without_guard = False
             for bl in func["body_lines"]:
-                if p["name"] in bl and not re.search(r"=\s*null|/=.*null|Is_Null|is_null|not\s+null", bl, re.IGNORECASE):
+                if (
+                    p["name"] in bl
+                    and not re.search(r"=\s*null|/=.*null|Is_Null|is_null|not\s+null", bl, re.IGNORECASE)
+                ):
                     used_without_guard = True
                     break
             if used_without_guard:
@@ -11718,7 +11787,10 @@ def _verify_ada_function_with_z3(func: dict) -> list[dict]:
                 for bl in search_lines:
                     bl_low = bl.lower()
                     for var_name in (ao["left"], ao["right"]):  # nosec: bounded tuple iteration
-                        if re.search(rf"\b{re.escape(var_name.lower())}\s*:", bl_low) and any(wtk in bl_low for wtk in _WIDE_TYPE_KEYWORDS):
+                        if (
+                            re.search(rf"\b{re.escape(var_name.lower())}\s*:", bl_low)
+                            and any(wtk in bl_low for wtk in _WIDE_TYPE_KEYWORDS)
+                        ):
                                 has_guard = True
                                 break
             # Skip known Ada time/duration functions that return non-Integer types
@@ -13882,7 +13954,10 @@ def _assertion_scan_ada(
             has_post = "post =>" in block or "post  =>" in block
 
             # Skip pragma Import functions (external C bindings)
-            if "pragma import" in block or "import => true" in block or "import  => true" in block or "with import" in block:
+            if (
+                "pragma import" in block or "import => true" in block
+                or "import  => true" in block or "with import" in block
+            ):
                 continue
 
             name = line.strip().split()[1].split("(")[0] if len(line.strip().split()) > 1 else "unknown"
@@ -14409,7 +14484,10 @@ def _coverage_check_python(
                 continue
             first_stmt = body[0]
             # Function starts with assert False or raise → non-viable
-            if isinstance(first_stmt, ast.Assert) and isinstance(first_stmt.test, ast.Constant) and first_stmt.test.value is False:
+            if (
+                isinstance(first_stmt, ast.Assert)
+                and isinstance(first_stmt.test, ast.Constant) and first_stmt.test.value is False
+            ):
                     violations.append(Violation(
                         filepath=filepath,
                         line=func_line,
@@ -14443,7 +14521,10 @@ def _coverage_check_python(
                 ))
 
         # Index into subscript without guard
-        if isinstance(node, ast.Subscript) and isinstance(node.slice, ast.Constant) and isinstance(node.slice.value, int) and node.slice.value < 0:
+        if (
+            isinstance(node, ast.Subscript) and isinstance(node.slice, ast.Constant)
+            and isinstance(node.slice.value, int) and node.slice.value < 0
+        ):
                     violations.append(Violation(
                         filepath=filepath,
                         line=getattr(node, "lineno", 0),
@@ -15739,13 +15820,25 @@ def calculate_mal_score(violations: list[Violation]) -> tuple[str, str, str]:  #
     elif n_crit == 0 and n_high == 0 and n_med == 0:  # nosec: reachable — if/elif chain, each branch is independent
         return ("MAL-SS", "Sick Skills", f"{n_low} LOW violation(s) — almost SSS but we had to look away")
     elif n_crit == 0 and n_high == 0:  # nosec: reachable — if/elif chain, each branch is independent
-        return ("MAL-S", "Savage", f"{n_med} MEDIUM violation(s) — NOT CLEAN. Build blocked. Every MEDIUM must be fixed.")
+        return (
+            "MAL-S",
+            "Savage",
+            f"{n_med} MEDIUM violation(s) — NOT CLEAN. Build blocked. Every MEDIUM must be fixed."
+        )
     elif n_crit == 0:  # nosec: reachable — if/elif chain, each branch is independent
         return ("MAL-C", "Crazy", f"{n_high} HIGH violation(s) — NOT CLEAN. Build blocked. Every HIGH must be fixed.")
     elif n_crit <= 4:  # nosec: reachable — if/elif chain, each branch is independent
-        return ("MAL-D", "Dismal", f"{n_crit} CRITICAL violation(s) — NOT CLEAN. Build blocked. Critical issues demand immediate fix.")
+        return (
+            "MAL-D",
+            "Dismal",
+            f"{n_crit} CRITICAL violation(s) — NOT CLEAN. Build blocked. Critical issues demand immediate fix."
+        )
     elif n_crit <= 10:  # nosec: reachable — if/elif chain, each branch is independent
-        return ("MAL-E", "Enshittified Deadweight", f"{n_crit} CRITICAL violation(s) — NOT CLEAN. Multiple critical failures.")
+        return (
+            "MAL-E",
+            "Enshittified Deadweight",
+            f"{n_crit} CRITICAL violation(s) — NOT CLEAN. Multiple critical failures."
+        )
     else:
         return ("MAL-F", "Failed", f"{n_crit} CRITICAL violation(s) — federal crime against software engineering")
 
@@ -15821,7 +15914,10 @@ def format_static_pattern_summary(violations: list[Violation], registry: Pattern
 
         if cnt > 0:
             eff_sev = max(sevs, key=lambda s: sev_rank.get(s, 0))
-            if eff_sev in (Severity.CRITICAL, Severity.HIGH, Severity.MEDIUM) or cat in ("PROOF_MISSING", "PROOF_CHEAP"):
+            if (
+                eff_sev in (Severity.CRITICAL, Severity.HIGH, Severity.MEDIUM)
+                or cat in ("PROOF_MISSING", "PROOF_CHEAP")
+            ):
                 status = "GATE BLOCKED [FAIL]"
             else:
                 status = "WARNING"
