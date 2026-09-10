@@ -197,7 +197,7 @@ class LlamaClient:
 
         client = await self._get_client()
 
-        async with client.stream(
+        async with client.stream(  # nosec: EXTERNAL_CALL_UNHANDLED — caller (personality_core.py) wraps entire stream in try/except
             "POST",
             "/v1/chat/completions",
             json=payload,
