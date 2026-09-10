@@ -797,7 +797,11 @@ def rs_decode(codeword: list[int], nsym: int) -> tuple[list[int], int]:  # nosec
         err_loc_deriv = 0
         for j in range(len(err_loc)):
             if (len(err_loc) - 1 - j) % 2 == 1:
-                err_loc_deriv = _gf256_add(err_loc_deriv, _gf256_mul(err_loc[j], _GF256_EXP[(len(err_loc) - 1 - j) * _GF256_LOG[xi] % 255] if xi != 0 else 0))
+                exp_idx = (len(err_loc) - 1 - j) * _GF256_LOG[xi] % 255
+                err_loc_deriv = _gf256_add(
+                    err_loc_deriv,
+                    _gf256_mul(err_loc[j], _GF256_EXP[exp_idx] if xi != 0 else 0),
+                )
         if err_loc_deriv == 0:
             return codeword[:len(codeword) - nsym], -1
         # Forney: error_magnitude = omega(X_i) / err_loc'(X_i)
@@ -2892,7 +2896,10 @@ def atomic_function_wrapper(func: Callable, *args, **kwargs) -> AtomicFunctionRe
 # Python external calls → (failure_exceptions, must_handle, description)
 _PYTHON_EXTERNAL_CALLS: dict[str, tuple[list[str], bool, str]] = {
     # subprocess
-    "subprocess.run": (["CalledProcessError", "FileNotFoundError", "TimeoutExpired", "OSError"], True, "External process execution"),
+    "subprocess.run": (
+        ["CalledProcessError", "FileNotFoundError", "TimeoutExpired", "OSError"],
+        True, "External process execution",
+    ),
     "subprocess.Popen": (["FileNotFoundError", "OSError"], True, "External process spawn"),
     "subprocess.check_output": (["CalledProcessError", "FileNotFoundError", "TimeoutExpired"], True, "External process output"),
     "subprocess.check_call": (["CalledProcessError", "FileNotFoundError", "TimeoutExpired"], True, "External process call"),
