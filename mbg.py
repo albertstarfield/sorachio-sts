@@ -432,23 +432,6 @@ class MasterBootstrapGuardian:
         else:
             venv_python = VENV_DIR / "bin" / "python"
 
-        # [Fix: only relaunch if venv Python is different from current Python]
-        # This prevents infinite loop when venv already exists
-        try:
-            result = subprocess.run(
-                [str(venv_python), "-c", "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')"],
-                capture_output=True, text=True, timeout=5
-            )
-            venv_version = result.stdout.strip()
-            current_version = f"{sys.version_info.major}.{sys.version_info.minor}"
-            
-            if venv_version == current_version:
-                log.info(f"Venv Python {venv_version} matches current Python, skipping relaunch")
-                return
-        except (subprocess.TimeoutExpired, FileNotFoundError, OSError):
-            # If we can't check version, proceed with relaunch
-            pass
-
         log.info(f"Restarting with venv Python: {venv_python}")
         try:
             subprocess.run([str(venv_python)] + sys.argv)
