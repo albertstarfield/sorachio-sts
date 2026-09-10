@@ -1,21 +1,21 @@
 # Sorachio-STS
 
-**Speech To Speech AI Companion System**  
-*Foundation for a future robotics companion platform*
+**Speech To Speech AI Companion & Agentic Robotics System**  
+*Local-first, real-time voice AI companion powered by dual-LLM cognition, wake word detection, action engine, and SBC/ESP32 robotics architecture*
 
 ---
 
 ### System in Action (CLI Showcase)
 
-Here is a preview of how the interactive CLI behaves in voice mode, showcasing the real-time **Cognitive Gateway** status bar and state transitions.
+Here is a preview of how the interactive CLI behaves in voice mode, showcasing the real-time **Cognitive Gateway Action Badges**, **Wake Word State Machine**, and state transitions.
 
 #### 1. Full Voice/Run Mode (`python main.py run`)
-In voice mode, the pipeline continuously monitors microphone input using VAD. Once speech is detected and transcribed, the Cognitive Gateway immediately computes the emotional state and topic, seamlessly transitioning into the streaming audio playback phase. Filler or hesitant speech (e.g., "Um...") is filtered out and marked as `X ignore`.
+In voice mode, the pipeline continuously monitors microphone input in **IDLE Mode** for wake word activation (`alexa`, `hey_jarvis`, `hey_mycroft`, or custom `hey_sorachio.onnx`). Upon detection, Sorachio emits an instant audio response ("Hey there!", "I'm listening!", "Hello!"), transitions to **ACTIVE Mode**, processes speech via STT, and uses LLM1 as an **Agentic Action Planner** to execute physical movements or web searches before routing to LLM2.
 
 ![Sorachio-STS Voice Mode](docs/ss-run.png)
 
 #### 2. Interactive Text Mode (`python main.py text`)
-In text mode, you can chat with the companion using keyboard inputs. Perfect for testing prompts and observing Cognitive Gateway filtering without needing a microphone.
+In text mode, you can chat with the companion using keyboard inputs. Perfect for testing prompts, observing Cognitive Gateway JSON action decisions, and validating tool dispatching without a microphone.
 
 ![Sorachio-STS Text Mode](docs/ss-txt.png)
 
@@ -27,56 +27,59 @@ In text mode, you can chat with the companion using keyboard inputs. Perfect for
 2. [Architecture Diagram](#2-architecture-diagram)
 3. [Data Flow](#3-data-flow)
 4. [Folder Structure](#4-folder-structure)
-5. [Threading Model](#5-threading-model)
+5. [Threading & State Model](#5-threading--state-model)
 6. [Installation](#6-installation)
 7. [Model Setup](#7-model-setup)
-8. [Running the System](#8-running-the-system)
-9. [Configuration Guide](#9-configuration-guide)
-10. [Cognitive Gateway Explained](#10-cognitive-gateway-explained)
-11. [Acoustic Intelligence Layer](#11-acoustic-intelligence-layer)
-12. [Bilingual Language Routing](#12-bilingual-language-routing)
-13. [Streaming Pipeline Explained](#13-streaming-pipeline-explained)
-14. [Memory Architecture](#14-memory-architecture)
-15. [CLI Reference](#15-cli-reference)
-16. [MBG System](#16-mbg-system)
-17. [Troubleshooting](#17-troubleshooting)
-18. [Future Robotics Expansion](#18-future-robotics-expansion)
+8. [Wake Word & ONNX Models](#8-wake-word--onnx-models)
+9. [Agentic Action Engine & Robotics](#9-agentic-action-engine--robotics)
+10. [Running the System](#10-running-the-system)
+11. [Configuration Guide](#11-configuration-guide)
+12. [Cognitive Gateway & Action Planning](#12-cognitive-gateway--action-planning)
+13. [Acoustic Intelligence Layer](#13-acoustic-intelligence-layer)
+14. [Bilingual Language Routing](#14-bilingual-language-routing)
+15. [Streaming Pipeline Explained](#15-streaming-pipeline-explained)
+16. [Memory Architecture](#16-memory-architecture)
+17. [CLI Reference](#17-cli-reference)
+18. [MBG System](#18-mbg-system)
+19. [Troubleshooting](#19-troubleshooting)
+20. [Future Robotics Expansion & ESP32 Hardware](#20-future-robotics-expansion--esp32-hardware)
 
 ---
 
 ## 1. Project Overview
 
-Sorachio-STS is a **complete, local-first, real-time Speech-to-Speech (STS) AI Companion** system. It runs entirely on your local machine — no cloud APIs, no subscriptions, no data sent anywhere.
+Sorachio-STS is a **complete, local-first, real-time Speech-to-Speech (STS) AI Companion & Autonomous Agent** system. It runs entirely on your local machine / SBC — no cloud APIs, no subscriptions, no data sent anywhere.
 
-The system is designed from the ground up as a **scalable AI companion operating system** — with architecture that anticipates future expansion into robotics, multi-agent systems, cameras, sensors, and ROS2 integration.
+The system is designed from the ground up as a **scalable AI companion operating system** — with architecture that anticipates future expansion into robotics (Orange Pi 5 Pro 16GB + ESP32 actuators), multi-agent systems, cameras, sensors, and ROS2 integration.
 
 ### Key Properties
 
 | Property | Detail |
 |----------|--------|
-| **Fully Local** | All inference runs on-device via llama.cpp + faster-whisper + Kokoro TTS / Piper TTS |
+| **Fully Local** | All inference runs on-device via llama.cpp + openwakeword + faster-whisper + Kokoro TTS / Piper TTS |
 | **Real-Time Streaming** | TTS begins before LLM finishes generating |
-| **Two-LLM Architecture** | Cognitive Gateway (LLM #1) + Personality Core (LLM #2) |
-| **Model-Agnostic** | Auto-detects any GGUF model — just drop and restart |
-| **Vision Ready** | LLM #2 supports multimodal input via mmproj projector |
+| **Wake Word Engine** | OpenWakeWord detector (`alexa`, `hey_jarvis`, `hey_mycroft`, custom ONNX scanning) with state machine |
+| **Instant Wake Response** | Zero-latency instant audio confirmation ("Hey there!", "I'm listening!", "Hello!") on wake trigger |
+| **Two-LLM Architecture** | Agentic Action Planner (LLM #1) + Personality Core (LLM #2) |
+| **Agentic Action Engine** | Autonomous function execution (`move`, `look`, `search`, `remember`, `multi`) via modular dispatcher |
+| **Robotics Modular HAL** | Hardware Abstraction Layer with `MockRobotController` (laptop) and `ESP32RobotController` (Orange Pi + ESP32) |
+| **Live Web Search** | Real-time instant web search via DuckDuckGo engine (`utils/web_search.py`) |
+| **Model-Agnostic** | Auto-detects any GGUF model in `models/llm1/` and `models/llm2/` — drop & restart |
+| **Vision Ready** | LLM #2 supports multimodal input via `mmproj` projector |
 | **Bilingual** | Automatic English / Indonesian language detection & voice routing |
 | **Interruptible** | VAD-based barge-in stops playback instantly; self-interrupt shielded |
 | **Adaptive AEC** | Calibration-based room impulse response echo cancellation (3s chirp sweep + Wiener/LMS filter) |
-| **Streaming STT** | Whisper partial transcript streaming for lower latency |
+| **Deep Buffer Reset** | OpenWakeWord preprocessor feature buffer clearing preventing ghost wake-word triggers |
 | **Vector Memory** | ChromaDB semantic search + sentence-transformers embeddings for LTM |
 | **Emotion Persistence** | Long-term mood trend detection and emotion pattern tracking |
-| **Rate Limiting** | Sliding window algorithm to prevent rapid-fire input spikes |
-| **Anteque Ashing** | Built-in Python quality code verifier (ruff + pyrefly) enforced on bootstrap |
-| **Persistent Memory** | Remembers you across sessions (JSON file + ChromaDB vector store) |
-| **Modular** | Each component is a separate async worker |
-| **Rich CLI UI** | Transient spinners, animated loaders, and cognitive status pills |
-| **Cross-Platform** | Works on macOS, Linux, and Windows |
+| **Rich CLI UI** | Mode indicators, action status badges, transient spinners, and cognitive status pills |
 
 ### Current Model Configuration
 
 | Slot | Model | Size | Role | Local Path |
 |------|-------|------|------|------------|
-| LLM #1 | Qwen2.5-Coder-0.5B-Instruct (Q8_0) | ~644 MB | Cognitive Gateway (JSON router) | `models/llm1/` |
+| Wake Word | OpenWakeWord ONNX (`alexa`, `hey_jarvis`, etc.) | ~5 MB | Instant wake word detection | `models/wakeword/` |
+| LLM #1 | Qwen2.5-Coder-0.5B-Instruct (Q8_0) | ~644 MB | Agentic Action Planner (JSON action router) | `models/llm1/` |
 | LLM #2 | Qwen3.5-4B (Q4_K_M) | ~2.6 GB | Personality Core (conversation) + **Vision** | `models/llm2/` |
 | STT | faster-whisper small | ~484 MB | Speech-to-Text (multilingual ID/EN) | `models/stt/` |
 | TTS (EN) | Kokoro-82M (`af_heart`) | ~327 MB | English female voice — 24kHz native | `models/tts/kokoro/` |
@@ -85,121 +88,83 @@ The system is designed from the ground up as a **scalable AI companion operating
 
 > **All model weights live inside the project** under `models/` — no cloud cache, no `~/.cache` writes. Everything is self-contained and portable.
 
-> **Flexible Model Swapping**: LLM models are auto-detected from `models/llm1/` and `models/llm2/`. Just drop a new `.gguf` and restart.
-
-> **STT/TTS Models**: Automatically downloaded to `models/` on first run by MBG — no manual setup required.
-
 ---
 
 ## 2. Architecture Diagram
 
 ```
-+-------------------------------------------------------------------+
-|                    Sorachio-STS Pipeline                          |
-|                                                                   |
-|  +----------+    +-------------------------------------------+    |
-|  |Microphone|───>| Acoustic Gate (RMS/dBFS)                  |    |
-|  +----------+    +-------------------------------------------+    |
-|                                   |                               |
-|                                   v                               |
-|                  +-------------------------------------------+    |
-|                  | CalibrationAEC / SpectralSubAEC           |    |
-|                  | (3s chirp room calibration, Wiener/LMS)   |    |
-|                  +-------------------------------------------+    |
-|                                   |                               |
-|                                   v                               |
-|                  +-------------------------------------------+    |
-|                  | Peak Follower + Playback Gate Shield       |    |
-|                  | (blocks speaker bleed during TTS, -15dBFS) |    |
-|                  +-------------------------------------------+    |
-|                                   |                               |
-|                                   v                               |
-|                  +---------------+    +---------------------+     |
-|                  | AudioCapture  |───>|   STT Queue         |     |
-|                  | (VAD + 8-frame|    |   (asyncio.Queue)   |     |
-|                  |  pre-roll buf)|    +--------+------------+     |
-|                  +---------------+             |                  |
-|                        | barge-in              v                  |
-|                        v              +---------------------+     |
-|               +-----------------+     |   STT Worker        |     |
-|               | Interrupt Event |     | (faster-whisper)    |     |
-|               +-----------------+     | + Streaming STT     |     |
-|                                       | + text lang verify  |     |
-|                                       | + hallucination flt |     |
-|                                       +--------+------------+     |
-|                                                |transcript        |
-|                                                |+ language        |
-|                                                v                  |
-|                                       +---------------------+     |
-|                                       |    Rate Limiter     |     |
-|                                       |   (sliding window)  |     |
-|                                       +--------+------------+     |
-|                                                | allowed          |
-|                                                v                  |
-|                                       +---------------------+     |
-|                                       |  Cognitive Worker   |     |
-|                                       |  LLM #1             |     |
-|                                       |  (auto-detected)    |     |
-|                                       |  JSON decision      |     |
-|                                       +--------+------------+     |
-|                                                | decision         |
-|                                                | + detected_lang  |
-|                                                v                  |
-|                           +---------------------------------------+        |
-|                           |            Memory System              |        |
-|                           | STM + LTM (JSON + ChromaDB Vector)    |        |
-|                           | + EmotionTracker (Mood trends)        |        |
-|                           +-------------------+-------------------+        |
-|                                               | context                    |
-|                                               v                            |
-|                           +-------------------------------+        |
-|                           |       Context Manager         |        |
-|                           | system prompt + STM + LTM +   |        |
-|                           | [Spoken Language: EN/ID]      |        |
-|                           +---------------+---------------+        |
-|                                           | messages[]            |
-|                                           v                       |
-|                           +-------------------------------+        |
-|                           |     Personality Worker        |        |
-|                           |  LLM #2 (auto-detected)       |        |
-|                           |  Streaming token generation   |        |
-|                           |  Vision input (if mmproj)     |        |
-|                           +---------------+---------------+        |
-|                                           | token stream          |
-|                                           v                       |
-|                           +-------------------------------+        |
-|                           |      Chunk Assembler          |        |
-|                           |  sentence boundary detection  |        |
-|                           +---------------+---------------+        |
-|                                           | speech chunks         |
-|                                           v                       |
-|                           +-------------------------------+        |
-|                           |  TTS Worker (Kokoro + Piper)  |        |
-|                           |  EN text -> Kokoro (af_heart) |        |
-|                           |  ID text -> Piper (id_ID-news) |        |
-|                           +---------------+---------------+        |
-|                                           | audio arrays          |
-|                                           v                       |
-|                           +-------------------------------+        |
-|                           |   Audio Playback Queue        |        |
-|                           |  (interruptible, sounddevice) |        |
-|                           +---------------+---------------+        |
-|                                           v                       |
-|                                       +-------+                   |
-|                                       |Speaker|                   |
-|                                       +-------+                   |
-+-------------------------------------------------------------------+
-```
-
-### Server Architecture
-
-```
-Python Orchestrator (asyncio event loop)
-|
-+-- HTTP -> llama-server :8001  -- LLM #1 Cognitive Gateway (auto-detected GGUF)
-+-- HTTP -> llama-server :8002  -- LLM #2 Personality Core (auto-detected GGUF + mmproj)
-+-- In-process -> faster-whisper -- STT (multilingual small model, offline)
-+-- In-process -> Kokoro / Piper -- TTS (Kokoro EN 24kHz + Piper ID 22.05kHz->24kHz)
++-----------------------------------------------------------------------------------+
+|                            Sorachio-STS Pipeline                                  |
+|                                                                                   |
+|  +----------+    +-------------------------------------------+                    |
+|  |Microphone|───>| Acoustic Gate (RMS/dBFS)                  |                    |
+|  +----------+    +-------------------------------------------+                    |
+|                                   |                                               |
+|                                   v                                               |
+|                  +-------------------------------------------+                    |
+|                  | CalibrationAEC / SpectralSubAEC           |                    |
+|                  | (3s chirp room calibration, Wiener/LMS)   |                    |
+|                  +-------------------------------------------+                    |
+|                                   |                                               |
+|                                   v                                               |
+|                  +-------------------------------------------+                    |
+|                  | AudioCapture State Machine                |                    |
+|                  | (IDLE vs ACTIVE + 2.5s Cooldown Guard)     |                    |
+|                  +--------------------+----------------------+                    |
+|                                       |                                           |
+|            +--------------------------+--------------------------+                |
+|            | IDLE Mode                                           | ACTIVE Mode    |
+|            v                                                     v                |
+|  +-------------------+                                   +---------------+        |
+|  | WakeWordDetector  |                                   |  STT Queue     |        |
+|  | (openwakeword)    |                                   | (asyncio)     |        |
+|  +---------+---------+                                   +-------+-------+        |
+|            | Trigger detected                                    |                |
+|            v                                                     v                |
+|  +-------------------+                                   +---------------+        |
+|  | Instant TTS Audio |                                   | STT Worker    |        |
+|  | ("Hey there!")    |                                   | (Whisper)     |        |
+|  +-------------------+                                   +-------+-------+        |
+|                                                                  | transcript     |
+|                                                                  v                |
+|                                                          +---------------+        |
+|                                                          | ActionPlanner |        |
+|                                                          | (LLM #1)      |        |
+|                                                          +-------+-------+        |
+|                                                                  | JSON action    |
+|                                                                  v                |
+|                                                          +---------------+        |
+|                                                          | Action        |        |
+|                                                          | Dispatcher    |        |
+|                                                          +--+---+---+----+        |
+|                                                             |   |   |             |
+|                                      +----------------------+   |   +------+      |
+|                                      |                          |          |      |
+|                                      v                          v          v      |
+|                            +-------------------+          +----------+ +----+     |
+|                            | Actuators (HAL)   |          | WebSearch| |LTM |     |
+|                            | Mock / ESP32      |          | (DuckDuck| |Vector    |
+|                            | (Move/Look)       |          |  Go)     | |Memory    |
+|                            +-------------------+          +----------+ +----+     |
+|                                                                            |      |
+|                                                                            v      |
+|                                                          +---------------+        |
+|                                                          | Personality   |        |
+|                                                          | Worker        |        |
+|                                                          | (LLM #2)      |        |
+|                                                          +-------+-------+        |
+|                                                                  | stream         |
+|                                                                  v                |
+|                                                          +---------------+        |
+|                                                          | Hybrid TTS    |        |
+|                                                          | Kokoro / Piper|        |
+|                                                          +-------+-------+        |
+|                                                                  | audio          |
+|                                                                  v                |
+|                                                              +-------+            |
+|                                                              |Speaker|            |
+|                                                              +-------+            |
++-----------------------------------------------------------------------------------+
 ```
 
 ---
@@ -207,57 +172,41 @@ Python Orchestrator (asyncio event loop)
 ## 3. Data Flow
 
 ```
-[User speaks]
+[User speaks wake word: "Alexa" / "Hey Jarvis"]
     |
     v PCM bytes (16kHz, 16-bit mono)
-[Acoustic Gate] -- drops frames below -45 dBFS
+[WakeWordDetector (OpenWakeWord)] -- confidence >= 0.50
     |
-    v
-[CalibrationAEC / SpectralSubAEC] -- 3-second chirp room impulse calibration & Wiener/LMS filter
+    +--> Plays Instant Confirmation ("Hey there!", "I'm listening!", "Hello!")
+    +--> State transition: IDLE -> ACTIVE (15-second activity window)
+    +--> Deep reset preprocessor buffers to prevent ghost triggers
     |
-    v
-[Peak Follower + Playback Gate Shield]
-    | during TTS: threshold = max(-15.0 dBFS, speaker_peak + 7.0 dB)
-    | blocks speaker bleed, prevents self-interruption
+[User speaks command: "Turn left and search python news"]
     |
-    v VAD Ring Buffer (8-frame pre-history)
-[webrtcvad] -- speech segment with onset consonants preserved
+[Acoustic Gate & AEC] -- drops noise, cancels room echo
     |
-    v audio bytes
-[STT Worker: faster-whisper]
-    |  Streaming partial transcripts + batch transcription
-    |  Language detection: audio classifier + text-level verifier
-    |  Hallucination filter (noise, repetition, domain names)
-    |  local_files_only=True -- instant offline load
-    v transcript + verified_language
-[Rate Limiter] -- sliding window check (protects Cognitive Worker from rapid-fire spikes)
+[STT Worker: faster-whisper] -- transcribes audio to text transcript
     |
-    v
-[Cognitive Worker: LLM #1]
-    |  POST /v1/chat/completions to llama-server:8001
-    |  --reasoning off
-    v JSON: {respond, emotion, topic, store_memory, importance, memory_queries}
-    + detected_language injected by pipeline
+[Agentic Action Planner: LLM #1]
+    |  JSON decision:
+    |  {
+    |    "action": "multi",
+    |    "actions": [
+    |      {"action": "move", "direction": "left", "angle_deg": 90},
+    |      {"action": "search", "query": "python news"},
+    |      {"action": "conversation"}
+    |    ]
+    |  }
     |
-[Memory System & Emotion Tracker]
-    |  STM + LTM retrieval (JSON keyword matching + ChromaDB Vector Store semantic search)
-    |  EmotionTracker: mood trend detection & periodic emotion summaries to LTM
+[Action Dispatcher]
+    |--> RobotController (Mock / ESP32 over HTTP/Serial) -> Executes rotation
+    |--> WebSearchEngine (DuckDuckGo) -> Fetches web snippets
+    |--> Memory System & Emotion Tracker -> Injects context + search results
     |
-[Context Manager]
-    |  Emotional context injection
-    |  [Spoken Language: English. You MUST respond in English.]  <- per-turn directive
-    v messages[]
-[Personality Worker: LLM #2]
-    |  POST /v1/chat/completions (stream=true) to llama-server:8002
-    v token stream
-[Chunk Assembler]
-    v speech chunks
-[Hybrid TTS Client]
-    |  Text language detected -> engine selected
-    |  en text -> Kokoro TTS (hexgrad/Kokoro-82M, af_heart)
-    |  id text -> Piper TTS (id_ID-news_tts-medium)
-    v audio arrays
-[Playback Queue] -> Speaker
+[Context Manager & LLM #2 Personality Core]
+    |  Generates natural speech output enriched with search & sensory context
+    |
+[Hybrid TTS Client (Kokoro / Piper)] -> Speaker
 ```
 
 ---
@@ -277,37 +226,38 @@ Sorachio-STS/
 |   +-- settings.py         # Pydantic settings loader + model auto-scanner
 |
 +-- core/
-|   +-- pipeline.py         # Master async pipeline (AEC calibration, STT, interrupt)
+|   +-- pipeline.py         # Master async pipeline (wake word callback, action dispatch)
 |   +-- events.py           # Event bus (pub/sub)
 |
 +-- audio/
-|   +-- capture.py          # Mic capture + VAD + peak follower + pre-roll ring buffer
+|   +-- capture.py          # Mic capture + VAD + wake word state machine + deep reset
 |   +-- playback.py         # Interruptible playback queue
+|   +-- wakeword.py         # OpenWakeWord wrapper + deep feature buffer clearing
 |   +-- acoustic_gate.py    # Pre-VAD energy filter + silence sentinel injection
 |   +-- echo_cancellation.py # CalibrationAEC (3s chirp sweep) + SpectralSubAEC + NullAEC
+|
++-- actuators/
+|   +-- robot_controller.py # Robot Hardware Abstraction Layer (Mock & ESP32 HTTP/Serial)
+|
++-- cognition/
+|   +-- cognitive_gateway.py  # Agentic Action Planner (JSON schema schema builder)
+|   +-- action_dispatcher.py  # Action dispatcher (actuators, search, memory, LLM2)
+|
++-- utils/
+|   +-- web_search.py       # DuckDuckGo instant web search engine
+|   +-- logging_setup.py    # Structured logging (Rich + file)
+|   +-- chunk_assembler.py  # Token -> speech chunk converter
+|   +-- rate_limiter.py     # Sliding window rate limiter
 |
 +-- vision/
 |   +-- capture.py          # Webcam snapshot capture (OpenCV)
 |
 +-- stt/
 |   +-- whisper_client.py   # faster-whisper in-process client
-|                           #  - Streaming STT (transcribe_streaming) for minimal latency
-|                           #  - Configurable models_dir and model_size
-|                           #  - Audio language classifier + text-level verifier
-|                           #  - Hallucination filter (noise, repetition, domains)
-|                           #  - Pre-trigger ring buffer (onset capture)
-|                           #  - local_files_only=True (offline load, no deadlock)
 |
 +-- tts/
 |   +-- kokoro_client.py    # Hybrid Kokoro & Piper TTS client
-|                           #  - Kokoro TTS for English (af_heart, 24kHz)
-|                           #  - Piper TTS for Indonesian (id_ID-news_tts-medium)
-|                           #  - Automatic text langdetect + STT language lock
-|                           #  - Dynamic resampling to 24kHz
 |   +-- piper_client.py     # Piper ONNX fallback client (Indonesian TTS engine)
-|
-+-- cognition/
-|   +-- cognitive_gateway.py  # Model-agnostic JSON decision router
 |
 +-- llm/
 |   +-- llama_client.py     # Async llama-server client (multimodal ready)
@@ -323,132 +273,68 @@ Sorachio-STS/
 |   +-- emotion_tracker.py  # Rolling emotion history & mood trend detection
 |
 +-- personality/
-|   +-- personality_core.py # Streaming conversation engine (model-agnostic)
+|   +-- personality_core.py # Streaming conversation engine
 |
 +-- services/
-|   +-- server_manager.py   # llama-server lifecycle (mmproj, jinja, reasoning)
-|
-+-- utils/
-|   +-- logging_setup.py    # Structured logging (Rich + file)
-|   +-- chunk_assembler.py  # Token -> speech chunk converter
-|   +-- rate_limiter.py     # Sliding window rate limiter for pipeline input protection
+|   +-- server_manager.py   # llama-server lifecycle
 |
 +-- cli/
-|   +-- main.py             # All commands (run, text, test-*, ...)
+|   +-- main.py             # Rich CLI UI (mode spinners, status badges)
 |
 +-- models/
-|   +-- llm1/               # Drop any GGUF here for Cognitive Gateway
-|   +-- llm2/               # Drop any GGUF + optional mmproj here
+|   +-- wakeword/           # OpenWakeWord ONNX models (.onnx + README)
+|   +-- llm1/               # Drop any GGUF here for LLM1 Action Planner
+|   +-- llm2/               # Drop any GGUF + optional mmproj here for LLM2 Personality
 |   +-- stt/                # faster-whisper weights (auto-downloaded by MBG)
-|   +-- tts/
-|       +-- id_ID-news_tts-medium.onnx  # Piper Indonesian voice (auto-downloaded)
-|       +-- id_ID-news_tts-medium.onnx.json
-|       +-- kokoro/         # Kokoro-82M English TTS weights (auto-downloaded)
+|   +-- tts/                # Piper & Kokoro TTS weights (auto-downloaded by MBG)
+|   +-- vector/             # sentence-transformers embeddings (auto-downloaded by MBG)
 |
 +-- bin/
-|   +-- llama-server        # llama-server binary (built by MBG or placed manually)
-|   +-- libggml-vulkan.so   # Vulkan GPU backend shared library (Linux)
-|   +-- libggml.so          # GGML core (Linux)
-|   +-- libllama.so         # llama.cpp runtime (Linux)
-|   +-- *.dll               # Windows: all DLLs copied alongside llama-server.exe
+|   +-- llama-server        # llama-server binary (Vulkan support)
 |
 +-- data/
-|   +-- memory/
-|       +-- ltm.json        # Long-term memory (auto-created)
-|       +-- chroma/         # ChromaDB vector embeddings database (auto-created)
+|   +-- memory/             # ltm.json + ChromaDB vector embeddings
 |
-+-- logs/
-|   +-- sorachio.log
-|   +-- cognitivegateway_server.log
-|   +-- personalitycore_server.log
-|
-+-- .repos/                 # Cloned repos (auto-managed by MBG)
-+-- venv_runtime/           # Virtual environment (auto-created by MBG)
-+-- sensors/                # Future: cameras, IMU, LIDAR
-+-- actuators/              # Future: motors, servos, LED rings
++-- logs/                   # Log outputs
++-- venv_runtime/           # Managed virtual environment
 ```
 
 ---
 
-## 5. Threading Model
+## 5. Threading & State Model
 
 ```
 Main Thread (asyncio event loop)
 |
-+-- [asyncio Task] STT Worker           -- awaits stt_queue, runs faster-whisper in executor
-+-- [asyncio Task] Cognitive Worker     -- awaits cognitive_queue, HTTP to LLM #1
-+-- [asyncio Task] Personality Worker   -- HTTP streaming to LLM #2
-+-- [asyncio Task] TTS Worker           -- synthesizes via Piper in thread executor
-+-- [asyncio Task] Playback Worker      -- drains audio queue, plays via sounddevice
++-- [asyncio Task] Pipeline Loop        -- manages STT, Action Dispatcher, LLM2, TTS
++-- [asyncio Task] Cognitive Worker     -- LLM #1 Action Planner (JSON generation)
++-- [asyncio Task] Action Dispatcher    -- routes physical moves, web search & memory
++-- [asyncio Task] Personality Worker   -- LLM #2 streaming speech output
++-- [asyncio Task] TTS Worker           -- Kokoro/Piper audio synthesis
 |
-+-- [Thread] VAD Worker                 -- continuous mic monitoring + ring buffer
-|   +-- puts audio to stt_queue via run_coroutine_threadsafe()
++-- [Thread] VAD & WakeWord Worker      -- audio capture loop
+|   +-- Mode: IDLE   --> passes PCM to OpenWakeWord detector
+|   +-- Mode: ACTIVE --> passes PCM to webrtcvad & STT queue
 |
-+-- [Thread Executor] Piper Synthesis   -- blocking ONNX inference offloaded
-+-- [Thread Executor] Whisper Transcribe -- blocking CTranslate2 inference offloaded
++-- [Thread Executor] Blocking ONNX/CTranslate2 (Whisper, Piper, OpenWakeWord)
 ```
 
 ---
 
 ## 6. Installation
 
-### Path A — Windows (Pre-built Binaries)
-
-#### Step 1 — Install Python 3.10–3.12
-
-Download from [python.org](https://www.python.org/downloads/). Check **"Add Python to PATH"**.
-
-#### Step 2 — Download Pre-built Binaries
-
-Download `llama-server.exe` from [llama.cpp releases](https://github.com/ggerganov/llama.cpp/releases) → latest `llama-*-bin-win-*.zip`. Place `llama-server.exe` and all `.dll` files into the `bin/` folder.
-
-> **Note**: `whisper-cli` is no longer required. faster-whisper runs entirely in-process.
-
-#### Step 3 — Download LLM Models
-
-```
-models/
-+-- llm1/
-|   +-- YourModel.gguf              # Any instruction-following GGUF model
-+-- llm2/
-|   +-- YourModel.gguf              # Any chat GGUF model
-|   +-- mmproj-YourModel.gguf       # Optional: vision projector
-```
-
-STT (faster-whisper) and TTS (Piper) models are **auto-downloaded by MBG**.
-
-#### Step 4 — Clone and Run
-
-```powershell
-git clone https://github.com/izzulgod/sorachio-sts.git
-cd sorachio-sts
-python main.py run
-```
-
-MBG runs automatically and:
-- Creates `venv_runtime/` and installs all Python packages
-- Downloads faster-whisper `small` model (~484MB)
-- Downloads Piper TTS voices to `models/tts/`
-
----
-
-### Path B — Linux / macOS (Build from Source)
+### Path A — Linux / macOS (Recommended)
 
 #### Step 1 — Install Prerequisites
 
-**macOS:**
+**Ubuntu / Debian:**
 ```bash
-brew install python@3.12 git cmake
+sudo apt update && sudo apt install -y python3.12 python3.12-venv git cmake build-essential libportaudio2
 ```
 
-**Linux (Ubuntu/Debian):**
+**Fedora / RHEL:**
 ```bash
-sudo apt install python3.12 python3.12-venv git cmake build-essential
-```
-
-**Linux (Fedora/RHEL):**
-```bash
-sudo dnf install python3.12 git cmake gcc gcc-c++
+sudo dnf install -y python3.12 git cmake gcc gcc-c++ portaudio-devel
 ```
 
 #### Step 2 — Clone and Run
@@ -459,28 +345,11 @@ cd sorachio-sts
 python main.py run
 ```
 
-MBG handles everything else automatically:
-- Creates virtual environment and installs packages
-- Installs system dependencies (Vulkan SDK, PortAudio)
-- Clones and compiles `llama.cpp` into `bin/` with Vulkan GPU support
-- Downloads faster-whisper `small` and Piper ONNX voices
-
-> First run takes 5–15 minutes due to compilation.
-
----
-
-### What MBG Downloads Automatically
-
-| Asset | Size | Purpose | Local Path |
-|-------|------|---------|------------|
-| faster-whisper-small | ~484 MB | STT model | `models/stt/` |
-| Kokoro-82M + voices | ~327 MB | English TTS (`af_heart`) | `models/tts/kokoro/` |
-| id_ID-news_tts-medium | ~67 MB | Indonesian TTS voice (Piper ONNX) | `models/tts/` |
-| all-MiniLM-L6-v2 | ~90 MB | Vector embedding model (offline LTM search) | `models/vector/all-MiniLM-L6-v2/` |
-
-> All downloads are stored **inside the project directory** under `models/`. Nothing is written to your home directory cache.
-
-LLM models are **user-managed** — download from Hugging Face and place in `models/llm1/` or `models/llm2/`.
+MBG handles everything automatically:
+- Creates `venv_runtime/` virtual environment
+- Installs Python packages + Anteque Ashing verification (`ruff` + `pyrefly`)
+- Compiles `llama.cpp` binary into `bin/` with Vulkan GPU acceleration
+- Auto-downloads STT (Whisper), TTS (Kokoro/Piper), and Vector Embedding models
 
 ---
 
@@ -488,380 +357,270 @@ LLM models are **user-managed** — download from Hugging Face and place in `mod
 
 ### Swapping LLM Models (Drop & Go)
 
-1. **Download** a GGUF model from [Hugging Face](https://huggingface.co/models?library=gguf)
-2. **Drop** into `models/llm1/` or `models/llm2/`
-3. **Restart** — auto-detected!
-
-```bash
-cp ~/Downloads/Qwen3.5-2B-Q8_0.gguf models/llm2/
-cp ~/Downloads/mmproj-Qwen3.5-2B-BF16.gguf models/llm2/  # optional vision
-python main.py run
-```
-
-### Auto-Detection Logic
-
-| Feature | How it works |
-|---------|-------------|
-| LLM model file | Largest `.gguf` in the directory (excluding mmproj) |
-| Vision projector | Any `mmproj*.gguf` in the same directory |
-| Context size | Read from GGUF metadata (`--ctx-size 0`) |
-| Chat template | Read from GGUF metadata (`--jinja`) |
-
-### STT Model Options
-
-| Model | Size | Accuracy |
-|-------|------|----------|
-| tiny | ~75 MB | Low |
-| base | ~148 MB | Medium |
-| **small** | **~484 MB** | **High (default)** |
-| medium | ~1.5 GB | Highest |
-
-Change in `config/sorachio.yaml` → `stt.model_size`.
+1. **Download** any GGUF model from Hugging Face.
+2. **Place GGUF files**:
+   - `models/llm1/`: Cognitive Gateway Action Planner (recommended: `qwen2.5-coder-0.5b-instruct-q8_0.gguf`)
+   - `models/llm2/`: Personality Core + Vision (recommended: `Qwen3.5-4B-Q4_K_M.gguf` + `mmproj-BF16.gguf`)
+3. **Restart**: `python main.py run` (auto-detected!).
 
 ---
 
-## 8. Running the System
+## 8. Wake Word & ONNX Models
 
-```bash
-# Full voice mode
-python main.py run
+Sorachio-STS uses **OpenWakeWord** for real-time wake word detection.
 
-# Text mode (no microphone)
-python main.py text
+### Supported Wake Words Out-of-the-Box
+- `alexa`
+- `hey_jarvis`
+- `hey_mycroft`
 
-# Single message test
-python main.py text -m "Hello Sorachio, how are you?"
+### Custom Wake Word Models (`hey_sorachio.onnx`)
+Place custom OpenWakeWord `.onnx` models inside `models/wakeword/`:
 ```
+models/wakeword/
++-- hey_sorachio.onnx
++-- README.md
+```
+Sorachio automatically scans `models/wakeword/*.onnx` on startup and activates custom wake words alongside built-in models!
+
+### OpenWakeWord Deep Reset Mechanism
+Standard OpenWakeWord `reset()` only clears score dictionaries. Sorachio implements a **Deep Reset** inside `WakeWordDetector.reset()` that zeroes out `raw_data_buffer`, `feature_buffer` `(116, 96)`, and `melspectrogram_buffer` `(76, 32)` to guarantee **zero ghost re-triggers** after active timeout.
 
 ---
 
-## 9. Configuration Guide
+## 9. Agentic Action Engine & Robotics
 
-All configuration lives in `config/sorachio.yaml`.
+LLM #1 (Cognitive Gateway) acts as an **Agentic Action Planner**. Instead of producing conversational text, it emits a structured JSON action plan.
 
-### Key Settings
-
-```yaml
-# Companion personality
-context:
-  companion_name: "Sorachio"
-  personality_prompt: |
-    You are Sorachio, an AI companion. Created by izzulgod.
-    ...
-
-# STT settings (streaming is enabled by default in settings.py)
-stt:
-  model_size: "small"      # tiny | base | small | medium
-  language: "auto"         # "auto" = bilingual EN/ID
-  beam_size: 2             # 1=fastest, 5=most accurate
-  models_dir: "models/stt" # Directory storing STT model weights
-
-# Acoustic Echo Cancellation (AEC) — disabled by default
-audio:
-  echo_cancellation:
-    enabled: false         # Set to true to activate
-    provider: "null"       # "null" | "simple_energy" | "calibration"
-    attenuation_factor: 0.3
-    calibration_duration_s: 3.0
-    lms_filter_length: 512
-    lms_step_size: 0.01
-    wiener_noise_margin: 1.5
-    calibration_auto_run: true
-
-# Memory (JSON + Vector Store + Emotion Tracker)
-memory:
-  long_term:
-    importance_threshold: 0.8
-    use_vector_store: true             # Enable ChromaDB semantic search
-    vector_store_path: "data/memory/chroma"
-    vector_model_dir: "models/vector/all-MiniLM-L6-v2"  # Offline model
-    embedding_model: "all-MiniLM-L6-v2"
-    vector_weight: 0.7                 # 70% vector, 30% keyword in hybrid retrieval
-
-# Rate Limiter (configured in settings.py defaults)
-# enable_rate_limiting: true
-# rate_limit_max_requests: 10
-# rate_limit_window_seconds: 60.0
-```
-
----
-
-## 10. Cognitive Gateway Explained
-
-**LLM #1** is a fast routing and filtering brain — it **never generates conversation**, only makes structured JSON decisions in <500ms.
-
-### Input / Output
-
-```
-Input: "Hey Sorachio, I've been really stressed about my exams."
-
-Output JSON:
+### JSON Action Schema
+```json
 {
-    "respond": true,
-    "topic": "exams",
-    "emotion": "anxious",
-    "store_memory": true,
-    "importance": 0.8,
-    "memory_queries": ["exams", "stress"]
+  "action": "multi",
+  "actions": [
+    {
+      "action": "move",
+      "direction": "forward",
+      "distance_cm": 50,
+      "speed": 0.8
+    },
+    {
+      "action": "search",
+      "query": "cuaca hari ini"
+    },
+    {
+      "action": "conversation"
+    }
+  ]
 }
 ```
 
-The pipeline then injects `detected_language` before passing to Context Manager.
+### Action Types & Handlers
 
-### Status UI
-
-```
-  >>> STATUS   ◕ happy      ✓ respond      ⚡ medium       ○ memory       topic: greeting
-```
-
----
-
-## 11. Acoustic Intelligence Layer
-
-### 1. Acoustic Gate
-
-Every frame is energy-checked before reaching VAD. Frames below `-40.0 dBFS` are immediately dropped — no wasted STT/LLM cycles on silence. Configurable via `audio.capture.acoustic_gate.threshold_dbfs` in `sorachio.yaml`.
-
-### 2. Pre-Trigger Ring Buffer (Onset Capture)
-
-The VAD worker maintains a rolling **8-frame (~240ms) history**. When VAD fires, these frames are prepended to the segment — preserving onset consonants of the first word (e.g., the "C" in "Coba lihat").
-
-### 3. Peak Follower + Playback Gate Shield
-
-During TTS playback, the gate threshold is tracked by a **peak follower with slow decay** (-0.2 dB/frame). Minimum cap: **-15.0 dBFS**. Typical speaker bleed (-17 to -19 dBFS) stays safely below this — preventing self-interruptions.
-
-### 4. Calibration-Based Adaptive Echo Cancellation (CalibrationAEC)
-
-To ensure the mic never triggers VAD from speaker playback, Sorachio includes `CalibrationAEC`:
-- **3-second chirp sweep** (100Hz–8kHz) during startup calibration phase.
-- Learns room impulse response, transfer function $H(f)$, and round-trip delay.
-- Combines Wiener filtering and LMS adaptive filtering for continuous real-time echo suppression.
-- Auto-calculates dynamic barge-in amplitude thresholds based on measured speaker-to-mic leakage.
+| Action | Payload Parameters | Execution Handler |
+|--------|-------------------|-------------------|
+| `move` | `direction` (`forward`/`backward`/`left`/`right`), `distance_cm`, `angle_deg`, `speed` | `RobotController.move()` / `rotate()` |
+| `look` | `direction` (`up`/`down`/`left`/`right`), `angle_deg` | `RobotController.look()` |
+| `search` | `query` | `WebSearchEngine.search()` (DuckDuckGo snippets injected into LLM2) |
+| `remember` | `fact`, `importance` | `LongTermMemory.store()` (JSON + ChromaDB) |
+| `multi` | `actions: [...]` | Sequential execution of multiple tool calls |
+| `conversation` | N/A | Default pass-through to LLM2 streaming |
 
 ---
 
-## 12. Bilingual Language Routing
-
-Sorachio-STS handles automatic **English ↔ Indonesian** routing at four independent levels:
-
-### Level 1: Audio Language Classifier (faster-whisper)
-
-Sums Indonesian-family probabilities (`id`, `ms`, `jw`, `su`) with a 3x bias correction:
-- Routes to Indonesian if `corrected_id_prob > en_prob AND raw_id_prob > 0.20`
-- Otherwise falls back to English
-
-### Level 2: Text-Level Language Verification
-
-Whisper's audio classifier has a known bug: English words starting with "In-" ("Introduce", "Inside") get misclassified as `id` (Indonesian).
-
-After transcription, `_verify_text_language()` checks the **decoded text**:
-- Indonesian keyword match → `id`
-- `langdetect` returns English → corrects to `en`
-
-This completely fixes the "Introduce yourself → Indonesian response" bug.
-
-### Level 3: Per-Turn LLM Directive
-
-The Context Manager injects a strict turn-level language directive:
-- English input → `[Spoken Language: English. You MUST respond in English.]`
-- Indonesian input → `[Spoken Language: Indonesian. You MUST respond in Indonesian.]`
-
-### Level 4: Hybrid TTS Engine Routing
-
-- English text → Kokoro TTS (`hexgrad/Kokoro-82M`, voice: `af_heart`, 24kHz)
-- Indonesian text → Piper TTS (`id_ID-news_tts-medium`, 22.05kHz -> 24kHz resampled)
-
----
-
-## 13. Streaming Pipeline Explained
-
-Sorachio begins **speaking before it finishes thinking**:
-
-```
-LLM #2: "Hello " -> "there! " -> "I " -> "can " -> "hear " -> "you." -> ...
-                                                                |
-Chunk Assembler:    ["Hello there!"]         ["I can hear you."]
-                          |                          |
-TTS Synthesis:      audio1 ready         audio2 synthesizing...
-                          |
-Audio Queue:        [audio1] -> speaker
-                               (while playing) [audio2] -> queued -> next
-```
-
-**First audio** is typically heard within **0.5–1.5 seconds** of LLM starting.
-
----
-
-## 14. Memory Architecture
-
-### Short-Term Memory (STM)
-
-- In-memory rolling deque, last 20 messages
-- Content: role, content, emotion, topic, importance, timestamp
-- Cleared on session end
-
-### Long-Term Memory (LTM) & Vector Store
-
-- **JSON Persistent Store**: (`data/memory/ltm.json`), up to 500 entries. Stores key facts, importance scoring, and recency metadata.
-- **ChromaDB Vector Store**: (`data/memory/chroma`). Uses `sentence-transformers` (`all-MiniLM-L6-v2`) for semantic embedding search.
-- **Hybrid Retrieval**: Combines keyword matching with semantic vector similarity for high-precision memory recall across sessions.
-
-### Emotion Persistence & Mood Tracking
-
-- `EmotionTracker` records rolling emotional patterns from Cognitive Gateway decisions.
-- Tracks mood trends over time and signals personality adaptation to LLM #2.
-- Periodically summarizes emotional state and saves summaries into LTM.
-
----
-
-## 15. CLI Reference
+## 10. Running the System
 
 ```bash
-# Full voice mode
-python main.py run [--config path] [--no-greeting] [--no-servers]
+# Full voice mode (Wake Word + Action Engine + STT + Dual LLM + TTS)
+python main.py run
 
-# Interactive text mode
-python main.py text [--config path] [--no-servers]
+# Interactive text mode (keyboard interface for prompt testing)
+python main.py text
 
-# Single message test
-python main.py text --message "Hello Sorachio"
+# Single query text mode
+python main.py text --message "search python news"
 
-# Test individual components
-python main.py test-stt [--file audio.wav]
-python main.py test-tts "Hello, I am Sorachio!"
-python main.py test-cognitive "Hey Sorachio, I feel tired"
+# Component testing
+python main.py test-stt
+python main.py test-tts "Testing Kokoro TTS"
+python main.py test-cognitive "Turn left and search weather"
 
-# Server management
-python main.py servers status
-python main.py servers start
-python main.py servers stop
-
-# Memory management
-python main.py memory list
-python main.py memory clear [--yes]
+# System status check
+python mbg.py --check
 ```
 
 ---
 
-## 16. MBG System
+## 11. Configuration Guide
 
-### What is MBG?
-
-**MBG: Master Bootstrap Guardian** — automated build and compatibility system for Sorachio-STS.
-
-### Features
-
-- Python 3.10–3.12 version management and auto-relaunch
-- Creates and manages `venv_runtime/` virtual environment
-- Installs all Python packages including `chromadb` and `sentence-transformers` + system dependencies (Vulkan, PortAudio)
-- **Anteque Ashing Quality Code Verifier**: Mandatory `ruff` and `pyrefly` code quality checks executed automatically during bootstrap
-- Builds `llama-server` from source (Linux/macOS) with **Vulkan GPU backend** (auto-detected)
-- Copies all Vulkan/GGML shared libraries (`libggml-vulkan.so`, `libllama.so`, etc.) alongside binary
-- Applies `cap_ipc_lock` for zero-swap RAM locking on Linux
-- Downloads `faster-whisper-small` STT model to `models/stt/` (self-contained, no `~/.cache`)
-- Downloads `Kokoro-82M` English TTS weights + voice files to `models/tts/kokoro/`
-- Downloads Piper ONNX Indonesian TTS voice (`id_ID-news_tts-medium`) to `models/tts/`
-- Downloads `all-MiniLM-L6-v2` vector embedding model to `models/vector/` for offline LTM semantic search
-- Auto-detects GGUF models and vision projectors in `models/llm1/` and `models/llm2/`
-- Smart re-run detection: checks for actual model weight files (`.bin`/`.safetensors`) — skips download if already present
-
-### Commands
-
-```bash
-python mbg.py           # Full bootstrap
-python mbg.py --check   # Check system status
-python mbg.py --force   # Force rebuild everything
-python mbg.py --models  # Download STT/TTS models only
-python mbg.py --build   # Build binaries only
-python mbg.py --version # Show version
-```
-
----
-
-## 17. Troubleshooting
-
-### "Binary not found" / llama-server missing
-
-On Windows: binary must be `llama-server.exe` in `bin/`. Run `python mbg.py --check` to verify.
-
-### Sorachio interrupts itself during playback
-
-The Playback Gate Shield holds the threshold at `max(-15.0 dBFS, speaker_peak + 7.0 dB)`. If self-interruption still occurs, raise the minimum in `audio/capture.py`:
-```python
-playback_thresh = max(-13.0, self._speaker_baseline_dbfs + 7.0)
-```
-
-### "LLM server not responding"
-
-```bash
-python main.py servers status
-# Check logs:
-cat logs/cognitivegateway_server.log
-cat logs/personalitycore_server.log
-```
-
-### "Audio device issues"
+All master configurations live in `config/sorachio.yaml`.
 
 ```yaml
-# config/sorachio.yaml
+# Wake Word Configuration
+wakeword:
+  enabled: true
+  target_words: ["hey_sorachio", "alexa", "hey_jarvis", "hey_mycroft"]
+  threshold: 0.50
+  active_timeout_s: 15.0
+  confirmation_sound: true
+  model_dir: "models/wakeword"
+
+# Robotics HAL Configuration
+robot:
+  controller_type: "mock"    # "mock" for laptop dev, "esp32" for production SBC + ESP32
+  esp32_url: "http://192.168.1.100"
+  serial_port: "/dev/ttyUSB0"
+  baud_rate: 115200
+
+# STT & Acoustic Settings
+stt:
+  model_size: "small"
+  language: "auto"
+
 audio:
   capture:
-    device_index: 0
-  playback:
-    device_index: 1
+    sample_rate: 16000
+    chunk_duration_ms: 30
+    acoustic_gate:
+      threshold_dbfs: -40.0
+      enabled: true
+
+# Memory & Vector Store
+memory:
+  long_term:
+    use_vector_store: true
+    vector_store_path: "data/memory/chroma"
 ```
-
-List devices:
-```bash
-python -c "import sounddevice; print(sounddevice.query_devices())"
-```
-
-### High latency
-
-1. Enable GPU: `n_gpu_layers: 99` in config
-2. Rebuild with Vulkan: `python mbg.py --force --build` (auto-copies `libggml-vulkan.so` to `bin/`)
-3. Reduce `max_tokens: 150` in personality_core
-4. Increase batch size: `n_batch: 512` in personality_core for faster first-token latency
-5. Lock RAM: ensure `cap_ipc_lock` is applied (auto by MBG on Linux)
-
-### LLM response suddenly slow
-
-Likely the Vulkan GPU backend `.so` files are missing from `bin/` (llama-server falls back to CPU). Run:
-```bash
-python mbg.py --force --build
-```
-This rebuilds llama-server with Vulkan and copies all backend libraries to `bin/` automatically.
 
 ---
 
-## 18. Future Robotics Expansion
+## 12. Cognitive Gateway & Action Planning
 
-Sorachio-STS is architected as the **brain** of a future companion robot.
+LLM #1 is optimized for ultra-fast JSON decisions (<300ms latency).
 
-### Planned Expansion Modules
+### Example Terminal Status Badges
 
-| Module | Description | Status |
-|--------|-------------|--------|
-| `sensors/camera.py` | OpenCV face detection, emotion recognition | Planned |
-| `sensors/imu.py` | Accelerometer/gyroscope | Planned |
-| `actuators/servo.py` | Facial expression servos | Planned |
-| `actuators/led.py` | LED ring for emotional state | Planned |
-| `memory/vector_store.py` | ChromaDB + sentence-transformers semantic vector memory (offline) | ✅ Live |
-| `memory/emotion_tracker.py` | Rolling mood trend detection + LTM emotion summaries | ✅ Live |
-| `cognition/vision_gate.py` | Visual cognitive gateway | Planned |
-| `core/ros2_bridge.py` | ROS2 topic publisher/subscriber | Planned |
-| `agents/task_agent.py` | Goal-oriented sub-agent | Planned |
-
-### Multi-Agent Architecture (Vision)
+When LLM #1 issues action decisions, the Rich CLI displays dynamic status pills:
 
 ```
-Sorachio Core Brain
-+-- Cognitive Gateway (LLM #1) -- fast JSON routing
-+-- Personality Core (LLM #2) -- conversation + vision (mmproj ready)
-+-- Vision Agent -- camera + face recognition
-+-- Task Agent -- goal planning + execution
-+-- Memory Agent -- LTM consolidation + reflection
+  >>> STATUS   ◕ happy      ✓ respond      ⚡ move: forward      ⚡ search      ○ memory       topic: robotics
 ```
+
+---
+
+## 13. Acoustic Intelligence Layer
+
+1. **Acoustic Gate**: Drops audio frames below `-40.0 dBFS` to save compute.
+2. **Pre-Trigger Ring Buffer**: 8-frame (~240ms) onset buffer preserves initial word consonants.
+3. **Playback Gate Shield**: Dynamically raises gate threshold to `max(-15.0 dBFS, speaker_peak + 7.0 dB)` during TTS playback to prevent self-interruption.
+4. **CalibrationAEC**: 3-second chirp room impulse calibration with LMS/Wiener filtering.
+
+---
+
+## 14. Bilingual Language Routing
+
+1. **Audio Language Classifier**: faster-whisper probabilities with 3x Indonesian bias correction.
+2. **Text-Level Verification**: `_verify_text_language()` checks text tokens to resolve Whisper "In-" word misclassifications.
+3. **Per-Turn Directive**: Context Manager injects explicit `[Spoken Language: English / Indonesian]` prompt directives.
+4. **Hybrid Voice Engine**:
+   - English text -> Kokoro TTS (`af_heart`, 24kHz)
+   - Indonesian text -> Piper TTS (`id_ID-news_tts-medium`, 22.05kHz -> 24kHz resampled)
+
+---
+
+## 15. Streaming Pipeline Explained
+
+```
+LLM #2 output:  "Hello " -> "there! " -> "I " -> "am " -> "ready."
+                      |                          |
+Chunk Assembler:   ["Hello there!"]           ["I am ready."]
+                      |                          |
+TTS Engine:        Synthesizing chunk 1       Synthesizing chunk 2
+                      |                          |
+Audio Playback:    Playing chunk 1 ---------> Playing chunk 2
+```
+
+First audio chunk is played within **0.5 – 1.2 seconds**.
+
+---
+
+## 16. Memory Architecture
+
+- **Short-Term Memory (STM)**: Rolling 20-message in-memory deque.
+- **Long-Term Memory (LTM)**: Persistent JSON fact database (`data/memory/ltm.json`).
+- **Vector Store**: ChromaDB + `sentence-transformers/all-MiniLM-L6-v2` semantic vector search.
+- **Emotion Tracker**: Mood trend analysis and continuous personality adaptation.
+
+---
+
+## 17. CLI Reference
+
+```bash
+# Main Modes
+python main.py run          # Voice Mode with Wake Word
+python main.py text         # Keyboard CLI Mode
+
+# MBG Management
+python mbg.py --check       # System dependency check
+python mbg.py --force       # Rebuild virtualenv & binaries
+python mbg.py --models      # Download model weights only
+```
+
+---
+
+## 18. MBG System
+
+**MBG (Master Bootstrap Guardian)** automates system initialization:
+- Python 3.10 – 3.12 environment verification & auto-relaunch
+- Virtual environment creation (`venv_runtime/`)
+- Quality Code Verification: Enforces `ruff check .` and `pyrefly check` on bootstrap (Anteque Ashing)
+- Compiles `llama-server` with Vulkan GPU acceleration
+- Auto-downloads faster-whisper, Kokoro, Piper, and all-MiniLM models
+
+---
+
+## 19. Troubleshooting
+
+### Wake Word Ghost Re-triggering
+Ensure `audio/wakeword.py` deep reset is active. Run `python main.py run` — `WakeWordDetector.reset()` clears all preprocessor buffers on active timeout.
+
+### Active Timeout Too Fast
+Active timeout countdown starts **after** TTS playback completes. If timeout occurs prematurely, check `capture.touch_active_time()` logs.
+
+---
+
+## 20. Future Robotics Expansion & ESP32 Hardware
+
+Sorachio-STS is designed to run on a **Single Board Computer (Orange Pi 5 Pro 16GB)** connected to an **ESP32 microcontroller**:
+
+```
++-------------------------------------------------------------+
+|             Orange Pi 5 Pro (16GB RAM) - SBC                |
+|                                                             |
+|  - Sorachio-STS Main Runtime (Python 3.12)                  |
+|  - llama-server (GGUF LLM1 & LLM2 with RKNN / NPU / Vulkan)  |
+|  - OpenWakeWord + Whisper STT + Kokoro/Piper TTS            |
+|  - Web Search & Vector Store                                |
++------------------------------+------------------------------+
+                               |
+                               | HTTP / Serial UART
+                               v
++-------------------------------------------------------------+
+|                   ESP32 Microcontroller                     |
+|                                                             |
+|  - Motor Drivers / Wheel Actuators (Rover Motion)           |
+|  - Pan-Tilt Servo Head (Camera Tracking)                    |
+|  - LED Ring Indicators (Emotional Mood Colors)              |
+|  - Ultrasonic / ToF Distance Sensors                        |
++-------------------------------------------------------------+
+```
+
+### Hardware Abstraction Layer (HAL) Roadmap
+
+- [x] `MockRobotController`: Software simulation for laptop development.
+- [x] `ESP32RobotController`: HTTP/Serial JSON command protocol for ESP32 actuators.
+- [ ] `sensors/camera.py`: Real-time camera frame provider for LLM2 vision.
+- [ ] `actuators/led_ring.py`: WS2812B LED status ring controller.
+- [ ] ROS2 Bridge (`core/ros2_bridge.py`): ROS2 node integration for navigation & SLAM.
 
 ---
 
@@ -871,8 +630,7 @@ MIT License — see [LICENSE](LICENSE)
 
 ## Contributing
 
-- Bug fixes and improvements
-- New sensor/actuator integrations
-- Alternative STT/TTS backends
-- Wake word detection integration (e.g. `openwakeword`)
-- ROS2 bridge
+- Pull requests & issue reports welcome
+- Hardware actuator drivers & ESP32 firmware contributions
+- Custom wake word models (`models/wakeword/`)
+- Vision & ROS2 integrations

@@ -18,6 +18,7 @@ import asyncio
 import queue
 import threading
 from collections.abc import Callable
+from typing import Any
 
 import numpy as np
 import sounddevice as sd
@@ -68,6 +69,9 @@ class AudioCapture:
         interruption_debounce_frames: int = 3,
         acoustic_gate_config: AcousticGateConfig | None = None,
         aec: AECProvider | None = None,
+        wake_word_detector: Any | None = None,
+        wakeword_enabled: bool = True,
+        active_timeout_s: float = 15.0,
     ):
         self.stt_queue = stt_queue
         self.interrupt_callback = interrupt_callback
@@ -84,6 +88,13 @@ class AudioCapture:
         self.interruption_debounce_frames = interruption_debounce_frames
         self._aec = aec
 
+        # Wake Word Integration
+        self.wake_word_detector = wake_word_detector
+        self.wakeword_enabled = wakeword_enabled and (wake_word_detector is not None)
+        self.active_timeout_s = active_timeout_s
+        self.mode = "IDLE" if self.wakeword_enabled else "ACTIVE"
+        self._last_active_time = 0.0
+        self._idle_cooldown_until = 0.0
         if acoustic_gate_config:
             self._acoustic_gate = AcousticGate(
                 threshold_dbfs=acoustic_gate_config.threshold_dbfs,
@@ -121,6 +132,24 @@ class AudioCapture:
                 "mic capture disabled (WSL / headless detected). "
                 "Use text mode instead."
             )
+
+    def touch_active_time(self) -> None:
+        """Refresh active mode timer (e.g. when TTS finishes or speech is processed)."""
+        import time
+        self._last_active_time = time.time()
+
+    def transition_to_idle(self) -> None:
+        """Reset wake word detector, apply 2.5s cooldown guard, and drain stale frames."""
+        import time
+        self.mode = "IDLE"
+        self._idle_cooldown_until = time.time() + 2.5
+        if self.wake_word_detector:
+            self.wake_word_detector.reset()
+        while not self._raw_queue.empty():
+            try:
+                self._raw_queue.get_nowait()
+            except queue.Empty:
+                break
 
     def _probe_input_device(self) -> bool:
         """Return True if we can open an input stream on the target device."""
@@ -337,13 +366,74 @@ class AudioCapture:
         # Minimum active speech frames (non-silence) to consider it a real speech turn.
         min_active_speech_frames = 6
 
+        import time
+
         while self._running:
+            # Refresh active mode timer continuously during TTS playback so timeout countdown
+            # only starts ticking AFTER TTS playback completes.
+            if self.playback_active_event and self.playback_active_event.is_set():
+                self._last_active_time = time.time()
+
             try:
                 pcm = self._raw_queue.get(timeout=0.1)
                 if DEBUG_VERBOSE:
                     _log_event(f"VAD worker received frame: size={len(pcm)} bytes")
             except queue.Empty:
+                # Still check timeout on empty queue iterations
+                if self.wakeword_enabled and self.mode == "ACTIVE" and self._last_active_time > 0:
+                    if (time.time() - self._last_active_time) > self.active_timeout_s:
+                        log.info(f"[Capture] Active timeout ({self.active_timeout_s}s) -> Returning to IDLE mode")
+                        self.transition_to_idle()
+                        if self._loop:
+                            from core.events import EventType, get_bus
+                            asyncio.run_coroutine_threadsafe(
+                                get_bus().emit(EventType.WAKE_WORD_TIMEOUT, source="capture"),
+                                self._loop,
+                            )
                 continue
+
+            # ── Wake Word / IDLE Mode Branch ────────────────────────
+            if self.wakeword_enabled and self.mode == "IDLE":
+                if time.time() < self._idle_cooldown_until:
+                    # Ignore residual audio frames during cooldown right after returning to IDLE
+                    continue
+
+                if pcm != b"" and self.wake_word_detector:
+                    try:
+                        detected, word, score = self.wake_word_detector.process_pcm(pcm)
+                        if detected:
+                            log.info(
+                                f"[Capture] Wake word detected: '{word}' ({score:.2f}) -> Active mode"
+                            )
+                            self.mode = "ACTIVE"
+                            self._last_active_time = time.time()
+                            self.wake_word_detector.reset()
+                            if self._loop:
+                                from core.events import EventType, get_bus
+                                asyncio.run_coroutine_threadsafe(
+                                    get_bus().emit(
+                                        EventType.WAKE_WORD_DETECTED,
+                                        data={"word": word, "score": score},
+                                        source="wakeword",
+                                    ),
+                                    self._loop,
+                                )
+                    except Exception as e:
+                        log.error(f"[Capture] Wake word processing error: {e}")
+                continue
+
+            # ── Active Mode Inactivity Timeout Check ────────────────
+            if self.wakeword_enabled and self.mode == "ACTIVE" and self._last_active_time > 0:
+                if (time.time() - self._last_active_time) > self.active_timeout_s:
+                    log.info(f"[Capture] Active timeout ({self.active_timeout_s}s) -> Returning to IDLE mode")
+                    self.transition_to_idle()
+                    if self._loop:
+                        from core.events import EventType, get_bus
+                        asyncio.run_coroutine_threadsafe(
+                            get_bus().emit(EventType.WAKE_WORD_TIMEOUT, source="capture"),
+                            self._loop,
+                        )
+                    continue
 
             if pcm == b"":
                 # Frame was dropped by Acoustic Gate (silence)
@@ -368,6 +458,7 @@ class AudioCapture:
                     history_frames.pop(0)
 
             if is_speech:
+                self._last_active_time = time.time()
                 if not triggered:
                     triggered = True
                     active_speech_frames = 0
@@ -517,10 +608,12 @@ class AudioCapture:
                 asyncio.run_coroutine_threadsafe(
                     get_bus().emit(EventType.USER_SPEECH_END, source="vad"), self._loop
                 )
-                asyncio.run_coroutine_threadsafe(
-                    self.stt_queue.put(audio_bytes), self._loop
-                ).result(timeout=1.0)
-                _log_event("STT enqueue success", force=True)
+                try:
+                    self.stt_queue.put_nowait(audio_bytes)
+                    _log_event("STT enqueue success", force=True)
+                except asyncio.QueueFull:
+                    _log_event("STT queue full — dropped audio segment", force=True)
+                    log.warning("[Capture] STT queue full — dropping audio segment")
             except Exception as e:
                 _log_event(f"STT enqueue failure: {e}", force=True)
                 log.error(f"[Capture] Failed to enqueue speech: {e}")

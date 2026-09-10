@@ -122,6 +122,12 @@ class ContextManager:
                 "[Context: Your previous response was interrupted by the user. "
                 "Acknowledge the interruption if natural, and keep your next response brief.]"
             )
+        web_search = cognitive_decision.get("web_search_results")
+        if web_search:
+            context_parts.append(
+                f"[Web Search Results:\n{web_search}\n"
+                f"Use these search results to provide an accurate answer.]"
+            )
 
         # Explicit spoken language directive for LLM2
         detected_lang = cognitive_decision.get("detected_language") or cognitive_decision.get("language")

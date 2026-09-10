@@ -213,3 +213,38 @@ pipeline:
   interruption_debounce_frames: 8      # Debounced barge-in: 8 frames * 30ms = 240ms response window
   startup_greeting: true
   startup_message: "Hello! I'm Sorachio, your AI companion. I'm ready to chat."
+
+# =============================================================================
+# Wake Word Configuration
+# =============================================================================
+wakeword:
+  enabled: true
+  model_dir: "models/wakeword"
+  wake_words: ["hey_sorachio", "alexa", "hey_jarvis"]
+  threshold: 0.5                      # Confidence threshold (0.0 - 1.0)
+  active_timeout_s: 15.0              # Return to IDLE mode after 15s of silence
+  confirmation_sound: true            # Play audio chime on detection
+  rejection_sound: false
+
+# =============================================================================
+# Robot Actuator Configuration
+# =============================================================================
+robot:
+  enabled: false                      # True when hardware attached
+  controller: "mock"                  # "mock" | "esp32" | "serial"
+  serial_port: "/dev/ttyUSB0"
+  baud_rate: 115200
+  esp32_url: "http://192.168.1.100"
+  default_speed: 0.5
+  max_speed: 1.0
+  safety_stop_on_error: true
+
+# =============================================================================
+# Agentic Action Engine Configuration
+# =============================================================================
+agent:
+  enable_web_search: false            # DuckDuckGo instant answer web search
+  enable_multi_action: true           # Support sequential multi-action chains
+  action_timeout_s: 10.0
+  max_subactions: 5
+

@@ -302,7 +302,7 @@ class MasterBootstrapGuardian:
             "httpx", "aiohttp", "pydantic", "sounddevice",
             "numpy", "rich", "typer", "faster_whisper", "piper",
             "kokoro", "misaki", "langdetect", "cv2", "PIL",
-            "chromadb", "sentence_transformers",
+            "chromadb", "sentence_transformers", "openwakeword",
         ]
         for pkg in critical_packages:
             try:
@@ -577,6 +577,9 @@ class MasterBootstrapGuardian:
             "Pillow",
             "chromadb",
             "sentence-transformers",
+            "openwakeword",
+            "duckduckgo-search",
+            "pyserial",
         ]
 
         # Dev tools (quality & type checking)

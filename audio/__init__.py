@@ -3,5 +3,6 @@ from .acoustic_gate import AcousticGate
 from .capture import AudioCapture
 from .echo_cancellation import AECProvider, create_aec
 from .playback import AudioPlayback
+from .wakeword import WakeWordDetector
 
-__all__ = ["AudioCapture", "AudioPlayback", "AcousticGate", "AECProvider", "create_aec"]
+__all__ = ["AudioCapture", "AudioPlayback", "AcousticGate", "AECProvider", "create_aec", "WakeWordDetector"]

@@ -114,6 +114,12 @@ class PersonalityCore:
                 except asyncio.TimeoutError:
                     log.warning("[Personality] TTS queue full — dropping chunk")
 
+            # Send end-of-stream sentinel to TTS queue
+            try:
+                await asyncio.wait_for(self.tts_queue.put(None), timeout=2.0)
+            except Exception as e:
+                log.debug(f"[Personality] Could not send end sentinel to TTS queue: {e}")
+
             log.info(
                 f"[Personality] Complete: {len(self._full_response)} chars, "
                 f"{chunks_sent} chunks sent"
