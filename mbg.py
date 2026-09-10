@@ -104,8 +104,8 @@ def _patch_espeak_data_path() -> None:
                 ["sudo", "ln", "-s", str(data_path), str(hardcoded)],
                 capture_output=True, timeout=10,
             )
-    except Exception:
-        pass  # best-effort — phonemizer will warn but not crash
+    except Exception as e:
+        log.warning("Suppressed error in espeak data path symlink creation: %s", e)
 
 _patch_espeak_data_path()
 
@@ -991,8 +991,8 @@ class MasterBootstrapGuardian:
                     with open(yaml_path, encoding="utf-8") as f:
                         cfg_data = yaml.safe_load(f)
                         stt_model_name = cfg_data.get("stt", {}).get("model_size", "small")
-            except Exception:
-                pass
+            except Exception as e:
+                log.warning("Suppressed error reading STT model size from YAML config: %s", e)
             try:
                 log.info(f"[MBG] Warming up Whisper STT model ('{stt_model_name}')...")
                 from faster_whisper import WhisperModel
@@ -1028,8 +1028,8 @@ class MasterBootstrapGuardian:
                     import huggingface_hub.constants
                     huggingface_hub.constants.HF_HOME = str(kokoro_dir)
                     huggingface_hub.constants.HF_HUB_CACHE = str(kokoro_dir / "hub")
-                except Exception:
-                    pass
+                except Exception as e:
+                    log.warning("Suppressed error overriding HF_HOME for Kokoro TTS warmup: %s", e)
                 log.info("[MBG] Warming up Kokoro TTS model...")
                 from kokoro import KPipeline
                 _kokoro_pipeline = KPipeline(lang_code="a", repo_id="hexgrad/Kokoro-82M")
@@ -1111,8 +1111,8 @@ class MasterBootstrapGuardian:
                 import huggingface_hub.constants
                 huggingface_hub.constants.HF_HOME = str(kokoro_dir)
                 huggingface_hub.constants.HF_HUB_CACHE = str(kokoro_dir / "hub")
-            except Exception:
-                pass
+            except Exception as e:
+                log.warning("Suppressed error overriding HF_HOME for Kokoro TTS verification: %s", e)
 
             log.info(f"[MBG] Verifying Kokoro TTS model ('hexgrad/Kokoro-82M') in {kokoro_dir}...")
             from kokoro import KPipeline
