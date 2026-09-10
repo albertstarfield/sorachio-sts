@@ -14,8 +14,6 @@ Usage:
     python mbg.py --build      # Build binaries only
 """
 
-from __future__ import annotations
-
 import argparse
 import logging
 import os
@@ -316,7 +314,7 @@ class MasterBootstrapGuardian:
                     try:
                         subprocess.run([exe_path] + sys.argv)
                     except KeyboardInterrupt:
-                        pass
+                        log.debug("Python relaunch interrupted by user")
                     sys.exit(0)
 
         log.error("No compatible Python version found!")
