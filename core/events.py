@@ -17,8 +17,6 @@ Events:
   - PLAYBACK_FINISHED: audio playback completed
 """
 
-from __future__ import annotations
-
 import asyncio
 from collections.abc import Callable
 from dataclasses import dataclass, field

@@ -13,8 +13,6 @@ Each memory entry has:
   - metadata (extensible dict)
 """
 
-from __future__ import annotations
-
 import asyncio
 import json
 import re

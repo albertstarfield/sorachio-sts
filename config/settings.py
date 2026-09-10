@@ -3,8 +3,6 @@ Sorachio-STS Configuration System
 Loads and validates sorachio.yaml using Pydantic.
 """
 
-from __future__ import annotations
-
 import logging
 import os
 from pathlib import Path

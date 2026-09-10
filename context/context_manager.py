@@ -13,8 +13,6 @@ Merges:
 This produces a rich, context-aware prompt for natural conversation.
 """
 
-from __future__ import annotations
-
 from typing import Any
 
 from memory.emotion_tracker import EmotionTracker

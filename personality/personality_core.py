@@ -10,8 +10,6 @@ Responsibilities:
   - Supports vision/multimodal input if model has mmproj projector
 """
 
-from __future__ import annotations
-
 import asyncio
 from collections.abc import AsyncIterator
 from typing import Any

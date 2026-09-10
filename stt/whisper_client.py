@@ -13,8 +13,6 @@ Flow:
   4. Clean and return text
 """
 
-from __future__ import annotations
-
 import asyncio
 import queue
 import re

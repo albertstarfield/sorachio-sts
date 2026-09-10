@@ -9,8 +9,6 @@ Handles:
   - Log capture from server processes
 """
 
-from __future__ import annotations
-
 import asyncio
 import os
 import signal

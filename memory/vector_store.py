@@ -13,8 +13,6 @@ Features:
   - Graceful fallback if ChromaDB unavailable
 """
 
-from __future__ import annotations
-
 import asyncio
 from pathlib import Path
 from typing import Any, cast

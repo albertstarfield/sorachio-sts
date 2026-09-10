@@ -11,8 +11,6 @@ All workers are independent asyncio tasks communicating via queues.
 Interruption flows backwards: VAD → interrupt_event → Personality + TTS + Playback.
 """
 
-from __future__ import annotations
-
 import asyncio
 import threading
 

@@ -9,8 +9,6 @@ Features:
   - Tracks playback state for VAD interrupt detection
 """
 
-from __future__ import annotations
-
 import asyncio
 import threading
 

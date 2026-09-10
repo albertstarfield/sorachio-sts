@@ -12,8 +12,6 @@ Does NOT chunk on:
   - Single tokens shorter than min_words
 """
 
-from __future__ import annotations
-
 import re
 import time
 from collections.abc import AsyncIterator

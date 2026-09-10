@@ -36,8 +36,6 @@ Concurrency contract:
     Threading.Event is used for cross-thread signaling (lock-free read on set/clear).
 """
 
-from __future__ import annotations
-
 import math
 import threading
 from abc import ABC, abstractmethod

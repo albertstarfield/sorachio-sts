@@ -15,8 +15,6 @@ Modes:
   sorachio memory clear    - Clear all memories
 """
 
-from __future__ import annotations
-
 import asyncio
 import logging
 import os

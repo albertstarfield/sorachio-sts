@@ -15,8 +15,6 @@ Features:
   - Defensive sanitization for text formatting and emojis
 """
 
-from __future__ import annotations
-
 import asyncio
 import os
 import re

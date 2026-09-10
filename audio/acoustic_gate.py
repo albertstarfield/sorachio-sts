@@ -24,8 +24,6 @@ Future extension points:
     - Add spectral centroid filter to reject non-speech energy (e.g., HVAC hum)
 """
 
-from __future__ import annotations
-
 import math
 
 import numpy as np

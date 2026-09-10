@@ -3,8 +3,6 @@ Sorachio-STS Logging Setup
 Structured logging with rich console output and file rotation.
 """
 
-from __future__ import annotations
-
 import logging
 import logging.handlers
 from pathlib import Path

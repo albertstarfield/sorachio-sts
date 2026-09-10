@@ -11,8 +11,6 @@ Stages:
   - Total turn E2E latency
 """
 
-from __future__ import annotations
-
 import time
 from dataclasses import dataclass, field
 from typing import Any

@@ -9,8 +9,6 @@ Features:
   - Graceful degradation (reject excess, don't crash)
 """
 
-from __future__ import annotations
-
 import asyncio
 import time
 from collections import deque
