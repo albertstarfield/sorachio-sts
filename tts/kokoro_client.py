@@ -27,6 +27,21 @@ import numpy as np
 from tts.piper_client import PiperTTSClient
 from utils.logging_setup import get_logger
 
+# ---------------------------------------------------------------------------
+# phonemizer / misaki compatibility patch
+# ---------------------------------------------------------------------------
+# phonemizer 3.x removed EspeakWrapper.set_data_path() but misaki 0.9.4 still
+# calls it at import time.  Monkey-patch it back so kokoro can load.
+try:
+    from phonemizer.backend.espeak.wrapper import EspeakWrapper as _EspeakWrapper
+    if not hasattr(_EspeakWrapper, "set_data_path"):
+        @classmethod
+        def _set_data_path(cls, path: str) -> None:
+            cls.data_path = path
+        _EspeakWrapper.set_data_path = _set_data_path  # type: ignore[attr-defined]
+except ImportError:
+    pass  # phonemizer not installed yet
+
 log = get_logger("tts.kokoro")
 
 
