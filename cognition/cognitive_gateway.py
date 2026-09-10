@@ -238,7 +238,8 @@ class CognitiveGateway:
         try:
             return json.loads(raw)
         except json.JSONDecodeError:
-            pass
+            # [Fix: EXCEPTION_MISSING] Log JSON parse attempt failure (expected during repair)
+            log.debug("[Gateway] Initial JSON parse failed, attempting repair: %s", raw[:120])
 
         # -------------------------------------------------------------------
         # Helpers

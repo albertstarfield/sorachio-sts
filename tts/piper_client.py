@@ -345,7 +345,8 @@ class PiperTTSClient:
             if detected in ("id", "ms", "tl", "so", "jw", "su"):  # Include regional/misclassified codes
                 return "id"
             return "en"
-        except Exception:
+        except Exception as e:
+            log.warning("[Piper] langdetect failed (non-fatal): %s", e)
             return None
 
     def _sanitize_text(self, text: str) -> str:

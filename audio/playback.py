@@ -129,8 +129,9 @@ class AudioPlayback:
                 try:
                     from core.events import EventType, get_bus
                     await get_bus().emit(EventType.PLAYBACK_FINISHED, source="playback")
-                except Exception:
-                    pass
+                except Exception as e:
+                    # [Fix: EXCEPTION_MISSING] Log instead of silently swallowing event bus errors
+                    log.warning("[Playback] PLAYBACK_FINISHED event emit failed (non-fatal): %s", e)
                 self.audio_queue.task_done()
                 continue
 
@@ -191,8 +192,9 @@ class AudioPlayback:
         if self._audio_available:
             try:
                 sd.stop()
-            except Exception:
-                pass
+            except Exception as e:
+                # [Fix: EXCEPTION_MISSING] Log non-fatal sd.stop() failure during interrupt
+                log.debug("[Playback] sd.stop() failed (non-fatal, no device): %s", e)
 
         # Drain the queue
         cleared = 0
@@ -215,7 +217,8 @@ class AudioPlayback:
         if self._audio_available:
             try:
                 sd.stop()
-            except Exception:
-                pass
+            except Exception as e:
+                # [Fix: EXCEPTION_MISSING] Log non-fatal sd.stop() failure during shutdown
+                log.debug("[Playback] sd.stop() during stop() failed (non-fatal): %s", e)
         log.info("[Playback] Stopped")
 

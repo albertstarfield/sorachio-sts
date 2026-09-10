@@ -124,8 +124,9 @@ class SingleServerManager:
                 if hard == resource.RLIM_INFINITY or hard > soft:
                     new_soft = hard if hard != resource.RLIM_INFINITY else resource.RLIM_INFINITY
                     resource.setrlimit(resource.RLIMIT_MEMLOCK, (new_soft, hard))
-            except Exception:
-                pass  # Non-fatal: mlock may still warn but won't crash
+            except Exception as e:
+                # [Fix: EXCEPTION_MISSING] Log non-fatal RLIMIT_MEMLOCK failure
+                log.debug("[ServerManager] Could not raise RLIMIT_MEMLOCK (non-fatal): %s", e)
 
         try:
             self._process = subprocess.Popen(
@@ -164,8 +165,9 @@ class SingleServerManager:
         if self._log_file:
             try:
                 self._log_file.close()
-            except Exception:
-                pass
+            except Exception as e:
+                # [Fix: EXCEPTION_MISSING] Log non-fatal log file close error
+                log.debug("[ServerManager] Log file close failed (non-fatal): %s", e)
             self._log_file = None
 
     async def health_check(self) -> bool:
@@ -178,7 +180,9 @@ class SingleServerManager:
             async with httpx.AsyncClient(timeout=2.0) as client:
                 res = await client.get(f"http://127.0.0.1:{self.port}/health")
                 return res.status_code == 200
-        except Exception:
+        except Exception as e:
+            # [Fix: EXCEPTION_MISSING] Log health check failure instead of silently returning False
+            log.debug("[ServerManager] Health check failed for %s: %s", self.name, e)
             return False
 
     def is_running(self) -> bool:

@@ -832,8 +832,13 @@ def test_cognitive(
         console.print(f"[cyan]Analyzing:[/cyan] {text_input!r}")
 
         decision = await gateway.analyze(text_input)
+        try:
+            decision_str = json.dumps(decision, indent=2)
+        except (TypeError, ValueError) as e:
+            log.error("[CLI] JSON serialization failed: %s", e)
+            decision_str = "{}"
         console.print(Panel(
-            json.dumps(decision, indent=2),
+            decision_str,
             title="[bold]Cognitive Gateway Decision[/bold]",
             border_style="cyan",
         ))
@@ -956,7 +961,12 @@ def memory_clear(
     import json
     path = _project_root / settings.memory.long_term.storage_path
     if path.exists():
-        path.write_text(json.dumps({"memories": []}))
+        try:
+            path.write_text(json.dumps({"memories": []}))
+        except (TypeError, ValueError) as e:
+            log.error("[CLI] JSON serialization failed during memory clear: %s", e)
+            console.print("[red][ERROR] Failed to clear memory[/red]")
+            return
         console.print("[green][OK] Memory cleared[/green]")
     else:
         console.print("[dim]No memory file found[/dim]")

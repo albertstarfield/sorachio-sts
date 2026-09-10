@@ -649,7 +649,7 @@ class WhisperClient:
             text_lang = detect(text)
             if text_lang == "en":
                 return "en"
-        except Exception:
-            pass
+        except Exception as e:
+            log.warning("[STT] langdetect failed (non-fatal, using fallback): %s", e)
 
         return initial_lang

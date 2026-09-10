@@ -235,8 +235,8 @@ class KokoroTTSClient:
             detected = detect(text)
             if detected in ("id", "ms", "jw", "su"):
                 return "id"
-        except Exception:
-            pass
+        except Exception as e:
+            log.warning("[TTS] langdetect failed (non-fatal, defaulting to en): %s", e)
 
         return "en"
 

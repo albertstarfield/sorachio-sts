@@ -288,8 +288,12 @@ def load_settings(config_path: str | None = None) -> SorachioSettings:
             f"Run from the project root or specify --config path."
         )
 
-    with open(config_file, encoding="utf-8") as f:
-        raw = yaml.safe_load(f)
+    try:
+        with open(config_file, encoding="utf-8") as f:
+            raw = yaml.safe_load(f)
+    except (OSError, IOError) as e:
+        log.warning("[Settings] Could not read %s: %s", config_file, e)
+        raise
 
     _settings = SorachioSettings(**raw)
 
