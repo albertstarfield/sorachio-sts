@@ -797,11 +797,7 @@ def rs_decode(codeword: list[int], nsym: int) -> tuple[list[int], int]:  # nosec
         err_loc_deriv = 0
         for j in range(len(err_loc)):
             if (len(err_loc) - 1 - j) % 2 == 1:
-                exp_idx = (len(err_loc) - 1 - j) * _GF256_LOG[xi] % 255
-                err_loc_deriv = _gf256_add(
-                    err_loc_deriv,
-                    _gf256_mul(err_loc[j], _GF256_EXP[exp_idx] if xi != 0 else 0),
-                )
+                err_loc_deriv = _gf256_add(err_loc_deriv, _gf256_mul(err_loc[j], _GF256_EXP[(len(err_loc) - 1 - j) * _GF256_LOG[xi] % 255] if xi != 0 else 0))
         if err_loc_deriv == 0:
             return codeword[:len(codeword) - nsym], -1
         # Forney: error_magnitude = omega(X_i) / err_loc'(X_i)
@@ -2896,30 +2892,15 @@ def atomic_function_wrapper(func: Callable, *args, **kwargs) -> AtomicFunctionRe
 # Python external calls → (failure_exceptions, must_handle, description)
 _PYTHON_EXTERNAL_CALLS: dict[str, tuple[list[str], bool, str]] = {
     # subprocess
-    "subprocess.run": (
-        ["CalledProcessError", "FileNotFoundError", "TimeoutExpired", "OSError"],
-        True, "External process execution",
-    ),
+    "subprocess.run": (["CalledProcessError", "FileNotFoundError", "TimeoutExpired", "OSError"], True, "External process execution"),
     "subprocess.Popen": (["FileNotFoundError", "OSError"], True, "External process spawn"),
-    "subprocess.check_output": (
-        ["CalledProcessError", "FileNotFoundError", "TimeoutExpired"],
-        True,
-        "External process output"
-    ),
-    "subprocess.check_call": (
-        ["CalledProcessError", "FileNotFoundError", "TimeoutExpired"],
-        True,
-        "External process call"
-    ),
+    "subprocess.check_output": (["CalledProcessError", "FileNotFoundError", "TimeoutExpired"], True, "External process output"),
+    "subprocess.check_call": (["CalledProcessError", "FileNotFoundError", "TimeoutExpired"], True, "External process call"),
     # os
     "os.path.join": (["TypeError"], False, "Path construction"),
     "os.path.isdir": (["OSError"], False, "Directory check"),
     "os.path.exists": (["OSError"], False, "File existence check"),
-    "os.listdir": (
-        ["FileNotFoundError", "NotADirectoryError", "PermissionError", "OSError"],
-        True,
-        "Directory listing"
-    ),
+    "os.listdir": (["FileNotFoundError", "NotADirectoryError", "PermissionError", "OSError"], True, "Directory listing"),
     "os.makedirs": (["FileExistsError", "OSError"], True, "Directory creation"),
     "os.remove": (["FileNotFoundError", "IsADirectoryError", "PermissionError", "OSError"], True, "File deletion"),
     "os.rename": (["FileNotFoundError", "FileExistsError", "OSError"], True, "File rename"),
@@ -3120,10 +3101,7 @@ def _parse_python_functions_ast(source: str) -> list[dict]:
                     has_none_guard = True
 
             # isinstance checks (type hints)
-            if (
-                isinstance(child, ast.Call) and isinstance(child.func, ast.Name)
-                and child.func.id == "isinstance" and len(child.args) >= 2
-            ):
+            if isinstance(child, ast.Call) and isinstance(child.func, ast.Name) and child.func.id == "isinstance" and len(child.args) >= 2:
                     var_name = ""
                     type_name = ""
                     if isinstance(child.args[0], ast.Name):
@@ -5241,10 +5219,7 @@ def _build_python_softlock_patterns() -> list[Pattern]:
                     break
                 body_line = lines[j].strip()
                 # Pattern 1: if with return or comparison
-                if (
-                    body_line.startswith("if ")
-                    and ("return" in body_line or "==" in body_line or "<=" in body_line or ">=" in body_line or "!=" in body_line or " in " in body_line or " not in " in body_line or "is None" in body_line or "is not None" in body_line)
-                ):
+                if body_line.startswith("if ") and ("return" in body_line or "==" in body_line or "<=" in body_line or ">=" in body_line or "!=" in body_line or " in " in body_line or " not in " in body_line or "is None" in body_line or "is not None" in body_line):
                     has_base_case = True
                     break
                 # Pattern 2: try/except blocks (exception handling as termination)
@@ -5252,17 +5227,11 @@ def _build_python_softlock_patterns() -> list[Pattern]:
                     has_base_case = True
                     break
                 # Pattern 3: Comments indicating base case
-                if (
-                    body_line.startswith("#")
-                    and ("base case" in body_line.lower() or "termination" in body_line.lower() or "guard" in body_line.lower() or "nosec" in body_line.lower())
-                ):
+                if body_line.startswith("#") and ("base case" in body_line.lower() or "termination" in body_line.lower() or "guard" in body_line.lower() or "nosec" in body_line.lower()):
                     has_base_case = True
                     break
                 # Pattern 4: while loop with break
-                if (
-                    body_line.startswith("while ")
-                    and any("break" in lines[k] for k in range(j, min(j + 20, len(lines))) if k < len(lines))
-                ):
+                if body_line.startswith("while ") and any("break" in lines[k] for k in range(j, min(j + 20, len(lines))) if k < len(lines)):
                     has_base_case = True
                     break
 
@@ -5686,10 +5655,7 @@ def _build_python_exception_patterns() -> list[Pattern]:
                     if j >= len(lines):
                         break
                     handler_line = lines[j].strip()
-                    if (
-                        handler_line and not handler_line.startswith("except") and not handler_line.startswith("#")
-                        and not handler_line.startswith(("pass", "...", "continue"))
-                    ):
+                    if handler_line and not handler_line.startswith("except") and not handler_line.startswith("#") and not handler_line.startswith(("pass", "...", "continue")):
                             has_action = True
                             break
 
@@ -6378,10 +6344,7 @@ def _build_python_venv_prefix_comparison_patterns() -> list[Pattern]:
                 continue
 
             # Detect direct comparison of sys.prefix or prefix variables with BASE_DIR or PROJECT_ROOT
-            if (
-                re.search(r"\b(?:old_prefix|prefix|sys\.prefix)\s*!=?\s*(?:BASE_DIR|PROJECT_ROOT|root_dir)\b", line)
-                and not re.search(r"venv|expected_prefix|main_venv|os\.path\.join", line)
-            ):
+            if re.search(r"\b(?:old_prefix|prefix|sys\.prefix)\s*!=?\s*(?:BASE_DIR|PROJECT_ROOT|root_dir)\b", line) and not re.search(r"venv|expected_prefix|main_venv|os\.path\.join", line):
                     # Check for nosec annotation on this line
                     if "nosec" in stripped.lower():
                         continue
@@ -6539,10 +6502,7 @@ def _build_coq_proof_patterns() -> list[Pattern]:
                             break
                         proof_lines_count += 1
                         # Substantial tactics (not just auto/trivial/reflexivity)
-                        if (
-                            proof_line and not proof_line.startswith("--")
-                            and not re.match(r"^(Proof|Qed|Defined|auto|trivial|reflexivity|intros|apply|exact)\s", proof_line)
-                        ):
+                        if proof_line and not proof_line.startswith("--") and not re.match(r"^(Proof|Qed|Defined|auto|trivial|reflexivity|intros|apply|exact)\s", proof_line):
                                 has_substantial_tactic = True
 
                     if proof_lines_count <= 2 and not has_substantial_tactic:
@@ -6745,7 +6705,7 @@ def _build_coq_proof_patterns() -> list[Pattern]:
             # Also check if the .v file has Admitted (placeholder — LOW)
             if found_proof:
                 try:
-                    with open(proof_path) as f:
+                    with open(proof_path, "r") as f:
                         proof_content = f.read()
                     proof_lines = proof_content.split("\n")
                     for j, pline in enumerate(proof_lines, 1):
@@ -8769,10 +8729,7 @@ def _build_gpu_vendor_lockin_patterns() -> list[Pattern]:
             # ── Pattern 4: CUDA-specific error messages that blame user ────
             # e.g., "CUDA not available. Please install NVIDIA drivers."
             # This is deceptive — the user may have a perfectly good AMD/Intel/Moore Threads GPU
-            if (
-                re.search(r"(?i)cuda\s+not\s+(available|found|installed|detected)", stripped) and re.search(r"(?i)nvidia|geforce|tesla|quadro", stripped)
-                and not re.search(r"(?i)MUSA|MPS|OneAPI|ROCm|OpenCL|AMD|Intel|Moore\s*Threads", stripped)
-            ):
+            if re.search(r"(?i)cuda\s+not\s+(available|found|installed|detected)", stripped) and re.search(r"(?i)nvidia|geforce|tesla|quadro", stripped) and not re.search(r"(?i)MUSA|MPS|OneAPI|ROCm|OpenCL|AMD|Intel|Moore\s*Threads", stripped):
                     violations.append(Violation(
                             filepath=filepath,
                             line=line_num,
@@ -9131,7 +9088,7 @@ def _build_env_and_node_modules_integrity_patterns() -> list[Pattern]:
 
             # Check package.json contents & verify dependencies exist in node_modules
             try:
-                with open(pkg_path, encoding="utf-8") as f:
+                with open(pkg_path, "r", encoding="utf-8") as f:
                     pkg_data = json.load(f)
                 deps = list(pkg_data.get("dependencies", {}).keys()) + list(pkg_data.get("devDependencies", {}).keys())
                 missing_deps = []
@@ -9644,15 +9601,9 @@ def _parse_ada_functions(source: str) -> list[dict]:
             pline_stripped = re.sub(r"^--\s*", "", pline).strip()
             pline_low = pline_stripped.lower()
             pline_raw_low = pline.lower()
-            if (
-                (pline_low.startswith("pre") or pline_raw_low.startswith("-- pre"))
-                and ("=>" in pline_stripped or ":" in pline_stripped or "true" in pline_low or "false" in pline_low)
-            ):
+            if (pline_low.startswith("pre") or pline_raw_low.startswith("-- pre")) and ("=>" in pline_stripped or ":" in pline_stripped or "true" in pline_low or "false" in pline_low):
                 pre_post.append({"type": "pre", "expr": pline_stripped, "line": j + 1})
-            elif (
-                (pline_low.startswith("post") or pline_raw_low.startswith("-- post"))
-                and ("=>" in pline_stripped or ":" in pline_stripped or "true" in pline_low or "false" in pline_low)
-            ):
+            elif (pline_low.startswith("post") or pline_raw_low.startswith("-- post")) and ("=>" in pline_stripped or ":" in pline_stripped or "true" in pline_low or "false" in pline_low):
                 pre_post.append({"type": "post", "expr": pline_stripped, "line": j + 1})
             elif pline_raw_low.startswith(("with pre", "with post")):
                 # SPARK aspect syntax: with Pre => ..., with Post => ...
@@ -10150,17 +10101,11 @@ def _extract_alt_ergo_counterexample(assertions: list[str], goal: str, label: st
             # Extract variable names (words that are not operators or numbers)
             for word in assertion.split():
                 word = word.strip("()")
-                if (
-                    word and word[0].isalpha()
-                    and word not in ("true", "false", "and", "or", "not", "implies", "iff", "QF_LIA")
-                ):
+                if word and word[0].isalpha() and word not in ("true", "false", "and", "or", "not", "implies", "iff", "QF_LIA"):
                     var_names.add(word)
         for word in goal.split():
             word = word.strip("()")
-            if (
-                word and word[0].isalpha()
-                and word not in ("true", "false", "and", "or", "not", "implies", "iff", "QF_LIA")
-            ):
+            if word and word[0].isalpha() and word not in ("true", "false", "and", "or", "not", "implies", "iff", "QF_LIA"):
                 var_names.add(word)
 
         smtlib = "(set-logic QF_LIA)\n"
@@ -10193,10 +10138,7 @@ def _extract_alt_ergo_counterexample(assertions: list[str], goal: str, label: st
             lines = [f"[Counterexample-alt-ergo] {label}:"]
             for line in output.splitlines():
                 # Look for define-fun lines which contain the model
-                if (
-                    "define-fun" in line
-                    or ("=" in line and ("x" in line.lower() or "y" in line.lower() or "v" in line.lower()))
-                ):
+                if "define-fun" in line or ("=" in line and ("x" in line.lower() or "y" in line.lower() or "v" in line.lower())):
                     lines.append(f"  {line.strip()}")
             if len(lines) > 1:
                 return "\n".join(lines)
@@ -10476,10 +10418,7 @@ def _verify_python_function_with_z3(func: dict) -> list[dict]:
                                 has_guard = True
                                 break
                             # Path division: parent / child — result is a Path, not a number
-                            if (
-                                re.search(rf"{re.escape(denominator)}\s*=\s*\w+\s*/\s*\w+", bl_stripped)
-                                and "/" in bl_stripped
-                            ):
+                            if re.search(rf"{re.escape(denominator)}\s*=\s*\w+\s*/\s*\w+", bl_stripped) and "/" in bl_stripped:
                                 has_guard = True
                                 break
                     # [Citation: code-quality.md §False Positive Guard - isinstance chain]
@@ -10567,10 +10506,7 @@ def _verify_python_function_with_z3(func: dict) -> list[dict]:
                 # Skip known safe patterns:
                 # sys.argv[0] — always exists (script name)
                 # sys.argv[1] — guarded by len(sys.argv) > 1 typically
-                if (
-                    arr_name == "argv" and index_var.isdigit() or arr_name == "environ" or arr_name == "MEMORY_CACHE" or arr_name in ("result", "timer_id", "_build_result") and index_var == "0"
-                    or arr_name == "cmd" and index_var == "0" or re.search(rf"lambda\s+\w+\s*:\s*{re.escape(arr_name)}\[{re.escape(index_var)}\]", bline) or re.search(rf"{re.escape(arr_name)}\s*=\s*\[", bline)
-                ):
+                if arr_name == "argv" and index_var.isdigit() or arr_name == "environ" or arr_name == "MEMORY_CACHE" or arr_name in ("result", "timer_id", "_build_result") and index_var == "0" or arr_name == "cmd" and index_var == "0" or re.search(rf"lambda\s+\w+\s*:\s*{re.escape(arr_name)}\[{re.escape(index_var)}\]", bline) or re.search(rf"{re.escape(arr_name)}\s*=\s*\[", bline):
                     has_bound_check = True
                 # data[field] — dict access with variable key, not array indexing
                 elif index_var.isdigit() is False:
@@ -10628,10 +10564,7 @@ def _verify_python_function_with_z3(func: dict) -> list[dict]:
                     if not has_bound_check:
                         for bl in func["body_lines"]:
                             bl_stripped = bl.split("#")[0]
-                            if (
-                                arr_name in bl_stripped
-                                and re.search(rf"len\s*\(\s*{re.escape(arr_name)}\s*\)", bl_stripped)
-                            ):
+                            if arr_name in bl_stripped and re.search(rf"len\s*\(\s*{re.escape(arr_name)}\s*\)", bl_stripped):
                                 has_bound_check = True
                                 break
 
@@ -10720,10 +10653,7 @@ def _verify_python_function_with_z3(func: dict) -> list[dict]:
                         continue
                     if in_docstring:
                         continue
-                    if (
-                        re.search(rf"\b{re.escape(p['name'])}\b", bl) and "is None" not in bl
-                        and "is not None" not in bl and "!= None" not in bl and "== None" not in bl
-                    ):
+                    if re.search(rf"\b{re.escape(p['name'])}\b", bl) and "is None" not in bl and "is not None" not in bl and "!= None" not in bl and "== None" not in bl:
                         # Also skip truthiness checks: if aad:, if not aad:, if aad is truthy
                         if re.search(rf"\bif\s+{re.escape(p['name'])}\s*[:\)]|"
                                      rf"\bif\s+not\s+{re.escape(p['name'])}\s*[:\)]|"
@@ -11389,10 +11319,7 @@ def _verify_ada_function_with_z3(func: dict) -> list[dict]:
             has_bound_check = False
             for bl in func["body_lines"]:
                 bl_stripped = bl.split("--")[0]
-                if (
-                    index_var in bl_stripped
-                    and any(op in bl_stripped for op in ("<", ">", "<=", ">=", "range", "First", "Last", "Length"))
-                ):
+                if index_var in bl_stripped and any(op in bl_stripped for op in ("<", ">", "<=", ">=", "range", "First", "Last", "Length")):
                     has_bound_check = True
                     break
 
@@ -11492,10 +11419,7 @@ def _verify_ada_function_with_z3(func: dict) -> list[dict]:
             # Check if parameter is used in body without null check
             used_without_guard = False
             for bl in func["body_lines"]:
-                if (
-                    p["name"] in bl
-                    and not re.search(r"=\s*null|/=.*null|Is_Null|is_null|not\s+null", bl, re.IGNORECASE)
-                ):
+                if p["name"] in bl and not re.search(r"=\s*null|/=.*null|Is_Null|is_null|not\s+null", bl, re.IGNORECASE):
                     used_without_guard = True
                     break
             if used_without_guard:
@@ -11787,10 +11711,7 @@ def _verify_ada_function_with_z3(func: dict) -> list[dict]:
                 for bl in search_lines:
                     bl_low = bl.lower()
                     for var_name in (ao["left"], ao["right"]):  # nosec: bounded tuple iteration
-                        if (
-                            re.search(rf"\b{re.escape(var_name.lower())}\s*:", bl_low)
-                            and any(wtk in bl_low for wtk in _WIDE_TYPE_KEYWORDS)
-                        ):
+                        if re.search(rf"\b{re.escape(var_name.lower())}\s*:", bl_low) and any(wtk in bl_low for wtk in _WIDE_TYPE_KEYWORDS):
                                 has_guard = True
                                 break
             # Skip known Ada time/duration functions that return non-Integer types
@@ -13353,6 +13274,37 @@ def _build_composition_balance_patterns() -> list[Pattern]:
         if _SELF_ANALYSIS_MODE:
             return violations
 
+        # Skip ADA_NOT_DOMINANT when env var is set or project has zero Ada files.
+        # Rationale: This is a Python-only codebase (Sorachio-STS). The Ada dominance
+        # check is architecturally irrelevant when no Ada source files exist — flagging
+        # a Python project for lacking Ada is a false positive, not a real quality issue.
+        # [Citation: User request 2026-09-10 — disable Ada not-dominant for this codebase]
+        _skip_ada = os.environ.get("SORACHIO_SKIP_ADA_CHECK", "").strip().lower() in ("1", "true", "yes")
+        if _skip_ada:
+            return violations
+
+        # Auto-detect: if project has zero Ada files, skip ADA_NOT_DOMINANT check.
+        # A Python-only project (like Sorachio-STS) has no Ada source at all —
+        # flagging it for lacking Ada dominance is a false positive.
+        # [Citation: User request 2026-09-10 — disable Ada not-dominant for this codebase]
+        if not hasattr(check_composition, "_ada_file_cache"):
+            _ada_exts = {".adb", ".ads", ".ada"}
+            _skip_dirs = {"node_modules", ".git", ".repos", "venv_runtime", "bin",
+                          "__pycache__", ".venv", "data", "logs", "models"}
+            _has_ada = False
+            for _root, _dirs, _files in os.walk(Path(BASE_DIR)):
+                _dirs[:] = [d for d in _dirs if d not in _skip_dirs]
+                for _f in _files:
+                    if Path(_f).suffix.lower() in _ada_exts:
+                        _has_ada = True
+                        break
+                if _has_ada:
+                    break
+            check_composition._ada_file_cache = _has_ada
+            if not _has_ada:
+                # No Ada files found — ADA_NOT_DOMINANT is architecturally irrelevant.
+                return violations
+
         # Only run composition check ONCE per audit (global cache, not per-directory)
         if not hasattr(check_composition, "_cached"):
             check_composition._cached = {}
@@ -13954,10 +13906,7 @@ def _assertion_scan_ada(
             has_post = "post =>" in block or "post  =>" in block
 
             # Skip pragma Import functions (external C bindings)
-            if (
-                "pragma import" in block or "import => true" in block
-                or "import  => true" in block or "with import" in block
-            ):
+            if "pragma import" in block or "import => true" in block or "import  => true" in block or "with import" in block:
                 continue
 
             name = line.strip().split()[1].split("(")[0] if len(line.strip().split()) > 1 else "unknown"
@@ -14484,10 +14433,7 @@ def _coverage_check_python(
                 continue
             first_stmt = body[0]
             # Function starts with assert False or raise → non-viable
-            if (
-                isinstance(first_stmt, ast.Assert)
-                and isinstance(first_stmt.test, ast.Constant) and first_stmt.test.value is False
-            ):
+            if isinstance(first_stmt, ast.Assert) and isinstance(first_stmt.test, ast.Constant) and first_stmt.test.value is False:
                     violations.append(Violation(
                         filepath=filepath,
                         line=func_line,
@@ -14521,10 +14467,7 @@ def _coverage_check_python(
                 ))
 
         # Index into subscript without guard
-        if (
-            isinstance(node, ast.Subscript) and isinstance(node.slice, ast.Constant)
-            and isinstance(node.slice.value, int) and node.slice.value < 0
-        ):
+        if isinstance(node, ast.Subscript) and isinstance(node.slice, ast.Constant) and isinstance(node.slice.value, int) and node.slice.value < 0:
                     violations.append(Violation(
                         filepath=filepath,
                         line=getattr(node, "lineno", 0),
@@ -15820,25 +15763,13 @@ def calculate_mal_score(violations: list[Violation]) -> tuple[str, str, str]:  #
     elif n_crit == 0 and n_high == 0 and n_med == 0:  # nosec: reachable — if/elif chain, each branch is independent
         return ("MAL-SS", "Sick Skills", f"{n_low} LOW violation(s) — almost SSS but we had to look away")
     elif n_crit == 0 and n_high == 0:  # nosec: reachable — if/elif chain, each branch is independent
-        return (
-            "MAL-S",
-            "Savage",
-            f"{n_med} MEDIUM violation(s) — NOT CLEAN. Build blocked. Every MEDIUM must be fixed."
-        )
+        return ("MAL-S", "Savage", f"{n_med} MEDIUM violation(s) — NOT CLEAN. Build blocked. Every MEDIUM must be fixed.")
     elif n_crit == 0:  # nosec: reachable — if/elif chain, each branch is independent
         return ("MAL-C", "Crazy", f"{n_high} HIGH violation(s) — NOT CLEAN. Build blocked. Every HIGH must be fixed.")
     elif n_crit <= 4:  # nosec: reachable — if/elif chain, each branch is independent
-        return (
-            "MAL-D",
-            "Dismal",
-            f"{n_crit} CRITICAL violation(s) — NOT CLEAN. Build blocked. Critical issues demand immediate fix."
-        )
+        return ("MAL-D", "Dismal", f"{n_crit} CRITICAL violation(s) — NOT CLEAN. Build blocked. Critical issues demand immediate fix.")
     elif n_crit <= 10:  # nosec: reachable — if/elif chain, each branch is independent
-        return (
-            "MAL-E",
-            "Enshittified Deadweight",
-            f"{n_crit} CRITICAL violation(s) — NOT CLEAN. Multiple critical failures."
-        )
+        return ("MAL-E", "Enshittified Deadweight", f"{n_crit} CRITICAL violation(s) — NOT CLEAN. Multiple critical failures.")
     else:
         return ("MAL-F", "Failed", f"{n_crit} CRITICAL violation(s) — federal crime against software engineering")
 
@@ -15914,10 +15845,7 @@ def format_static_pattern_summary(violations: list[Violation], registry: Pattern
 
         if cnt > 0:
             eff_sev = max(sevs, key=lambda s: sev_rank.get(s, 0))
-            if (
-                eff_sev in (Severity.CRITICAL, Severity.HIGH, Severity.MEDIUM)
-                or cat in ("PROOF_MISSING", "PROOF_CHEAP")
-            ):
+            if eff_sev in (Severity.CRITICAL, Severity.HIGH, Severity.MEDIUM) or cat in ("PROOF_MISSING", "PROOF_CHEAP"):
                 status = "GATE BLOCKED [FAIL]"
             else:
                 status = "WARNING"
@@ -16911,7 +16839,7 @@ def _check_language_version(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         if ada_2022_re.search(line):
                             violations.append(Violation(
@@ -16967,7 +16895,7 @@ def _check_todo_comments(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         if "nosec" in line.lower():
                             continue  # nosec — skip suppressed lines
@@ -17020,7 +16948,7 @@ def _check_hardcoded_secrets(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         # Skip comments
                         stripped = line.strip()
@@ -17077,7 +17005,7 @@ def _check_safe_fallback(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     lines = f.readlines()
                 # Strip comment-only lines (start with --) to avoid false positives
                 # from comments like "-- @test: function verified" matching procedure regex
@@ -17149,7 +17077,7 @@ def _check_dual_watchdog(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     content = f.read()
                 if watchdog_a_re.search(content):
                     found_a = True
@@ -17220,7 +17148,7 @@ def _check_segfault_resurrection(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     if resurrect_re.search(f.read()):
                         found_resurrect = True
                         break
@@ -17274,7 +17202,7 @@ def _check_no_segfaults(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         if segfault_re.search(line) and not handler_re.search(line):
                             violations.append(Violation(
@@ -17330,7 +17258,7 @@ def _check_no_dynamic_allocation(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         stripped = line.strip()
                         if stripped.startswith("--"):
@@ -17384,7 +17312,7 @@ def _check_no_runtime_shader_compile(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         if shader_re.search(line):
                             is_exc, _reason = _is_exception_allowed("GLES2_EXCEPT", fpath)
@@ -17435,7 +17363,7 @@ def _check_ada_gl_bindings(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         if gl_re.search(line):
                             # Informational: raw GL call in Ada source.
@@ -17486,7 +17414,7 @@ def _check_framebuffer_parity(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     if fb_parity_re.search(f.read()):
                         found = True
                         break
@@ -17538,7 +17466,7 @@ def _check_process_isolation(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     if iso_re.search(f.read()):
                         found = True
                         break
@@ -17588,7 +17516,7 @@ def _check_shm_communication(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     if shm_re.search(f.read()):
                         found = True
                         break
@@ -17638,7 +17566,7 @@ def _check_headless_fallback(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     if headless_re.search(f.read()):
                         found = True
                         break
@@ -17690,7 +17618,7 @@ def _check_state_save(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     if save_re.search(f.read()):
                         found = True
                         break
@@ -17740,7 +17668,7 @@ def _check_state_recovery(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     if recovery_re.search(f.read()):
                         found = True
                         break
@@ -17793,7 +17721,7 @@ def _check_no_pointer_arithmetic(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         stripped = line.strip()
                         if stripped.startswith("--"):
@@ -17849,7 +17777,7 @@ def _check_no_recursion(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         stripped = line.strip()
                         # Check 1: explicit recursion keywords
@@ -17913,7 +17841,7 @@ def _check_no_dynamic_linking(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         if dlopen_re.search(line):
                             violations.append(Violation(
@@ -17969,7 +17897,7 @@ def _check_framebuffer_subsystem(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     content = f.read()
                     if fb_thread_re.search(content):
                         found_thread = True
@@ -18031,7 +17959,7 @@ def _check_static_binary(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         if static_re.search(line):
                             violations.append(Violation(
@@ -18082,7 +18010,7 @@ def _check_timing_analysis(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     content = f.read()
                 proc_starts = [m.start() for m in re.finditer(r"\bprocedure\s+\w+", content, re.IGNORECASE)]
                 for idx, start in enumerate(proc_starts):
@@ -18138,7 +18066,7 @@ def _check_gnat_alr_prefix(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         stripped = line.strip()
                         if stripped.startswith("#"):
@@ -18191,7 +18119,7 @@ def _check_ffi_contracts(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     content = f.read()
                 if ffi_re.search(content) and not contract_re.search(content):
                         violations.append(Violation(
@@ -18238,7 +18166,7 @@ def _check_giving_up_banned(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         if give_up_re.search(line):
                             violations.append(Violation(
@@ -18289,7 +18217,7 @@ def _check_no_assumptions(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, errors="replace") as f:
+                with open(fpath, "r", errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         stripped = line.strip()
                         if stripped.startswith(("--", "#")):
@@ -18883,16 +18811,16 @@ def enforce_dependencies(target: str = "") -> bool:
     print(f"\n{_BOLD}{'─'*70}{_RESET}")
     print(f"{_BOLD}  Dependency Enforcement Check{_RESET}")
     print(f"{_BOLD}{'─'*70}{_RESET}")
-
+    
     all_ok = True
     missing = []
 
     # === Python Dependencies ===
     print(f"\n{_BOLD}  [1/4] Python Dependencies{_RESET}")
-
+    
     # In self-test mode, also try venv Python for dependency checks
     venv_python = _SELF_TEST_VENV_PYTHON if is_self_test and os.path.exists(_SELF_TEST_VENV_PYTHON) else None
-
+    
     python_deps = [
         ("pyrefly", [sys.executable, "-m", "pyrefly", "--version"], "pyrefly"),
         ("ruff", [sys.executable, "-m", "ruff", "--version"], "ruff"),
@@ -18900,7 +18828,7 @@ def enforce_dependencies(target: str = "") -> bool:
         # crosshair doesn't support --version; use -c "import crosshair" to check
         ("crosshair", [sys.executable, "-c", "import crosshair; print('crosshair OK')"], "crosshair-tool"),
     ]
-
+    
     for name, cmd, pip_pkg in python_deps:
         # First check system Python
         found = _check_dependency(name, cmd, pip_package=pip_pkg)
@@ -18917,7 +18845,7 @@ def enforce_dependencies(target: str = "") -> bool:
 
     # === Ada/SPARK Dependencies ===
     print(f"\n{_BOLD}  [2/4] Ada/SPARK Dependencies{_RESET}")
-
+    
     # [Citation: code-quality.md §Auto-Install - Ada tools for non-self-analyzing mode]
     # When NOT self-analyzing, auto-install gnatcov_bin + alr + gnatprove
     if not is_self_test:
@@ -18945,7 +18873,7 @@ def enforce_dependencies(target: str = "") -> bool:
         if not alr_found:
             all_ok = False
             missing.append("alr")
-
+        
         # Try to install gnatprove via alr toolchain
         gnatprove_found = False
         if alr_found:
@@ -18970,7 +18898,7 @@ def enforce_dependencies(target: str = "") -> bool:
                         gnatprove_found = True
             except (OSError, subprocess.TimeoutExpired, ValueError) as e:
                 _verb(f"gnatprove toolchain install failed: {e}")
-
+            
             # Check gnatcov via alr toolchain
             print(f"  {_YELLOW}[INSTALL] Checking gnatcov via alr toolchain...{_RESET}")
             try:
@@ -19004,7 +18932,7 @@ def enforce_dependencies(target: str = "") -> bool:
 
     # === SMT Solvers ===
     print(f"\n{_BOLD}  [3/4] SMT Solvers (for gnatprove){_RESET}")
-
+    
     # z3: brew on macOS, apt on Linux, or pip z3-solver
     # cvc5: pip package (cvc5 Python bindings)
     # alt-ergo: opam package (OCaml)
@@ -19013,7 +18941,7 @@ def enforce_dependencies(target: str = "") -> bool:
         ("cvc5", ["cvc5", "--version"], "cvc5", None, None),
         ("alt-ergo", ["alt-ergo", "--version"], None, None, None),
     ]
-
+    
     for name, cmd, pip_pkg, brew_pkg, apt_pkg in solver_deps:
         # First check system PATH
         found = _check_dependency(name, cmd, pip_package=pip_pkg, brew_package=brew_pkg, apt_package=apt_pkg)
@@ -19066,10 +18994,10 @@ def enforce_dependencies(target: str = "") -> bool:
 
     # === sabotage_verifier.py ===
     print(f"\n{_BOLD}  [4/5] sabotage_verifier.py{_RESET}")
-
+    
     sabotage_py_path = os.path.join("src", "utils", "sabotage_verifier.py")
     sabotage_py_source = os.path.expanduser("~/.local/share/opencode/sabotage_verifier.py")
-
+    
     if os.path.exists(sabotage_py_path):
         print(f"  {_GREEN}[OK] sabotage_verifier.py found at {sabotage_py_path}{_RESET}")
     elif os.path.exists(sabotage_py_source):
@@ -19090,12 +19018,12 @@ def enforce_dependencies(target: str = "") -> bool:
 
     # === run.py Enforcement ===
     print(f"\n{_BOLD}  [5/5] run.py Pipeline Enforcement{_RESET}")
-
+    
     run_py_path = "run.py"
     if os.path.exists(run_py_path):
-        with open(run_py_path) as f:
+        with open(run_py_path, "r") as f:
             run_content = f.read()
-
+        
         # Check required pipeline components
         required_checks = [
             ("alr build", "Build step"),
@@ -19103,7 +19031,7 @@ def enforce_dependencies(target: str = "") -> bool:
             ("gnatcov", "Coverage step"),
             ("sabotage_verifier.py", "Sabotage audit step"),
         ]
-
+        
         for pattern, desc in required_checks:
             if pattern in run_content:
                 print(f"  {_GREEN}[OK] run.py contains {desc}: {pattern}{_RESET}")
@@ -19111,7 +19039,7 @@ def enforce_dependencies(target: str = "") -> bool:
                 print(f"  {_RED}[FAIL] run.py MISSING {desc}: {pattern}{_RESET}")
                 all_ok = False
                 missing.append(f"run.py:{pattern}")
-
+        
         # Check pipeline order (gnatcov before sabotage_verifier.py)
         gnatcov_pos = run_content.find("gnatcov")
         sabotage_pos = run_content.find("sabotage_verifier.py")
@@ -19131,7 +19059,7 @@ def enforce_dependencies(target: str = "") -> bool:
 
     # === Final Result ===
     print(f"\n{_BOLD}{'─'*70}{_RESET}")
-
+    
     if all_ok:
         print(f"  {_GREEN}{_BOLD}✅ ALL DEPENDENCIES SATISFIED — PROCEEDING WITH AUDIT{_RESET}")
         print(f"{_BOLD}{'─'*70}{_RESET}\n")
