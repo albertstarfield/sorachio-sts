@@ -627,10 +627,3 @@ Sorachio-STS is designed to run on a **Single Board Computer (Orange Pi 5 Pro 16
 ## License
 
 MIT License — see [LICENSE](LICENSE)
-
-## Contributing
-
-- Pull requests & issue reports welcome
-- Hardware actuator drivers & ESP32 firmware contributions
-- Custom wake word models (`models/wakeword/`)
-- Vision & ROS2 integrations
