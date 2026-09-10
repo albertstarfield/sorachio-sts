@@ -54,7 +54,7 @@ class Bootstrapper:
                 if exe_path:
                     log.info(f"Found compatible Python: {exe_path}. Relaunching...")
                     # Use subprocess.run instead of os.execv for more reliable relaunch
-                    subprocess.run([exe_path] + sys.argv)
+                    subprocess.run([exe_path] + sys.argv, timeout=300)
                     sys.exit(0)
 
         log.error("No compatible Python version found in PATH (required: 3.10, 3.11, or 3.12).")
@@ -94,7 +94,7 @@ class Bootstrapper:
 
         # Use subprocess to create venv to ensure we use the current sys.executable
         log.info(f"Creating venv at {self.venv_dir}...")
-        subprocess.run([sys.executable, "-m", "venv", str(self.venv_dir)], check=True)
+        subprocess.run([sys.executable, "-m", "venv", str(self.venv_dir)], check=True, timeout=300)
 
         # Determine the python executable in the venv
         if os.name == "nt":
@@ -106,7 +106,7 @@ class Bootstrapper:
 
         # Restart the process using subprocess.run to ensure a clean relaunch
         # We pass sys.executable to ensure we are calling the new python
-        subprocess.run([str(python_exe)] + sys.argv)
+        subprocess.run([str(python_exe)] + sys.argv, timeout=300)
         sys.exit(0)
 
     def _run_command(
@@ -145,7 +145,8 @@ class Bootstrapper:
                     cwd=cwd,
                     capture_output=True,
                     text=True,
-                    check=check
+                    check=check,
+                    timeout=300
                 )
         except subprocess.CalledProcessError as e:
             log.error(f"Command failed: {' '.join(cmd)}\nError: {e.stderr}")
@@ -160,7 +161,7 @@ class Bootstrapper:
 
         # 1. Check architecture using 'file' command
         try:
-            result = subprocess.run(["file", str(binary_path)], capture_output=True, text=True, check=True)
+            result = subprocess.run(["file", str(binary_path)], capture_output=True, text=True, check=True, timeout=300)
             current_arch = "arm64" if platform.machine() == "arm64" else "x86_64"
             if current_arch not in result.stdout:
                 log.warning(
@@ -176,7 +177,7 @@ class Bootstrapper:
         try:
             # Run the check command.
             # We use the full path to the binary to avoid issues with cwd.
-            subprocess.run([str(binary_path)] + check_args, capture_output=True, text=True, check=True)
+            subprocess.run([str(binary_path)] + check_args, capture_output=True, text=True, check=True, timeout=300)
             return True
         except subprocess.CalledProcessError as e:
             log.warning(f"Binary {binary_path} failed functionality check ({' '.join(check_args)}): {e.stderr.strip()}")
