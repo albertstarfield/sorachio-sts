@@ -53,9 +53,9 @@ def run_step(name: str, cmd: list[str], description: str, required: bool = False
             if result.stderr.strip():
                 print(f"     Error: {result.stderr.strip()[:500]}")
             if required:
-                print(f"  ⚠️  This step is required. Aborting pipeline.")
+                print("  ⚠️  This step is required. Aborting pipeline.")
                 return False
-            print(f"  ℹ️  Non-required step, continuing...")
+            print("  ℹ️  Non-required step, continuing...")
             return True  # Continue pipeline for non-required steps
     except FileNotFoundError:
         print(f"  ⏭️  {name}: SKIPPED (tool not found)")
@@ -79,7 +79,7 @@ def main() -> int:
         0 on success, 1 on failure.
     """
     print(f"\n{'#'*60}")
-    print(f"  Sorachio-STS Pipeline Runner")
+    print("  Sorachio-STS Pipeline Runner")
     print(f"  Project: {PROJECT_NAME}")
     print(f"{'#'*60}")
 
@@ -126,7 +126,7 @@ def main() -> int:
 
     # === Summary ===
     print(f"\n{'='*60}")
-    print(f"  Pipeline Summary")
+    print("  Pipeline Summary")
     print(f"{'='*60}")
 
     all_passed = True
@@ -137,10 +137,10 @@ def main() -> int:
             all_passed = False
 
     if all_passed:
-        print(f"\n  🎉 All pipeline steps passed!")
+        print("\n  🎉 All pipeline steps passed!")
         return 0
     else:
-        print(f"\n  ⚠️  Some steps failed. Check output above.")
+        print("\n  ⚠️  Some steps failed. Check output above.")
         return 1
 
 

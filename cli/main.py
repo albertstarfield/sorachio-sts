@@ -39,6 +39,11 @@ from rich.prompt import Prompt
 from rich.spinner import Spinner
 from rich.table import Table
 
+from utils.logging_setup import get_logger
+
+# Module-level logger — used by test_cognitive and memory_clear error handlers
+log = get_logger("cli.main")
+
 # ------------------------------------------------------------------
 # Global suppression of unauthenticated HF warnings and PyTorch spam
 # ------------------------------------------------------------------

@@ -5,11 +5,14 @@ Loads and validates sorachio.yaml using Pydantic.
 
 from __future__ import annotations
 
+import logging
 import os
 from pathlib import Path
 
 import yaml
 from pydantic import BaseModel, Field, field_validator
+
+log = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
 # Sub-models
@@ -291,7 +294,7 @@ def load_settings(config_path: str | None = None) -> SorachioSettings:
     try:
         with open(config_file, encoding="utf-8") as f:
             raw = yaml.safe_load(f)
-    except (OSError, IOError) as e:
+    except OSError as e:
         log.warning("[Settings] Could not read %s: %s", config_file, e)
         raise
 
