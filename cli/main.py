@@ -679,7 +679,7 @@ async def _run_pipeline(settings, voice_mode=True, no_servers=False):
     try:
         await pipeline.run()
     except KeyboardInterrupt:
-        pass
+        pass  # nosec: SILENT_FAILURE — intentional suppression, cleanup runs in finally block
     finally:
         voice_cli.stop()
         with Live(

@@ -121,7 +121,7 @@ class AECProvider(ABC):
         Called from the playback worker — must be thread-safe.
         Only needed for reference-based AEC implementations.
         """
-        pass
+        pass  # nosec: SILENT_FAILURE — intentional no-op, base class stub for subclasses
 
     def get_interrupt_threshold(self) -> float:
         """

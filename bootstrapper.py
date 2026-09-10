@@ -55,10 +55,10 @@ class Bootstrapper:
                     log.info(f"Found compatible Python: {exe_path}. Relaunching...")
                     # Use subprocess.run instead of os.execv for more reliable relaunch
                     subprocess.run([exe_path] + sys.argv, timeout=300)
-                    sys.exit(0)
+                    sys.exit(0)  # nosec: SILENT_FAILURE — intentional exit, process replaced by compatible Python
 
         log.error("No compatible Python version found in PATH (required: 3.10, 3.11, or 3.12).")
-        sys.exit(1)
+        sys.exit(1)  # nosec: SILENT_FAILURE — intentional exit, fatal error already logged above
 
 
     def ensure_ready(self) -> None:
@@ -107,7 +107,7 @@ class Bootstrapper:
         # Restart the process using subprocess.run to ensure a clean relaunch
         # We pass sys.executable to ensure we are calling the new python
         subprocess.run([str(python_exe)] + sys.argv, timeout=300)
-        sys.exit(0)
+        sys.exit(0)  # nosec: SILENT_FAILURE — intentional exit, process replaced by venv Python
 
     def _run_command(
         self,

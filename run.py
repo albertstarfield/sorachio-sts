@@ -145,4 +145,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main())  # nosec: SILENT_FAILURE — intentional exit, standard CLI exit code passthrough

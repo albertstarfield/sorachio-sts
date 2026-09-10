@@ -285,7 +285,7 @@ class CognitiveGateway:
                 log.warning("[Gateway] JSON repaired successfully")
                 return parsed
             except json.JSONDecodeError:
-                pass
+                pass  # nosec: SILENT_FAILURE — intentional suppression, retry loop handles failure
 
             new_repaired = _strip_one(repaired)
             if new_repaired == repaired:
@@ -303,7 +303,7 @@ class CognitiveGateway:
                 log.warning("[Gateway] JSON repaired via brute-force trim")
                 return parsed
             except json.JSONDecodeError:
-                pass
+                pass  # nosec: SILENT_FAILURE — intentional suppression, brute-force trim continues
 
         log.warning(
             f"[Gateway] JSON parse failed entirely\n"
@@ -362,7 +362,7 @@ class CognitiveGateway:
                 )
 
             except (TypeError, ValueError):
-                pass
+                pass  # nosec: SILENT_FAILURE — intentional suppression, default value preserved
 
         # -------------------------------------------------------------------
         # String fields

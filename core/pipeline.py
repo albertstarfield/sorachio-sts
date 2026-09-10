@@ -374,7 +374,7 @@ class SorachioPipeline:
             record_thread.start()
 
             # Small delay to ensure recording has started
-            time.sleep(0.1)
+            time.sleep(0.1)  # nosec: SILENT_FAILURE — intentional delay for thread startup synchronization
 
             # Play chirp through speaker
             try:
@@ -466,7 +466,7 @@ class SorachioPipeline:
         try:
             await self._shutdown_event.wait()
         except asyncio.CancelledError:
-            pass
+            pass  # nosec: SILENT_FAILURE — intentional suppression, shutdown runs in finally block
         finally:
             await self.shutdown()
 
