@@ -155,9 +155,6 @@ BINARIES = {
         "url": "https://github.com/ggerganov/llama.cpp",
         "build_args": [
             "-DLLAMA_BUILD_SERVER=ON",
-            "-DGGML_AVX2=ON",
-            "-DGGML_FMA=ON",
-            "-DGGML_F16C=ON",
         ],
         "check_args": ["--version"],
     },
@@ -805,6 +802,21 @@ class MasterBootstrapGuardian:
         # Configure
         build_args = list(config["build_args"])
         if name == "llama-server":
+            # Detect CPU architecture and add appropriate SIMD flags
+            # [Citation: llama.cpp CMakeLists.txt — GGML_AVX2/GGML_FMA/GGML_F16C are x86-only;
+            #  ARM/NEON is auto-detected by CMake via -mcpu=native or compiler built-ins]
+            import platform as _platform
+            machine = _platform.machine().lower()
+            if machine in ("x86_64", "amd64"):
+                # x86_64: enable AVX2, FMA, F16C for maximum CPU performance
+                log.info("[MBG] x86_64 detected. Enabling AVX2/FMA/F16C SIMD flags...")
+                build_args.extend(["-DGGML_AVX2=ON", "-DGGML_FMA=ON", "-DGGML_F16C=ON"])
+            elif machine in ("arm64", "aarch64"):
+                # ARM64: NEON is always available; llama.cpp auto-detects via -mcpu=native
+                log.info("[MBG] ARM64 detected. NEON SIMD auto-enabled by compiler (no extra flags needed).")
+            else:
+                log.info(f"[MBG] Unknown architecture '{machine}'. Using default CMake SIMD detection.")
+
             # Auto-detect Vulkan capability on target machine
             has_vulkan = False
             if shutil.which("vulkaninfo"):
@@ -822,7 +834,22 @@ class MasterBootstrapGuardian:
                 log.info("[MBG] No Vulkan SDK or GPU tools detected. Reverting to optimized CPU build...")
                 build_args = [arg for arg in build_args if "GGML_VULKAN" not in arg]
 
-        cmake_args = ["cmake", "-B", str(build_dir)] + build_args
+        # Add OpenSSL hint for macOS Homebrew so cpp-httplib can find OpenSSL::SSL
+        if sys.platform == "darwin":
+            import platform
+            if platform.machine() == "arm64":
+                # Apple Silicon: Homebrew OpenSSL location
+                openssl_prefix = "/opt/homebrew/opt/openssl@3"
+            else:
+                # Intel Mac
+                openssl_prefix = "/usr/local/opt/openssl@3"
+            if os.path.isdir(openssl_prefix):
+                cmake_args = ["cmake", "-B", str(build_dir), f"-DCMAKE_PREFIX_PATH={openssl_prefix}"] + build_args
+                log.info(f"[MBG] macOS detected. Adding OpenSSL hint: {openssl_prefix}")
+            else:
+                cmake_args = ["cmake", "-B", str(build_dir)] + build_args
+        else:
+            cmake_args = ["cmake", "-B", str(build_dir)] + build_args
         subprocess.run(cmake_args, cwd=repo_path, check=True)
 
         # Compile
