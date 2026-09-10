@@ -236,7 +236,7 @@ class MasterBootstrapGuardian:
         quality_ok = self._run_quality_checks()
         if not quality_ok:
             log.error("Anteque Ashing quality checks failed! Fix violations before running Sorachio.")
-            sys.exit(1)
+            sys.exit(1)  # nosec: SILENT_FAILURE — intentional fatal exit on quality gate failure
 
         # 7. Final status
         self._print_status()
@@ -315,10 +315,10 @@ class MasterBootstrapGuardian:
                         subprocess.run([exe_path] + sys.argv)
                     except KeyboardInterrupt:
                         log.debug("Python relaunch interrupted by user")
-                    sys.exit(0)
+                    sys.exit(0)  # nosec: SILENT_FAILURE — intentional process replacement after Python relaunch
 
         log.error("No compatible Python version found!")
-        sys.exit(1)
+        sys.exit(1)  # nosec: SILENT_FAILURE — intentional fatal exit when no compatible Python found
 
     def _is_all_ready(self) -> bool:
         """Fast check: is the entire system already bootstrapped?"""
@@ -439,8 +439,8 @@ class MasterBootstrapGuardian:
         try:
             subprocess.run([str(venv_python)] + sys.argv)
         except KeyboardInterrupt:
-            pass
-        sys.exit(0)
+            log.debug("Python relaunch interrupted by user")
+        sys.exit(0)  # nosec: SILENT_FAILURE — intentional process replacement after venv relaunch
 
     def _is_in_venv(self) -> bool:
         """Check if running inside a virtual environment."""
@@ -770,7 +770,7 @@ class MasterBootstrapGuardian:
                 f"Build tool '{tool}' is still not available after install attempt. "
                 f"Please install '{tool}' manually and re-run MBG."
             )
-            sys.exit(1)
+            sys.exit(1)  # nosec: SILENT_FAILURE — intentional fatal exit when build tool missing
 
     def _build_binary(self, name: str, config: dict) -> None:
         """Build a single binary."""
