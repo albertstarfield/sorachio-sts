@@ -449,8 +449,8 @@ class VoiceCLI:
         if self._live is not None:
             try:
                 self._live.stop()
-            except Exception:
-                pass
+            except Exception as e:
+                log.warning("Suppressed error in spinner stop: %s", e)
             self._live = None
 
     def _spin_label(self, label: str, color: str = "yellow") -> None:
@@ -877,7 +877,8 @@ def servers_status(config: str | None = typer.Option(None)):
         try:
             r = httpx.get(f"{url}/health", timeout=2.0)
             return "[green]● Running[/green]" if r.status_code == 200 else "[red]● Error[/red]"
-        except Exception:
+        except Exception as e:
+            log.warning("Suppressed error in server health check: %s", e)
             return "[red]● Offline[/red]"
 
     table.add_row("Cognitive Gateway (LLM #1)", str(gw.server_port), Path(gw.model_path).name, check(gw.server_url))

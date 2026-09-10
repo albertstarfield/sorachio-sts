@@ -108,7 +108,8 @@ class LTMEntry:
             created = datetime.fromisoformat(self.created_at)
             age_days = (datetime.now() - created).days
             recency = max(0.0, 1.0 - age_days / 365.0)
-        except Exception:
+        except Exception as e:
+            log.warning("Suppressed error in recency score calculation: %s", e)
             recency = 0.5
 
         return (

@@ -504,7 +504,8 @@ class WhisperClient:
                 return "id"
             return "en"
 
-        except Exception:
+        except Exception as e:
+            log.warning("Suppressed error in audio language detection, defaulting to English: %s", e)
             return "en"
 
     def _transcribe_sync(self, audio_bytes: bytes) -> str | None:
