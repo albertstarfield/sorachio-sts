@@ -40,6 +40,17 @@ class SingleServerManager:
         log_dir: Path,
         mmproj_path: Path | None = None,
     ):
+        """    Init.
+
+    Args:
+    name (str): Description.
+    binary_path (Path): Description.
+    model_path (Path): Description.
+    port (int): Description.
+    config (LLMInstanceConfig): Description.
+    log_dir (Path): Description.
+    mmproj_path: Description.
+        """
         self.name = name
         self.binary_path = binary_path
         self.model_path = model_path
@@ -51,6 +62,11 @@ class SingleServerManager:
         self._log_file = None
 
     def _build_command(self) -> list[str]:
+        """Build the llama-server command line arguments.
+
+        Returns:
+            List of command line arguments for subprocess.Popen.
+        """
         cmd = [
             str(self.binary_path),
             "--model", str(self.model_path),
@@ -184,6 +200,7 @@ class SingleServerManager:
             return False
 
     def is_running(self) -> bool:
+        """Return True if the server process is alive."""
         return self._process is not None and self._process.poll() is None
 
 
@@ -199,6 +216,12 @@ class ServerManager:
     """
 
     def __init__(self, llm_config, project_root: Path):
+        """Initialize the ServerManager with both LLM server configurations.
+
+        Args:
+            llm_config: The LLM configuration containing server settings for both instances.
+            project_root: The project root directory path.
+        """
         self.project_root = project_root
         self.llm_config = llm_config
 
@@ -250,6 +273,11 @@ class ServerManager:
             return
 
         async def _watchdog_loop() -> None:
+            """    Watchdog Loop.
+
+    Returns:
+        None: Description.
+            """
             log.info(f"[ServerManager] Watchdog started (interval={check_interval_s}s)")
             while True:
                 await asyncio.sleep(check_interval_s)
@@ -327,5 +355,10 @@ class ServerManager:
             srv.stop()
 
     def status(self) -> dict[str, bool]:
+        """Return running status of all managed servers.
+
+        Returns:
+            Dictionary mapping server names to their running status.
+        """
         return {name: srv.is_running() for name, srv in self._servers.items()}
 

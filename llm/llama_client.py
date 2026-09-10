@@ -37,11 +37,23 @@ class Message:
     """
 
     def __init__(self, role: str, content: str, image_b64: str | None = None):
+        """    Init.
+
+    Args:
+    role (str): Description.
+    content (str): Description.
+    image_b64: Description.
+        """
         self.role = role
         self.content = content
         self.image_b64 = image_b64
 
     def to_dict(self) -> dict[str, Any]:
+        """    To Dict.
+
+    Returns:
+        Description.
+        """
         if self.image_b64:
             # Multimodal format (OpenAI-compatible, supported by llama-server)
             return {
@@ -79,6 +91,17 @@ class LlamaClient:
         timeout_s: float = 30.0,
         max_retries: int = 3,
     ):
+        """    Init.
+
+    Args:
+    base_url (str): Description.
+    temperature (float): Description.
+    max_tokens (int): Description.
+    top_p (float): Description.
+    repeat_penalty (float): Description.
+    timeout_s (float): Description.
+    max_retries (int): Description.
+        """
         self.base_url = base_url.rstrip("/")
         self.temperature = temperature
         self.max_tokens = max_tokens
@@ -90,6 +113,11 @@ class LlamaClient:
         self._client: httpx.AsyncClient | None = None
 
     async def _get_client(self) -> httpx.AsyncClient:
+        """    Get Client.
+
+    Returns:
+        Description.
+        """
         if self._client is None or self._client.is_closed:
             self._client = httpx.AsyncClient(
                 base_url=self.base_url,
@@ -104,6 +132,11 @@ class LlamaClient:
         return self._client
 
     async def close(self) -> None:
+        """    Close.
+
+    Returns:
+        None: Description.
+        """
         if self._client and not self._client.is_closed:
             await self._client.aclose()
             self._client = None
@@ -231,6 +264,18 @@ class LlamaClient:
         stream: bool,
         extra_params: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
+        """    Build Payload.
+
+    Args:
+    messages: Description.
+    temperature: Description.
+    max_tokens: Description.
+    stream (bool): Description.
+    extra_params: Description.
+
+    Returns:
+        Description.
+        """
         payload: dict[str, Any] = {
             "messages": messages,
             "temperature": temperature if temperature is not None else self.temperature,

@@ -173,6 +173,14 @@ class SimpleEnergyAEC(AECProvider):
     """
 
     def __init__(self, attenuation_factor: float = 0.3) -> None:
+        """    Init.
+
+    Args:
+    attenuation_factor (float): Description.
+
+    Returns:
+        None: Description.
+        """
         self.attenuation_factor = max(0.0, min(1.0, attenuation_factor))
         self._playback_active = threading.Event()
 
@@ -182,6 +190,14 @@ class SimpleEnergyAEC(AECProvider):
         )
 
     def process(self, mic_frame: bytes) -> bytes:
+        """    Process.
+
+    Args:
+    mic_frame (bytes): Description.
+
+    Returns:
+        bytes: Description.
+        """
         if not self._playback_active.is_set():
             return mic_frame
 
@@ -190,6 +206,14 @@ class SimpleEnergyAEC(AECProvider):
         return samples.astype(np.int16).tobytes()
 
     def set_reference_active(self, active: bool) -> None:
+        """    Set Reference Active.
+
+    Args:
+    active (bool): Description.
+
+    Returns:
+        None: Description.
+        """
         if active:
             self._playback_active.set()
             log.debug("[AEC] Reference active (playback started)")
@@ -244,6 +268,19 @@ class CalibrationAEC(AECProvider):
         lms_step_size: float = 0.01,
         wiener_noise_margin: float = 6.0,
     ) -> None:
+        """    Init.
+
+    Args:
+    sample_rate (int): Description.
+    frame_size (int): Description.
+    calibration_duration_s (float): Description.
+    lms_filter_length (int): Description.
+    lms_step_size (float): Description.
+    wiener_noise_margin (float): Description.
+
+    Returns:
+        None: Description.
+        """
         self.sample_rate = sample_rate
         self.frame_size = frame_size
         self.calibration_duration_s = calibration_duration_s
@@ -624,6 +661,14 @@ class CalibrationAEC(AECProvider):
         return samples.astype(np.int16).tobytes()
 
     def set_reference_active(self, active: bool) -> None:
+        """    Set Reference Active.
+
+    Args:
+    active (bool): Description.
+
+    Returns:
+        None: Description.
+        """
         if active:
             self._playback_active.set()
         else:
@@ -632,6 +677,14 @@ class CalibrationAEC(AECProvider):
                 self._reference_buffer.clear()
 
     def set_reference_signal(self, audio: bytes) -> None:
+        """    Set Reference Signal.
+
+    Args:
+    audio (bytes): Description.
+
+    Returns:
+        None: Description.
+        """
         if not self._playback_active.is_set():
             return
 

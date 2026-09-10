@@ -47,6 +47,17 @@ class AudioPlayback:
         device_index: int | None = None,
         aec: AECProvider | None = None,
     ):
+        """    Init.
+
+    Args:
+    audio_queue: Description.
+    playback_active_event: Description.
+    sample_rate (int): Description.
+    channels (int): Description.
+    dtype (str): Description.
+    device_index: Description.
+    aec: Description.
+        """
         self.audio_queue = audio_queue
         self.playback_active_event = playback_active_event
         self.sample_rate = sample_rate
@@ -160,6 +171,8 @@ class AudioPlayback:
         loop = asyncio.get_event_loop()
 
         def _blocking_play():
+            """    Blocking Play.
+            """
             try:
                 sd.play(
                     audio,

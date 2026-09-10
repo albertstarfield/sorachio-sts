@@ -32,6 +32,11 @@ class TurnMetrics:
     total_e2e_s: float = 0.0
 
     def to_dict(self) -> dict[str, Any]:
+        """    To Dict.
+
+    Returns:
+        Description.
+        """
         return {
             "turn_id": self.turn_id,
             "stt_s": round(self.stt_duration_s, 3),
@@ -47,10 +52,23 @@ class MetricsCollector:
     """Collects and summarizes pipeline timing metrics."""
 
     def __init__(self, history_size: int = 100):
+        """    Init.
+
+    Args:
+    history_size (int): Description.
+        """
         self._history: list[TurnMetrics] = []
         self._history_size = history_size
 
     def record_turn(self, metrics: TurnMetrics) -> None:
+        """    Record Turn.
+
+    Args:
+    metrics (TurnMetrics): Description.
+
+    Returns:
+        None: Description.
+        """
         if len(self._history) >= self._history_size:
             self._history.pop(0)
         self._history.append(metrics)
@@ -61,6 +79,11 @@ class MetricsCollector:
         )
 
     def get_summary(self) -> dict[str, Any]:
+        """    Get Summary.
+
+    Returns:
+        Description.
+        """
         if not self._history:
             return {"total_turns": 0}
 

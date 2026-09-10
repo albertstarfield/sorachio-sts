@@ -92,6 +92,17 @@ class AcousticGate:
         debug: bool = False,
         hold_frames: int = 15,
     ) -> None:
+        """    Init.
+
+    Args:
+    threshold_dbfs (float): Description.
+    enabled (bool): Description.
+    debug (bool): Description.
+    hold_frames (int): Description.
+
+    Returns:
+        None: Description.
+        """
         self.threshold_dbfs = threshold_dbfs
         self.enabled = enabled
         self.debug = debug

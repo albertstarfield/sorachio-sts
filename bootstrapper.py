@@ -24,6 +24,8 @@ class Bootstrapper:
     """
 
     def __init__(self):
+        """    Init.
+        """
         self.root = Path(__file__).parent.absolute()
         self.bin_dir = self.root / "bin"
         self.repos_dir = self.root / ".repos"

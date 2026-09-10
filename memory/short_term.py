@@ -40,6 +40,11 @@ class STMEntry:
     metadata: dict = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        """    To Dict.
+
+    Returns:
+        Description.
+        """
         d = asdict(self)
         d["timestamp"] = self.timestamp.isoformat()
         return d
@@ -67,6 +72,13 @@ class ShortTermMemory:
         include_emotions: bool = True,
         summary_threshold: int = 15,
     ):
+        """    Init.
+
+    Args:
+    max_messages (int): Description.
+    include_emotions (bool): Description.
+    summary_threshold (int): Description.
+        """
         self.max_messages = max_messages
         self.include_emotions = include_emotions
         self.summary_threshold = summary_threshold
@@ -213,6 +225,11 @@ class ShortTermMemory:
         return self._turn_count
 
     async def size(self) -> int:
+        """    Size.
+
+    Returns:
+        int: Description.
+        """
         async with self._lock:
             return len(self._window)
 

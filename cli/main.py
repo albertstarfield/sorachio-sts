@@ -77,6 +77,14 @@ class _NoiseFilter(logging.Filter):
         "dropout option adds",
     )
     def filter(self, record: logging.LogRecord) -> bool:
+        """Filter log records, dropping known spam patterns.
+
+        Args:
+            record: The log record to evaluate.
+
+        Returns:
+            True if the record should be emitted, False to drop it.
+        """
         msg = record.getMessage()
         return not any(p in msg for p in self._PATTERNS)
 
@@ -108,6 +116,17 @@ app.add_typer(memory_app)
 # ---------------------------------------------------------------------------
 
 def _load_settings(config: str | None = None):
+    """Load Sorachio settings from YAML config file.
+
+    Args:
+        config: Optional path to a custom config file. If None, uses default.
+
+    Returns:
+        The loaded SorachioSettings instance.
+
+    Raises:
+        typer.Exit: If the config file is not found.
+    """
     from config.settings import load_settings
     try:
         settings = load_settings(config)
@@ -118,6 +137,11 @@ def _load_settings(config: str | None = None):
 
 
 def _setup_logging(settings):
+    """Configure logging: suppress noisy libraries, set up Rich handler and file output.
+
+    Args:
+        settings: The SorachioSettings containing log_dir and system config.
+    """
     import os
 
     # ------------------------------------------------------------------
@@ -165,6 +189,7 @@ def _setup_logging(settings):
     )
 
 def _print_banner():
+    """Print the Sorachio-STS banner to the console."""
     console.print(Panel.fit(
         "[bold cyan]Sorachio-STS[/bold cyan] [dim]v0.2.0[/dim]\n"
         "[dim]Speech To Speech AI Companion System[/dim]",
@@ -210,6 +235,13 @@ def text(
     asyncio.run(_run_text_mode(settings, single_message=message, no_servers=no_servers))
 
 async def _run_text_mode(settings, single_message=None, no_servers=False):
+    """Run Sorachio in text-only mode (keyboard input, no microphone).
+
+    Args:
+        settings: The SorachioSettings for this session.
+        single_message: Optional single message to process (non-interactive).
+        no_servers: If True, skip starting llama-server instances.
+    """
     import logging
     import warnings
 
@@ -425,6 +457,11 @@ class VoiceCLI:
     }
 
     def __init__(self, mode: str = "run"):
+        """Initialize the VoiceCLI event handler.
+
+        Args:
+            mode: Operating mode - 'run' for voice or 'text' for keyboard input.
+        """
         from core.events import get_bus
         self.mode         = mode
         self.response_text = ""
@@ -463,6 +500,7 @@ class VoiceCLI:
     # ── lifecycle ─────────────────────────────────────────────────────
 
     def start(self) -> None:
+        """Subscribe to pipeline events and show the initial spinner."""
         from core.events import EventType
         if self.mode == "run":
             self._spin_start("Listening…", "cyan")
@@ -477,6 +515,7 @@ class VoiceCLI:
         self.bus.subscribe(EventType.INTERRUPT,       self.on_interrupt)
 
     def stop(self) -> None:
+        """Unsubscribe from all events and stop the spinner."""
         from core.events import EventType
         self._spin_stop()
         if self.mode == "run":
@@ -491,9 +530,19 @@ class VoiceCLI:
     # ── event handlers ────────────────────────────────────────────────
 
     async def on_speech_start(self, event) -> None:
+        """Handle speech detection start event.
+
+        Args:
+            event: The speech start event containing no payload.
+        """
         self._spin_label("Listening…", "cyan")
 
     async def on_stt(self, event) -> None:
+        """Handle STT result event by displaying the transcript.
+
+        Args:
+            event: The STT event with transcript text in event.data.
+        """
         transcript = event.data
         if self.mode == "run":
             # Stop spinner → clean print → restart spinner for thinking
@@ -504,6 +553,11 @@ class VoiceCLI:
             self._spin_label("Thinking…", "yellow")
 
     async def on_cognitive(self, event) -> None:
+        """Handle cognitive gateway decision event by rendering the status bar.
+
+        Args:
+            event: The cognitive event with decision dict in event.data.
+        """
         # ── Always stop spinner BEFORE printing anything ──────────────
         self._spin_stop()
 
@@ -592,6 +646,11 @@ class VoiceCLI:
             self._spin_start("Listening…", "cyan")
 
     async def on_response_start(self, event) -> None:
+        """Handle response start event by clearing buffer and printing header.
+
+        Args:
+            event: The response start event (no payload).
+        """
         self.response_text = ""
         self._spin_stop()
         if self.mode == "text":
@@ -600,6 +659,11 @@ class VoiceCLI:
             console.print("[bold cyan]Sorachio:[/bold cyan] ", end="")
 
     async def on_token(self, event) -> None:
+        """Handle individual token events by printing to console.
+
+        Args:
+            event: The token event with the token string in event.data.
+        """
         token = event.data
         self.response_text += token
         if self.mode == "text":
@@ -607,6 +671,11 @@ class VoiceCLI:
         console.print(token, end="", highlight=False)
 
     async def on_response_end(self, event) -> None:
+        """Handle response end event by finalizing the output.
+
+        Args:
+            event: The response end event (no payload).
+        """
         console.print()  # Final newline for the response
         if self.mode == "text":
             console.print("\n────────────────────────────────────────")
@@ -614,12 +683,24 @@ class VoiceCLI:
             self._spin_start("Listening…", "cyan")
 
     async def on_interrupt(self, event) -> None:
+        """Handle interrupt event (barge-in) by stopping playback indicator.
+
+        Args:
+            event: The interrupt event (no payload).
+        """
         self._spin_stop()
         console.print("  [dim]╌ Interrupted[/dim]")
         if self.mode == "run":
             self._spin_start("Listening…", "cyan")
 
 async def _run_pipeline(settings, voice_mode=True, no_servers=False):
+    """Run the full Sorachio speech-to-speech pipeline.
+
+    Args:
+        settings: The SorachioSettings for this session.
+        voice_mode: If True, enable microphone capture. Currently always True.
+        no_servers: If True, skip starting llama-server instances.
+    """
     import platform
     import signal
 
@@ -708,6 +789,8 @@ def test_stt(
     _setup_logging(settings)
 
     async def _test():
+        """    Test.
+        """
         from stt.whisper_client import WhisperClient
         stt_cfg = settings.stt
         stt = WhisperClient(
@@ -760,6 +843,8 @@ def test_tts(
     _setup_logging(settings)
 
     async def _test():
+        """    Test.
+        """
         from tts.kokoro_client import KokoroTTSClient
 
         root = _project_root
@@ -808,6 +893,8 @@ def test_cognitive(
     _setup_logging(settings)
 
     async def _test():
+        """    Test.
+        """
         import json
 
         from cognition.cognitive_gateway import CognitiveGateway
@@ -874,6 +961,14 @@ def servers_status(config: str | None = typer.Option(None)):
     import httpx
 
     def check(url):
+        """Check if a llama-server health endpoint is reachable.
+
+        Args:
+            url: The base URL of the server (e.g. http://127.0.0.1:8001).
+
+        Returns:
+            Rich-formatted status string indicating Running, Error, or Offline.
+        """
         try:
             r = httpx.get(f"{url}/health", timeout=2.0)
             return "[green]● Running[/green]" if r.status_code == 200 else "[red]● Error[/red]"
@@ -893,6 +988,8 @@ def servers_start(config: str | None = typer.Option(None)):
     _setup_logging(settings)
 
     async def _start():
+        """    Start.
+        """
         from services.server_manager import ServerManager
         mgr = ServerManager(settings.llm, _project_root)
         ok = await mgr.start_all(wait_ready=True)
@@ -910,6 +1007,8 @@ def servers_stop(config: str | None = typer.Option(None)):
     settings = _load_settings(config)
 
     async def _stop():
+        """    Stop.
+        """
         from services.server_manager import ServerManager
         mgr = ServerManager(settings.llm, _project_root)
         mgr.stop_all()
@@ -929,6 +1028,8 @@ def memory_list(config: str | None = typer.Option(None)):
     _setup_logging(settings)
 
     async def _list():
+        """    List.
+        """
         from memory.long_term import LongTermMemory
         ltm = LongTermMemory(
             storage_path=str(_project_root / settings.memory.long_term.storage_path)

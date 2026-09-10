@@ -33,6 +33,13 @@ class VectorStore:
         embedding_model: str = "all-MiniLM-L6-v2",
         vector_model_dir: str | None = None,
     ):
+        """    Init.
+
+    Args:
+    storage_path (str): Description.
+    embedding_model (str): Description.
+    vector_model_dir: Description.
+        """
         self.storage_path = Path(storage_path)
         self.embedding_model = embedding_model
         self.vector_model_dir = Path(vector_model_dir) if vector_model_dir else None
@@ -55,6 +62,11 @@ class VectorStore:
 
             class OfflineSentenceTransformerEmbeddingFunction(EmbeddingFunction[Documents]):
                 def __init__(self, model_path_or_name: str | Path):
+                    """    Init.
+
+    Args:
+    model_path_or_name: Description.
+                    """
                     from sentence_transformers import SentenceTransformer  # type: ignore[import-untyped]
                     model_path = Path(model_path_or_name)
                     if model_path.exists():

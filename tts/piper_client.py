@@ -94,6 +94,19 @@ class PiperTTSClient:
         sample_rate: int = 22050,
         models_dir: str = "models/tts",
     ):
+        """Initialize the PiperTTSClient with voice and synthesis parameters.
+
+        Args:
+            audio_queue: Queue to place synthesized audio arrays for playback.
+            voice: Voice identifier for Piper TTS (e.g., 'id_ID-news_tts-medium').
+            speed: Speech speed multiplier (1.0 = normal speed).
+            lang: Language mode ('auto' for auto-detection).
+            sample_rate: Output audio sample rate in Hz (default 22050).
+            models_dir: Directory containing TTS ONNX model weights.
+    lang (str): Description.
+    sample_rate (int): Description.
+    models_dir (str): Description.
+        """
         self.audio_queue = audio_queue
         self.voice = voice
         self.speed = speed
@@ -421,6 +434,8 @@ class PiperTTSClient:
         loop = asyncio.get_event_loop()
 
         def _synth():
+            """    Synth.
+            """
 
             if not self._available:
                 return None

@@ -30,6 +30,11 @@ class SorachioPipeline:
     """
 
     def __init__(self, settings: SorachioSettings):
+        """Initialize the SorachioPipeline with settings and shared asyncio primitives.
+
+        Args:
+            settings: The SorachioSettings configuration for the entire system.
+        """
         self.settings = settings
         self.bus = get_bus()
 
@@ -354,6 +359,8 @@ class SorachioPipeline:
             recording_done = threading.Event()
 
             def _record():
+                """    Record.
+                """
                 nonlocal recorded_data
                 try:
                     recorded = sd.rec(

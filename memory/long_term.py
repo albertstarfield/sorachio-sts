@@ -44,6 +44,17 @@ class LTMEntry:
         metadata: dict[str, Any] | None = None,
         entry_id: str | None = None,
     ):
+        """    Init.
+
+    Args:
+    content (str): Description.
+    topic (str): Description.
+    emotion (str): Description.
+    importance (float): Description.
+    keywords: Description.
+    metadata: Description.
+    entry_id: Description.
+        """
         self.id = entry_id or str(uuid.uuid4())[:8]
         self.content = content
         self.topic = topic
@@ -56,6 +67,11 @@ class LTMEntry:
         self.access_count = 0
 
     def to_dict(self) -> dict[str, Any]:
+        """    To Dict.
+
+    Returns:
+        Description.
+        """
         return {
             "id": self.id,
             "content": self.content,
@@ -71,6 +87,14 @@ class LTMEntry:
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> LTMEntry:
+        """    From Dict.
+
+    Args:
+    d: Description.
+
+    Returns:
+        LTMEntry: Description.
+        """
         entry = cls(
             content=d["content"],
             topic=d.get("topic", "general"),
@@ -144,6 +168,16 @@ class LongTermMemory:
         vector_store: VectorStore | None = None,
         vector_weight: float = 0.7,
     ):
+        """    Init.
+
+    Args:
+    storage_path (str): Description.
+    max_entries (int): Description.
+    importance_threshold (float): Description.
+    retrieval_top_k (int): Description.
+    vector_store: Description.
+    vector_weight (float): Description.
+        """
         self.storage_path = Path(storage_path)
         self.max_entries = max_entries
         self.importance_threshold = importance_threshold
@@ -377,6 +411,11 @@ class LongTermMemory:
         return result
 
     async def get_stats(self) -> dict[str, Any]:
+        """    Get Stats.
+
+    Returns:
+        Description.
+        """
         async with self._lock:
             return {
                 "total_memories": len(self._entries),

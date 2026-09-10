@@ -32,6 +32,15 @@ log = get_logger("audio.capture")
 DEBUG_VERBOSE = False
 
 def _log_event(msg: str, force: bool = False) -> None:
+    """Log Event.
+    
+    Args:
+        msg (str): Description.
+        force (bool): Description.
+    
+        Returns:
+            None: Description.
+    """
     if DEBUG_VERBOSE or force:
         log.info(f"[AUDIO-EVENT] {msg}")
 
@@ -67,6 +76,25 @@ class AudioCapture:
         acoustic_gate_config: AcousticGateConfig | None = None,
         aec: AECProvider | None = None,
     ):
+        """Init.
+        
+        Args:
+            stt_queue: Description.
+            interrupt_callback: Description.
+            sample_rate (int): Description.
+            channels (int): Description.
+            chunk_duration_ms (int): Description.
+            device_index: Description.
+            silence_timeout_ms (int): Description.
+            vad_aggressiveness (int): Description.
+            min_speech_duration_ms (int): Description.
+            max_speech_duration_s (int): Description.
+            playback_active_event: Description.
+            interrupt_event: Description.
+            interruption_debounce_frames (int): Description.
+            acoustic_gate_config: Description.
+            aec: Description.
+        """
         self.stt_queue = stt_queue
         self.interrupt_callback = interrupt_callback
         self.sample_rate = sample_rate

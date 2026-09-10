@@ -86,6 +86,19 @@ class KokoroTTSClient:
         sample_rate: int = 24000,
         models_dir: str = "models/tts",
     ):
+        """Initialize the KokoroTTSClient with voice and synthesis parameters.
+
+        Args:
+            audio_queue: Queue to place synthesized audio arrays for playback.
+            voice: Voice identifier for Kokoro TTS (e.g., 'af_heart' for female).
+            speed: Speech speed multiplier (1.0 = normal speed).
+            lang: Language mode ('auto' for auto-detection, 'en' for English).
+            sample_rate: Output audio sample rate in Hz (default 24000).
+            models_dir: Directory containing TTS model weights.
+    lang (str): Description.
+    sample_rate (int): Description.
+    models_dir (str): Description.
+        """
         self.audio_queue = audio_queue
         self.voice = voice
         self.speed = speed
@@ -300,6 +313,11 @@ class KokoroTTSClient:
         # ── English Routing / Primary (Kokoro TTS) ───────────────────
         if self._kokoro_available and self._pipeline is not None:
             def _synth_kokoro() -> np.ndarray | None:
+                """    Synth Kokoro.
+
+    Returns:
+        Description.
+                """
                 try:
                     log.debug(f"[TTS] Synthesizing English (Kokoro): {text!r}")
                     generator = self._pipeline(

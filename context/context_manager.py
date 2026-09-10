@@ -43,6 +43,18 @@ class ContextManager:
         include_emotional_state: bool = True,
         emotion_tracker: EmotionTracker | None = None,
     ):
+        """Init.
+        
+        Args:
+            stm (ShortTermMemory): Description.
+            ltm (LongTermMemory): Description.
+            personality_prompt (str): Description.
+            companion_name (str): Description.
+            max_stm_in_prompt (int): Description.
+            max_ltm_in_prompt (int): Description.
+            include_emotional_state (bool): Description.
+            emotion_tracker: Description.
+        """
         self.stm = stm
         self.ltm = ltm
         self.personality_prompt = personality_prompt

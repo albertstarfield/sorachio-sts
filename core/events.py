@@ -105,6 +105,11 @@ class EventBus:
     """
 
     def __init__(self) -> None:
+        """    Init.
+
+    Returns:
+        None: Description.
+        """
         self._handlers: dict[EventType, list[HandlerFn]] = {}
         self._global_handlers: list[HandlerFn] = []
 

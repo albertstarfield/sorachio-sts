@@ -226,6 +226,21 @@ class WhisperClient:
         chunk_length_s: float = 5.0,
         models_dir: str | Path = "models/stt",
     ):
+        """Init.
+        
+        Args:
+            model_size (str): Description.
+            language: Description.
+            threads (int): Description.
+            beam_size (int): Description.
+            temperature (float): Description.
+            timeout_s (float): Description.
+            device (str): Description.
+            compute_type (str): Description.
+            streaming (bool): Description.
+            chunk_length_s (float): Description.
+            models_dir: Description.
+        """
         self.model_size = model_size
         # None or "auto" = auto-detect; otherwise pin to a language
         self.language = None if language in (None, "auto") else language
@@ -431,6 +446,8 @@ class WhisperClient:
         audio = _pcm_to_float32(audio_bytes)
 
         def _stream_gen():
+            """Stream Gen.
+            """
             try:
                 assert self._model is not None
                 segments_gen, info = self._model.transcribe(
@@ -464,6 +481,8 @@ class WhisperClient:
         done_event = threading.Event()
 
         def _run_stream():
+            """Run Stream.
+            """
             try:
                 for chunk in _stream_gen():
                     result_queue.put(chunk)

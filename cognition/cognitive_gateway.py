@@ -105,6 +105,13 @@ class CognitiveGateway:
         temperature: float = 0.1,
         max_tokens: int = 256,
     ):
+        """    Init.
+
+    Args:
+    client (LlamaClient): Description.
+    temperature (float): Description.
+    max_tokens (int): Description.
+        """
         self.client = client
         self.temperature = temperature
         self.max_tokens = max_tokens

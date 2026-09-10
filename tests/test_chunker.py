@@ -9,6 +9,8 @@ from utils.chunk_assembler import ChunkAssembler, split_into_chunks
 
 
 def test_split_simple():
+    """    Test Split Simple.
+    """
     chunks = split_into_chunks("Hello there. How are you? I am fine.")
     assert len(chunks) >= 2
     for c in chunks:
@@ -16,6 +18,8 @@ def test_split_simple():
 
 
 def test_split_preserves_content():
+    """    Test Split Preserves Content.
+    """
     text = "This is a test sentence. And another one here."
     chunks = split_into_chunks(text)
     rejoined = " ".join(chunks)
@@ -25,6 +29,8 @@ def test_split_preserves_content():
 
 
 def test_min_words_respected():
+    """    Test Min Words Respected.
+    """
     # Short fragments should be merged with next chunk
     text = "Hi. How are you doing today?"
     chunks = split_into_chunks(text, min_words=3)
@@ -34,9 +40,13 @@ def test_min_words_respected():
 
 @pytest.mark.asyncio
 async def test_async_chunker():
+    """    Test Async Chunker.
+    """
     assembler = ChunkAssembler(min_words=3, max_words=20)
 
     async def token_gen():
+        """    Token Gen.
+        """
         tokens = ["Hello ", "there. ", "How ", "are ", "you ", "doing ", "today? ", "Great!"]
         for t in tokens:
             yield t
@@ -52,6 +62,8 @@ async def test_async_chunker():
     assert "Great" in full_text
 
 
+    """    Test Chunker Reset.
+    """
 @pytest.mark.asyncio
 async def test_chunker_reset():
     assembler = ChunkAssembler()

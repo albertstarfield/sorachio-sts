@@ -68,6 +68,15 @@ class ChunkAssembler:
         flush_on_comma: bool = False,
         flush_timeout_s: float = 2.0,
     ):
+        """    Init.
+
+    Args:
+    min_words (int): Description.
+    max_words (int): Description.
+    sentence_endings: Description.
+    flush_on_comma (bool): Description.
+    flush_timeout_s (float): Description.
+        """
         self.min_words = min_words
         self.max_words = max_words
         self.sentence_endings = sentence_endings or [".", "!", "?", ";", "..."]

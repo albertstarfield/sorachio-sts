@@ -43,6 +43,16 @@ class PersonalityCore:
         temperature: float = 0.8,
         max_tokens: int = 512,
     ):
+        """    Init.
+
+    Args:
+    client (LlamaClient): Description.
+    tts_queue: Description.
+    interrupt_event: Description.
+    chunker_config: Description.
+    temperature (float): Description.
+    max_tokens (int): Description.
+        """
         self.client = client
         self.tts_queue = tts_queue
         self.interrupt_event = interrupt_event
@@ -86,6 +96,11 @@ class PersonalityCore:
 
             # Wrap token stream to track interruption
             async def interruptible_stream() -> AsyncIterator[str]:
+                """    Interruptible Stream.
+
+    Returns:
+        Description.
+                """
                 from core.events import EventType, get_bus
                 bus = get_bus()
                 async for token in token_stream:

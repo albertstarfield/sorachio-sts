@@ -42,6 +42,12 @@ class EmotionTracker:
         history_size: int = 50,
         summary_interval_turns: int = 10,
     ):
+        """    Init.
+
+    Args:
+    history_size (int): Description.
+    summary_interval_turns (int): Description.
+        """
         self._history: deque[EmotionEntry] = deque(maxlen=history_size)
         self._turn_count = 0
         self._summary_interval = summary_interval_turns
