@@ -1,9 +1,7 @@
 {
   "source_file": "capture.py",
-  "source_hash": "b4707cbfe43b63922ba804cbf411274d3f8ebac7484be85c5fcc8eac81e7fcb3",
-  "rs_checksum": "4545ee2ce3cb5f35d6ae28975eda85f1d51f3ecb4d00d88531046f7be06c5a63",
-  "gc_checksum": "547c9125a893015d0cda56c13638fc91bb951059e95b21bfadc6ecb5d383f369",
-  "version": "2.0",
-  "block_size": 512,
-  "total_blocks": 80
+  "source_hash": "3fbcfd724af258cdbd0c02b8c8bdf5014f5e3aec6fd9d42618b265477b61338a",
+  "rs_checksum": "8d17345b33d4597489c1079fb73a181c71bab79c6b870dd8fcbe09a98ce29f4a",
+  "gc_checksum": "3ff63f52245e856aa4206889bfa16a95b335e17ea0b0e6bb6aca3f0cc8e8bcde",
+  "version": "1.0"
 }

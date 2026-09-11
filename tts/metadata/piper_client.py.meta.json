@@ -1,9 +1,7 @@
 {
   "source_file": "piper_client.py",
-  "source_hash": "02c87a5efff1292f2b46dc8411f787426c5f22fcddd06ca2a7854b64f70f58f8",
-  "rs_checksum": "4e90923246c92ad39ae6cbd68334a8d7e0b998ec34f0906e0ce7e224672d3974",
-  "gc_checksum": "61a2c651d975a5f41c849ed2e3c8fcb61b18d84bd77cb6bee6623caf0c8efa4b",
-  "version": "2.0",
-  "block_size": 512,
-  "total_blocks": 69
+  "source_hash": "3369b436881a38464b152b48cc686eb10f8359b7206a11767bd9d691f3ea65cc",
+  "rs_checksum": "89c689bb670edd234d2355d980642bb8c217c49346c9d49e1a9d03d8adfe338d",
+  "gc_checksum": "43fe00cc40a1381daba8b9973e66f968188880baf808c5906e0da82dcd856f3f",
+  "version": "1.0"
 }

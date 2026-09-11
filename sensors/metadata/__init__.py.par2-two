@@ -1,1 +1,1 @@
-{"blocks": [{"block_index": 0, "checksum": "152543696", "data": "\"\"\"Sorachio-STS sensors package \u2014 future: cameras, IMU, LIDAR, etc.\"\"\"\n# proof: formal_verification_", "line_end": 2, "line_start": 0}], "chunk_size": 5, "source_file": "__init__.py", "total_chunks": 1}
+{"blocks": [{"block_index": 0, "checksum": "1203578467", "data": "\"\"\"Sorachio-STS sensors package \u2014 future: cameras, IMU, LIDAR, etc.\"\"\"\n# metadata: source parity tra", "line_end": 3, "line_start": 0}], "chunk_size": 5, "source_file": "__init__.py", "total_chunks": 1}

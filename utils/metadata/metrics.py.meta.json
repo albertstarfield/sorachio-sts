@@ -1,9 +1,7 @@
 {
   "source_file": "metrics.py",
-  "source_hash": "a1901f7bbb31558ee7df5193a3513bdcd34c1e15287ea7bae3f11b823fedafa6",
-  "rs_checksum": "89f24b9958f306aa6a80214cf28a33ff534ea9724ad1d761b827ba44bfa571d4",
-  "gc_checksum": "544a7ca035c7e221e88f2127ae8890851da82bcc072278e6506a1ee2de62d82e",
-  "version": "2.0",
-  "block_size": 512,
-  "total_blocks": 31
+  "source_hash": "cd178111574ba593a3a8521ac4dd2783d5a666d9300177922d2d548d61e4b686",
+  "rs_checksum": "65f7dc6936abb58cc296d1df045fdbcba7ca92ac4bfc50e993d6bd7e6d4ffd5a",
+  "gc_checksum": "13838f174ba5d2f099daaf15dc32df120fba41ab263db4c0afff8d829c29ccf8",
+  "version": "1.0"
 }

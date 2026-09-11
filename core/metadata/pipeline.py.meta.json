@@ -1,9 +1,7 @@
 {
   "source_file": "pipeline.py",
-  "source_hash": "c34950a55eed8dacf371e9d0fc0854133b457ec63aff926ed1c98f4b6c7e65fe",
-  "rs_checksum": "72e590544d1f25cd89867ac2e161c7e45891fb099b3fec96c2d2e9107ccff3ac",
-  "gc_checksum": "b34302ee62aa57ec6a7a8d9be041c0da577728a50718c95463e847259720b5c8",
-  "version": "2.0",
-  "block_size": 512,
-  "total_blocks": 92
+  "source_hash": "4920d6f54359fd9f712f29962cc91939fcd27de034622b7277087f590631d20b",
+  "rs_checksum": "f250e302f33b7b3ab5f28544a58c7258bea57e4a3a1e906983ff303a2bbe2e25",
+  "gc_checksum": "688c2cd5cdb7b70f7a735b9637a2b430e25686971824ae6424973ef9164798fd",
+  "version": "1.0"
 }

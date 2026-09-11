@@ -1,9 +1,7 @@
 {
   "source_file": "test_memory.py",
-  "source_hash": "f815f61e1306d33ef1b19e43c5c64eb54867b16ef5c6ac81c3093779c599a4fa",
-  "rs_checksum": "ac5d257dafa41d09afa93a134f527eefb785b711eeb25c8b60582d5db30d79b7",
-  "gc_checksum": "54e3239fca97dd4e55e5ef2b75d6477288ed97305c0021a616a2413582c819f3",
-  "version": "2.0",
-  "block_size": 512,
-  "total_blocks": 29
+  "source_hash": "da58dcdf4f90fa1aeedbe7799f9159f7cd5c33fda75822071f5f51b69dafc8cc",
+  "rs_checksum": "9e94fa6195f152e41a08b3b3244ad6193a72268028a5a64e10231f28c18ba342",
+  "gc_checksum": "34dc05cef5b296de5a49fd580d782a975fcdbbac8b73a3e3e42d8071b31c7ba0",
+  "version": "1.0"
 }

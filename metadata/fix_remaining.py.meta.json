@@ -1,9 +1,7 @@
 {
   "source_file": "fix_remaining.py",
-  "source_hash": "9b570063197710a60f2163d1b4817553295f8dad961cf1c76884561cd8226bfe",
-  "rs_checksum": "164d16334fe67a715eb4bf3995bd07f2af0bf9a33c28209e4ac0976bd9839a08",
-  "gc_checksum": "bf47261a660155fc2ba0ae0bf886fd56dc1f8736d7a6fa072fd6050333b20343",
-  "version": "2.0",
-  "block_size": 512,
-  "total_blocks": 26
+  "source_hash": "4af47609010b66b52afc44c2ceda8d585bdaf4fd7ba43c9dc7cb6b771373fe7e",
+  "rs_checksum": "25ec15529fe7d23eb88b162cfba57e03bb613870f9c9f88d853ff557b4c8bcbd",
+  "gc_checksum": "fa7f1c64d9b9a90fa3bfc91f4d1a4c55bf5a937a785a9ec67ec2bd2efbc898e6",
+  "version": "1.0"
 }

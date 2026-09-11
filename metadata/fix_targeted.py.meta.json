@@ -1,9 +1,7 @@
 {
   "source_file": "fix_targeted.py",
-  "source_hash": "acff97e5de6820ebb26f3cfedaeffcca227b905fd5a63d1ea7cbf2b283ca0883",
-  "rs_checksum": "550cf6ef92d4ac49ac551ebc67d647cfd104d0df1f18293c7004f1edfe043e52",
-  "gc_checksum": "8a08b3a2694a088060348176a76b0e619943e318ebeb65958e2b47907544caa0",
-  "version": "2.0",
-  "block_size": 512,
-  "total_blocks": 33
+  "source_hash": "6e6465364e3c650f1bfbf8d0da16111f04b45c23d7cdbd22e8984d8d7d7dccf0",
+  "rs_checksum": "83df951cb3fb85d17894e8b1f68720b4cfd880505457015715d1df1245311b9e",
+  "gc_checksum": "3ccf8bf0defcd7fc5c0805b734480333270c7c43610e775e35daaa52fc1cacf5",
+  "version": "1.0"
 }

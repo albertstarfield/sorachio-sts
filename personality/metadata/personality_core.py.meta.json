@@ -1,9 +1,7 @@
 {
   "source_file": "personality_core.py",
-  "source_hash": "71d8850a60e48ca3491485949acc2996c51ac7a4621fc47219622fa943c9e62b",
-  "rs_checksum": "64c01869f5e519d80861b558c6f09f2f4f6790c72cac307e9c5588655dedba25",
-  "gc_checksum": "92557d58c46b7cbfa4c67eb46aa9709aabe7c7cb80d8269a78139b8511710b19",
-  "version": "2.0",
-  "block_size": 512,
-  "total_blocks": 36
+  "source_hash": "9fcedcb8e43df9fdb694c8a5f21c4fc287c80d051b47daa002dbd27191e7af3b",
+  "rs_checksum": "3174fef55565df7b5141c22cbd76c90c3962eb5150d1264ce841ebc316b171c3",
+  "gc_checksum": "917122bb9d37e41b879b121ed8a24da4cade1782736a3400a475198736cb5369",
+  "version": "1.0"
 }

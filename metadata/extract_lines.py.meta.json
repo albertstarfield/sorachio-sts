@@ -1,9 +1,7 @@
 {
   "source_file": "extract_lines.py",
-  "source_hash": "d754259fbb6aa321f1994d1e2c3b15a52b36e9011357065ade047eb6248846e6",
-  "rs_checksum": "c4754d64e49fd6783c478b508fd6adbf2f5119298eefae6ef1e3d322c0788d41",
-  "gc_checksum": "ada0f8573ae7c8298c542d81639eb72aa84c54ce4e956bf507a3fca199489f1b",
-  "version": "2.0",
-  "block_size": 512,
-  "total_blocks": 24
+  "source_hash": "ea6af69e0141400d2bace7b82ed0c8c881f9e13e556616bf04fa3b831dcb5566",
+  "rs_checksum": "c9124c61b9c6a6cae2ce117df1241a337162e41f003fcb66e353b4181100d9b8",
+  "gc_checksum": "fde8d6e2bc021b75682873f4ddcef6a365e2fa59bdbb1df672bd128b30f7d71b",
+  "version": "1.0"
 }

@@ -1,9 +1,7 @@
 {
   "source_file": "whisper_client.py",
-  "source_hash": "a5664dee8e82f325cdfc41c1ee0d9be3889e857e445562a1481c9887cd3881bb",
-  "rs_checksum": "f3e95c40aa208366b9609d8b3be94056a67df9f620b6cd8f66bb3d659eb2d125",
-  "gc_checksum": "7f817aa49dae75a6e2ee8d485e861e787c6dfe9cab665510f0b17b43c0499681",
-  "version": "2.0",
-  "block_size": 512,
-  "total_blocks": 78
+  "source_hash": "9637d257ceeff1815d240a4dfdcfdca66ad95292b6fcc53414c5d43d0ee9d82a",
+  "rs_checksum": "2b7968c4e97674a86f054eb318c0deea3ab39c186eec93fae6b0f5b3a2e16d03",
+  "gc_checksum": "eb013039f09c57127c4ea46dd3bef9a94f4008ba012fbf115bb2e01417f15f76",
+  "version": "1.0"
 }

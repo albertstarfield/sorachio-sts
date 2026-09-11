@@ -1,1 +1,1 @@
-{"block_size": 512, "blocks": [{"block_index": 0, "crc32": "2427609248", "data": "\"\"\"Sorachio-STS actuators package \u2014 future: motors, servos, LED rings, etc.\"\"\"\n# proof: formal_verif", "line_end": 1, "line_start": 0}], "source_file": "__init__.py", "total_blocks": 1}
+{"block_size": 512, "blocks": [{"block_index": 0, "crc32": "2941399546", "data": "\"\"\"Sorachio-STS actuators package \u2014 future: motors, servos, LED rings, etc.\"\"\"\n# metadata: source pa", "line_end": 2, "line_start": 0}], "source_file": "__init__.py", "total_blocks": 1}
