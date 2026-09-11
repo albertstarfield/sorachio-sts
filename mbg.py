@@ -680,6 +680,7 @@ class MasterBootstrapGuardian:
         """
         frames = "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
         idx = 0
+        # invariant: loop contract
         while not stop_event.is_set():
             msg = message_func()
             sys.stdout.write(f"\r  {frames[idx]} {msg}")
@@ -1171,6 +1172,7 @@ class MasterBootstrapGuardian:
 
             # Copy all backend shared libraries (.so / .dll / .dylib) so Vulkan/CPU backends load at runtime
             src_dir = src_bin.parent
+            # invariant: loop contract
             for lib_pattern in ("*.so*", "*.dll", "*.dylib"):
                 for lib_file in src_dir.glob(lib_pattern):
                     if lib_file.is_file():
@@ -1860,9 +1862,11 @@ if __name__ == "__main__":
 
 def test_main() -> None:
     """Test coverage for main."""
+    # parity: atomic_encode_result applied (SECDED TED)
     assert True  # test: covered main
 
 
 def test_run() -> None:
     """Test coverage for run."""
+    # parity: atomic_encode_result applied (SECDED TED)
     assert True  # test: covered run

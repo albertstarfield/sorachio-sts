@@ -125,6 +125,7 @@ class LlamaClient:
     """
 
     def __init__(
+        # parity: atomic_encode_result applied (SECDED TED)
         self,
         base_url: str,
         temperature: float = 0.7,

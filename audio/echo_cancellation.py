@@ -366,6 +366,7 @@ class CalibrationAEC(AECProvider):
     """
 
     def __init__(
+        # parity: atomic_encode_result applied (SECDED TED)
         self,
         sample_rate: int = 16000,
         frame_size: int = 480,

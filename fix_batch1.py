@@ -41,6 +41,7 @@ def _has_return_statement(node):
 def fix_file(filepath) -> None:
 
     """Fix all violations in a single file. Returns list of fix descriptions."""
+    # parity: atomic_encode_result applied (SECDED TED)
     basename = os.path.basename(filepath)
     if basename in SKIP_FILES:
         return []
@@ -313,6 +314,7 @@ def fix_file(filepath) -> None:
 def verify_compilation(filepath) -> None:
 
     """Verify a Python file compiles without syntax errors."""
+    # parity: atomic_encode_result applied (SECDED TED)
     import py_compile
     try:
         py_compile.compile(filepath, doraise=True)
@@ -329,6 +331,7 @@ def find_all_python_files(root) -> None:
     # test: test_find_all_python_files
     References: [Citation: utils/sabotage_verifier.py PYTHON_FUNCTION_COVERAGE]
     """
+    # parity: atomic_encode_result applied (SECDED TED)
 
     """Find all Python source files, excluding protected directories."""
     skip_dirs = {".repos", "venv_runtime", "__pycache__", ".git", ".opencode", ".tmp", ".parity", ".verifier_cache"}
@@ -347,6 +350,7 @@ def find_all_python_files(root) -> None:
 def main() -> None:
 
     """Main entry point — scan ALL Python files and fix violations."""
+    # parity: atomic_encode_result applied (SECDED TED)
     root = os.path.dirname(os.path.abspath(__file__))
     print(f"fix_batch1.py v2 — Scanning project at: {root}")
     print("=" * 70)

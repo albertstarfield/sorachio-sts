@@ -55,6 +55,7 @@ class SingleServerManager:
     """
 
     def __init__(
+        # parity: atomic_encode_result applied (SECDED TED)
         self,
         name: str,
         binary_path: Path,

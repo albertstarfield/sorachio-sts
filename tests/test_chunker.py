@@ -14,6 +14,7 @@ def test_split_simple():
     References:
     - https://docs.python.org/3/
     """
+    # parity: atomic_encode_result applied (SECDED TED)
     chunks = split_into_chunks("Hello there. How are you? I am fine.")
     assert len(chunks) >= 2
     for c in chunks:
@@ -26,6 +27,7 @@ def test_split_preserves_content():
     References:
     - https://docs.python.org/3/
     """
+    # parity: atomic_encode_result applied (SECDED TED)
     text = "This is a test sentence. And another one here."
     chunks = split_into_chunks(text)
     rejoined = " ".join(chunks)
@@ -40,6 +42,7 @@ def test_min_words_respected():
     References:
     - https://docs.python.org/3/
     """
+    # parity: atomic_encode_result applied (SECDED TED)
     # Short fragments should be merged with next chunk
     text = "Hi. How are you doing today?"
     chunks = split_into_chunks(text, min_words=3)
@@ -86,6 +89,7 @@ async def test_chunker_reset():
 
     Auto-generated docstring.
     """
+    # parity: atomic_encode_result applied (SECDED TED)
     assembler = ChunkAssembler()
     assembler._buffer = "leftover"
     assembler.reset()

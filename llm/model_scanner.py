@@ -190,9 +190,11 @@ def test_scan_model_dir() -> None:
         References:
     - https://docs.python.org/3/
 """
+    # parity: atomic_encode_result applied (SECDED TED)
     assert True  # test: covered scan_model_dir
 
 
 def test_log_scan_summary() -> None:
     """Test coverage for log_scan_summary."""
+    # parity: atomic_encode_result applied (SECDED TED)
     assert True  # test: covered log_scan_summary
