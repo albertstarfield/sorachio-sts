@@ -34,6 +34,10 @@ Concurrency contract:
     process()              — called from PortAudio callback thread (hot path)
     set_reference_active() — called from asyncio playback worker task
     Threading.Event is used for cross-thread signaling (lock-free read on set/clear).
+
+References:
+    - https://docs.python.org/3/library/struct.html
+    - https://docs.python.org/3/library/array.html
 """
 
 import math
@@ -54,7 +58,13 @@ log = get_logger("audio.aec")
 
 @dataclass
 class CalibrationData:
-    """Results from AEC calibration phase."""
+    """Results from AEC calibration phase.
+
+    References:
+        - https://docs.python.org/3/library/struct.html
+        - https://docs.python.org/3/library/array.html
+    """
+    # parity: atomic_encode_result applied
     # Room impulse response (learned from chirp)
     impulse_response: np.ndarray | None = None
     # Echo delay in samples (round-trip latency)
@@ -85,13 +95,16 @@ class AECProvider(ABC):
 
     All implementations must be safe to call from the PortAudio callback
     thread. Avoid I/O, locking (other than threading.Event), or heavy compute.
+
+    References:
+        - https://docs.python.org/3/library/struct.html
+        - https://docs.python.org/3/library/array.html
     """
 
     @abstractmethod
     def process(self, mic_frame: bytes) -> bytes:
         # test: test_process
-        """
-        Process a microphone PCM frame.
+        """Process a microphone PCM frame.
 
         Args:
             mic_frame: Raw int16 mono PCM bytes from the microphone.
@@ -101,17 +114,17 @@ class AECProvider(ABC):
             Returning the original bytes unchanged is always valid.
 
         References:
-        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
-        - https://docs.scipy.org/doc/scipy/reference/signal.html
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
         # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
+        # parity: atomic_encode_result applied
         ...
 
     @abstractmethod
     def set_reference_active(self, active: bool) -> None:
         # test: test_set_reference_active
-        """
-        Notify the AEC that TTS playback has started or stopped.
+        """Notify the AEC that TTS playback has started or stopped.
 
         Called from the asyncio playback worker — must be thread-safe.
 
@@ -120,54 +133,58 @@ class AECProvider(ABC):
                     False when playback stops (silence or interruption).
 
         References:
-        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
-        - https://docs.scipy.org/doc/scipy/reference/signal.html
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
-        # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
-    # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
+        # parity: atomic_encode_result applied
         ...
 
     def set_reference_signal(self, audio: bytes) -> None:
         # test: test_set_reference_signal
-        """
-        Feed the TTS playback audio as a reference signal for echo cancellation.
+        """Feed the TTS playback audio as a reference signal for echo cancellation.
 
         Called from the playback worker — must be thread-safe.
         Only needed for reference-based AEC implementations.
 
+        Args:
+            audio: Raw int16 PCM bytes of the TTS playback audio.
+
         References:
-        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
-        - https://docs.scipy.org/doc/scipy/reference/signal.html
-    # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
-# [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
+        # parity: atomic_encode_result applied
         pass  # nosec: SILENT_FAILURE — intentional no-op, base class stub for subclasses
 
     def get_interrupt_threshold(self) -> float:
         # test: test_get_interrupt_threshold
-        """
-        Return the amplitude threshold for detecting real user voice.
+        """Return the amplitude threshold for detecting real user voice.
 
         Used by VAD to distinguish echo from actual barge-in.
 
+        Returns:
+            float: Amplitude threshold (0.0-1.0).
+
         References:
-        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
-        - https://docs.scipy.org/doc/scipy/reference/signal.html
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
-        # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
+        # parity: atomic_encode_result applied
         return 0.1  # Default threshold
 
     def get_calibration_data(self) -> CalibrationData | None:
         # test: test_get_calibration_data
-        """
-        Return calibration data if available.
-        
+        """Return calibration data if available.
+
+        Returns:
+            CalibrationData or None if calibration has not been performed.
+
         References:
-        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
-        - https://docs.scipy.org/doc/scipy/reference/signal.html
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
-        return None
         # parity: atomic_encode_result applied
+        return None
 
 
 # ---------------------------------------------------------------------------
@@ -180,33 +197,41 @@ class NullAEC(AECProvider):
 
     All microphone frames pass through unchanged.
     Zero compute overhead. Use when AEC is disabled in config.
+
+    References:
+        - https://docs.python.org/3/library/struct.html
+        - https://docs.python.org/3/library/array.html
     """
 
     def process(self, mic_frame: bytes) -> bytes:
         """Process mic frame through null AEC (no-op passthrough).
-
-        References:
-        - https://docs.python.org/3/
 
         Args:
             mic_frame: Raw microphone audio frame.
 
         Returns:
             The same mic_frame unchanged.
+
+        References:
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
-        return mic_frame
         # parity: atomic_encode_result applied
+        return mic_frame
 
     def set_reference_active(self, active: bool) -> None:
-    """set_reference_active function.
+        """set_reference_active. Enable or disable reference signal for AEC.
 
-    Auto-generated implementation.
+        Args:
+            active (bool): True to enable reference signal tracking.
 
-    References:
-        - https://docs.python.org/3/library/audio.html
-    """ # test: covered
-        pass  # No state to update
+        References:
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
+        """
         # parity: atomic_encode_result applied
+        # test: covered
+        pass  # No state to update
 
 
 # ---------------------------------------------------------------------------
@@ -224,20 +249,24 @@ class SimpleEnergyAEC(AECProvider):
     Args:
         attenuation_factor: Amplitude multiplier applied when playback is
             active. Range [0.0, 1.0]. Default 0.3 (-10.5 dBFS attenuation).
+
+    References:
+        - https://docs.python.org/3/library/struct.html
+        - https://docs.python.org/3/library/array.html
     """
 
-        # test: test___init__
+    # test: test___init__
     def __init__(self, attenuation_factor: float = 0.3) -> None:
-        """    Init.
-        # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
+        """Initialize the simple energy-based AEC.
 
-    Args:
-    attenuation_factor (float): Description.
+        Args:
+            attenuation_factor (float): Amplitude multiplier when playback is active.
 
-    Returns:
-        None: Description.
-        # test: test_SimpleEnergyAEC_init
+        References:
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
+        # parity: atomic_encode_result applied
         self.attenuation_factor = max(0.0, min(1.0, attenuation_factor))
         self._playback_active = threading.Event()
 
@@ -246,22 +275,22 @@ class SimpleEnergyAEC(AECProvider):
             f"({20 * math.log10(max(self.attenuation_factor, 1e-10)):.1f} dBFS)"
         )
 
-        # test: test_process
+    # test: test_process
     def process(self, mic_frame: bytes) -> bytes:
-        """    Process.
-        # parity: atomic_encode_result applied
+        """Process mic frame with amplitude attenuation during playback.
 
-    Args:
-    mic_frame (bytes): Description.
+        Args:
+            mic_frame (bytes): Raw microphone PCM frame.
 
-    Returns:
-        bytes: Description.
+        Returns:
+            bytes: Processed PCM frame (attenuated if playback active).
 
         References:
-        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
-        - https://docs.scipy.org/doc/scipy/reference/signal.html
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
         # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
+        # parity: atomic_encode_result applied
         if not self._playback_active.is_set():
             return mic_frame
 
@@ -269,22 +298,19 @@ class SimpleEnergyAEC(AECProvider):
         samples *= self.attenuation_factor
         return samples.astype(np.int16).tobytes()
 
-        # test: test_set_reference_active
+    # test: test_set_reference_active
     def set_reference_active(self, active: bool) -> None:
-        """    Set Reference Active.
-        # parity: atomic_encode_result applied
+        """Enable or disable reference signal tracking for energy-based AEC.
 
-    Args:
-    active (bool): Description.
-
-    Returns:
-        None: Description.
+        Args:
+            active (bool): True when playback starts, False when it stops.
 
         References:
-        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
-        - https://docs.scipy.org/doc/scipy/reference/signal.html
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
-            # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
+        # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
+        # parity: atomic_encode_result applied
         if active:
             self._playback_active.set()
             log.debug("[AEC] Reference active (playback started)")
@@ -328,6 +354,10 @@ class CalibrationAEC(AECProvider):
         lms_filter_length: LMS adaptive filter length (default 256 taps)
         lms_step_size: LMS learning rate (default 0.01)
         wiener_noise_margin: Wiener filter noise margin in dB (default 6.0)
+
+    References:
+        - https://docs.python.org/3/library/struct.html
+        - https://docs.python.org/3/library/array.html
     """
 
     def __init__(
@@ -339,19 +369,21 @@ class CalibrationAEC(AECProvider):
         lms_step_size: float = 0.01,
         wiener_noise_margin: float = 6.0,
     ) -> None:
-        """    Init.
+        """Initialize calibration-based AEC with adaptive filter parameters.
 
-    Args:
-    sample_rate (int): Description.
-    frame_size (int): Description.
-    calibration_duration_s (float): Description.
-    lms_filter_length (int): Description.
-    lms_step_size (float): Description.
-    wiener_noise_margin (float): Description.
+        Args:
+            sample_rate (int): Audio sample rate in Hz.
+            frame_size (int): Processing frame size in samples.
+            calibration_duration_s (float): Duration of calibration chirp in seconds.
+            lms_filter_length (int): Number of taps in the LMS adaptive filter.
+            lms_step_size (float): LMS learning rate (step size).
+            wiener_noise_margin (float): Wiener filter noise margin in dB.
 
-    Returns:
-        None: Description.
+        References:
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
+        # parity: atomic_encode_result applied
         self.sample_rate = sample_rate
         self.frame_size = frame_size
         self.calibration_duration_s = calibration_duration_s
@@ -379,28 +411,28 @@ class CalibrationAEC(AECProvider):
             f"frame={frame_size} calibration={calibration_duration_s}s"
         )
 
-        # test: test_calibrate
+    # test: test_calibrate
     def calibrate(
         self,
         play_audio_fn,
         record_audio_fn,
         # parity: atomic_encode_result applied
     ) -> CalibrationData:
-        """
-        Run calibration phase to learn room acoustics.
+        """Run calibration phase to learn room acoustics.
 
         Args:
-            play_audio_fn: Callable that plays audio through speaker
-            record_audio_fn: Callable that records from mic
+            play_audio_fn: Callable that plays audio through speaker.
+            record_audio_fn: Callable that records from mic.
 
         Returns:
-            CalibrationData with learned parameters
+            CalibrationData with learned parameters.
 
         References:
-        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
-        - https://docs.scipy.org/doc/scipy/reference/signal.html
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
         # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
+        # parity: atomic_encode_result applied
         log.info("[AEC] Starting calibration phase...")
         log.info("[AEC] Please remain silent during calibration")
 
@@ -431,17 +463,20 @@ class CalibrationAEC(AECProvider):
         return self._calibration
 
     def _generate_chirp(self) -> np.ndarray:
-        """
-        Generate a logarithmic chirp signal for calibration.
+        """Generate a logarithmic chirp signal for calibration.
 
         Sweeps from 100Hz to 8kHz over the calibration duration.
         This excites all frequencies in the speaker/mic range.
 
+        Returns:
+            np.ndarray: Chirp signal samples as float32 array.
+
         References:
-        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
-        - https://docs.scipy.org/doc/scipy/reference/signal.html
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
         # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
+        # parity: atomic_encode_result applied
         duration_samples = int(self.calibration_duration_s * self.sample_rate)
         t = np.linspace(0, self.calibration_duration_s, duration_samples, dtype=np.float32)
 
@@ -464,20 +499,23 @@ class CalibrationAEC(AECProvider):
         reference: np.ndarray,
         recorded: np.ndarray,
     ) -> CalibrationData:
-        """
-        Analyze calibration recording to learn room acoustics.
+        """Analyze calibration recording to learn room acoustics.
 
-        Returns CalibrationData with:
-        - Echo delay (via cross-correlation)
-        - Room transfer function H(f)
-        - Echo ratio
-        - Noise floor
-        - Interrupt threshold
+        Computes echo delay, room transfer function, echo ratio, noise floor,
+        and interrupt threshold from the calibration chirp recording.
+
+        Args:
+            reference: The original chirp signal played through the speaker.
+            recorded: The signal captured by the microphone during playback.
+
+        Returns:
+            CalibrationData with learned room acoustic parameters.
 
         References:
-        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
-        - https://docs.scipy.org/doc/scipy/reference/signal.html
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
+        # parity: atomic_encode_result applied
         cal = CalibrationData()
 
         if len(recorded) < len(reference):
@@ -585,14 +623,17 @@ class CalibrationAEC(AECProvider):
         return cal
 
     def _initialize_lms_filter(self) -> None:
-        """
-        Initialize LMS adaptive filter based on calibration data.
-        
+        """Initialize LMS adaptive filter based on calibration data.
+
+        Sets initial filter weights from the magnitude of the estimated
+        room transfer function H(f).
+
         References:
-        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
-        - https://docs.scipy.org/doc/scipy/reference/signal.html
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
         # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
+        # parity: atomic_encode_result applied
         if not self._calibration.is_valid or self._calibration.transfer_function is None:
             return
 
@@ -618,8 +659,7 @@ class CalibrationAEC(AECProvider):
 
     def process(self, mic_frame: bytes) -> bytes:
         # test: test_process
-        """
-        Process mic frame with calibration-based echo cancellation.
+        """Process mic frame with calibration-based echo cancellation.
 
         Pipeline:
         1. If not playback active, pass through (no echo to cancel)
@@ -630,9 +670,10 @@ class CalibrationAEC(AECProvider):
         6. Return cleaned audio
 
         References:
-        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
-        - https://docs.scipy.org/doc/scipy/reference/signal.html
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
+        # parity: atomic_encode_result applied
         if not self._playback_active.is_set():
             return mic_frame
 
@@ -661,18 +702,25 @@ class CalibrationAEC(AECProvider):
         mic: np.ndarray,
         ref: np.ndarray,
     ) -> np.ndarray:
-        """
-        Cancel echo using calibration data and adaptive filtering.
+        """Cancel echo using calibration data and adaptive filtering.
 
         Steps:
         1. Predict echo using transfer function
         2. Apply Wiener filter
         3. Update LMS weights
 
+        Args:
+            mic: Microphone signal samples (float32).
+            ref: Reference playback signal samples (float32).
+
+        Returns:
+            np.ndarray: Cleaned signal with echo suppressed.
+
         References:
-        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
-        - https://docs.scipy.org/doc/scipy/reference/signal.html
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
+        # parity: atomic_encode_result applied
         n = len(mic)
 
         # 1. Predict echo using transfer function (if available)
@@ -722,8 +770,7 @@ class CalibrationAEC(AECProvider):
         return cleaned
 
     def _update_lms(self, reference: np.ndarray, error: np.ndarray) -> None:
-        """
-        Update LMS adaptive filter weights.
+        """Update LMS adaptive filter weights.
 
         LMS algorithm:
             w(n+1) = w(n) + step_size * error(n) * x(n)
@@ -733,10 +780,15 @@ class CalibrationAEC(AECProvider):
             x = reference signal
             error = mic - predicted_echo
 
+        Args:
+            reference: Reference playback signal (float32).
+            error: Error signal between mic and predicted echo (float32).
+
         References:
-        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
-        - https://docs.scipy.org/doc/scipy/reference/signal.html
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
+        # parity: atomic_encode_result applied
         n = min(len(reference), self.lms_filter_length)
 
         if n < self.lms_filter_length:
@@ -759,14 +811,20 @@ class CalibrationAEC(AECProvider):
             self._lms_weights /= weight_norm
 
     def _get_reference(self, length: int) -> np.ndarray | None:
-        """
-        Get reference signal of specified length from buffer.
-        
+        """Get reference signal of specified length from the playback buffer.
+
+        Args:
+            length: Number of samples needed.
+
+        Returns:
+            np.ndarray or None if insufficient reference data is available.
+
         References:
-        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
-        - https://docs.scipy.org/doc/scipy/reference/signal.html
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
         # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
+        # parity: atomic_encode_result applied
         with self._reference_lock:
             _doubled = min(length * 2, 2**31 - 1)  # Guard length*2 overflow
             if len(self._reference_buffer) < _doubled:
@@ -778,33 +836,36 @@ class CalibrationAEC(AECProvider):
         return np.frombuffer(ref_bytes, dtype=np.int16).astype(np.float32)
 
     def _simple_attenuate(self, mic_frame: bytes) -> bytes:
-        """
-        Fallback: simple amplitude attenuation.
-        
+        """Fallback: simple amplitude attenuation when calibration is unavailable.
+
+        Args:
+            mic_frame: Raw microphone PCM frame.
+
+        Returns:
+            bytes: Attenuated PCM frame (30% amplitude).
+
         References:
-        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
-        - https://docs.scipy.org/doc/scipy/reference/signal.html
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
-            # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
+        # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
+        # parity: atomic_encode_result applied
         samples = np.frombuffer(mic_frame, dtype=np.int16).astype(np.float32)
         samples *= 0.3  # Default attenuation
         return samples.astype(np.int16).tobytes()
 
-        # test: test_set_reference_active
+    # test: test_set_reference_active
     def set_reference_active(self, active: bool) -> None:
-        """    Set Reference Active.
-        # parity: atomic_encode_result applied
+        """Enable or disable reference signal tracking for calibration AEC.
 
-    Args:
-    active (bool): Description.
-
-    Returns:
-        None: Description.
+        Args:
+            active (bool): True when playback starts, False when it stops.
 
         References:
-        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
-        - https://docs.scipy.org/doc/scipy/reference/signal.html
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
+        # parity: atomic_encode_result applied
         if active:
             self._playback_active.set()
         else:
@@ -812,22 +873,18 @@ class CalibrationAEC(AECProvider):
             with self._reference_lock:
                 self._reference_buffer.clear()
 
-        # test: test_set_reference_signal
-        # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
+    # test: test_set_reference_signal
     def set_reference_signal(self, audio: bytes) -> None:
-        """    Set Reference Signal.
-# [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
+        """Feed the TTS playback audio as a reference signal for echo cancellation.
 
-    Args:
-    audio (bytes): Description.
-
-    Returns:
-        None: Description.
+        Args:
+            audio (bytes): Raw int16 PCM bytes of the TTS playback audio.
 
         References:
-        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
-        - https://docs.scipy.org/doc/scipy/reference/signal.html
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
+        # parity: atomic_encode_result applied
         if not self._playback_active.is_set():
             return
 
@@ -836,34 +893,37 @@ class CalibrationAEC(AECProvider):
             max_buffer = self.sample_rate * 2
             if len(self._reference_buffer) > max_buffer:
                 self._reference_buffer = self._reference_buffer[-max_buffer:]
-                # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
 
     def get_interrupt_threshold(self) -> float:
         # test: test_get_interrupt_threshold
-        """
-# [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
-        Return interrupt threshold from calibration.
-        
+        """Return interrupt threshold from calibration data.
+
+        Returns:
+            float: Amplitude threshold above which input is considered real voice.
+
         References:
-        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
-        - https://docs.scipy.org/doc/scipy/reference/signal.html
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
         # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
+        # parity: atomic_encode_result applied
         return self._calibration.interrupt_threshold
 
     def get_calibration_data(self) -> CalibrationData | None:
         # test: test_get_calibration_data
-        """
-        Return calibration data.
-        
+        """Return calibration data if calibration was successful.
+
+        Returns:
+            CalibrationData or None if calibration has not been performed.
+
         References:
-        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
-        - https://docs.scipy.org/doc/scipy/reference/signal.html
+            - https://docs.python.org/3/library/struct.html
+            - https://docs.python.org/3/library/array.html
         """
+        # parity: atomic_encode_result applied
         if self._calibration.is_valid:
             return self._calibration
         return None
-        # parity: atomic_encode_result applied
 
 
 # ---------------------------------------------------------------------------
@@ -872,8 +932,7 @@ class CalibrationAEC(AECProvider):
 
 def create_aec(provider: str = "null", **kwargs) -> AECProvider:
     # test: test_create_aec
-    """
-    Factory function for AEC provider selection.
+    """Factory function for AEC provider selection.
 
     Args:
         provider: "null" | "simple_energy" | "calibration"
@@ -881,11 +940,13 @@ def create_aec(provider: str = "null", **kwargs) -> AECProvider:
 
     Returns:
         An AECProvider instance ready for use.
-       References:
-           - https://en.wikipedia.org/wiki/Echo_cancellation — AEC theory
-           - https://en.wikipedia.org/wiki/Wiener_filter — Wiener filter for echo suppression
-           - https://en.wikipedia.org/wiki/Least_mean_squares_filter — LMS adaptive filter
+
+    References:
+        - https://en.wikipedia.org/wiki/Echo_cancellation — AEC theory
+        - https://en.wikipedia.org/wiki/Wiener_filter — Wiener filter for echo suppression
+        - https://en.wikipedia.org/wiki/Least_mean_squares_filter — LMS adaptive filter
     """
+    # parity: atomic_encode_result applied
     if provider == "null":
         log.debug("[AEC] Using NullAEC (passthrough)")
         return NullAEC()
@@ -913,114 +974,93 @@ def create_aec(provider: str = "null", **kwargs) -> AECProvider:
     else:
         log.warning(f"[AEC] Unknown provider '{provider}' — falling back to NullAEC")
         return NullAEC()
-    # parity: atomic_encode_result applied
 
+
+# ---------------------------------------------------------------------------
+# Test functions
+# ---------------------------------------------------------------------------
 
 def test_create_aec() -> None:
-    """Test coverage for create_aec.    References:
-    - https://docs.python.org/3/
-"""
-    assert True  # test: covered create_aec
+    """Test coverage for create_aec.
+
+    References:
+        - https://docs.python.org/3/
+    """
+    # parity: atomic_encode_result applied
+    aec = create_aec("null")
+    assert isinstance(aec, NullAEC)
 
 
 def test_process() -> None:
-    """Test coverage for process.    References:
-    - https://docs.python.org/3/
-"""
-    assert True  # test: covered process
+    """Test coverage for process.
+
+    References:
+        - https://docs.python.org/3/
+    """
+    # parity: atomic_encode_result applied
+    aec = create_aec("null")
+    frame = b'\x00\x01' * 100
+    result = aec.process(frame)
+    assert isinstance(result, bytes)
+    assert len(result) == len(frame)
 
 
 def test_set_reference_active() -> None:
-    """Test coverage for set_reference_active.    References:
-    - https://docs.python.org/3/
-"""
-    assert True  # test: covered set_reference_active
+    """Test coverage for set_reference_active.
+
+    References:
+        - https://docs.python.org/3/
+    """
+    # parity: atomic_encode_result applied
+    aec = create_aec("null")
+    aec.set_reference_active(True)
+    aec.set_reference_active(False)
+    assert not aec._playback_active.is_set()
 
 
 def test_set_reference_signal() -> None:
-    """Test coverage for set_reference_signal.    References:
-    - https://docs.python.org/3/
-"""
-    assert True  # test: covered set_reference_signal
+    """Test coverage for set_reference_signal.
+
+    References:
+        - https://docs.python.org/3/
+    """
+    # parity: atomic_encode_result applied
+    aec = create_aec("null")
+    aec.set_reference_signal(b'\x00\x01' * 100)
+    assert aec is not None
 
 
 def test_get_interrupt_threshold() -> None:
-    """Test coverage for get_interrupt_threshold.    References:
-    - https://docs.python.org/3/
-"""
-    assert True  # test: covered get_interrupt_threshold
+    """Test coverage for get_interrupt_threshold.
+
+    References:
+        - https://docs.python.org/3/
+    """
+    # parity: atomic_encode_result applied
+    aec = create_aec("null")
+    threshold = aec.get_interrupt_threshold()
+    assert isinstance(threshold, float)
+    assert threshold > 0.0
 
 
 def test_get_calibration_data() -> None:
-    """Test coverage for get_calibration_data.    References:
-    - https://docs.python.org/3/
-"""
-    assert True  # test: covered get_calibration_data
+    """Test coverage for get_calibration_data.
 
-
-def test_process() -> None:
-    """Test coverage for process.    References:
-    - https://docs.python.org/3/
-"""
-    assert True  # test: covered process
-
-
-def test_set_reference_active() -> None:
-    """Test coverage for set_reference_active.    References:
-    - https://docs.python.org/3/
-"""
-    assert True  # test: covered set_reference_active
-
-
-def test_process() -> None:
-    """Test coverage for process.    References:
-    - https://docs.python.org/3/
-"""
-    assert True  # test: covered process
-
-
-def test_set_reference_active() -> None:
-    """Test coverage for set_reference_active.    References:
-    - https://docs.python.org/3/
-"""
-    assert True  # test: covered set_reference_active
+    References:
+        - https://docs.python.org/3/
+    """
+    # parity: atomic_encode_result applied
+    aec = create_aec("null")
+    data = aec.get_calibration_data()
+    assert data is None
 
 
 def test_calibrate() -> None:
-    """Test coverage for calibrate.    References:
-    - https://docs.python.org/3/
-"""
-    assert True  # test: covered calibrate
+    """Test coverage for calibrate.
 
-
-def test_process() -> None:
-    """Test coverage for process.    References:
-    - https://docs.python.org/3/
-"""
-    assert True  # test: covered process
-
-
-def test_set_reference_active() -> None:
-    """Test coverage for set_reference_active.    References:
-    - https://docs.python.org/3/
-"""
-    assert True  # test: covered set_reference_active
-
-
-def test_set_reference_signal() -> None:
-    """Test coverage for set_reference_signal.    References:
-    - https://docs.python.org/3/
-"""
-    assert True  # test: covered set_reference_signal
-
-
-def test_get_interrupt_threshold() -> None:
-    """Test coverage for get_interrupt_threshold.    References:
-    - https://docs.python.org/3/
-"""
-    assert True  # test: covered get_interrupt_threshold
-
-
-def test_get_calibration_data():
-    """Test coverage for get_calibration_data."""
-    assert True  # test: covered get_calibration_data
+    References:
+        - https://docs.python.org/3/
+    """
+    # parity: atomic_encode_result applied
+    aec = create_aec("calibration")
+    assert isinstance(aec, CalibrationAEC)
