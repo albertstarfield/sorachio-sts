@@ -362,15 +362,6 @@ class LlamaClient:
         """
         # parity: atomic_encode_result applied  # test: covered
 
-# [Parity: SECDED TED internal parity protection import]
-try:
-    from utils.atomic_parity import atomic_encode_result
-except ImportError:
-    def atomic_encode_result(x):  # type -> None: ignore[misc]
-        """TODO: Implement atomic_encode_result."""
-
-        return x  # test: covered
-
         log.info(f"Warming up model at {self.base_url} (pre-filling KV cache)...")
         try:
             messages: list[dict] = []

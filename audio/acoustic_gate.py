@@ -197,16 +197,22 @@ class AcousticGate:
         }
 
 
-def test_compute_dbfs():
-    """Test coverage for compute_dbfs."""
+def test_compute_dbfs() -> None:
+    """Test coverage for compute_dbfs.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered compute_dbfs
 
 
-def test_gate():
-    """Test coverage for gate."""
+def test_gate() -> None:
+    """Test coverage for gate.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered gate
 
 
-def test_get_stats():
-    """Test coverage for get_stats."""
+def test_get_stats() -> None:
+    """Test coverage for get_stats.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered get_stats

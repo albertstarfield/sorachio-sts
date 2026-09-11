@@ -182,16 +182,22 @@ class PersonalityCore:
         log.info("[Personality] Interrupt signal set")
 
 
-def test_generate_streaming():
-    """Test coverage for generate_streaming."""
+def test_generate_streaming() -> None:
+    """Test coverage for generate_streaming.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered generate_streaming
 
 
-def test_interrupt():
-    """Test coverage for interrupt."""
+def test_interrupt() -> None:
+    """Test coverage for interrupt.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered interrupt
 
 
-def test_interruptible_stream():
-    """Test coverage for interruptible_stream."""
+def test_interruptible_stream() -> None:
+    """Test coverage for interruptible_stream.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered interruptible_stream

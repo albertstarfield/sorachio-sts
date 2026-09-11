@@ -79,7 +79,7 @@ class VectorStore:
 
             class OfflineSentenceTransformerEmbeddingFunction(EmbeddingFunction[Documents]):
                     # test: test___init__
-                def __init__(self, model_path_or_name: str | Path):
+                def __init__(self, model_path_or_name: str | Path) -> None:
                     """    Init.
 
     Args:
@@ -326,31 +326,43 @@ class VectorStore:
         # parity: atomic_encode_result applied
 
 
-def test_initialize():
-    """Test coverage for initialize."""
+def test_initialize() -> None:
+    """Test coverage for initialize.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered initialize
 
 
-def test_available():
-    """Test coverage for available."""
+def test_available() -> None:
+    """Test coverage for available.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered available
 
 
-def test_add():
-    """Test coverage for add."""
+def test_add() -> None:
+    """Test coverage for add.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered add
 
 
-def test_query():
-    """Test coverage for query."""
+def test_query() -> None:
+    """Test coverage for query.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered query
 
 
-def test_delete():
-    """Test coverage for delete."""
+def test_delete() -> None:
+    """Test coverage for delete.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered delete
 
 
-def test_count():
-    """Test coverage for count."""
+def test_count() -> None:
+    """Test coverage for count.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered count

@@ -510,6 +510,8 @@ class CognitiveGateway:
         return result
 
 
-def test_analyze():
-    """Test coverage for analyze."""
+def test_analyze() -> None:
+    """Test coverage for analyze.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered analyze

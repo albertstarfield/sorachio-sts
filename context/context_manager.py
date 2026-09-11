@@ -226,16 +226,6 @@ class ContextManager:
         References:
         - https://docs.python.org/3/library/collections.html
         """
-
-# [Parity: SECDED TED internal parity protection import]
-try:
-    from utils.atomic_parity import atomic_encode_result
-except ImportError:
-    def atomic_encode_result(x):  # type -> None: ignore[misc]
-        """TODO: Implement atomic_encode_result."""
-
-        return x  # test: covered
-
         emotion = cognitive_decision.get("emotion", "neutral")
         topic = cognitive_decision.get("topic", "general")
         importance = cognitive_decision.get("importance", 0.3)

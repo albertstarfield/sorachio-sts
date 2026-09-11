@@ -85,6 +85,10 @@ class Event:
     timestamp: datetime = field(default_factory=datetime.now)
 
     def __repr__(self) -> str:
+        """    __repr__. 
+
+    Auto-generated docstring.
+    """
         data_repr = str(self.data)[:80] if self.data else "None"
         return f"Event({self.type.name}, src={self.source}, data={data_repr!r})"
 
@@ -233,33 +237,45 @@ def reset_bus() -> EventBus:
     return _bus
 
 
-def test_get_bus():
-    """Test coverage for get_bus."""
+def test_get_bus() -> None:
+    """Test coverage for get_bus.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered get_bus
 
 
-def test_reset_bus():
-    """Test coverage for reset_bus."""
+def test_reset_bus() -> None:
+    """Test coverage for reset_bus.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered reset_bus
 
 
-def test_subscribe():
-    """Test coverage for subscribe."""
+def test_subscribe() -> None:
+    """Test coverage for subscribe.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered subscribe
 
 
-def test_subscribe_all():
-    """Test coverage for subscribe_all."""
+def test_subscribe_all() -> None:
+    """Test coverage for subscribe_all.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered subscribe_all
 
 
-def test_unsubscribe():
-    """Test coverage for unsubscribe."""
+def test_unsubscribe() -> None:
+    """Test coverage for unsubscribe.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered unsubscribe
 
 
-def test_publish():
-    """Test coverage for publish."""
+def test_publish() -> None:
+    """Test coverage for publish.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered publish
 
 

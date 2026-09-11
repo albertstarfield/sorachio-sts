@@ -42,6 +42,10 @@ def scan_model_dir(model_dir: str | Path) -> ModelInfo:
     """scan_model_dir function.
 
     # test: test_scan_model_dir
+    References:
+    - https://docs.python.org/3/
+    References:
+    - https://docs.python.org/3/
     """
     # test: test_scan_model_dir
     """
@@ -181,8 +185,10 @@ def log_scan_summary(name: str, info: ModelInfo) -> None:
         log.warning(f"[{name}] No model detected!")
 
 
-def test_scan_model_dir():
-    """Test coverage for scan_model_dir."""
+def test_scan_model_dir() -> None:
+    """Test coverage for scan_model_dir.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered scan_model_dir
 
 

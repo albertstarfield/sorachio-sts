@@ -82,6 +82,10 @@ async def test_async_chunker():
     """
 @pytest.mark.asyncio
 async def test_chunker_reset():
+    """    test_chunker_reset. 
+
+    Auto-generated docstring.
+    """
     assembler = ChunkAssembler()
     assembler._buffer = "leftover"
     assembler.reset()

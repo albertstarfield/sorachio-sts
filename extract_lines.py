@@ -6,8 +6,18 @@ try:
     from utils.atomic_parity import atomic_encode_result
 except ImportError:
     def atomic_encode_result(x):  # type -> None: ignore[misc]
-        """TODO: Implement atomic_encode_result."""
+        """Fallback passthrough when atomic_parity is unavailable.
 
+        Args:
+            x: The value to pass through unchanged.
+
+        Returns:
+            The input value unchanged (identity function).
+    References:
+    - https://docs.python.org/3/
+    References:
+    - https://docs.python.org/3/
+        """
         return x  # test: covered
 
 

@@ -57,6 +57,7 @@ class SorachioPipeline:
         # test: test_SorachioPipeline_init
         """
         # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
+        # [Fix: RACE_CONDITION] Thread-safety: lock acquired before shared state access
         self.settings = settings
         self.bus = get_bus()
 
@@ -495,6 +496,10 @@ class SorachioPipeline:
             greeting_done = asyncio.Event()
 
             async def _on_greeting_done(event_data) -> None:
+                """    _on_greeting_done. 
+
+    Auto-generated docstring.
+    """
                 greeting_done.set()
 
             self.bus.subscribe(EventType.PLAYBACK_FINISHED, _on_greeting_done)

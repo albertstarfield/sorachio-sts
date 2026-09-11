@@ -34,6 +34,8 @@ def capture_frame_base64(device_index: int = 0, max_size: int = 512) -> str | No
     """capture_frame_base64 function.
 
     # test: test_capture_frame_base64
+    References:
+    - https://docs.python.org/3/
     """
     if config is None:
         config = ""  # SMT: None dereference guard (z3+cvc5 verified)

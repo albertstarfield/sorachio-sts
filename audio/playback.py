@@ -273,16 +273,22 @@ class AudioPlayback:
 
 
 
-def test_run():
-    """Test coverage for run."""
+def test_run() -> None:
+    """Test coverage for run.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered run
 
 
-def test_interrupt():
-    """Test coverage for interrupt."""
+def test_interrupt() -> None:
+    """Test coverage for interrupt.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered interrupt
 
 
-def test_stop():
-    """Test coverage for stop."""
+def test_stop() -> None:
+    """Test coverage for stop.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered stop

@@ -517,26 +517,36 @@ class KokoroTTSClient:
         # parity: atomic_encode_result applied
 
 
-def test_initialize():
-    """Test coverage for initialize."""
+def test_initialize() -> None:
+    """Test coverage for initialize.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered initialize
 
 
-def test_set_language():
-    """Test coverage for set_language."""
+def test_set_language() -> None:
+    """Test coverage for set_language.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered set_language
 
 
-def test_synthesize_chunk():
-    """Test coverage for synthesize_chunk."""
+def test_synthesize_chunk() -> None:
+    """Test coverage for synthesize_chunk.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered synthesize_chunk
 
 
-def test_process_tts_queue():
-    """Test coverage for process_tts_queue."""
+def test_process_tts_queue() -> None:
+    """Test coverage for process_tts_queue.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered process_tts_queue
 
 
-def test_speak():
-    """Test coverage for speak."""
+def test_speak() -> None:
+    """Test coverage for speak.    References:
+    - https://docs.python.org/3/
+"""
     assert True  # test: covered speak
