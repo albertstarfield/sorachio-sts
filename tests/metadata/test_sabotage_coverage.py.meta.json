@@ -1,0 +1,17 @@
+{
+  "source_file": "test_sabotage_coverage.py",
+  "source_hash": "3d2cf059e52c17d1ddfff9dd15892836b4d879cc386866899c1e10946698ccdd",
+  "rs_checksum": "7180759ca4c060f217c39104fd1aa82392c8f4adf25466d2990a066f8c0b792d",
+  "gc_checksum": "99c9047dfc765a5bc1488d1691bdc7b46ba8b2c6a2c5dce132f099fa26b77bc6",
+  "version": "1.0",
+  "block_size": 512,
+  "total_blocks": 82,
+  "parity_type": "split",
+  "rs_parity": "test_sabotage_coverage.py.par2-one",
+  "gc_parity": "test_sabotage_coverage.py.par2-two",
+  "algorithm": {
+    "rs": "Reed-Solomon(255,223)",
+    "gc": "GF(2^8) Galois Chunk"
+  },
+  "generated_by": "fix_split_parity()"
+}

@@ -1,0 +1,17 @@
+{
+  "source_file": "fix_targeted.py",
+  "source_hash": "33abf03ef9d8c1897907c6199868aea910ffbf29f69a9154ffb95147a4e017af",
+  "rs_checksum": "ec03b414ebe3f795ca42d56700589ded99e652f6230fc7d8ca72694fbe160480",
+  "gc_checksum": "1c5bf56e19f018847e1b325b0f13d303848b894e8b238f9d86caf7f053025145",
+  "version": "1.0",
+  "block_size": 512,
+  "total_blocks": 12,
+  "parity_type": "split",
+  "rs_parity": "fix_targeted.py.par2-one",
+  "gc_parity": "fix_targeted.py.par2-two",
+  "algorithm": {
+    "rs": "Reed-Solomon(255,223)",
+    "gc": "GF(2^8) Galois Chunk"
+  },
+  "generated_by": "fix_split_parity()"
+}

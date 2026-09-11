@@ -1,0 +1,17 @@
+{
+  "source_file": "test_memory.py",
+  "source_hash": "9a2b01fb86b3fce2c93f5e5a07780c3c1e8f51707ad3666690a2a5b05376043c",
+  "rs_checksum": "a4fa7405957a57aba0f15e954810b3ed74f6dcb15585c5343bbd42fdf0cdf8c0",
+  "gc_checksum": "9e00095e65573e641c5a4dbcc1354199ba98681e9cf22f525bf729d98eac4617",
+  "version": "1.0",
+  "block_size": 512,
+  "total_blocks": 8,
+  "parity_type": "split",
+  "rs_parity": "test_memory.py.par2-one",
+  "gc_parity": "test_memory.py.par2-two",
+  "algorithm": {
+    "rs": "Reed-Solomon(255,223)",
+    "gc": "GF(2^8) Galois Chunk"
+  },
+  "generated_by": "fix_split_parity()"
+}

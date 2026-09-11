@@ -1,6 +1,11 @@
 {
-  "source": "settings.py",
-  "source_hash": "0450a421c05acee9c826a8b8d2420468361549aaf916613b59df5c4a93a3808d",
+  "source_file": "settings.py",
+  "source_hash": "fd79e95ec18aab09c304514547bbff3914cf0362f7660b4606dff516651149e1",
+  "rs_checksum": "0ef937d0d29f0f271d557a8088efc639502c3c0644e76ee14eee6cac2eb9c340",
+  "gc_checksum": "6ef8c167249555357c338ce6ab24e91c5be05902bb7b1f93b95ce911e7441916",
+  "version": "1.0",
+  "block_size": 512,
+  "total_blocks": 29,
   "parity_type": "split",
   "rs_parity": "settings.py.par2-one",
   "gc_parity": "settings.py.par2-two",
@@ -8,8 +13,5 @@
     "rs": "Reed-Solomon(255,223)",
     "gc": "GF(2^8) Galois Chunk"
   },
-  "generated_by": "generate_split_parity()",
-  "rs_checksum": "7ad8b0ab8a8fbc41074747376e8b8e22640185e4e114f2637cbe557d7520afdc",
-  "gc_checksum": "1369b2afdd0a4a334603b8859a3847945a4f2469f4fbed9e6806667a6b315543",
-  "version": "1.0.0"
+  "generated_by": "fix_split_parity()"
 }

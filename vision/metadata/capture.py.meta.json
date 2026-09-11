@@ -1,6 +1,11 @@
 {
-  "source": "capture.py",
-  "source_hash": "88107915291957dc39b13dfc1ae5dd7749d276eaf9ed58f744c6495086e779b1",
+  "source_file": "capture.py",
+  "source_hash": "72f0a9ffea410391f2d9dafd1ce13e146a430123d3833c3f79dec278939f50d6",
+  "rs_checksum": "b2963e129953d809574521fbdf5316ed951cb3c7eaf9cf96e7c71e46371bc8b1",
+  "gc_checksum": "db50d3a90312906c020faaf470f86f5db925d9eed1b3c4deeddab9cfdcb78fb4",
+  "version": "1.0",
+  "block_size": 512,
+  "total_blocks": 8,
   "parity_type": "split",
   "rs_parity": "capture.py.par2-one",
   "gc_parity": "capture.py.par2-two",
@@ -8,8 +13,5 @@
     "rs": "Reed-Solomon(255,223)",
     "gc": "GF(2^8) Galois Chunk"
   },
-  "generated_by": "generate_split_parity()",
-  "rs_checksum": "a041f9bc41f0b92c83f8b8d1a29ae9a0896e830b486bcaa14d5ab041dcedb78e",
-  "gc_checksum": "7fca5cd3555fc95033253a9e632ef2797248a518123f3ab78c0aaf785be4a252",
-  "version": "1.0.0"
+  "generated_by": "fix_split_parity()"
 }

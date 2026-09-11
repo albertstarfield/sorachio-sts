@@ -1,0 +1,17 @@
+{
+  "source_file": "__init__.py",
+  "source_hash": "eacd16eef299a2f297494b88b731e13da46a3c08793ff5ce7d2d042041a3d0bc",
+  "rs_checksum": "e19ce2ef66d36a185b2b715db9487522d36c49acce8e545bbdb4e2f9954e10ad",
+  "gc_checksum": "1709bd96bbe8f215c238d3f8dc8a13e4024ee62c89a18f5314bc666d31f6d918",
+  "version": "1.0",
+  "block_size": 512,
+  "total_blocks": 1,
+  "parity_type": "split",
+  "rs_parity": "__init__.py.par2-one",
+  "gc_parity": "__init__.py.par2-two",
+  "algorithm": {
+    "rs": "Reed-Solomon(255,223)",
+    "gc": "GF(2^8) Galois Chunk"
+  },
+  "generated_by": "fix_split_parity()"
+}

@@ -1,6 +1,11 @@
 {
-  "source": "acoustic_gate.py",
-  "source_hash": "d7fb1e27a983499cdf8283dcf8f54723af4a4b359bfdfa68d37e4693a9aeb5f9",
+  "source_file": "acoustic_gate.py",
+  "source_hash": "e1991d0bd4c3366823f84bc9ffe813605843dd48cb9a1b5e0127e80fedf2fc03",
+  "rs_checksum": "5818b67ff1edd354275f358edf3a692c52e6fffdb66f88d7085262dd9399aeb8",
+  "gc_checksum": "2e1a6cb8cdaac0f171b915399758f1eca8fb9637ee3b190dad54d40995ae0055",
+  "version": "1.0",
+  "block_size": 512,
+  "total_blocks": 15,
   "parity_type": "split",
   "rs_parity": "acoustic_gate.py.par2-one",
   "gc_parity": "acoustic_gate.py.par2-two",
@@ -8,8 +13,5 @@
     "rs": "Reed-Solomon(255,223)",
     "gc": "GF(2^8) Galois Chunk"
   },
-  "generated_by": "generate_split_parity()",
-  "rs_checksum": "30a9b40aa4df4d9deb08ef2edef7b41e905dc4ed6ebd9d7220d59a456931fc49",
-  "gc_checksum": "cd05a9f4276d7c3f7ec5bb45d408bd1f15b0f932c33c51aaaffa9d9fe496c3e7",
-  "version": "1.0.0"
+  "generated_by": "fix_split_parity()"
 }

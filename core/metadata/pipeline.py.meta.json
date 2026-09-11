@@ -1,6 +1,11 @@
 {
-  "source": "pipeline.py",
-  "source_hash": "b7d4cfacf1d7f1a51a08524250211c30bd0c02dcb438f889efbbd508efb3c705",
+  "source_file": "pipeline.py",
+  "source_hash": "ad6e3504f1405fe0bf50a12e40edcdd4de2834686ba428d726e945bc086d9ff1",
+  "rs_checksum": "764e18155eca39c4b625f630bffdc1d7c513fa22401f076c4ea8f59e6353638e",
+  "gc_checksum": "324e107afa0438a897bf274ed43a7e2b80d2a3449b8ff912d90c581e23492358",
+  "version": "1.0",
+  "block_size": 512,
+  "total_blocks": 72,
   "parity_type": "split",
   "rs_parity": "pipeline.py.par2-one",
   "gc_parity": "pipeline.py.par2-two",
@@ -8,8 +13,5 @@
     "rs": "Reed-Solomon(255,223)",
     "gc": "GF(2^8) Galois Chunk"
   },
-  "generated_by": "generate_split_parity()",
-  "rs_checksum": "e6441ab9ecaae21603bcde2ae4447bec9535a4a58dfb11d1a20048002c00592c",
-  "gc_checksum": "60d10a2c9ce74166227d1eb03527ab8bcae119d784e2f47f73eabc1ce731e9f5",
-  "version": "1.0.0"
+  "generated_by": "fix_split_parity()"
 }

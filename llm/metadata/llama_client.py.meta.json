@@ -1,6 +1,11 @@
 {
-  "source": "llama_client.py",
-  "source_hash": "52eb20d1ec31bd113c23e615d64167135124abfc50c06bf3f0897fc58cd8953e",
+  "source_file": "llama_client.py",
+  "source_hash": "6807cc05032cf2bfdc1244cb368298ae0bfd44dd9ceb56d616976b5b348869d5",
+  "rs_checksum": "a42fa8f688e95bdb30b50791b5a9c7befe2f55f867cfec662ea3c0455f079c81",
+  "gc_checksum": "46e7b7ee844392117c7e2580f5571d20e734feee1efc2027bfa419c5f6a8005d",
+  "version": "1.0",
+  "block_size": 512,
+  "total_blocks": 38,
   "parity_type": "split",
   "rs_parity": "llama_client.py.par2-one",
   "gc_parity": "llama_client.py.par2-two",
@@ -8,8 +13,5 @@
     "rs": "Reed-Solomon(255,223)",
     "gc": "GF(2^8) Galois Chunk"
   },
-  "generated_by": "generate_split_parity()",
-  "rs_checksum": "764fe1324d1ceba5a36293dac2d6ce72018ca970fae09347a3bd197eba16457c",
-  "gc_checksum": "208989dddb9f812f8478efed6daf9ce289ef2d345af6033dd669682440fda39a",
-  "version": "1.0.0"
+  "generated_by": "fix_split_parity()"
 }

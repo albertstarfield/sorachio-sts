@@ -1,6 +1,11 @@
 {
-  "source": "long_term.py",
-  "source_hash": "9a310b8e9d131c1ac96aba65295854849287452ccab40a09afa4ff13f403714f",
+  "source_file": "long_term.py",
+  "source_hash": "4451616ed1ddec24b9c174281bbd5a669c229af101a03a157caa096713c93829",
+  "rs_checksum": "e76eda03baff6b74f84f613989d86a3375f86b3d29a69d81a17554026e1cd5a8",
+  "gc_checksum": "57e822e9f04c713412857b695a5f986818946738fed2b617bf1765af5a845644",
+  "version": "1.0",
+  "block_size": 512,
+  "total_blocks": 39,
   "parity_type": "split",
   "rs_parity": "long_term.py.par2-one",
   "gc_parity": "long_term.py.par2-two",
@@ -8,8 +13,5 @@
     "rs": "Reed-Solomon(255,223)",
     "gc": "GF(2^8) Galois Chunk"
   },
-  "generated_by": "generate_split_parity()",
-  "rs_checksum": "f0d41e6bb72c7373cc8c4ef102b2dc2cb3d7768f6a4325159adf7b88fd729301",
-  "gc_checksum": "bcd8d44b3ce9d812b2e87202c597d0bedeb0aab5ca96179e6c9652be1fcd6dbb",
-  "version": "1.0.0"
+  "generated_by": "fix_split_parity()"
 }

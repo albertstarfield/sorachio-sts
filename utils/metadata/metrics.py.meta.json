@@ -1,6 +1,11 @@
 {
-  "source": "metrics.py",
-  "source_hash": "7e3101380898618cc82e49b6b1353393de461d2cce969c097a21ead540100549",
+  "source_file": "metrics.py",
+  "source_hash": "a7e223ca34876295225d35e22c5df93847bef41abe7945675cdb42817423cd29",
+  "rs_checksum": "5605558f42e7c8c171998718bef196569c0253e9eb9dbdebd188ddb2a9a8766f",
+  "gc_checksum": "0beae75b8216c00b5c80681df6736669af8f381e3edb4b0fd35707571ed587dc",
+  "version": "1.0",
+  "block_size": 512,
+  "total_blocks": 10,
   "parity_type": "split",
   "rs_parity": "metrics.py.par2-one",
   "gc_parity": "metrics.py.par2-two",
@@ -8,8 +13,5 @@
     "rs": "Reed-Solomon(255,223)",
     "gc": "GF(2^8) Galois Chunk"
   },
-  "generated_by": "generate_split_parity()",
-  "rs_checksum": "2f2320430a2cd2b3064d85bf28c14a7637c899bbc4df6ba5bb02c131e3b4bf55",
-  "gc_checksum": "6125962b82b371d9267c49fc35c33259b6c4f1356891765b5d4671588c8d83be",
-  "version": "1.0.0"
+  "generated_by": "fix_split_parity()"
 }

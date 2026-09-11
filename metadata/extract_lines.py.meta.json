@@ -1,0 +1,17 @@
+{
+  "source_file": "extract_lines.py",
+  "source_hash": "98ce4db5726d6e2da7cea8d6202a361ce87826fad899306ef44d8105d4577620",
+  "rs_checksum": "abaccae4a2c7d580408e14f1422d248d0ec95a48f50ff29e03047196f5e12622",
+  "gc_checksum": "978914d63d25c5bed0c0b86a9fb490f9d6475755e2331e55b07dfe998dacc45a",
+  "version": "1.0",
+  "block_size": 512,
+  "total_blocks": 3,
+  "parity_type": "split",
+  "rs_parity": "extract_lines.py.par2-one",
+  "gc_parity": "extract_lines.py.par2-two",
+  "algorithm": {
+    "rs": "Reed-Solomon(255,223)",
+    "gc": "GF(2^8) Galois Chunk"
+  },
+  "generated_by": "fix_split_parity()"
+}

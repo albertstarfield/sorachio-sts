@@ -1,6 +1,11 @@
 {
-  "source": "server_manager.py",
-  "source_hash": "f6e9770fa2832bd878020cf22963dd1ceff820abc9e1f8740387689865ba98ed",
+  "source_file": "server_manager.py",
+  "source_hash": "9538703eca72323b7ceffc9387c30ebd4d6615676021d2a375d61a6a3045ac0d",
+  "rs_checksum": "5d3c9ef78643906f6f8716da4d30f3c4588495d09ba0099519796fa8752ee9a8",
+  "gc_checksum": "957a6b003d29ea0eb6d0a5e643d195c436fdbfa233d2bec6bc26a301b937f496",
+  "version": "1.0",
+  "block_size": 512,
+  "total_blocks": 46,
   "parity_type": "split",
   "rs_parity": "server_manager.py.par2-one",
   "gc_parity": "server_manager.py.par2-two",
@@ -8,8 +13,5 @@
     "rs": "Reed-Solomon(255,223)",
     "gc": "GF(2^8) Galois Chunk"
   },
-  "generated_by": "generate_split_parity()",
-  "rs_checksum": "00f93dd598d4687a7d1ce87b865ab530563a203c3a8ae81852e399a506f49032",
-  "gc_checksum": "bcb508b90e9a153150b77685d9677bfabb9b7cfb6ec014a5b2ff4494dae097fb",
-  "version": "1.0.0"
+  "generated_by": "fix_split_parity()"
 }
