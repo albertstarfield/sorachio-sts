@@ -1,17 +1,7 @@
 {
   "source_file": "bootstrapper.py",
   "source_hash": "e1f7db22b96dad2463fc17df36a3be609fb63661b724c0e5cf9503a8f355ecbd",
-  "rs_checksum": "df66cf432dde821c25a90e679f97c923587740871216f4089149f6aaab290b3f",
-  "gc_checksum": "5f43423a7fc339a444fe443b1d6ec579592543bdca887bd07736c5c003c82aeb",
-  "version": "1.0",
-  "block_size": 512,
-  "total_blocks": 37,
-  "parity_type": "split",
-  "rs_parity": "bootstrapper.py.par2-one",
-  "gc_parity": "bootstrapper.py.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "fix_split_parity()"
+  "rs_checksum": "29c36840e5846108c67ff569adb05b4393ca94b4c5d675c22eb868826e086a7e",
+  "gc_checksum": "092c45f04e78a5e56347f5242bbd751fbaa56eb1b9e3394a2a57d42b9da87f41",
+  "version": "1.0"
 }

@@ -1,17 +1,7 @@
 {
   "source_file": "events.py",
   "source_hash": "f870b4f5b246c111797eb491b3cf1ef97822727acdd24286b8035a0b6bbb5ee5",
-  "rs_checksum": "6e6672a34cbfafa4bae5d8f4046b3b33e229e0ff19d4de54c30e10b793c96a8b",
-  "gc_checksum": "384a7254d030369e0c1972888e6889af1f7050fd90ebeb0382d6490e85577a2c",
-  "version": "1.0",
-  "block_size": 512,
-  "total_blocks": 18,
-  "parity_type": "split",
-  "rs_parity": "events.py.par2-one",
-  "gc_parity": "events.py.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "fix_split_parity()"
+  "rs_checksum": "084b004fb4cf3c1a154e6a3f78a084f506509133d96958994587ebe77df0f048",
+  "gc_checksum": "ad7d2e345053cf0bdeda596041a1a6112b0bc438e3d3974e00a990ee1c7ea6bc",
+  "version": "1.0"
 }

@@ -1,17 +1,7 @@
 {
   "source_file": "test_chunker.py",
   "source_hash": "e761e2135c046881afb5d82afc00f072ef454a6a65657c43c6ca40243fda9372",
-  "rs_checksum": "4ea53c98e313ee9e56382886686b20090a24decd2a833b3a1e45d4badbf5bd83",
-  "gc_checksum": "8b376b2343ed29939bd6540afe1a84ce240e5288823fb4143f3dfa1e90b14a68",
-  "version": "1.0",
-  "block_size": 512,
-  "total_blocks": 5,
-  "parity_type": "split",
-  "rs_parity": "test_chunker.py.par2-one",
-  "gc_parity": "test_chunker.py.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "fix_split_parity()"
+  "rs_checksum": "79c9ebd4541f315f1247b84bf056ffb1cc5eb04dc721170a51c6a99f6daedb98",
+  "gc_checksum": "b7690fcc42021b2259c94cc13788d2bc5b1e59892780efdf1665443f3b4141a4",
+  "version": "1.0"
 }

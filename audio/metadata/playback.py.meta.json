@@ -1,17 +1,7 @@
 {
   "source_file": "playback.py",
   "source_hash": "27e431c6a1dce4d64a70c476d6e3623ea325090f9ae47cfa2247d4ab3b3f20c0",
-  "rs_checksum": "68eca75197451a99679accfed46476d192027d631d77aa45e8a3b4a8ae945750",
-  "gc_checksum": "7433c218d7ef52ae731686c80b63079bf84ca3bedf078e6d9659d12b6b5ed3c5",
-  "version": "1.0",
-  "block_size": 512,
-  "total_blocks": 21,
-  "parity_type": "split",
-  "rs_parity": "playback.py.par2-one",
-  "gc_parity": "playback.py.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "fix_split_parity()"
+  "rs_checksum": "dc66f48377a6dba2149e37bd14992caf2debe7013eac916dba50d1736f2351c0",
+  "gc_checksum": "a10b073567a94bab29c566799bdc3d3b78f8107946513936f1d6d729f7238a67",
+  "version": "1.0"
 }

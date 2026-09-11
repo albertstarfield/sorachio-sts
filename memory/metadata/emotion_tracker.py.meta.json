@@ -1,17 +1,7 @@
 {
   "source_file": "emotion_tracker.py",
   "source_hash": "d670c900bcd2a9ef11e056265fdaf4693ba5360d4b6293939ea8a9322e673d2b",
-  "rs_checksum": "01266ed044778562554965189d6a1e6d5a8148446deac039b9dbd9c287c3821d",
-  "gc_checksum": "5246a103deb5d32810127566f000e97e1180b5049ebd20b1deba805c6f976186",
-  "version": "1.0",
-  "block_size": 512,
-  "total_blocks": 30,
-  "parity_type": "split",
-  "rs_parity": "emotion_tracker.py.par2-one",
-  "gc_parity": "emotion_tracker.py.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "fix_split_parity()"
+  "rs_checksum": "706953a86d2e38ab8c1387d25ac9579461f69630797f144d36d6746d82930593",
+  "gc_checksum": "50a87b0a9c40fcb30aec2f498f2deb7365ff566f1add56f5d38f69fa353f0f39",
+  "version": "1.0"
 }

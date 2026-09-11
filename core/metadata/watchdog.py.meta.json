@@ -1,17 +1,7 @@
 {
   "source_file": "watchdog.py",
   "source_hash": "19f9acb38eaf7b9da32d49cb6b24b6794a6520f0f922ab1f3dec9715f72939c6",
-  "rs_checksum": "1d011ebb735311c46603716aa094edb8ac8d848fe75d09622a5903e0d8550c7a",
-  "gc_checksum": "8bb23c2ec1bfba6b6dcb2fc9a08f95fb69b6f209842f849262b006d5dbdf3435",
-  "version": "1.0",
-  "block_size": 512,
-  "total_blocks": 88,
-  "parity_type": "split",
-  "rs_parity": "watchdog.py.par2-one",
-  "gc_parity": "watchdog.py.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "fix_split_parity()"
+  "rs_checksum": "a4959a4778d052ca31bb651cb10a088b5030a10ee63a4ffae958f6bad54e8b1a",
+  "gc_checksum": "886384c33d97e70de4f4993ae411091472b90c189a174ff59c4974f3e2352d1e",
+  "version": "1.0"
 }

@@ -1,17 +1,7 @@
 {
   "source_file": "piper_client.py",
   "source_hash": "a2f863d1c17cae13ab12bd9a97558364f633e746019cf35643316313d4fe976c",
-  "rs_checksum": "b26932877f699b20d871843a7f3202fbf968e6c4c885860ba3df0dfe6317bb10",
-  "gc_checksum": "f3ff6d765609563ea87affdd7c185fbcd3663aaf3d25ac82217d63ac0e764ddc",
-  "version": "1.0",
-  "block_size": 512,
-  "total_blocks": 49,
-  "parity_type": "split",
-  "rs_parity": "piper_client.py.par2-one",
-  "gc_parity": "piper_client.py.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "fix_split_parity()"
+  "rs_checksum": "7a7d5aec888da4ac2c55ff62b593c21b53293e1db0014294956f0e682f0ea3c9",
+  "gc_checksum": "bf791dd8cc27da5ece3bb463571e43fcc57659b8bea213f34f914437f0d8237e",
+  "version": "1.0"
 }

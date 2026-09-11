@@ -1,17 +1,7 @@
 {
   "source_file": "vector_store.py",
   "source_hash": "f8ddd54f7331d0ddb8ae3e9820f0f42c30e6f372ed26ce9d304a675c9e62ccfc",
-  "rs_checksum": "17a1ff2cb936150c366f713781a90c26cd0d476dc192ba3d94e3ef735ff8e390",
-  "gc_checksum": "e1736b7e2b375b35c0d0372367ca60f3296eae7a7bbed4ea09639a5d86e22d51",
-  "version": "1.0",
-  "block_size": 512,
-  "total_blocks": 26,
-  "parity_type": "split",
-  "rs_parity": "vector_store.py.par2-one",
-  "gc_parity": "vector_store.py.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "fix_split_parity()"
+  "rs_checksum": "2395cf1efbcdd005a9bfd9c86e80e1f96e865e825c0fc0ccebfe0761c796839b",
+  "gc_checksum": "2b0587fcea4565e23fe351273ac4aaccb09289c90bb4e44b02f9d2e6f753bd9d",
+  "version": "1.0"
 }

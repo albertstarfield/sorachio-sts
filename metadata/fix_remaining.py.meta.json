@@ -1,17 +1,7 @@
 {
   "source_file": "fix_remaining.py",
-  "source_hash": "af0b9c4e6597e504489d6dea4ba7e5d1712e5d365caba8d6f90d18a81ac08cf9",
-  "rs_checksum": "c5036a2bdc9c71592d9d5946179799cb0cc12951acbc4086a1be5d2a0190cfa0",
-  "gc_checksum": "e551a8e4a0f88e2c6c3d6dc941d3c0c47e7c7c1c272b316ddaf1019cfec5abaf",
-  "version": "1.0",
-  "block_size": 512,
-  "total_blocks": 19,
-  "parity_type": "split",
-  "rs_parity": "fix_remaining.py.par2-one",
-  "gc_parity": "fix_remaining.py.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "fix_split_parity()"
+  "source_hash": "9b570063197710a60f2163d1b4817553295f8dad961cf1c76884561cd8226bfe",
+  "rs_checksum": "616ed009833a83f8f55933e9fcc82a351b496bd990d9028a6aa0a87d1a0b254a",
+  "gc_checksum": "dbe933db2be586479f5e7350d9f2fa069073aec3663346271e77722f034a878b",
+  "version": "1.0"
 }

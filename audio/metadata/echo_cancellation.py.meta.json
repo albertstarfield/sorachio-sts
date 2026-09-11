@@ -1,17 +1,7 @@
 {
   "source_file": "echo_cancellation.py",
   "source_hash": "961627847d5c0cc6780af4bff18348180aeb5344a5b4893ffcc2274dbe5a1733",
-  "rs_checksum": "198481b76df46b13f50478633f7f15f8336e8537bbedef21d2cbeacc2eb16b0f",
-  "gc_checksum": "9bbba42244c26cc780e3de4aaf5b4b8746cc9b53a25f92e64ffb14d7d945c4a1",
-  "version": "1.0",
-  "block_size": 512,
-  "total_blocks": 78,
-  "parity_type": "split",
-  "rs_parity": "echo_cancellation.py.par2-one",
-  "gc_parity": "echo_cancellation.py.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "fix_split_parity()"
+  "rs_checksum": "372817279f0473c1d233389cb413d0a8cc921640f9d6cec4c712053b9784a898",
+  "gc_checksum": "1edaff04bbfadd556e3ddc07a5d37279f744aab5266e8561072811db0bd2d44e",
+  "version": "1.0"
 }

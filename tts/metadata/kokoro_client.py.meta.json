@@ -1,17 +1,7 @@
 {
   "source_file": "kokoro_client.py",
   "source_hash": "fc650d19f56578591e1925857dbe4089242112a0845f1ace1a40c0d3e3055ec8",
-  "rs_checksum": "c4ad0c7481916002065ebeaa0181201e7da38388299296442f99a9cd27637c6e",
-  "gc_checksum": "447df018189fbc3ecbd87a2df19e155bde4f9b9a8e0ae8d79dae704f2a0f9547",
-  "version": "1.0",
-  "block_size": 512,
-  "total_blocks": 43,
-  "parity_type": "split",
-  "rs_parity": "kokoro_client.py.par2-one",
-  "gc_parity": "kokoro_client.py.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "fix_split_parity()"
+  "rs_checksum": "44de8d24ef916006e93e3f82368992ea86780d04f78742b7dc569aaac8f12731",
+  "gc_checksum": "ca20d6a556b9e316d46384df3f82e6661ed230d52bc1bb481c1af083ece3c540",
+  "version": "1.0"
 }

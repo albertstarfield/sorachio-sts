@@ -1,17 +1,7 @@
 {
   "source_file": "logging_setup.py",
   "source_hash": "168ea6d841b46ef85712da6ba6e431cae7e37104bc74fde6d9929ce7bb452eab",
-  "rs_checksum": "b6bf8dad447b7d755efcc408ca591b671e8862d60f2b0d95410111699bb40e3c",
-  "gc_checksum": "00a8ce8e79529df2eb355a8b78d48ef52566474f42c78c7ea66b5baf73fa320d",
-  "version": "1.0",
-  "block_size": 512,
-  "total_blocks": 7,
-  "parity_type": "split",
-  "rs_parity": "logging_setup.py.par2-one",
-  "gc_parity": "logging_setup.py.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "fix_split_parity()"
+  "rs_checksum": "724a45690c2d6de60fd0649dcf0bfd1a9ae32fe8039ae3d68306f224e98065e6",
+  "gc_checksum": "e2db975985a1c629fb004319654e25eee939602faf418b7a7ec5311849be5c7e",
+  "version": "1.0"
 }

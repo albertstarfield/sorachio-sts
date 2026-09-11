@@ -1,17 +1,7 @@
 {
   "source_file": "whisper_client.py",
   "source_hash": "731f26e530ccc813c5fdf81dedda6f36226ca5aede354ba9f4e2333c70392b7a",
-  "rs_checksum": "2fea190263c11169f3dcff115008121afc56841b089cbe42d0d6681c5fef7174",
-  "gc_checksum": "eaf2bd105df870ee23ec644d4dd6dbe7c9c073e2fae2de5e20a33eafd1eb6be0",
-  "version": "1.0",
-  "block_size": 512,
-  "total_blocks": 57,
-  "parity_type": "split",
-  "rs_parity": "whisper_client.py.par2-one",
-  "gc_parity": "whisper_client.py.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "fix_split_parity()"
+  "rs_checksum": "a61a70fe5275ad109d3875ed7cea15decd678a0b0cf5044cce689e16d8b5dd90",
+  "gc_checksum": "029645a5b6328887a294a7f447175ca83810ebaa087338fc35716784188138a7",
+  "version": "1.0"
 }

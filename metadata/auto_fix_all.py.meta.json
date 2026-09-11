@@ -1,17 +1,7 @@
 {
   "source_file": "auto_fix_all.py",
   "source_hash": "7fdfff024f436ac106901413602dc614ad440bd83906da27ed07fca1dbe21f84",
-  "rs_checksum": "ad7ad65494770d309b86f1e5d5fbc2d295204213b246efefb734e1900077a1ff",
-  "gc_checksum": "a2aa86709aa42f3c9d9493d6987aa62b0f5e35f789602595ab0c3605d225cf5f",
-  "version": "1.0",
-  "block_size": 512,
-  "total_blocks": 56,
-  "parity_type": "split",
-  "rs_parity": "auto_fix_all.py.par2-one",
-  "gc_parity": "auto_fix_all.py.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "fix_split_parity()"
+  "rs_checksum": "3f201c7034e441da79522fa110b9a310a25366a2850e83d76f615a8689390a61",
+  "gc_checksum": "afc936c3cdfab5afe183f187405f9ee3fb1bff849651b7f3c414af6125eb2c98",
+  "version": "1.0"
 }

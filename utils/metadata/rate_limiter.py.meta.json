@@ -1,17 +1,7 @@
 {
   "source_file": "rate_limiter.py",
   "source_hash": "87f85a670d9554ba33d3e6558301e6a73a93179a60a463900f057550ce8c61c8",
-  "rs_checksum": "d5258a828a68ad2abeeba841dbb52ee0a224479af7533d434a4a3ac50b78d987",
-  "gc_checksum": "a97e307319e41de14fbee6f45ea5b0282c33f11701861fbdb42c6bd0504375b0",
-  "version": "1.0",
-  "block_size": 512,
-  "total_blocks": 14,
-  "parity_type": "split",
-  "rs_parity": "rate_limiter.py.par2-one",
-  "gc_parity": "rate_limiter.py.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "fix_split_parity()"
+  "rs_checksum": "2ed4eed9d7d1fb95d4d086dbef7ca34202073d257ae50935b766214cefe2a410",
+  "gc_checksum": "96ea451a44521be60adf19642da4fd013dc45987c30133e271e29971efa8f414",
+  "version": "1.0"
 }

@@ -1,17 +1,7 @@
 {
   "source_file": "chunk_assembler.py",
   "source_hash": "08ba6dda9108780f3b9918f07f86ca82b739007003e127b5325a8120ea0dd7dc",
-  "rs_checksum": "5ed9d949c1f36c68f16a7d6945253e59af8223b277bdd792d664952c3afb56c9",
-  "gc_checksum": "db24e16ead25e99acb98a156be031e9bf23ea50a38a337e503f882830a061af3",
-  "version": "1.0",
-  "block_size": 512,
-  "total_blocks": 19,
-  "parity_type": "split",
-  "rs_parity": "chunk_assembler.py.par2-one",
-  "gc_parity": "chunk_assembler.py.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "fix_split_parity()"
+  "rs_checksum": "d891b7a898c1f0c89d4c75fae32c088931a2408565bd501445ad6d0f7dcbf437",
+  "gc_checksum": "5e18a97ddc84b7a7e59aa88dafda91185c934dc568dd52beabc34da6036089b2",
+  "version": "1.0"
 }

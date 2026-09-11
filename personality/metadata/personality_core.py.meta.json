@@ -1,17 +1,7 @@
 {
   "source_file": "personality_core.py",
   "source_hash": "f86ca89fd66f50d2400913a78a5cbbe06353025b59c53d651a89e0230c0e3a1e",
-  "rs_checksum": "7ea5aabec763d0533273ba4d965808729b9ac2a844f8e270a15dec679a3760b4",
-  "gc_checksum": "d7f7531822239cada2d2abc4f66b9828dc660b9b3fd2e100bf01d0ecc0e34578",
-  "version": "1.0",
-  "block_size": 512,
-  "total_blocks": 15,
-  "parity_type": "split",
-  "rs_parity": "personality_core.py.par2-one",
-  "gc_parity": "personality_core.py.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "fix_split_parity()"
+  "rs_checksum": "cbf5572bde661c63c571e090044a3e7ccc5a58e225e4c41b158ac77d45c611e8",
+  "gc_checksum": "dd0a5ecd9b1857fe777c35ff198524132e5031b53f5988be9c140a98db71dfda",
+  "version": "1.0"
 }

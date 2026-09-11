@@ -1,17 +1,7 @@
 {
   "source_file": "pipeline.py",
   "source_hash": "ad6e3504f1405fe0bf50a12e40edcdd4de2834686ba428d726e945bc086d9ff1",
-  "rs_checksum": "764e18155eca39c4b625f630bffdc1d7c513fa22401f076c4ea8f59e6353638e",
-  "gc_checksum": "324e107afa0438a897bf274ed43a7e2b80d2a3449b8ff912d90c581e23492358",
-  "version": "1.0",
-  "block_size": 512,
-  "total_blocks": 72,
-  "parity_type": "split",
-  "rs_parity": "pipeline.py.par2-one",
-  "gc_parity": "pipeline.py.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "fix_split_parity()"
+  "rs_checksum": "adc0af102532c9ee9d14c4813a200fd315557e380549643dd6c5adf0120ccb1a",
+  "gc_checksum": "38625ac606ec1c781f4f802221fc5dd3e9cfc45b621af185f18ec7f034b0624b",
+  "version": "1.0"
 }

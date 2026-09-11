@@ -1,17 +1,7 @@
 {
   "source_file": "mbg.py",
   "source_hash": "dc55c0b6ac3144fec6991db71417e6c0cb1dc5557c73064a11e744ea8eef527e",
-  "rs_checksum": "798ced4d292401352a29e9b60440504b7ed970fd80e3c3c91c68324d45006e59",
-  "gc_checksum": "a6ce60f692d180332b26e1f38a39d3b0e7db9f3e800cb3b93a6ddce1a383a9c0",
-  "version": "1.0",
-  "block_size": 512,
-  "total_blocks": 148,
-  "parity_type": "split",
-  "rs_parity": "mbg.py.par2-one",
-  "gc_parity": "mbg.py.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "fix_split_parity()"
+  "rs_checksum": "ed3e39116f4cb884f5eb9840aedd5b907f6ead5b2a03160ccfe770f277174f12",
+  "gc_checksum": "20298307a228ea7785677a6255df5a2a430ee11675a35dc2c7e709d90c81a82e",
+  "version": "1.0"
 }

@@ -1,17 +1,7 @@
 {
   "source_file": "cognitive_gateway.py",
   "source_hash": "8c262babc13f564f7fa95df8453f9c8e16c7adce1112d5d2c004a1091a083c7e",
-  "rs_checksum": "483ef489f51a3529a57b0cd960e66201475830731c71a4f26c6070c71608fe41",
-  "gc_checksum": "8eab0c9249481285984b9ea6b3de1648dde879bf474b52258049b0b4ecc82b05",
-  "version": "1.0",
-  "block_size": 512,
-  "total_blocks": 36,
-  "parity_type": "split",
-  "rs_parity": "cognitive_gateway.py.par2-one",
-  "gc_parity": "cognitive_gateway.py.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "fix_split_parity()"
+  "rs_checksum": "426b4735a3453713f4fc20d3a6ea07b2d010812ab897ed47df401583bfe0c837",
+  "gc_checksum": "45a522e9a2c392bb856d3dbe016e303c289404ce0eaef8f63a02b9ce47c82d2b",
+  "version": "1.0"
 }

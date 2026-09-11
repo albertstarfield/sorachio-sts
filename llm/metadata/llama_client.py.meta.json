@@ -1,17 +1,7 @@
 {
   "source_file": "llama_client.py",
   "source_hash": "6807cc05032cf2bfdc1244cb368298ae0bfd44dd9ceb56d616976b5b348869d5",
-  "rs_checksum": "a42fa8f688e95bdb30b50791b5a9c7befe2f55f867cfec662ea3c0455f079c81",
-  "gc_checksum": "46e7b7ee844392117c7e2580f5571d20e734feee1efc2027bfa419c5f6a8005d",
-  "version": "1.0",
-  "block_size": 512,
-  "total_blocks": 38,
-  "parity_type": "split",
-  "rs_parity": "llama_client.py.par2-one",
-  "gc_parity": "llama_client.py.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "fix_split_parity()"
+  "rs_checksum": "52a608cdd4e35a759562cf471459a727e3c553619c92c256503deb4f63a06799",
+  "gc_checksum": "817540f8e23ceb4fc55c771d17057485f5e1497a4762efb0c55d4058f131e6d5",
+  "version": "1.0"
 }
