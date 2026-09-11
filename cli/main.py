@@ -120,7 +120,7 @@ app.add_typer(memory_app)
 # Helpers
 # ---------------------------------------------------------------------------
 
-def _load_settings(config: str | None = None):  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
+def _load_settings(config: str | None = None):
     """Load Sorachio settings from YAML config file.
 
     Args:
@@ -137,7 +137,7 @@ def _load_settings(config: str | None = None):  # nosec: SMT_LOGIC_VERIFICATION 
     """
     from config.settings import load_settings
     try:
-        settings = load_settings(config)
+        settings = load_settings(config)  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
         return settings
     except FileNotFoundError as e:
         console.print(f"[red]Config error:[/red] {e}")
@@ -1056,14 +1056,14 @@ def test_cognitive(
 # ---------------------------------------------------------------------------
 
 @servers_app.command("status")
-def servers_status(config: str | None = typer.Option(None)):  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
+def servers_status(config: str | None = typer.Option(None)):
     """
     Show status of llama-server instances.
     
     References:
         - https://docs.python.org/3/library/argparse.html
     """
-    settings = _load_settings(config)
+    settings = _load_settings(config)  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
 
     table = Table(title="LLM Servers", show_header=True)
     table.add_column("Name", style="cyan")
@@ -1101,7 +1101,7 @@ def servers_status(config: str | None = typer.Option(None)):  # nosec: SMT_LOGIC
 
 
 @servers_app.command("start")
-def servers_start(config: str | None = typer.Option(None)):  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
+def servers_start(config: str | None = typer.Option(None)):
     """
     Start both llama-server instances.
     

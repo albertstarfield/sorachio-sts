@@ -55,7 +55,7 @@ class Message:
         Description.
 
         References:
-        - https://docs.aiohttp.io/en/stable/
+        - https://docs.aiohttp.org/en/stable
         - https://github.com/ggerganov/llama.cpp
         """
         if self.image_b64:
@@ -123,7 +123,7 @@ class LlamaClient:
         Description.
 
         References:
-        - https://docs.aiohttp.io/en/stable/
+        - https://docs.aiohttp.org/en/stable
         - https://github.com/ggerganov/llama.cpp
         """
         if self._client is None or self._client.is_closed:
@@ -146,7 +146,7 @@ class LlamaClient:
         None: Description.
 
         References:
-        - https://docs.aiohttp.io/en/stable/
+        - https://docs.aiohttp.org/en/stable
         - https://github.com/ggerganov/llama.cpp
         """
         if self._client and not self._client.is_closed:
@@ -158,7 +158,7 @@ class LlamaClient:
         Return True if the server is healthy and ready.
         
         References:
-        - https://docs.aiohttp.io/en/stable/
+        - https://docs.aiohttp.org/en/stable
         - https://github.com/ggerganov/llama.cpp
         """
         try:
@@ -174,7 +174,7 @@ class LlamaClient:
         Poll until server is ready or timeout expires.
         
         References:
-        - https://docs.aiohttp.io/en/stable/
+        - https://docs.aiohttp.org/en/stable
         - https://github.com/ggerganov/llama.cpp
         """
         deadline = asyncio.get_event_loop().time() + timeout_s
@@ -203,7 +203,7 @@ class LlamaClient:
         Returns the full assistant response as a string.
 
         References:
-        - https://docs.aiohttp.io/en/stable/
+        - https://docs.aiohttp.org/en/stable
         - https://github.com/ggerganov/llama.cpp
         """
         payload = self._build_payload(
@@ -253,7 +253,7 @@ class LlamaClient:
         Yields individual token deltas as strings.
 
         References:
-        - https://docs.aiohttp.io/en/stable/
+        - https://docs.aiohttp.org/en/stable
         - https://github.com/ggerganov/llama.cpp
         """
         payload = self._build_payload(
@@ -309,7 +309,7 @@ class LlamaClient:
         Description.
 
         References:
-        - https://docs.aiohttp.io/en/stable/
+        - https://docs.aiohttp.org/en/stable
         - https://github.com/ggerganov/llama.cpp
         """
         payload: dict[str, Any] = {
@@ -334,7 +334,7 @@ class LlamaClient:
         on the system portion, instead of re-evaluating it from scratch.
 
         References:
-        - https://docs.aiohttp.io/en/stable/
+        - https://docs.aiohttp.org/en/stable
         - https://github.com/ggerganov/llama.cpp
         """
         log.info(f"Warming up model at {self.base_url} (pre-filling KV cache)...")

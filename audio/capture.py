@@ -42,7 +42,7 @@ def _log_event(msg: str, force: bool = False) -> None:
             None: Description.
        References:
            - https://python-sounddevice.readthedocs.io/ — SoundDevice API for audio I/O
-           - https://webrtcvad.readthedocs.io/ — WebRTC VAD for voice activity detection
+           - https://github.com/wiseman/py-webrtcvad — WebRTC VAD for voice activity detection
     """
     if DEBUG_VERBOSE or force:
         log.info(f"[AUDIO-EVENT] {msg}")
@@ -161,7 +161,7 @@ class AudioCapture:
         
         References:
         - https://python-sounddevice.readthedocs.io/
-        - https://webrtcvad.readthedocs.io/
+        - https://github.com/wiseman/py-webrtcvad
         """
         try:
             dev = self.device_index  # None ⟹ default device
@@ -186,7 +186,7 @@ class AudioCapture:
         
         References:
         - https://python-sounddevice.readthedocs.io/
-        - https://webrtcvad.readthedocs.io/
+        - https://github.com/wiseman/py-webrtcvad
         """
         if not hasattr(self, "_acoustic_gate") or not self._acoustic_gate.enabled:
             return
@@ -229,7 +229,7 @@ class AudioCapture:
         
         References:
         - https://python-sounddevice.readthedocs.io/
-        - https://webrtcvad.readthedocs.io/
+        - https://github.com/wiseman/py-webrtcvad
         """
         if not self._audio_available:
             log.info("[Capture] Skipped — no audio input device")
@@ -270,7 +270,7 @@ class AudioCapture:
         
         References:
         - https://python-sounddevice.readthedocs.io/
-        - https://webrtcvad.readthedocs.io/
+        - https://github.com/wiseman/py-webrtcvad
         """
         self._running = False
         if self._stream:
@@ -285,7 +285,7 @@ class AudioCapture:
         
         References:
         - https://python-sounddevice.readthedocs.io/
-        - https://webrtcvad.readthedocs.io/
+        - https://github.com/wiseman/py-webrtcvad
         """
         self._muted.set()
         _log_event("Playback muted: Mic logically muted", force=True)
@@ -297,7 +297,7 @@ class AudioCapture:
         
         References:
         - https://python-sounddevice.readthedocs.io/
-        - https://webrtcvad.readthedocs.io/
+        - https://github.com/wiseman/py-webrtcvad
         """
         self._muted.clear()
         _log_event("Playback unmuted: Mic logically unmuted", force=True)
@@ -311,7 +311,7 @@ class AudioCapture:
         
         References:
         - https://python-sounddevice.readthedocs.io/
-        - https://webrtcvad.readthedocs.io/
+        - https://github.com/wiseman/py-webrtcvad
         """
         if status:
             log.debug(f"[Capture] Status: {status}")
@@ -404,7 +404,7 @@ class AudioCapture:
         
         References:
         - https://python-sounddevice.readthedocs.io/
-        - https://webrtcvad.readthedocs.io/
+        - https://github.com/wiseman/py-webrtcvad
         """
         speech_frames: list[bytes] = []
         history_frames: list[bytes] = []  # Rolling buffer of frames prior to speech onset
@@ -543,7 +543,7 @@ class AudioCapture:
         
         References:
         - https://python-sounddevice.readthedocs.io/
-        - https://webrtcvad.readthedocs.io/
+        - https://github.com/wiseman/py-webrtcvad
         """
         if self.interrupt_event:
             self.interrupt_event.set()
@@ -556,7 +556,7 @@ class AudioCapture:
         
         References:
         - https://python-sounddevice.readthedocs.io/
-        - https://webrtcvad.readthedocs.io/
+        - https://github.com/wiseman/py-webrtcvad
         """
         if DEBUG_VERBOSE:
             _log_event(

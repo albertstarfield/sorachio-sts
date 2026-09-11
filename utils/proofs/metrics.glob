@@ -1,0 +1,8 @@
+DIGEST 1e100c01d9c163fa574451d0297568e3
+Fmetrics
+mod 215:221 <> metrics
+R240:245 Coq.ZArith.ZArith <> <> lib
+R263:268 Coq.QArith.QArith <> <> lib
+R286:299 Coq.Strings.String <> <> lib
+R317:326 Coq.Lists.List <> <> lib
+R344:347 Coq.Bool.Bool <> <> lib

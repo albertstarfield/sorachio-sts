@@ -82,7 +82,7 @@ class PersonalityCore:
         Returns the complete response text for storage in STM.
 
         References:
-        - https://docs.aiohttp.io/en/stable/
+        - https://docs.aiohttp.org/en/stable
         """
         self.interrupt_event.clear()
         self._full_response = ""
@@ -105,7 +105,7 @@ class PersonalityCore:
         Description.
 
                 References:
-                - https://docs.aiohttp.io/en/stable/
+                - https://docs.aiohttp.org/en/stable
                 """
                 from core.events import EventType, get_bus
                 bus = get_bus()
@@ -150,7 +150,7 @@ class PersonalityCore:
         Signal the generation to stop.
         
         References:
-        - https://docs.aiohttp.io/en/stable/
+        - https://docs.aiohttp.org/en/stable
         """
         self.interrupt_event.set()
         log.info("[Personality] Interrupt signal set")
