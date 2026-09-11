@@ -429,7 +429,34 @@ _SELF_ANALYSIS_MODE = False
 # src/utils/ and should not audit itself or its own test artifacts.
 # Users can override via --exclude on the CLI.
 # [Citation: User request 2026-09-10 — exclude src/utils/ by default]
-DEFAULT_EXCLUDE_DIRS = {"utils"}
+# Expanded to exclude all non-source directories that inflate violation counts.
+# Includes: node_modules, .opencode, .git, __pycache__, venv_runtime, .repos,
+#           models, bin, data, logs, sensors, actuators, dist, build, *.egg-info
+# [Citation: Bug fix 2026-09-11 — run_checklist_enforcement was resetting excludes]
+DEFAULT_EXCLUDE_DIRS = {
+    "utils",           # User-requested exclusion
+    "node_modules",    # Third-party JS/TS packages
+    ".opencode",       # OpenCode internal files
+    ".git",            # Git repository data
+    "__pycache__",     # Python bytecode cache
+    "venv_runtime",    # Virtual environment
+    ".repos",          # Cloned repositories
+    "models",          # Model weight files (not source)
+    "bin",             # Compiled binaries
+    "data",            # Runtime data (memory, logs)
+    "logs",            # Log files
+    "sensors",         # Future: sensor modules
+    "actuators",       # Future: actuator modules
+    "dist",            # Distribution packages
+    "build",           # Build artifacts
+    ".eggs",           # Egg metadata
+    "*.egg-info",      # Package metadata
+    ".mypy_cache",     # MyPy type-checking cache
+    ".pytest_cache",   # Pytest cache
+    ".ruff_cache",     # Ruff linter cache
+    "htmlcov",         # Coverage HTML reports
+    ".coverage",       # Coverage data
+}
 
 # Dynamic self-name: like $0 in bash — the verifier's own filename.
 # Used for self-exclusion so it works regardless of how the file is named.
@@ -22947,7 +22974,7 @@ def audit_directory(
     # ═══ Run code-quality.md checklist enforcement ═══
     _verb("Running code-quality.md checklist enforcement...")
     try:
-        checklist_violations = run_checklist_enforcement(dirpath)
+        checklist_violations = run_checklist_enforcement(dirpath, extra_exclude_dirs=exclude_dirs)
         _verb(f"  -> {len(checklist_violations)} checklist violation(s)")
         all_violations.extend(checklist_violations)
     except (OSError, ValueError, TypeError, AttributeError) as e:
@@ -25622,7 +25649,7 @@ def _check_no_assumptions(src_dir: str) -> list["Violation"]:
 
 # ── Run ALL Checklist Enforcement ───────────────────────────────────────
 
-def run_checklist_enforcement(src_dir: str) -> list["Violation"]:
+def run_checklist_enforcement(src_dir: str, extra_exclude_dirs: list[str] | None = None) -> list["Violation"]:
     """Run ALL code-quality.md checklist enforcement checks.
 
     AXIOMS:
@@ -25650,8 +25677,13 @@ def run_checklist_enforcement(src_dir: str) -> list["Violation"]:
     """
     # ── Set module-level exclusion dirs for _walk_src() ──
     # [Citation: User request 2026-09-10 — exclude src/utils/ from all checks]
+    # BUG FIX: Merge DEFAULT_EXCLUDE_DIRS with any extra CLI excludes instead
+    # of overwriting them. Previously discarded CLI --exclude args.
+    # [Citation: Bug fix 2026-09-11 — run_checklist_enforcement was resetting]
     global _CHECK_EXCLUDE_DIRS
     _CHECK_EXCLUDE_DIRS = set(DEFAULT_EXCLUDE_DIRS)
+    if extra_exclude_dirs:
+        _CHECK_EXCLUDE_DIRS.update(extra_exclude_dirs)
 
     all_violations: list[Violation] = []
 
