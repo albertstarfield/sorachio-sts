@@ -27,6 +27,7 @@ class VectorStore:
     ChromaDB-backed vector store for semantic memory retrieval.
     """
 
+        # test: test___init__
     def __init__(
         self,
         storage_path: str = "data/memory/chroma",
@@ -48,6 +49,7 @@ class VectorStore:
         self._available = False
 
     async def initialize(self) -> bool:
+        # test: test_initialize
         """
         Initialize ChromaDB and sentence-transformers.
         
@@ -73,6 +75,7 @@ class VectorStore:
             from chromadb.config import Settings as ChromaSettings  # type: ignore[import-untyped]
 
             class OfflineSentenceTransformerEmbeddingFunction(EmbeddingFunction[Documents]):
+                    # test: test___init__
                 def __init__(self, model_path_or_name: str | Path):
                     """    Init.
 
@@ -131,8 +134,13 @@ class VectorStore:
 
     @property
     def available(self) -> bool:
+    """TODO: Add description for available.
+    
+    # test: test_available
+    """
         return self._available
 
+        # test: test_add
     async def add(
         self,
         entry_id: str,
@@ -191,6 +199,7 @@ class VectorStore:
             log.error(f"[VectorStore] Add failed: {e}")
             return False
 
+        # test: test_query
     async def query(
         self,
         query_text: str,
@@ -257,6 +266,7 @@ class VectorStore:
             return []
 
     async def delete(self, entry_id: str) -> bool:
+        # test: test_delete
         """
         Delete a memory entry.
         
@@ -290,6 +300,7 @@ class VectorStore:
             return False
 
     async def count(self) -> int:
+        # test: test_count
         """
         Return number of entries in the store.
         

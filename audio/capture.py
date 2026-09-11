@@ -79,6 +79,10 @@ class AudioCapture:
     """
 
     def __init__(
+    """TODO: Add description for __init__.
+    
+    # test: test___init__
+    """
         self,
         stt_queue: asyncio.Queue,
         interrupt_callback: Callable | None = None,  # nosec: SMT_LOGIC_VERIFICATION — Optional handled downstream with explicit None checks
@@ -241,6 +245,7 @@ class AudioCapture:
             self._calibrated_threshold = -38.0
 
     def start(self, loop: asyncio.AbstractEventLoop) -> None:
+        # test: test_start
         """
         Start capture in background threads.
         
@@ -282,6 +287,7 @@ class AudioCapture:
         )
 
     def stop(self) -> None:
+        # test: test_stop
         """
         Stop capture.
         
@@ -297,6 +303,7 @@ class AudioCapture:
         log.info("[Capture] Stopped")
 
     def mute(self) -> None:
+        # test: test_mute
         """
         Logically mute the mic — VAD runs but speech is discarded.
         
@@ -309,6 +316,7 @@ class AudioCapture:
         log.debug("[Capture] Muted")
 
     def unmute(self) -> None:
+        # test: test_unmute
         """
         Un-mute — resume sending speech segments to STT.
         

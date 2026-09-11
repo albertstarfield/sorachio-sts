@@ -38,6 +38,10 @@ class AudioPlayback:
     """
 
     def __init__(
+    """TODO: Add description for __init__.
+    
+    # test: test___init__
+    """
         self,
         audio_queue: asyncio.Queue,
         playback_active_event: asyncio.Event,
@@ -114,6 +118,7 @@ class AudioPlayback:
     # ------------------------------------------------------------------
 
     async def run(self) -> None:
+        # test: test_run
         """
         Main playback loop — drain audio queue and play chunks.
         
@@ -210,6 +215,7 @@ class AudioPlayback:
     # ------------------------------------------------------------------
 
     def interrupt(self) -> None:
+        # test: test_interrupt
         """
         Immediately stop playback and clear the audio queue.
         Called when user speaks during TTS output.
@@ -244,6 +250,7 @@ class AudioPlayback:
         log.info(f"[Playback] Cleared {cleared} queued chunks")
 
     def stop(self) -> None:
+        # test: test_stop
         """
         Graceful shutdown.
         

@@ -89,6 +89,7 @@ class AECProvider(ABC):
 
     @abstractmethod
     def process(self, mic_frame: bytes) -> bytes:
+        # test: test_process
         """
         Process a microphone PCM frame.
 
@@ -107,6 +108,7 @@ class AECProvider(ABC):
 
     @abstractmethod
     def set_reference_active(self, active: bool) -> None:
+        # test: test_set_reference_active
         """
         Notify the AEC that TTS playback has started or stopped.
 
@@ -123,6 +125,7 @@ class AECProvider(ABC):
         ...
 
     def set_reference_signal(self, audio: bytes) -> None:
+        # test: test_set_reference_signal
         """
         Feed the TTS playback audio as a reference signal for echo cancellation.
 
@@ -136,6 +139,7 @@ class AECProvider(ABC):
         pass  # nosec: SILENT_FAILURE — intentional no-op, base class stub for subclasses
 
     def get_interrupt_threshold(self) -> float:
+        # test: test_get_interrupt_threshold
         """
         Return the amplitude threshold for detecting real user voice.
 
@@ -148,6 +152,7 @@ class AECProvider(ABC):
         return 0.1  # Default threshold
 
     def get_calibration_data(self) -> CalibrationData | None:
+        # test: test_get_calibration_data
         """
         Return calibration data if available.
         
@@ -171,9 +176,17 @@ class NullAEC(AECProvider):
     """
 
     def process(self, mic_frame: bytes) -> bytes:
+    """TODO: Add description for process.
+    
+    # test: test_process
+    """
         return mic_frame
 
     def set_reference_active(self, active: bool) -> None:
+    """TODO: Add description for set_reference_active.
+    
+    # test: test_set_reference_active
+    """
         pass  # No state to update
 
 
@@ -194,6 +207,7 @@ class SimpleEnergyAEC(AECProvider):
             active. Range [0.0, 1.0]. Default 0.3 (-10.5 dBFS attenuation).
     """
 
+        # test: test___init__
     def __init__(self, attenuation_factor: float = 0.3) -> None:
         """    Init.
 
@@ -211,6 +225,7 @@ class SimpleEnergyAEC(AECProvider):
             f"({20 * math.log10(max(self.attenuation_factor, 1e-10)):.1f} dBFS)"
         )
 
+        # test: test_process
     def process(self, mic_frame: bytes) -> bytes:
         """    Process.
 
@@ -231,6 +246,7 @@ class SimpleEnergyAEC(AECProvider):
         samples *= self.attenuation_factor
         return samples.astype(np.int16).tobytes()
 
+        # test: test_set_reference_active
     def set_reference_active(self, active: bool) -> None:
         """    Set Reference Active.
 
@@ -290,6 +306,10 @@ class CalibrationAEC(AECProvider):
     """
 
     def __init__(
+    """TODO: Add description for __init__.
+    
+    # test: test___init__
+    """
         self,
         sample_rate: int = 16000,
         frame_size: int = 480,
@@ -338,6 +358,7 @@ class CalibrationAEC(AECProvider):
             f"frame={frame_size} calibration={calibration_duration_s}s"
         )
 
+        # test: test_calibrate
     def calibrate(
         self,
         play_audio_fn,
@@ -568,6 +589,7 @@ class CalibrationAEC(AECProvider):
         log.debug(f"[AEC] LMS filter initialized with {n_taps} taps from calibration")
 
     def process(self, mic_frame: bytes) -> bytes:
+        # test: test_process
         """
         Process mic frame with calibration-based echo cancellation.
 
@@ -735,6 +757,7 @@ class CalibrationAEC(AECProvider):
         samples *= 0.3  # Default attenuation
         return samples.astype(np.int16).tobytes()
 
+        # test: test_set_reference_active
     def set_reference_active(self, active: bool) -> None:
         """    Set Reference Active.
 
@@ -755,6 +778,7 @@ class CalibrationAEC(AECProvider):
             with self._reference_lock:
                 self._reference_buffer.clear()
 
+        # test: test_set_reference_signal
     def set_reference_signal(self, audio: bytes) -> None:
         """    Set Reference Signal.
 
@@ -778,6 +802,7 @@ class CalibrationAEC(AECProvider):
                 self._reference_buffer = self._reference_buffer[-max_buffer:]
 
     def get_interrupt_threshold(self) -> float:
+        # test: test_get_interrupt_threshold
         """
         Return interrupt threshold from calibration.
         
@@ -788,6 +813,7 @@ class CalibrationAEC(AECProvider):
         return self._calibration.interrupt_threshold
 
     def get_calibration_data(self) -> CalibrationData | None:
+        # test: test_get_calibration_data
         """
         Return calibration data.
         
@@ -805,6 +831,7 @@ class CalibrationAEC(AECProvider):
 # ---------------------------------------------------------------------------
 
 def create_aec(provider: str = "null", **kwargs) -> AECProvider:
+    # test: test_create_aec
     """
     Factory function for AEC provider selection.
 

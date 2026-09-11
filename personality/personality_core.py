@@ -52,6 +52,10 @@ class PersonalityCore:
     """
 
     def __init__(
+    """TODO: Add description for __init__.
+    
+    # test: test___init__
+    """
         self,
         client: LlamaClient,
         tts_queue: asyncio.Queue,
@@ -89,6 +93,7 @@ class PersonalityCore:
         self._current_task: asyncio.Task | None = None
         self._full_response: str = ""
 
+        # test: test_generate_streaming
     async def generate_streaming(
         self,
         messages: list[dict[str, str]],
@@ -115,6 +120,7 @@ class PersonalityCore:
             )
 
             # Wrap token stream to track interruption
+                # test: test_interruptible_stream
             async def interruptible_stream() -> AsyncIterator[str]:
                 """    Interruptible Stream.
 
@@ -163,6 +169,7 @@ class PersonalityCore:
         return self._full_response
 
     def interrupt(self) -> None:
+        # test: test_interrupt
         """
         Signal the generation to stop.
         

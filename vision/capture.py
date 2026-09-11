@@ -29,6 +29,7 @@ log = get_logger("vision.capture")
 
 
 def capture_frame_base64(device_index: int = 0, max_size: int = 512) -> str | None:
+    # test: test_capture_frame_base64
     """
     Capture a single frame from the specified camera device, resize it if necessary,
     and return it as a Base64 encoded JPEG string.

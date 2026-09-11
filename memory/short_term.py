@@ -56,6 +56,7 @@ class STMEntry:
     # Example: {"interrupted": True} or {"vision": "face_detected"}
     metadata: dict = field(default_factory=dict)
 
+        # test: test_to_dict
     def to_dict(self) -> dict[str, Any]:
         """    To Dict.
 
@@ -64,12 +65,15 @@ class STMEntry:
 
         References:
         - https://docs.python.org/3/library/collections.html
+
+        # test: test_STMEntry_to_dict
         """
         d = asdict(self)
         d["timestamp"] = self.timestamp.isoformat()
         return d
 
     def to_chat_message(self) -> dict[str, str]:
+        # test: test_to_chat_message
         """
         Format as LLM chat message.
         
@@ -91,6 +95,7 @@ class ShortTermMemory:
     Thread-safe via asyncio lock.
     """
 
+        # test: test___init__
     def __init__(
         self,
         max_messages: int = 20,
@@ -112,6 +117,10 @@ class ShortTermMemory:
         self._turn_count = 0
 
     async def add(
+    """TODO: Add description for add.
+    
+    # test: test_add
+    """
         self,
         role: str,
         content: str,
@@ -141,6 +150,7 @@ class ShortTermMemory:
             log.debug(f"[STM] Added [{role}] len={len(self._window)}")
 
     async def get_recent(self, n: int | None = None) -> list[STMEntry]:
+        # test: test_get_recent
         """
         Get the N most recent entries (or all if n=None).
         
@@ -154,6 +164,7 @@ class ShortTermMemory:
             return entries
 
     async def get_recent_summary(self, n: int = 3) -> str:
+        # test: test_get_recent_summary
         """
         Get compact context string of the last N turns for cognitive decision making.
         
@@ -171,6 +182,7 @@ class ShortTermMemory:
             return " | ".join(formatted)
 
     async def summarize(self, llm_client: Any, n_to_summarize: int = 10) -> str | None:
+        # test: test_summarize
         """
         Summarize oldest n_to_summarize messages using LLM and replace them with a system summary.
 
@@ -221,6 +233,7 @@ class ShortTermMemory:
         return None
 
     async def auto_summarize_if_needed(self, llm_client: Any) -> str | None:
+        # test: test_auto_summarize_if_needed
         """
         Auto summarize if current window size reaches or exceeds summary_threshold.
         
@@ -234,6 +247,7 @@ class ShortTermMemory:
         return None
 
     async def mark_last_interrupted(self) -> None:
+        # test: test_mark_last_interrupted
         """
         Mark the most recent assistant message in the window as interrupted.
         
@@ -248,6 +262,7 @@ class ShortTermMemory:
             log.debug(f"[STM] Marked last message ({self._window[-1].role}) as interrupted")
 
     async def get_chat_messages(self, n: int | None = None) -> list[dict[str, str]]:
+        # test: test_get_chat_messages
         """
         Get recent entries formatted as LLM chat messages.
         
@@ -258,6 +273,7 @@ class ShortTermMemory:
         return [e.to_chat_message() for e in entries]
 
     async def get_emotion_context(self) -> str:
+        # test: test_get_emotion_context
         """
         Return a brief emotion summary from recent messages.
         
@@ -278,6 +294,7 @@ class ShortTermMemory:
             return user_emotions[-1]
 
     async def clear(self) -> None:
+        # test: test_clear
         """
         Clear conversation history.
         
@@ -289,9 +306,11 @@ class ShortTermMemory:
             self._turn_count = 0
 
     @property
+        # test: test_turn_count
     def turn_count(self) -> int:
         return self._turn_count
 
+        # test: test_size
     async def size(self) -> int:
         """    Size.
 
@@ -300,6 +319,8 @@ class ShortTermMemory:
 
         References:
         - https://docs.python.org/3/library/collections.html
+
+        # test: test_ShortTermMemory_turn_count
         """
         async with self._lock:
             return len(self._window)

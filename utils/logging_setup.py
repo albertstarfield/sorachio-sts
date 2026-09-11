@@ -14,6 +14,7 @@ _console = Console(stderr=True)
 _initialized = False
 
 
+    # test: test_setup_logging
 def setup_logging(
     level: str = "INFO",
     log_dir: str | None = None,

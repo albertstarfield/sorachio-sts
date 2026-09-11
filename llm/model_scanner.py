@@ -39,6 +39,7 @@ class ModelInfo:
 # ---------------------------------------------------------------------------
 
 def scan_model_dir(model_dir: str | Path) -> ModelInfo:
+    # test: test_scan_model_dir
     """
     Scan a directory for GGUF model files.
 
@@ -145,6 +146,7 @@ def _extract_model_name(filename: str) -> str:
 
 
 def log_scan_summary(name: str, info: ModelInfo) -> None:
+    # test: test_log_scan_summary
     """
     Log a formatted summary of the scan results.
     

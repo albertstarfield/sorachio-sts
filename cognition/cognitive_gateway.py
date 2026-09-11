@@ -116,6 +116,7 @@ class CognitiveGateway:
     Fast cognitive filtering + routing layer.
     """
 
+        # test: test___init__
     def __init__(
         self,
         client: LlamaClient,
@@ -133,6 +134,7 @@ class CognitiveGateway:
         self.temperature = temperature
         self.max_tokens = max_tokens
 
+        # test: test_analyze
     async def analyze(
         self,
         transcript: str,

@@ -248,6 +248,10 @@ class WhisperClient:
     """
 
     def __init__(
+    """TODO: Add description for __init__.
+    
+    # test: test___init__
+    """
         self,
         model_size: str = "base",
         language: str | None = None,
@@ -295,6 +299,7 @@ class WhisperClient:
 
     @property
     def last_detected_language(self) -> str | None:
+        # test: test_last_detected_language
         """
         Language code detected from the most recent transcription (e.g. 'en', 'id').
         
@@ -305,6 +310,7 @@ class WhisperClient:
         return self._last_detected_language
 
     async def initialize(self) -> bool:
+        # test: test_initialize
         """
         Load the faster-whisper model (blocking, run once at startup).
         
@@ -402,6 +408,7 @@ class WhisperClient:
             return False
 
     async def transcribe(self, audio_bytes: bytes) -> str | None:
+        # test: test_transcribe
         """
         Transcribe raw PCM audio bytes to text.
 
@@ -459,6 +466,7 @@ class WhisperClient:
 
         return transcript
 
+        # test: test_transcribe_streaming
     async def transcribe_streaming(
         self,
         audio_bytes: bytes,

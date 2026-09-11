@@ -37,6 +37,7 @@ class EmotionTracker:
     summary signals for the personality core.
     """
 
+        # test: test___init__
     def __init__(
         self,
         history_size: int = 50,
@@ -54,6 +55,7 @@ class EmotionTracker:
         self._current_mood: str = "neutral"
         self._mood_history: deque[str] = deque(maxlen=20)
 
+        # test: test_record_emotion
     def record_emotion(
         self,
         emotion: str,
@@ -108,6 +110,7 @@ class EmotionTracker:
             self._mood_history.append(dominant)
 
     def get_mood_summary(self) -> str:
+        # test: test_get_mood_summary
         """
         Return a brief mood summary for personality adaptation.
         
@@ -130,6 +133,7 @@ class EmotionTracker:
         return max(emotion_counts.items(), key=lambda x: x[1])[0]
 
     def get_emotion_trend(self) -> dict[str, Any]:
+        # test: test_get_emotion_trend
         """
         Return emotion trend analysis.
         
@@ -170,6 +174,7 @@ class EmotionTracker:
         }
 
     def should_summarize(self) -> bool:
+        # test: test_should_summarize
         """
         Return True if it's time to generate an emotion summary for LTM.
         
@@ -179,6 +184,7 @@ class EmotionTracker:
         return self._turn_count > 0 and self._turn_count % self._summary_interval == 0
 
     def generate_summary(self) -> str | None:
+        # test: test_generate_summary
         """
         Generate a human-readable emotion summary for LTM storage.
         
@@ -209,6 +215,7 @@ class EmotionTracker:
         return "; ".join(summary_parts)
 
     def get_personality_adaptation(self) -> dict[str, Any]:
+        # test: test_get_personality_adaptation
         """
         Return personality adaptation signals for the LLM system prompt.
 
@@ -280,6 +287,7 @@ class EmotionTracker:
         return "normal"
 
     def save(self, path: Any) -> None:
+        # test: test_save
         """
         Save emotion state to a JSON file.
         
@@ -315,6 +323,7 @@ class EmotionTracker:
             log.error(f"[EmotionTracker] Failed to save state to {file_path}: {e}")
 
     def load(self, path: Any) -> None:
+        # test: test_load
         """
         Load emotion state from a JSON file.
         

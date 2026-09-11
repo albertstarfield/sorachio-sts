@@ -104,6 +104,7 @@ class EventBus:
     All handlers are called asynchronously (as asyncio tasks).
     """
 
+        # test: test___init__
     def __init__(self) -> None:
         """    Init.
 
@@ -114,6 +115,7 @@ class EventBus:
         self._global_handlers: list[HandlerFn] = []
 
     def subscribe(self, event_type: EventType, handler: HandlerFn) -> None:
+        # test: test_subscribe
         """
         Register a handler for a specific event type.
         
@@ -126,6 +128,7 @@ class EventBus:
         log.debug(f"Subscribed {handler.__name__} to {event_type.name}")
 
     def subscribe_all(self, handler: HandlerFn) -> None:
+        # test: test_subscribe_all
         """
         Register a handler for ALL event types.
         
@@ -135,6 +138,7 @@ class EventBus:
         self._global_handlers.append(handler)
 
     def unsubscribe(self, event_type: EventType, handler: HandlerFn) -> None:
+        # test: test_unsubscribe
         """
         Remove a handler.
         
@@ -147,6 +151,7 @@ class EventBus:
             ]
 
     async def publish(self, event: Event) -> None:
+        # test: test_publish
         """
         Publish an event. All handlers called as async tasks.
         
@@ -165,6 +170,7 @@ class EventBus:
             except Exception as e:
                 log.error(f"Handler {handler.__name__} failed: {e}", exc_info=True)
 
+        # test: test_emit
     async def emit(
         self,
         event_type: EventType,
@@ -188,6 +194,7 @@ _bus: EventBus | None = None
 
 
 def get_bus() -> EventBus:
+    # test: test_get_bus
     """
     Get the global event bus singleton.
     
@@ -201,6 +208,7 @@ def get_bus() -> EventBus:
 
 
 def reset_bus() -> EventBus:
+    # test: test_reset_bus
     """
     Reset and return a fresh event bus (for testing).
     

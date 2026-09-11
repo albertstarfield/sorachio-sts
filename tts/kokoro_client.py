@@ -101,6 +101,10 @@ class KokoroTTSClient:
     """
 
     def __init__(
+    """TODO: Add description for __init__.
+    
+    # test: test___init__
+    """
         self,
         audio_queue: asyncio.Queue,
         voice: str = "af_heart",
@@ -149,6 +153,7 @@ class KokoroTTSClient:
         self._available = False
 
     async def initialize(self) -> bool:
+        # test: test_initialize
         """
         Initialize both Kokoro (English) and Piper (Indonesian) models.
         
@@ -246,6 +251,7 @@ class KokoroTTSClient:
             return False
 
     def set_language(self, lang: str, from_stt: bool = False) -> None:
+        # test: test_set_language
         """
         Set the active language for TTS routing.
         Called when STT detects user language or language preference changes.
@@ -329,6 +335,7 @@ class KokoroTTSClient:
         return text
 
     async def synthesize_chunk(self, text: str) -> np.ndarray | None:
+        # test: test_synthesize_chunk
         """
         Synthesize a single text chunk to audio.
         Routes to Kokoro for English and Piper for Indonesian.
@@ -418,6 +425,7 @@ class KokoroTTSClient:
 
         return None
 
+        # test: test_process_tts_queue
     async def process_tts_queue(
         self,
         tts_chunk_queue: asyncio.Queue,
@@ -467,6 +475,7 @@ class KokoroTTSClient:
                 tts_chunk_queue.task_done()
 
     async def speak(self, text: str) -> None:
+        # test: test_speak
         """
         Convenience method to synthesize full text directly.
         

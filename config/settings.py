@@ -247,6 +247,7 @@ _project_root: Path | None = None
 
 
 def get_project_root() -> Path:
+    # test: test_get_project_root
     """
     Return the project root directory.
     
@@ -308,6 +309,7 @@ def _auto_scan_models(settings: SorachioSettings) -> None:
 
 
 def load_settings(config_path: str | None = None) -> SorachioSettings:
+    # test: test_load_settings
     """
     Load settings from YAML file, then auto-scan model directories.
     
@@ -344,6 +346,7 @@ def load_settings(config_path: str | None = None) -> SorachioSettings:
 
 
 def get_settings() -> SorachioSettings:
+    # test: test_get_settings
     """
     Get cached settings (load if not already loaded).
     
@@ -358,6 +361,7 @@ def get_settings() -> SorachioSettings:
 
 
 def resolve_path(relative: str) -> Path:
+    # test: test_resolve_path
     """
     Resolve a path relative to the project root.
     

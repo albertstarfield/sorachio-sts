@@ -62,6 +62,7 @@ class ChunkAssembler:
            - https://docs.python.org/3/library/re.html — regex for sentence boundary detection
     """
 
+        # test: test___init__
     def __init__(
         self,
         min_words: int = 3,
@@ -78,6 +79,8 @@ class ChunkAssembler:
     sentence_endings: Description.
     flush_on_comma (bool): Description.
     flush_timeout_s (float): Description.
+
+    # test: test_ChunkAssembler_init
         """
         self.min_words = min_words
         self.max_words = max_words
@@ -94,6 +97,8 @@ class ChunkAssembler:
         
         References:
         - https://docs.python.org/3/library/re.html
+
+        # test: test_ChunkAssembler_reset
         """
         self._buffer = ""
         self._last_token_time = 0.0
@@ -127,6 +132,7 @@ class ChunkAssembler:
 
         return False
 
+        # test: test_process
     async def process(
         self,
         token_stream: AsyncIterator[str],
@@ -202,6 +208,7 @@ class ChunkAssembler:
 # Convenience wrapper for single-string splitting
 # ---------------------------------------------------------------------------
 
+    # test: test_split_into_chunks
 def split_into_chunks(
     text: str,
     min_words: int = 3,

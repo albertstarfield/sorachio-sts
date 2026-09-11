@@ -35,6 +35,10 @@ log = get_logger("memory.ltm")
 
 class LTMEntry:
     def __init__(
+    """TODO: Add description for __init__.
+    
+    # test: test___init__
+    """
         self,
         content: str,
         topic: str = "general",
@@ -54,6 +58,8 @@ class LTMEntry:
     keywords: Description.
     metadata: Description.
     entry_id: Description.
+
+    # test: test_LTMEntry_init
         """
         self.id = entry_id or str(uuid.uuid4())[:8]
         self.content = content
@@ -66,6 +72,7 @@ class LTMEntry:
         self.accessed_at = self.created_at
         self.access_count = 0
 
+        # test: test_to_dict
     def to_dict(self) -> dict[str, Any]:
         """    To Dict.
 
@@ -74,6 +81,8 @@ class LTMEntry:
 
         References:
         - https://docs.python.org/3/library/json.html
+
+        # test: test_LTMEntry_to_dict
         """
         return {
             "id": self.id,
@@ -89,6 +98,7 @@ class LTMEntry:
         }
 
     @classmethod
+        # test: test_from_dict
     def from_dict(cls, d: dict[str, Any]) -> LTMEntry:
         """    From Dict.
 
@@ -96,10 +106,12 @@ class LTMEntry:
     d: Description.
 
     Returns:
-        LTMEntry: Description.
+        Description.
 
         References:
         - https://docs.python.org/3/library/json.html
+
+        # test: test_LTMEntry_to_dict
         """
         entry = cls(
             content=d["content"],
@@ -116,6 +128,7 @@ class LTMEntry:
         return entry
 
     def relevance_score(self, query_keywords: list[str]) -> float:
+        # test: test_relevance_score
         """
         Compute relevance score given query keywords.
         
@@ -171,6 +184,10 @@ class LongTermMemory:
     """
 
     def __init__(
+    """TODO: Add description for __init__.
+    
+    # test: test___init__
+    """
         self,
         storage_path: str = "data/memory/ltm.json",
         max_entries: int = 500,
@@ -200,6 +217,7 @@ class LongTermMemory:
         self._vector_weight = vector_weight
 
     async def initialize(self) -> None:
+        # test: test_initialize
         """
         Load existing memories from disk and sync to vector store.
         
@@ -243,6 +261,10 @@ class LongTermMemory:
         log.info(f"[LTM] Synced {synced}/{len(self._entries)} entries to vector store")
 
     async def store(
+    """TODO: Add description for store.
+    
+    # test: test_store
+    """
         self,
         content: str,
         topic: str = "general",
@@ -306,6 +328,7 @@ class LongTermMemory:
         log.info(f"[LTM] Stored [{entry.id}] topic={topic} importance={importance:.2f}: {content[:60]!r}")
         return entry
 
+        # test: test_retrieve
     async def retrieve(
         self,
         queries: list[str],
@@ -379,6 +402,7 @@ class LongTermMemory:
         return results
 
     def format_for_context(self, entries: list[LTMEntry]) -> str:
+        # test: test_format_for_context
         """
         Format retrieved memories as a context string for LLM.
         
@@ -457,6 +481,7 @@ class LongTermMemory:
                     break
         return result
 
+        # test: test_get_stats
     async def get_stats(self) -> dict[str, Any]:
         """    Get Stats.
 

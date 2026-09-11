@@ -71,12 +71,14 @@ class Heartbeat:
     _lock: threading.Lock = field(default_factory=threading.Lock, repr=False)
 
     def tick(self) -> None:
+        # test: test_tick
         """Record a heartbeat tick (component is alive)."""
         with self._lock:
             self.timestamp = time.monotonic()
             self.alive = True
             self.miss_count = 0
 
+        # test: test_check
     def check(self, timeout: float) -> bool:
         """Check if heartbeat is within timeout window.
 
@@ -96,6 +98,7 @@ class Heartbeat:
             return True
 
     def reset(self) -> None:
+        # test: test_reset
         """Reset heartbeat state."""
         with self._lock:
             self.timestamp = 0.0
@@ -121,6 +124,10 @@ class Watchdog_A:
     """
 
     def __init__(
+    """TODO: Add description for __init__.
+    
+    # test: test___init__
+    """
         self,
         heartbeat_timeout: float = 10.0,
         check_interval: float = 2.0,
@@ -145,14 +152,17 @@ class Watchdog_A:
 
     @property
     def state(self) -> WatchdogState:
+        # test: test_state
         """Current watchdog state."""
         return self._state
 
     @property
     def crash_count(self) -> int:
+        # test: test_crash_count
         """Number of crash recoveries attempted."""
         return self._crash_count
 
+        # test: test_register_component
     def register_component(
         self,
         name: str,
@@ -175,6 +185,7 @@ class Watchdog_A:
                 self._recovery_callbacks[name] = recovery_callback
             logger.info("Watchdog_A: registered component '%s'", name)
 
+        # test: test_unregister_component
     def unregister_component(self, name: str) -> None:
         """Remove a component from monitoring.
 
@@ -185,6 +196,7 @@ class Watchdog_A:
             self._recovery_callbacks.pop(name, None)
             logger.info("Watchdog_A: unregistered component '%s'", name)
 
+        # test: test_tick
     def tick(self, component: str) -> None:
         """Send a heartbeat from a monitored component.
 
@@ -202,6 +214,7 @@ class Watchdog_A:
                     component,
                 )
 
+        # test: test_set_cross_check
     def set_cross_check(self, callback: Callable[[], bool]) -> None:
         """Set the cross-check callback (called to verify Watchdog_B health).
 
@@ -210,6 +223,7 @@ class Watchdog_A:
         """
         self._cross_check_callback = callback
 
+        # test: test_set_resurrect
     def set_resurrect(self, callback: Callable[[], None]) -> None:
         """Set the resurrection callback (called after crash detection).
 
@@ -218,6 +232,7 @@ class Watchdog_A:
         """
         self._resurrect_callback = callback
 
+        # test: test_start
     def start(self) -> None:
         """Start the watchdog monitoring thread.
 
@@ -237,6 +252,7 @@ class Watchdog_A:
         logger.info("Watchdog_A: monitoring started")
 
     def stop(self) -> None:
+        # test: test_stop
         """Stop the watchdog monitoring thread."""
         self._stop_event.set()
         if self._thread and self._thread.is_alive():
@@ -351,6 +367,7 @@ class Watchdog_A:
                     traceback.format_exc(),
                 )
 
+        # test: test_Recover_Watchdog
     def Recover_Watchdog(self, component: str) -> bool:
         """Manually trigger recovery for a specific component.
 
@@ -397,6 +414,10 @@ class Watchdog_B:
     """
 
     def __init__(
+    """TODO: Add description for __init__.
+    
+    # test: test___init__
+    """
         self,
         heartbeat_timeout: float = 15.0,
         check_interval: float = 3.0,
@@ -421,14 +442,17 @@ class Watchdog_B:
 
     @property
     def state(self) -> WatchdogState:
+        # test: test_state
         """Current watchdog state."""
         return self._state
 
     @property
     def crash_count(self) -> int:
+        # test: test_crash_count
         """Number of crash recoveries attempted."""
         return self._crash_count
 
+        # test: test_register_component
     def register_component(
         self,
         name: str,
@@ -450,6 +474,7 @@ class Watchdog_B:
             logger.info("Watchdog_B: registered component '%s'", name)
 
     def unregister_component(self, name: str) -> None:
+        # test: test_unregister_component
         """Remove a component from monitoring."""
         with self._lock:
             self._heartbeats.pop(name, None)
@@ -457,6 +482,7 @@ class Watchdog_B:
             logger.info("Watchdog_B: unregistered component '%s'", name)
 
     def tick(self, component: str) -> None:
+        # test: test_tick
         """Send a heartbeat from a monitored component."""
         with self._lock:
             if component in self._heartbeats:
@@ -468,14 +494,17 @@ class Watchdog_B:
                 )
 
     def set_cross_check(self, callback: Callable[[], bool]) -> None:
+        # test: test_set_cross_check
         """Set the cross-check callback (called to verify Watchdog_A health)."""
         self._cross_check_callback = callback
 
     def set_resurrect(self, callback: Callable[[], None]) -> None:
+        # test: test_set_resurrect
         """Set the resurrection callback."""
         self._resurrect_callback = callback
 
     def start(self) -> None:
+        # test: test_start
         """Start the watchdog monitoring thread."""
         if self._state == WatchdogState.RUNNING:
             logger.warning("Watchdog_B: already running")
@@ -491,6 +520,7 @@ class Watchdog_B:
         logger.info("Watchdog_B: monitoring started")
 
     def stop(self) -> None:
+        # test: test_stop
         """Stop the watchdog monitoring thread."""
         self._stop_event.set()
         if self._thread and self._thread.is_alive():
@@ -586,6 +616,7 @@ class Watchdog_B:
                     traceback.format_exc(),
                 )
 
+        # test: test_Recover_Watchdog
     def Recover_Watchdog(self, component: str) -> bool:
         """Manually trigger recovery for a specific component.
 
@@ -618,6 +649,7 @@ class Watchdog_B:
 # ---------------------------------------------------------------------------
 
 
+    # test: test_Cross_Check
 def Cross_Check(watchdog_a: Watchdog_A, watchdog_b: Watchdog_B) -> bool:
     """Cross-check function — verifies both watchdogs are alive.
 
@@ -648,6 +680,7 @@ def Cross_Check(watchdog_a: Watchdog_A, watchdog_b: Watchdog_B) -> bool:
         return True
 
 
+    # test: test_Cross_Monitor
 def Cross_Monitor(watchdog_a: Watchdog_A, watchdog_b: Watchdog_B) -> None:
     """Set up mutual cross-monitoring between two watchdogs.
 
@@ -672,6 +705,7 @@ def Cross_Monitor(watchdog_a: Watchdog_A, watchdog_b: Watchdog_B) -> None:
 _resurrect_fn: Callable[[], None] | None = None
 
 
+    # test: test_Handle_Segfault
 def Handle_Segfault(signum: int, frame: Any) -> None:
     """Signal handler for SIGSEGV (segmentation fault).
 
@@ -716,6 +750,7 @@ def Handle_Segfault(signum: int, frame: Any) -> None:
     sys.exit(128 + signum)
 
 
+    # test: test_Segfault_Recover
 def Segfault_Recover(
     resurrect_callback: Callable[[], None] | None = None,
 ) -> None:
@@ -775,6 +810,7 @@ def _save_crash_state(signal_name: str, frame: Any) -> None:
         logger.warning("Failed to save crash state: %s", exc)
 
 
+    # test: test_Resurrect
 def Resurrect(
     watchdog_a: Watchdog_A,
     watchdog_b: Watchdog_B,
@@ -836,6 +872,7 @@ def Resurrect(
 # Module-Level Initialization
 # ---------------------------------------------------------------------------
 
+    # test: test_initialize_watchdogs
 def initialize_watchdogs(
     restart_fn: Callable[[], None] | None = None,
 ) -> tuple[Watchdog_A, Watchdog_B]:
@@ -863,9 +900,17 @@ def initialize_watchdogs(
 
     # Set resurrection callbacks
     def resurrect_a() -> None:
+    """TODO: Add description for resurrect_a.
+    
+    # test: test_resurrect_a
+    """
         Resurrect(wdog_a, wdog_b, restart_fn)
 
     def resurrect_b() -> None:
+    """TODO: Add description for resurrect_b.
+    
+    # test: test_resurrect_b
+    """
         Resurrect(wdog_a, wdog_b, restart_fn)
 
     wdog_a.set_resurrect(resurrect_a)

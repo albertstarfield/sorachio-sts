@@ -88,6 +88,10 @@ class PiperTTSClient:
     """
 
     def __init__(
+    """TODO: Add description for __init__.
+    
+    # test: test___init__
+    """
         self,
         audio_queue: asyncio.Queue,
         voice: str = "id_ID-news_tts-medium",
@@ -127,6 +131,7 @@ class PiperTTSClient:
         self._response_lang_locked: bool = False  # True once lang is resolved
 
     async def initialize(self, offline_only: bool = True) -> bool:
+        # test: test_initialize
         """
         Load Piper voices (blocking, run once at startup).
 
@@ -304,6 +309,7 @@ class PiperTTSClient:
         return onnx_path
 
     def set_language(self, lang: str, from_stt: bool = False) -> None:
+        # test: test_set_language
         """
         Set the active language for voice routing.
 
@@ -428,6 +434,7 @@ class PiperTTSClient:
         return text
 
     async def synthesize_chunk(self, text: str) -> np.ndarray | None:
+        # test: test_synthesize_chunk
         """
         Synthesize a single text chunk to audio.
 
@@ -515,6 +522,7 @@ class PiperTTSClient:
 
         return audio
 
+        # test: test_process_tts_queue
     async def process_tts_queue(
         self,
         tts_chunk_queue: asyncio.Queue,
@@ -590,6 +598,7 @@ class PiperTTSClient:
                 tts_chunk_queue.task_done()
 
     async def speak(self, text: str) -> None:
+        # test: test_speak
         """
         Convenience: synthesize full text and queue all audio directly.
         Used for startup greeting and test mode.

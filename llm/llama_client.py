@@ -53,6 +53,7 @@ class Message:
         Message("user", "What's in this image?", image_b64="data:image/png;base64,...")
     """
 
+        # test: test___init__
     def __init__(self, role: str, content: str, image_b64: str | None = None):
         """    Init.
 
@@ -65,6 +66,7 @@ class Message:
         self.content = content
         self.image_b64 = image_b64
 
+        # test: test_to_dict
     def to_dict(self) -> dict[str, Any]:
         """    To Dict.
 
@@ -103,6 +105,10 @@ class LlamaClient:
     """
 
     def __init__(
+    """TODO: Add description for __init__.
+    
+    # test: test___init__
+    """
         self,
         base_url: str,
         temperature: float = 0.7,
@@ -156,6 +162,7 @@ class LlamaClient:
             )
         return self._client
 
+        # test: test_close
     async def close(self) -> None:
         """    Close.
 
@@ -171,6 +178,7 @@ class LlamaClient:
             self._client = None
 
     async def health_check(self) -> bool:
+        # test: test_health_check
         """
         Return True if the server is healthy and ready.
         
@@ -187,6 +195,7 @@ class LlamaClient:
             return False
 
     async def wait_for_ready(self, timeout_s: float = 60.0) -> bool:
+        # test: test_wait_for_ready
         """
         Poll until server is ready or timeout expires.
         
@@ -207,6 +216,7 @@ class LlamaClient:
         log.error(f"Server at {self.base_url} did not become ready in {timeout_s}s")
         return False
 
+        # test: test_complete
     async def complete(
         self,
         messages: list[dict[str, Any]],
@@ -258,6 +268,7 @@ class LlamaClient:
 
         raise RuntimeError("All retries exhausted")
 
+        # test: test_stream
     async def stream(
         self,
         messages: list[dict[str, Any]],
@@ -342,6 +353,7 @@ class LlamaClient:
         return payload
 
     async def warm_up(self, system_prompt: str | None = None) -> None:
+        # test: test_warm_up
         """
         Trigger a dummy inference request to warm up the model.
 

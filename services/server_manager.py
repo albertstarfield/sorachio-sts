@@ -48,6 +48,10 @@ class SingleServerManager:
     """
 
     def __init__(
+    """TODO: Add description for __init__.
+    
+    # test: test___init__
+    """
         self,
         name: str,
         binary_path: Path,
@@ -124,6 +128,7 @@ class SingleServerManager:
         return cmd
 
     async def start(self) -> bool:
+        # test: test_start
         """
         Start the server. Returns True if started successfully.
         
@@ -189,6 +194,7 @@ class SingleServerManager:
             return False
 
     def stop(self) -> None:
+        # test: test_stop
         """
         Gracefully stop the server.
         
@@ -220,6 +226,7 @@ class SingleServerManager:
             self._log_file = None
 
     async def health_check(self) -> bool:
+        # test: test_health_check
         """
         Check if server endpoint responds to health query.
         
@@ -240,6 +247,7 @@ class SingleServerManager:
             return False
 
     def is_running(self) -> bool:
+        # test: test_is_running
         """
         Return True if the server process is alive.
         
@@ -260,6 +268,7 @@ class ServerManager:
       - LLM #2: Personality Core
     """
 
+        # test: test___init__
     def __init__(self, llm_config, project_root: Path):
         """Initialize the ServerManager with both LLM server configurations.
 
@@ -306,6 +315,7 @@ class ServerManager:
         self.max_restart_attempts = 3
 
     async def health_check_all(self) -> dict[str, bool]:
+        # test: test_health_check_all
         """
         Check health of all managed servers.
         
@@ -318,6 +328,7 @@ class ServerManager:
         return results
 
     async def start_watchdog(self, check_interval_s: float = 30.0) -> None:
+        # test: test_start_watchdog
         """
         Start watchdog background loop to monitor server health and auto-restart if needed.
         
@@ -359,6 +370,7 @@ class ServerManager:
         self._watchdog_task = asyncio.create_task(_watchdog_loop())
 
     def stop_watchdog(self) -> None:
+        # test: test_stop_watchdog
         """
         Stop the watchdog background task.
         
@@ -371,6 +383,7 @@ class ServerManager:
             log.info("[ServerManager] Watchdog stopped")
 
     async def start_all(self, wait_ready: bool = True) -> bool:
+        # test: test_start_all
         """
         Start all servers. Returns True if all started.
         
@@ -417,6 +430,7 @@ class ServerManager:
         return True
 
     def stop_all(self) -> None:
+        # test: test_stop_all
         """
         Stop all servers gracefully.
         
@@ -427,6 +441,7 @@ class ServerManager:
         for srv in self._servers.values():
             srv.stop()
 
+        # test: test_status
     def status(self) -> dict[str, bool]:
         """Return running status of all managed servers.
 

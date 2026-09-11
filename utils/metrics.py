@@ -31,6 +31,7 @@ class TurnMetrics:
     tts_first_chunk_s: float = 0.0
     total_e2e_s: float = 0.0
 
+        # test: test_to_dict
     def to_dict(self) -> dict[str, Any]:
         """    To Dict.
 
@@ -67,6 +68,7 @@ class MetricsCollector:
         self._history: list[TurnMetrics] = []
         self._history_size = history_size
 
+        # test: test_record_turn
     def record_turn(self, metrics: TurnMetrics) -> None:
         """    Record Turn.
 
@@ -90,6 +92,7 @@ class MetricsCollector:
             f"TTFT: {metrics.ttft_s:.2f}s)"
         )
 
+        # test: test_get_summary
     def get_summary(self) -> dict[str, Any]:
         """    Get Summary.
 

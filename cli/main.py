@@ -95,6 +95,7 @@ class _NoiseFilter(logging.Filter):
         "HF_TOKEN",
         "dropout option adds",
     )
+        # test: test_filter
     def filter(self, record: logging.LogRecord) -> bool:
         """Filter log records, dropping known spam patterns.
 
@@ -235,6 +236,7 @@ def _print_banner():
 # ---------------------------------------------------------------------------
 
 @app.command()
+    # test: test_run
 def run(
     config: str | None = typer.Option(None, "--config", "-c", help="Config file path"),  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
     no_greeting: bool = typer.Option(False, "--no-greeting", help="Skip startup greeting"),
@@ -261,6 +263,7 @@ def run(
 # ---------------------------------------------------------------------------
 
 @app.command()
+    # test: test_text
 def text(
     config: str | None = typer.Option(None, "--config", "-c", help="Config file path"),  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
     message: str | None = typer.Option(None, "--message", "-m", help="Single message (non-interactive)"),  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
@@ -511,6 +514,7 @@ class VoiceCLI:
         "tired":      ("◑",  "bright_black"),
     }
 
+        # test: test___init__
     def __init__(self, mode: str = "run"):
         """Initialize the VoiceCLI event handler.
 
@@ -570,6 +574,7 @@ class VoiceCLI:
     # ── lifecycle ─────────────────────────────────────────────────────
 
     def start(self) -> None:
+        # test: test_start
         """
         Subscribe to pipeline events and show the initial spinner.
         
@@ -590,6 +595,7 @@ class VoiceCLI:
         self.bus.subscribe(EventType.INTERRUPT,       self.on_interrupt)
 
     def stop(self) -> None:
+        # test: test_stop
         """
         Unsubscribe from all events and stop the spinner.
         
@@ -609,6 +615,7 @@ class VoiceCLI:
 
     # ── event handlers ────────────────────────────────────────────────
 
+        # test: test_on_speech_start
     async def on_speech_start(self, event) -> None:
         """Handle speech detection start event.
 
@@ -620,6 +627,7 @@ class VoiceCLI:
         """
         self._spin_label("Listening…", "cyan")
 
+        # test: test_on_stt
     async def on_stt(self, event) -> None:
         """Handle STT result event by displaying the transcript.
 
@@ -638,6 +646,7 @@ class VoiceCLI:
         else:
             self._spin_label("Thinking…", "yellow")
 
+        # test: test_on_cognitive
     async def on_cognitive(self, event) -> None:
         """Handle cognitive gateway decision event by rendering the status bar.
 
@@ -734,6 +743,7 @@ class VoiceCLI:
             # In run mode, don't wait for a response that won't come — go back to listening
             self._spin_start("Listening…", "cyan")
 
+        # test: test_on_response_start
     async def on_response_start(self, event) -> None:
         """Handle response start event by clearing buffer and printing header.
 
@@ -750,6 +760,7 @@ class VoiceCLI:
         else:
             console.print("[bold cyan]Sorachio:[/bold cyan] ", end="")
 
+        # test: test_on_token
     async def on_token(self, event) -> None:
         """Handle individual token events by printing to console.
 
@@ -765,6 +776,7 @@ class VoiceCLI:
             token = token.replace("\n", "\n  ")
         console.print(token, end="", highlight=False)
 
+        # test: test_on_response_end
     async def on_response_end(self, event) -> None:
         """Handle response end event by finalizing the output.
 
@@ -780,6 +792,7 @@ class VoiceCLI:
         elif self.mode == "run":
             self._spin_start("Listening…", "cyan")
 
+        # test: test_on_interrupt
     async def on_interrupt(self, event) -> None:
         """Handle interrupt event (barge-in) by stopping playback indicator.
 
@@ -884,6 +897,7 @@ async def _run_pipeline(settings, voice_mode=True, no_servers=False):
 # ---------------------------------------------------------------------------
 
 @app.command("test-stt")
+    # test: test_test_stt
 def test_stt(
     config: str | None = typer.Option(None, "--config", "-c"),  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
     audio_file: str | None = typer.Option(None, "--file", "-f", help="WAV file to transcribe"),  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
@@ -946,6 +960,7 @@ def test_stt(
 # ---------------------------------------------------------------------------
 
 @app.command("test-tts")
+    # test: test_test_tts
 def test_tts(
     text_input: str = typer.Argument("Hello! I am Sorachio, your AI companion."),
     config: str | None = typer.Option(None, "--config", "-c"),
@@ -1003,6 +1018,7 @@ def test_tts(
 # ---------------------------------------------------------------------------
 
 @app.command("test-cognitive")
+    # test: test_test_cognitive
 def test_cognitive(
     text_input: str = typer.Argument("Hey Sorachio, I've been really stressed about my exams."),
     config: str | None = typer.Option(None, "--config", "-c"),  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
@@ -1074,6 +1090,7 @@ def test_cognitive(
 
 @servers_app.command("status")
 def servers_status(config: str | None = typer.Option(None)):
+    # test: test_servers_status
     """
     Show status of llama-server instances.
     
@@ -1093,6 +1110,7 @@ def servers_status(config: str | None = typer.Option(None)):
 
     import httpx
 
+        # test: test_check
     def check(url):
         """Check if a llama-server health endpoint is reachable.
 
@@ -1119,6 +1137,7 @@ def servers_status(config: str | None = typer.Option(None)):
 
 @servers_app.command("start")
 def servers_start(config: str | None = typer.Option(None)):
+    # test: test_servers_start
     """
     Start both llama-server instances.
     
@@ -1147,6 +1166,7 @@ def servers_start(config: str | None = typer.Option(None)):
 
 @servers_app.command("stop")
 def servers_stop(config: str | None = typer.Option(None)):
+    # test: test_servers_stop
     """
     Stop both llama-server instances.
     
@@ -1175,6 +1195,7 @@ def servers_stop(config: str | None = typer.Option(None)):
 
 @memory_app.command("list")
 def memory_list(config: str | None = typer.Option(None)):
+    # test: test_memory_list
     """
     List all long-term memories.
     
@@ -1211,6 +1232,7 @@ def memory_list(config: str | None = typer.Option(None)):
 
 
 @memory_app.command("clear")
+    # test: test_memory_clear
 def memory_clear(
     config: str | None = typer.Option(None),  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
     yes: bool = typer.Option(False, "--yes", "-y", help="Skip confirmation"),

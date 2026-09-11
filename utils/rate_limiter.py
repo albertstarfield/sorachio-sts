@@ -43,6 +43,7 @@ class RateLimiter:
     requests when the limit is exceeded.
     """
 
+        # test: test___init__
     def __init__(
         self,
         max_requests: int = 10,
@@ -68,6 +69,7 @@ class RateLimiter:
         )
 
     async def check_allow(self) -> tuple[bool, float]:
+        # test: test_check_allow
         """
         Check if a request is allowed and return wait time if rejected.
 
@@ -100,6 +102,7 @@ class RateLimiter:
             return False, wait_time
 
     async def allow(self) -> bool:
+        # test: test_allow
         """
         Check if a request is allowed under the rate limit.
 
@@ -115,6 +118,7 @@ class RateLimiter:
         return allowed
 
     async def wait(self) -> bool:
+        # test: test_wait
         """
         Wait until a request can be allowed (up to window_seconds).
 
@@ -149,6 +153,7 @@ class RateLimiter:
         return await self.allow()
 
     def get_status(self) -> dict:
+        # test: test_get_status
         """
         Return current rate limiter status.
         

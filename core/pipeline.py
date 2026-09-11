@@ -46,6 +46,7 @@ class SorachioPipeline:
     and runs the real-time speech-to-speech conversation loop.
     """
 
+        # test: test___init__
     def __init__(self, settings: SorachioSettings):
         """Initialize the SorachioPipeline with settings and shared asyncio primitives.
 
@@ -95,6 +96,7 @@ class SorachioPipeline:
         self.on_text_response = None
 
     async def setup(self) -> bool:
+        # test: test_setup
         """
         Initialize all components. Returns False if critical component fails.
         
@@ -448,6 +450,7 @@ class SorachioPipeline:
             log.error(f"[Pipeline] AEC calibration error: {e}")
 
     async def run(self) -> None:
+        # test: test_run
         """
         Start all workers and run until shutdown.
         
@@ -794,6 +797,7 @@ class SorachioPipeline:
         log.info("[Pipeline] ══ INTERRUPT COMPLETE ══")
 
     async def inject_text(self, text: str) -> None:
+        # test: test_inject_text
         """
         Inject text directly as if it were a speech transcript.
         Used by the CLI in --text mode for testing without microphone.
@@ -815,6 +819,7 @@ class SorachioPipeline:
             self._capture.unmute()
 
     async def shutdown(self) -> None:
+        # test: test_shutdown
         """
         Graceful shutdown of all components.
         
@@ -852,6 +857,7 @@ class SorachioPipeline:
         log.info("[Pipeline] Shutdown complete")
 
     def request_shutdown(self) -> None:
+        # test: test_request_shutdown
         """
         Thread-safe shutdown request.
         

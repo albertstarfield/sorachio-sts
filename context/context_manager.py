@@ -50,6 +50,10 @@ class ContextManager:
     """
 
     def __init__(
+    """TODO: Add description for __init__.
+    
+    # test: test___init__
+    """
         self,
         stm: ShortTermMemory,
         ltm: LongTermMemory,
@@ -81,6 +85,7 @@ class ContextManager:
         self.include_emotional_state = include_emotional_state
         self._emotion_tracker = emotion_tracker
 
+        # test: test_build_prompt
     async def build_prompt(
         self,
         user_input: str,
@@ -209,6 +214,7 @@ class ContextManager:
         ]
         return "\n".join(parts)
 
+        # test: test_store_interaction
     async def store_interaction(
         self,
         user_input: str,

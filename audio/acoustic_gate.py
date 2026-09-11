@@ -40,6 +40,7 @@ _INT16_PEAK: float = 32768.0  # nosec: SMT_LOGIC_VERIFICATION — Class constant
 
 
 def compute_dbfs(pcm_bytes: bytes) -> float:
+    # test: test_compute_dbfs
     """
     Compute dBFS from raw int16 mono PCM bytes.
 
@@ -88,6 +89,7 @@ class AcousticGate:
             calibration — extremely verbose at 30fps frame rate.
     """
 
+        # test: test___init__
     def __init__(
         self,
         threshold_dbfs: float = -40.0,
@@ -124,6 +126,7 @@ class AcousticGate:
             log.info("[AcousticGate] Disabled — all frames pass through")
 
     def gate(self, pcm_bytes: bytes) -> bool:
+        # test: test_gate
         """
         Evaluate a PCM frame and decide whether it passes.
 
@@ -172,6 +175,7 @@ class AcousticGate:
         return True
 
     def get_stats(self) -> dict[str, int | float]:
+        # test: test_get_stats
         """
         Return diagnostic counters. Safe to call from any thread.
         
