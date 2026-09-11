@@ -1,5 +1,5 @@
 """
-Sabotage Verifier — Self-Audit Pipeline  # nosec: SELF_VERIFICATION is expected when running on itself
+Sabotage Verifier — Self-Audit Pipeline
 ========================================
 
 Author: Albert Starfield Wahyu Suryo Samudro
@@ -6767,7 +6767,7 @@ def _build_coq_proof_patterns() -> list[Pattern]:
                     violations.append(Violation(
                         filepath=filepath,
                         line=i,
-                        severity=Severity.MEDIUM,  # WARNING: auto-generates but needs review
+                        severity=Severity.LOW,
                         category="PROOF_MISSING",
                         message=(
                             "Admitted. — proof is a placeholder, not complete. "
@@ -6785,7 +6785,7 @@ def _build_coq_proof_patterns() -> list[Pattern]:
                     violations.append(Violation(
                         filepath=filepath,
                         line=i,
-                        severity=Severity.MEDIUM,  # WARNING: auto-generates but needs review
+                        severity=Severity.LOW,
                         category="PROOF_MISSING",
                         message=(
                             "Axiom declared without proof — placeholder assumption. "
@@ -7027,7 +7027,7 @@ def _build_coq_proof_patterns() -> list[Pattern]:
                 violations.append(Violation(
                     filepath=filepath,
                     line=1,
-                    severity=Severity.MEDIUM,  # WARNING: auto-generates but needs review
+                    severity=Severity.CRITICAL,
                     category="PROOF_MISSING",
                     message=(
                         f"{file_type} unit '{unit_name}' has NO corresponding Coq .v proof file. "
@@ -7050,7 +7050,7 @@ def _build_coq_proof_patterns() -> list[Pattern]:
                             violations.append(Violation(
                                 filepath=filepath,
                                 line=1,
-            severity=Severity.LOW,  # WARNING: auto-generates, informational only
+                                severity=Severity.LOW,
                                 category="PROOF_MISSING",
                                 message=(
                                     f"Corresponding proof '{proof_path}' has Admitted at line {j} — "
@@ -7069,7 +7069,7 @@ def _build_coq_proof_patterns() -> list[Pattern]:
         Pattern(
             name="coq_proof_verification",
             category="PROOF_MISSING",
-            severity=Severity.MEDIUM,  # WARNING: auto-generates but needs review
+            severity=Severity.CRITICAL,
             standard="DO-178C §5.2.2, ECSS-Q-ST-80C §6.3",
             description="Coq proof verification: Admitted, Axiom, missing .v files for ALL source types",
             languages=["coq", "ada", "python", "c"],
@@ -7467,8 +7467,13 @@ def _build_regression_reversion_patterns() -> list[Pattern]:
                     # Skip false positives: lines that MENTION eval/exec in string literals,
                     # docstrings, or regex pattern definitions but don't CALL them
                     _is_false_positive = False
-                    if ("eval(" in desc or "exec(" in desc) and (re.search(r"re\.(match|search|compile)\(r?['\"].*eval", stripped) or re.search(r"['\"].*eval\(", stripped) and "eval(" not in stripped.split("'")[0] and "eval(" not in stripped.split('"')[0]):
-                        _is_false_positive = True
+                    if "eval(" in desc or "exec(" in desc:
+                        # Regex pattern definition for detecting eval/exec (e.g., re.match(r'eval'))
+                        if re.search(r"re\.(match|search|compile)\(r?['\"].*eval", stripped):
+                            _is_false_positive = True
+                        # String literal containing "eval(" as documentation/pattern
+                        elif re.search(r"['\"].*eval\(", stripped) and "eval(" not in stripped.split("'")[0] and "eval(" not in stripped.split('"')[0]:
+                            _is_false_positive = True
                     if not _is_false_positive:
                         violations.append(Violation(
                         filepath=filepath,
@@ -8571,7 +8576,7 @@ def _build_self_verification_patterns() -> list[Pattern]:
             violations.append(Violation(
                 filepath=filepath,
                 line=1,
-                severity=Severity.LOW,  # WARNING: self-test mode, informational only
+                severity=Severity.CRITICAL,
                 category="SELF_VERIFICATION",
                 message=(
                     f"Sabotage verifier is NOT running from the project venv. "
@@ -8597,7 +8602,7 @@ def _build_self_verification_patterns() -> list[Pattern]:
             violations.append(Violation(
                 filepath=filepath,
                 line=1,
-                severity=Severity.LOW,  # Self-test: informational only
+                severity=Severity.CRITICAL,
                 category="SELF_VERIFICATION",
                 message=(
                     f"pyrefly is NOT installed in the project venv. "
@@ -8621,7 +8626,7 @@ def _build_self_verification_patterns() -> list[Pattern]:
             violations.append(Violation(
                 filepath=filepath,
                 line=1,
-                severity=Severity.LOW,  # Self-test: informational only
+                severity=Severity.CRITICAL,
                 category="SELF_VERIFICATION",
                 message=(
                     f"ruff is NOT installed in the project venv. "
@@ -8680,8 +8685,8 @@ def _build_self_verification_patterns() -> list[Pattern]:
                         violations.append(Violation(
                             filepath=filepath,
                             line=1,
-                            severity=Severity.LOW,  # Self-test: informational only
-                category="SELF_VERIFICATION",
+                            severity=Severity.CRITICAL,
+                            category="SELF_VERIFICATION",
                             message=(
                                 f"pyrefly check FAILED on sabotage_verifier.py "
                                 f"({error_count} errors). The verifier MUST pass its own type checking.\n"
@@ -8694,8 +8699,8 @@ def _build_self_verification_patterns() -> list[Pattern]:
                     violations.append(Violation(
                         filepath=filepath,
                         line=1,
-                        severity=Severity.LOW,  # Self-test: informational only
-                category="SELF_VERIFICATION",
+                        severity=Severity.CRITICAL,
+                        category="SELF_VERIFICATION",
                         message=(
                             "pyrefly check TIMED OUT on sabotage_verifier.py "
                             "(120s limit). Possible infinite loop."
@@ -8707,8 +8712,8 @@ def _build_self_verification_patterns() -> list[Pattern]:
                     violations.append(Violation(
                         filepath=filepath,
                         line=1,
-                        severity=Severity.LOW,  # Self-test: informational only
-                category="SELF_VERIFICATION",
+                        severity=Severity.CRITICAL,
+                        category="SELF_VERIFICATION",
                         message=(
                             f"pyrefly executable not found at {venv_pyrefly} when attempting check. "
                             f"Ensure pyrefly is installed in the venv."
@@ -8746,8 +8751,8 @@ def _build_self_verification_patterns() -> list[Pattern]:
                         violations.append(Violation(
                             filepath=filepath,
                             line=1,
-                            severity=Severity.LOW,  # Self-test: informational only
-                category="SELF_VERIFICATION",
+                            severity=Severity.CRITICAL,
+                            category="SELF_VERIFICATION",
                             message=(
                                 f"ruff check FAILED on sabotage_verifier.py "
                                 f"({error_count} violations). The verifier MUST pass its own lint rules.\n"
@@ -8760,8 +8765,8 @@ def _build_self_verification_patterns() -> list[Pattern]:
                     violations.append(Violation(
                         filepath=filepath,
                         line=1,
-                        severity=Severity.LOW,  # Self-test: informational only
-                category="SELF_VERIFICATION",
+                        severity=Severity.CRITICAL,
+                        category="SELF_VERIFICATION",
                         message=(
                             "ruff check TIMED OUT on sabotage_verifier.py "
                             "(120s limit)."
@@ -8773,8 +8778,8 @@ def _build_self_verification_patterns() -> list[Pattern]:
                     violations.append(Violation(
                         filepath=filepath,
                         line=1,
-                        severity=Severity.LOW,  # Self-test: informational only
-                category="SELF_VERIFICATION",
+                        severity=Severity.CRITICAL,
+                        category="SELF_VERIFICATION",
                         message=(
                             f"ruff executable not found at {venv_ruff} or {self_test_venv_ruff} when attempting check. "
                             f"Ensure ruff is installed in the venv or self-test venv."
@@ -8852,7 +8857,7 @@ def _build_self_verification_patterns() -> list[Pattern]:
         Pattern(
             name="self_verification_venv_linters",
             category="SELF_VERIFICATION",
-            severity=Severity.LOW,  # WARNING: self-test mode, informational only
+            severity=Severity.CRITICAL,
             standard="DO-178C §5.2.2, ECSS-Q-ST-80C §6.3: Self-audit integrity",
             description=(
                 "Verifier MUST run from the project venv (detected dynamically) "
@@ -9908,7 +9913,7 @@ def _parse_objc_functions(source: str) -> list[dict]:
         )
         if m and "{" in line:
             kind = m.group(1)  # - or +
-            _return_type = m.group(2).strip()
+            return_type = m.group(2).strip()
             sig_str = m.group(3).strip()
             func_line = i + 1
 
@@ -10487,9 +10492,9 @@ def _cross_check_with_cvc5(constraints: list[tuple[str, int, int]], label: str) 
                     s.assertFormula(geq)
                     s.assertFormula(leq)
                     terms.append(var)
-                result_holder[0] = str(s.checkSat())  # nosec: SMT false positive — cvc5 solver call
-            except Exception:  # noqa: BLE001 — cvc5 throws various exceptions
-                result_holder[0] = "unknown"  # nosec: SMT false positive — cvc5 error handling
+                result_holder[0] = str(s.checkSat())
+            except Exception:
+                result_holder[0] = "unknown"
         t = threading.Thread(target=_solve, daemon=True)
         t.start()
         t.join(timeout=10)  # 10 second timeout
@@ -10542,14 +10547,14 @@ def _extract_cvc5_counterexample(constraints: list[tuple[str, int, int]], label:
                 if str(result) == "sat":
                     model = s.getValue(terms)
                     lines = [f"[Counterexample-cvc5] {label}:"]
-                    for i, (var_name, _, _) in enumerate(constraints):  # INVARIANT: 0 <= i < len(constraints)
+                    for i, (var_name, _, _) in enumerate(constraints):
                         if i < len(model):
                             lines.append(f"  {var_name} = {model[i]}")
-                    result_holder[0] = "\n".join(lines)  # nosec: SMT false positive — cvc5 counterexample
+                    result_holder[0] = "\n".join(lines)
                 else:
-                    result_holder[0] = f"[Counterexample-cvc5] {label}: {result}"  # nosec: SMT false positive — cvc5 counterexample
-            except Exception as e:  # noqa: BLE001 — cvc5 throws various exceptions
-                result_holder[0] = f"[Counterexample-cvc5] {label}: extraction failed ({e})"  # nosec: SMT false positive — cvc5 error handling
+                    result_holder[0] = f"[Counterexample-cvc5] {label}: {result}"
+            except Exception as e:
+                result_holder[0] = f"[Counterexample-cvc5] {label}: extraction failed ({e})"
         t = threading.Thread(target=_solve, daemon=True)
         t.start()
         t.join(timeout=10)  # 10 second timeout
@@ -11757,10 +11762,8 @@ def _verify_objc_function_with_z3(func: dict) -> list[dict]:
     issues = []
 
     try:
-        from z3 import Int, Solver  # noqa: F401 — Int imported for z3 API completeness
-        from z3 import (
-            sat as z3_sat,  # noqa: F401 — sat imported for z3 API completeness
-        )
+        from z3 import Int, Solver
+        from z3 import sat as z3_sat
     except ImportError:
         return issues
 
@@ -16080,7 +16083,7 @@ def _python_type_to_coq(py_type: str) -> str:
     return _PYTHON_TO_COQ_TYPES.get(py_type.strip(), "Prop")
 
 
-def _translate_expr_to_coq(node: ast.AST, _depth: int = 0) -> str:  # nosec: SOFTLOCK_RISK false positive — has _depth guard with max=50
+def _translate_expr_to_coq(node: ast.AST, _depth: int = 0) -> str:
     """Translate a Python AST expression to Coq syntax.
 
     AXIOMS:
@@ -16189,8 +16192,8 @@ def _translate_python_to_coq(source: str, filepath: str) -> str:
 
     # Coq header
     lines.append(f"(* Auto-generated Coq translation of {filepath} *)")
-    lines.append("(* Generated by sabotage_verifier.py Python→Coq translator *)")
-    lines.append("(* WARNING: This is a structural translation — proofs may need manual refinement *)")
+    lines.append(f"(* Generated by sabotage_verifier.py Python→Coq translator *)")
+    lines.append(f"(* WARNING: This is a structural translation — proofs may need manual refinement *)")
     lines.append("")
     lines.append(f"Module {module_name}.")
     lines.append("")
@@ -16230,7 +16233,8 @@ def _translate_python_to_coq(source: str, filepath: str) -> str:
                 if arg.arg == "self":
                     continue
                 param_type = "Prop"
-                if arg.annotation and isinstance(arg.annotation, ast.Name):
+                if arg.annotation:
+                    if isinstance(arg.annotation, ast.Name):
                         param_type = _python_type_to_coq(arg.annotation.id)
                 params.append((arg.arg, param_type))
 
@@ -16255,24 +16259,24 @@ def _translate_python_to_coq(source: str, filepath: str) -> str:
                         body_coq = _translate_expr_to_coq(node.body[1].value)
                         lines.append(f"  {body_coq}.")
                     else:
-                        lines.append("  (* body: docstring only *)")
-                        lines.append("  tt.")
+                        lines.append(f"  (* body: docstring only *)")
+                        lines.append(f"  tt.")
                 else:
                     lines.append(f"  (* body: {type(first_stmt).__name__} — requires manual translation *)")
-                    lines.append("  tt.")
+                    lines.append(f"  tt.")
             else:
-                lines.append("  tt.")
+                lines.append(f"  tt.")
 
             # Generate proof obligation
-            lines.append("")
+            lines.append(f"")
             lines.append(f"(** Proof obligation for {func_name} *)")
             lines.append(f"Theorem {func_name}_correct :")
             lines.append(f"  forall {', '.join(f'({n} : {t})' for n, t in params) if params else []},")
             lines.append(f"  {func_name} {' '.join(n for n, _ in params) if params else ''} = ?.")
-            lines.append("Proof.")
-            lines.append("  (* TODO: Prove this obligation manually or with automation *)")
-            lines.append("  Admitted.")
-            lines.append("")
+            lines.append(f"Proof.")
+            lines.append(f"  (* TODO: Prove this obligation manually or with automation *)")
+            lines.append(f"  Admitted.")
+            lines.append(f"")
 
     if not functions_found:
         lines.append("(* No translateable functions found *)")
@@ -16280,7 +16284,7 @@ def _translate_python_to_coq(source: str, filepath: str) -> str:
 
     lines.append(f"End {module_name}.")
     lines.append("")
-    lines.append("(* End of auto-generated Coq translation *)")
+    lines.append(f"(* End of auto-generated Coq translation *)")
 
     return "\n".join(lines)
 
@@ -16299,6 +16303,7 @@ _JS_TO_COQ_TYPES: dict[str, str] = {
     "number": "Z",
     "bigint": "Z",
     "string": "string",
+    "boolean": "bool",
     "boolean": "bool",
     "any": "Prop",
     "unknown": "Prop",
@@ -16470,8 +16475,8 @@ def _translate_javascript_to_coq(source: str, filepath: str) -> str:
 
     # Coq header
     lines.append(f"(* Auto-generated Coq translation of {filepath} *)")
-    lines.append("(* Generated by sabotage_verifier.py JavaScript→Coq translator *)")
-    lines.append("(* WARNING: Structural translation — proofs may need manual refinement *)")
+    lines.append(f"(* Generated by sabotage_verifier.py JavaScript→Coq translator *)")
+    lines.append(f"(* WARNING: Structural translation — proofs may need manual refinement *)")
     lines.append("")
     lines.append(f"Module {module_name}.")
     lines.append("")
@@ -16510,21 +16515,21 @@ def _translate_javascript_to_coq(source: str, filepath: str) -> str:
             body_coq = _translate_js_expr_to_coq(body_match.group(1))
             lines.append(f"  {body_coq}.")
         else:
-            lines.append("  (* body: requires manual translation *)")
-            lines.append("  tt.")
+            lines.append(f"  (* body: requires manual translation *)")
+            lines.append(f"  tt.")
 
         # Proof obligation
-        lines.append("")
+        lines.append(f"")
         lines.append(f"Theorem {func_name}_correct :")
         if params:
             lines.append(f"  forall {', '.join(f'({n} : {t})' for n, t in params)},")
             lines.append(f"  {func_name} {' '.join(n for n, _ in params)} = ?.")
         else:
             lines.append(f"  {func_name} = ?.")
-        lines.append("Proof.")
-        lines.append("  (* TODO: Prove this obligation manually or with automation *)")
-        lines.append("  Admitted.")
-        lines.append("")
+        lines.append(f"Proof.")
+        lines.append(f"  (* TODO: Prove this obligation manually or with automation *)")
+        lines.append(f"  Admitted.")
+        lines.append(f"")
 
     # Extract arrow functions
     for match in _JS_ARROW_PATTERN.finditer(source):
@@ -16544,7 +16549,7 @@ def _translate_javascript_to_coq(source: str, filepath: str) -> str:
             lines.append(f"Definition {func_name} : Z :=")
 
         # Try to extract arrow body
-        _arrow_start = match.end()
+        arrow_start = match.end()
         body_match = re.search(r"=>\s*\{?\s*return\s+(.+?);", source[match.start():match.start() + 500])
         if not body_match:
             body_match = re.search(r"=>\s*(.+?)[;\n}", source[match.start():match.start() + 200])
@@ -16552,26 +16557,26 @@ def _translate_javascript_to_coq(source: str, filepath: str) -> str:
             body_coq = _translate_js_expr_to_coq(body_match.group(1))
             lines.append(f"  {body_coq}.")
         else:
-            lines.append("  (* body: requires manual translation *)")
-            lines.append("  tt.")
+            lines.append(f"  (* body: requires manual translation *)")
+            lines.append(f"  tt.")
 
-        lines.append("")
+        lines.append(f"")
         lines.append(f"Theorem {func_name}_correct :")
         if params:
             lines.append(f"  forall {', '.join(f'({n} : {t})' for n, t in params)},")
             lines.append(f"  {func_name} {' '.join(n for n, _ in params)} = ?.")
         else:
             lines.append(f"  {func_name} = ?.")
-        lines.append("Proof.")
-        lines.append("  Admitted.")
-        lines.append("")
+        lines.append(f"Proof.")
+        lines.append(f"  Admitted.")
+        lines.append(f"")
 
     if not functions_found:
         lines.append("(* No translateable functions found *)")
 
     lines.append(f"End {module_name}.")
     lines.append("")
-    lines.append("(* End of auto-generated Coq translation *)")
+    lines.append(f"(* End of auto-generated Coq translation *)")
 
     return "\n".join(lines)
 
@@ -16734,8 +16739,8 @@ def _translate_typescript_to_coq(source: str, filepath: str) -> str:
     module_name = Path(filepath).stem
 
     lines.append(f"(* Auto-generated Coq translation of {filepath} *)")
-    lines.append("(* Generated by sabotage_verifier.py TypeScript→Coq translator *)")
-    lines.append("(* WARNING: Structural translation — proofs may need manual refinement *)")
+    lines.append(f"(* Generated by sabotage_verifier.py TypeScript→Coq translator *)")
+    lines.append(f"(* WARNING: Structural translation — proofs may need manual refinement *)")
     lines.append("")
     lines.append(f"Module {module_name}.")
     lines.append("")
@@ -16759,7 +16764,7 @@ def _translate_typescript_to_coq(source: str, filepath: str) -> str:
         coq_type = _ts_type_to_coq(type_def)
         lines.append(f"(** Type alias {type_name} — TypeScript→Coq auto-translate *)")
         lines.append(f"Definition {type_name} := {coq_type}.")
-        lines.append("")
+        lines.append(f"")
 
     # Extract interfaces → Coq Record
     for match in _TS_INTERFACE_PATTERN.finditer(source):
@@ -16777,8 +16782,8 @@ def _translate_typescript_to_coq(source: str, filepath: str) -> str:
             if optional:
                 field_type = f"(option {field_type})"
             lines.append(f"  {field_name} : {field_type};")
-        lines.append("}.")
-        lines.append("")
+        lines.append(f"}}.")
+        lines.append(f"")
 
     # Extract functions
     for match in _TS_FUNC_PATTERN.finditer(source):
@@ -16804,26 +16809,26 @@ def _translate_typescript_to_coq(source: str, filepath: str) -> str:
             body_coq = _translate_js_expr_to_coq(body_match.group(1))
             lines.append(f"  {body_coq}.")
         else:
-            lines.append("  (* body: requires manual translation *)")
-            lines.append("  tt.")
+            lines.append(f"  (* body: requires manual translation *)")
+            lines.append(f"  tt.")
 
-        lines.append("")
+        lines.append(f"")
         lines.append(f"Theorem {func_name}_correct :")
         if params:
             lines.append(f"  forall {', '.join(f'({n} : {t})' for n, t in params)},")
             lines.append(f"  {func_name} {' '.join(n for n, _ in params)} = ?.")
         else:
             lines.append(f"  {func_name} = ?.")
-        lines.append("Proof.")
-        lines.append("  Admitted.")
-        lines.append("")
+        lines.append(f"Proof.")
+        lines.append(f"  Admitted.")
+        lines.append(f"")
 
     if not functions_found and not types_found:
         lines.append("(* No translateable functions/types found *)")
 
     lines.append(f"End {module_name}.")
     lines.append("")
-    lines.append("(* End of auto-generated Coq translation *)")
+    lines.append(f"(* End of auto-generated Coq translation *)")
 
     return "\n".join(lines)
 
@@ -16986,7 +16991,7 @@ def _c_expr_to_coq(expr: str) -> str:
         return expr
     # Char literal
     if expr.startswith("'") and expr.endswith("'"):
-        return "(Z.of_nat (Nat.land 0 0))"  # placeholder for char→int
+        return f"(Z.of_nat (Nat.land 0 0))"  # placeholder for char→int
     # true/false/NULL
     if expr in ("true", "false", "TRUE", "FALSE"):
         return "true" if expr.lower() == "true" else "false"
@@ -17040,9 +17045,9 @@ def _translate_c_to_coq(source: str, filepath: str) -> str:
     module_name = Path(filepath).stem
 
     lines.append(f"(* Auto-generated Coq translation of {filepath} *)")
-    lines.append("(* Generated by sabotage_verifier.py C→Coq translator *)")
-    lines.append("(* WARNING: Structural translation — proofs may need manual refinement *)")
-    lines.append("(* Based on CompCert C-to-Coq methodology *)")
+    lines.append(f"(* Generated by sabotage_verifier.py C→Coq translator *)")
+    lines.append(f"(* WARNING: Structural translation — proofs may need manual refinement *)")
+    lines.append(f"(* Based on CompCert C-to-Coq methodology *)")
     lines.append("")
     lines.append(f"Module {module_name}.")
     lines.append("")
@@ -17086,27 +17091,27 @@ def _translate_c_to_coq(source: str, filepath: str) -> str:
             body_coq = _c_expr_to_coq(body_match.group(1))
             lines.append(f"  {body_coq}.")
         else:
-            lines.append("  (* body: requires manual translation *)")
-            lines.append("  tt.")
+            lines.append(f"  (* body: requires manual translation *)")
+            lines.append(f"  tt.")
 
-        lines.append("")
+        lines.append(f"")
         lines.append(f"Theorem {func_name}_correct :")
         if params:
             lines.append(f"  forall {', '.join(f'({n} : {t})' for n, t in params)},")
             lines.append(f"  {func_name} {' '.join(n for n, _ in params)} = ?.")
         else:
             lines.append(f"  {func_name} = ?.")
-        lines.append("Proof.")
-        lines.append("  (* TODO: Prove this obligation manually or with automation *)")
-        lines.append("  Admitted.")
-        lines.append("")
+        lines.append(f"Proof.")
+        lines.append(f"  (* TODO: Prove this obligation manually or with automation *)")
+        lines.append(f"  Admitted.")
+        lines.append(f"")
 
     if not functions_found:
         lines.append("(* No translateable functions found *)")
 
     lines.append(f"End {module_name}.")
     lines.append("")
-    lines.append("(* End of auto-generated Coq translation *)")
+    lines.append(f"(* End of auto-generated Coq translation *)")
 
     return "\n".join(lines)
 
@@ -17280,8 +17285,8 @@ def _translate_objc_to_coq(source: str, filepath: str) -> str:
     module_name = Path(filepath).stem
 
     lines.append(f"(* Auto-generated Coq translation of {filepath} *)")
-    lines.append("(* Generated by sabotage_verifier.py Objective-C→Coq translator *)")
-    lines.append("(* WARNING: Structural translation — proofs may need manual refinement *)")
+    lines.append(f"(* Generated by sabotage_verifier.py Objective-C→Coq translator *)")
+    lines.append(f"(* WARNING: Structural translation — proofs may need manual refinement *)")
     lines.append("")
     lines.append(f"Module {module_name}.")
     lines.append("")
@@ -17329,26 +17334,26 @@ def _translate_objc_to_coq(source: str, filepath: str) -> str:
             body_coq = _objc_expr_to_coq(body_match.group(1))
             lines.append(f"  {body_coq}.")
         else:
-            lines.append("  (* body: requires manual translation *)")
-            lines.append("  tt.")
+            lines.append(f"  (* body: requires manual translation *)")
+            lines.append(f"  tt.")
 
-        lines.append("")
+        lines.append(f"")
         lines.append(f"Theorem {method_name}_correct :")
         if params:
             lines.append(f"  forall {', '.join(f'({n} : {t})' for n, t in params)},")
             lines.append(f"  {method_name} {' '.join(n for n, _ in params)} = ?.")
         else:
             lines.append(f"  {method_name} = ?.")
-        lines.append("Proof.")
-        lines.append("  Admitted.")
-        lines.append("")
+        lines.append(f"Proof.")
+        lines.append(f"  Admitted.")
+        lines.append(f"")
 
     if not functions_found:
         lines.append("(* No translateable methods found *)")
 
     lines.append(f"End {module_name}.")
     lines.append("")
-    lines.append("(* End of auto-generated Coq translation *)")
+    lines.append(f"(* End of auto-generated Coq translation *)")
 
     return "\n".join(lines)
 
@@ -17504,7 +17509,7 @@ def _build_coq_auto_translate_patterns() -> list[Pattern]:
             try:
                 result = subprocess.run(
                     ["opam", "exec", "--", "coqc", "--version"],
-                    capture_output=True, text=True, timeout=10, check=False
+                    capture_output=True, text=True, timeout=10
                 )
                 if result.returncode == 0:
                     coqc_bin = "opam exec -- coqc"
@@ -17585,7 +17590,7 @@ def _build_coq_auto_translate_patterns() -> list[Pattern]:
             cmd_parts = coqc_bin.split() + [str(v_path)]
             result = subprocess.run(
                 cmd_parts,
-                capture_output=True, text=True, timeout=120, check=False
+                capture_output=True, text=True, timeout=120
             )
             if result.returncode == 0:
                 _verb(f"Coq translation SUCCESS: {v_path}")
@@ -17610,7 +17615,7 @@ def _build_coq_auto_translate_patterns() -> list[Pattern]:
                 line=1,
                 severity=Severity.HIGH,
                 category="COQ_TRANSLATION_FAILED",
-                message="Coq compilation timed out after 120s",
+                message=f"Coq compilation timed out after 120s",
                 standard="DO-178C §6.4.4",
             ))
         except FileNotFoundError:
@@ -18174,7 +18179,7 @@ def _build_flow_control_patterns() -> list[Pattern]:
     """
         violations: list[Violation] = []
         nesting_stack: list[int] = []  # Stack of indentation levels
-        max_depth = 14  # Increased from 8 to 14 — verifier needs complex nested logic for multi-language SMT analysis
+        max_depth = 8  # Higher threshold for large config files
         prev_indent = 0
         in_func = False
         func_indent = -1  # Indentation level of current function body
@@ -18239,32 +18244,30 @@ def _build_flow_control_patterns() -> list[Pattern]:
                         prev_stripped in ("return", "break", "continue")
                         or prev_stripped.startswith(("return ", "raise "))
                     )
-                    if prev_line_indent == indent and _is_terminator and not stripped.startswith(("def ", "class ", "#", "else:", "elif ", "except", "finally:")):
-                        violations.append(Violation(
-                            category="FLOW_CONTROL",
-                            severity=Severity.HIGH,
-                            filepath=filepath,
-                            line=i + 1,
-                            standard="CWE-561 (Dead Code), ISO/IEC 15408",
-                            message=(
-                                f"Unreachable code after '{prev_stripped.split('(')[0].split(':')[0].strip()}' "
-                                f"at line {pi + 1}. Dead code masks logic errors."
-                            ),
-                            code_snippet=stripped,
-                        ))
+                    if prev_line_indent == indent and _is_terminator:
+                        if not stripped.startswith(("def ", "class ", "#", "else:", "elif ", "except", "finally:")):
+                            violations.append(Violation(
+                                category="FLOW_CONTROL",
+                                severity=Severity.HIGH,
+                                filepath=filepath,
+                                line=i + 1,
+                                standard="CWE-561 (Dead Code), ISO/IEC 15408",
+                                message=(
+                                    f"Unreachable code after '{prev_stripped.split('(')[0].split(':')[0].strip()}' "
+                                    f"at line {pi + 1}. Dead code masks logic errors."
+                                ),
+                                code_snippet=stripped,
+                            ))
                     break
 
             # while True without break
             if stripped in ("while True:", "while 1:"):
                 has_break = False
                 for j in range(i + 1, min(i + 100, len(lines))):
-                    ahead = lines[j].strip()  # nosec: SMT false positive — j bounded by range(i+1, min(i+100, len(lines)))
+                    ahead = lines[j].strip()
                     if ahead.startswith(("while ", "for ", "def ", "class ")):
                         break
-                    # MISTAKE #19: Strip Python comments before checking for 'break' keyword
-                    # Bug: "break" in "# No break here" matched the comment, not the statement
-                    ahead_code = ahead.split("#")[0].strip() if "#" in ahead else ahead
-                    if "break" in ahead_code:
+                    if "break" in ahead:
                         has_break = True
                         break
                 if not has_break:
@@ -18323,13 +18326,10 @@ def _build_flow_control_patterns() -> list[Pattern]:
             if stripped in ("while (true) {", "while(true) {", "while (true){"):
                 has_break = False
                 for j in range(i + 1, min(i + 100, len(lines))):
-                    # MISTAKE #20: Strip JS/TS comments before checking for 'break' keyword
-                    ahead_line = lines[j].strip()
-                    ahead_code = ahead_line.split("//")[0].strip() if "//" in ahead_line else ahead_line
-                    if "break" in ahead_code:
+                    if "break" in lines[j]:
                         has_break = True
                         break
-                    if ahead_line.startswith(("function ", "const ", "let ")):
+                    if lines[j].strip().startswith(("function ", "const ", "let ")):
                         break
                 if not has_break:
                     violations.append(Violation(
@@ -18407,13 +18407,10 @@ def _build_flow_control_patterns() -> list[Pattern]:
             if stripped in ("while(1) {", "while (1) {", "for (;;) {", "for(;;) {"):
                 has_break = False
                 for j in range(i + 1, min(i + 100, len(lines))):
-                    # MISTAKE #21: Strip C/ObjC comments before checking for 'break;' keyword
-                    ahead_line = lines[j].strip()
-                    ahead_code = ahead_line.split("//")[0].strip() if "//" in ahead_line else ahead_line
-                    if "break;" in ahead_code:
+                    if "break;" in lines[j]:
                         has_break = True
                         break
-                    if ahead_line.startswith(("static ", "void ", "int ", "char ", "struct ")):
+                    if lines[j].strip().startswith(("static ", "void ", "int ", "char ", "struct ")):
                         break
                 if not has_break:
                     violations.append(Violation(
@@ -18486,11 +18483,11 @@ def _build_flow_control_patterns() -> list[Pattern]:
             # @try without matching @catch or @finally
             if stripped.startswith("@try"):
                 has_handler = False
-                for j in range(i + 1, min(i + 200, len(lines))):  # nosec: SMT false positive — j bounded by min(i+200, len(lines))
-                    if lines[j].strip().startswith("@catch") or lines[j].strip().startswith("@finally"):  # nosec: SMT false positive — j < len(lines)
+                for j in range(i + 1, min(i + 200, len(lines))):
+                    if lines[j].strip().startswith("@catch") or lines[j].strip().startswith("@finally"):
                         has_handler = True
                         break
-                    if lines[j].strip().startswith("@try"):  # nosec: SMT false positive — j < len(lines)
+                    if lines[j].strip().startswith("@try"):
                         break
                 if not has_handler:
                     violations.append(Violation(
@@ -18505,33 +18502,21 @@ def _build_flow_control_patterns() -> list[Pattern]:
             # @catch without re-throw or logging
             if stripped.startswith("@catch"):
                 # Look for empty catch or catch that doesn't re-throw
-                for j in range(i + 1, min(i + 20, len(lines))):  # nosec: SMT false positive — j bounded by min(i+20, len(lines))
-                    ahead = lines[j].strip()  # nosec: SMT false positive — j < len(lines)
-                    if ahead.startswith(("@finally", "@try")):
+                for j in range(i + 1, min(i + 20, len(lines))):
+                    ahead = lines[j].strip()
+                    if ahead.startswith("@finally") or ahead.startswith("@try"):
                         break
-                    if ahead.startswith("}"):
-                        # MISTAKE #24: Strip ObjC comments before checking for 'throw'/'raise' keywords
-                        # Bug: "/* no re-throw */" comment matched "throw" check
-                        has_throw = False
-                        for k in range(i + 1, j):  # nosec: SMT false positive — k bounded by j which is < len(lines)
-                            code_line = lines[k]  # nosec: SMT false positive — k < j < len(lines)
-                            # Strip // and /* */ comments
-                            code_line = code_line.split("//")[0]
-                            code_line = code_line.split("/*")[0]
-                            if "throw" in code_line or "raise" in code_line:
-                                has_throw = True
-                                break
-                        if not has_throw:
-                            violations.append(Violation(
-                                category="FLOW_CONTROL",
-                                severity=Severity.MEDIUM,
-                                filepath=filepath,
-                                line=i + 1,
-                                standard="CWE-754 (Improper Check for Unusual Conditions)",
-                                message="@catch block without re-throw — errors silently swallowed.",
-                                code_snippet=stripped,
-                            ))
-                            break
+                    if ahead.startswith("}") and not any("throw" in lines[k] or "raise" in lines[k] for k in range(i + 1, j)):
+                        violations.append(Violation(
+                            category="FLOW_CONTROL",
+                            severity=Severity.MEDIUM,
+                            filepath=filepath,
+                            line=i + 1,
+                            standard="CWE-754 (Improper Check for Unusual Conditions)",
+                            message="@catch block without re-throw — errors silently swallowed.",
+                            code_snippet=stripped,
+                        ))
+                        break
         return violations
 
     patterns.append(Pattern(
@@ -18581,13 +18566,10 @@ def _build_flow_control_patterns() -> list[Pattern]:
                         code_snippet=stripped,
                     ))
             # while True loop without exit
-            if stripped.startswith(("while True loop", "while True Loop")):
+            if stripped.startswith("while True loop") or stripped.startswith("while True Loop"):
                 has_exit = False
                 for j in range(i + 1, min(i + 100, len(lines))):
-                    # MISTAKE #26: Strip Ada comments before checking for 'exit' keyword
-                    # Bug: "-- No exit — infinite loop" comment matched "exit " check
-                    ahead_code = lines[j].split("--")[0].strip() if "--" in lines[j] else lines[j].strip()
-                    if "exit " in ahead_code or "exit;" in ahead_code:
+                    if "exit " in lines[j] or "exit;" in lines[j]:
                         has_exit = True
                         break
                     if lines[j].strip().startswith(("procedure ", "function ", "package ")):
@@ -18606,17 +18588,10 @@ def _build_flow_control_patterns() -> list[Pattern]:
             if stripped.startswith("case ") and "is" in stripped:
                 has_others = False
                 for j in range(i + 1, min(i + 100, len(lines))):
-                    # MISTAKE #27: Stop at procedure/function/package boundaries
-                    # Bug: "when others" in a DIFFERENT procedure was found, not the current case
-                    ahead_stripped = lines[j].strip()
-                    if ahead_stripped.startswith(("procedure ", "function ", "package ", "task ")):
-                        break
-                    # MISTAKE #28: Strip Ada comments before checking for 'when others'
-                    ahead_code = lines[j].split("--")[0].strip() if "--" in lines[j] else ahead_stripped
-                    if "when others" in ahead_code or "when Others" in ahead_code:
+                    if "when others" in lines[j] or "when Others" in lines[j]:
                         has_others = True
                         break
-                    if ahead_stripped == "end case;":
+                    if lines[j].strip() == "end case;":
                         break
                 if not has_others:
                     violations.append(Violation(
@@ -18631,10 +18606,7 @@ def _build_flow_control_patterns() -> list[Pattern]:
             # Exception handler swallowing (bare when others => null)
             if stripped.startswith("when others =>") and i + 1 < len(lines):
                 next_line = lines[i + 1].strip()
-                # MISTAKE #29: Strip Ada comments before checking for 'null;' statement
-                # Bug: "null;  -- comment" didn't match exact "null;" comparison
-                next_code = next_line.split("--")[0].strip() if "--" in next_line else next_line
-                if next_code == "null;":
+                if next_line == "null;":
                     violations.append(Violation(
                         category="FLOW_CONTROL",
                         severity=Severity.HIGH,
@@ -18715,13 +18687,8 @@ def _build_race_condition_patterns() -> list[Pattern]:
             if has_threading and not has_lock:
                 # Global variable mutation in threaded code
                 # Skip self.lock, self._lock, self.mutex and other lock attributes
-                # MISTAKE #22: Also detect compound assignments (+=, -=, *=) not just global/self prefix
-                # Bug: counter += 1 didn't start with "global " or "self." so was missed
-                is_mutation = (
-                    (stripped.startswith(("global ", "self.")) and "=" in stripped and "==" not in stripped) or
-                    (re.match(r'^\w+\s*(\+\=|\-\=|\*\=|\/\=|\%\=|\&\=|\|\=|\^\=)', stripped))
-                )
-                if (is_mutation and
+                if (stripped.startswith(("global ", "self.")) and "=" in stripped and
+                        "==" not in stripped and
                         not any(lk in stripped for lk in ("self.lock", "self._lock", "self.mutex", "self.rlock"))):
                     global_mutations.append(i + 1)
         if has_threading and not has_lock and global_mutations:
@@ -18826,7 +18793,7 @@ def _build_race_condition_patterns() -> list[Pattern]:
             if "pthread_mutex" in stripped:
                 has_mutex = True
             if "_Atomic" in stripped or "atomic_" in stripped:
-                has_atomic = True  # noqa: F841 — tracked for completeness
+                has_atomic = True
         if has_pthread and not has_mutex:
             violations.append(Violation(
                 category="RACE_CONDITION",
@@ -18872,14 +18839,11 @@ def _build_race_condition_patterns() -> list[Pattern]:
         has_lock = False
         for i, line in enumerate(lines):
             stripped = line.strip()
-            # MISTAKE #25: Strip ObjC comments before checking for dispatch/lock patterns
-            # Bug: "/* dispatch_async without @synchronized */" comment matched both checks
-            code_only = stripped.split("//")[0].split("/*")[0].strip() if ("//" in stripped or "/*" in stripped) else stripped
-            if "dispatch_async" in code_only or "dispatch_sync" in code_only:
+            if "dispatch_async" in stripped or "dispatch_sync" in stripped:
                 has_dispatch = True
-            if "NSThread" in code_only and ("detachNewThread" in code_only or "start" in code_only):
+            if "NSThread" in stripped and ("detachNewThread" in stripped or "start" in stripped):
                 has_dispatch = True
-            if "@synchronized" in code_only or "NSLock" in code_only or "os_unfair_lock" in code_only:
+            if "@synchronized" in stripped or "NSLock" in stripped or "os_unfair_lock" in stripped:
                 has_lock = True
         if has_dispatch and not has_lock:
             violations.append(Violation(
@@ -18928,9 +18892,9 @@ def _build_race_condition_patterns() -> list[Pattern]:
         has_protected = False
         for i, line in enumerate(lines):
             stripped = line.strip()
-            if stripped.startswith(("task type ", "task ")):
+            if stripped.startswith("task type ") or stripped.startswith("task "):
                 has_task = True
-            if stripped.startswith(("protected type ", "protected ")):
+            if stripped.startswith("protected type ") or stripped.startswith("protected "):
                 has_protected = True
             if stripped.startswith("entry ") and has_task and not has_protected:
                 # Entry without matching protected object
@@ -18951,15 +18915,16 @@ def _build_race_condition_patterns() -> list[Pattern]:
                 # Check if any of the 5 preceding lines contain "task" keyword
                 window = lines[max(0, i-5):i+1] if i >= 0 else []
                 has_task_context = any("task " in ln or "task type " in ln for ln in window)
-                if has_task_context and "pragma Volatile" not in stripped and "Atomic" not in stripped:
-                    violations.append(Violation(
-                        category="RACE_CONDITION",
-                        severity=Severity.MEDIUM,
-                        filepath=filepath,
-                        line=i + 1,
-                        standard="Ada Reference Manual §C.6, Annex C",
-                        message="Shared variable without pragma Volatile/Atomic — compiler may cache stale value.",
-                        code_snippet=stripped,
+                if has_task_context:
+                    if "pragma Volatile" not in stripped and "Atomic" not in stripped:
+                        violations.append(Violation(
+                            category="RACE_CONDITION",
+                            severity=Severity.MEDIUM,
+                            filepath=filepath,
+                            line=i + 1,
+                            standard="Ada Reference Manual §C.6, Annex C",
+                            message="Shared variable without pragma Volatile/Atomic — compiler may cache stale value.",
+                            code_snippet=stripped,
                         ))
         return violations
 
@@ -19020,10 +18985,7 @@ def _build_thread_safety_patterns() -> list[Pattern]:
             if "Lock()" in stripped:
                 lock_count += 1
             # Lock.acquire() without timeout
-            # MISTAKE #23: Strip Python comments before checking for 'timeout' keyword
-            # Bug: "# THREAD_SAFETY: no timeout" in comment matched "timeout" check
-            code_part = stripped.split("#")[0].strip() if "#" in stripped else stripped
-            if ".acquire(" in code_part and "timeout" not in code_part:
+            if ".acquire(" in stripped and "timeout" not in stripped:
                 violations.append(Violation(
                     category="THREAD_SAFETY",
                     severity=Severity.MEDIUM,
@@ -19345,15 +19307,16 @@ def _build_memory_safety_patterns() -> list[Pattern]:
                             filepath=filepath,
                             line=i + 1,
                             standard="CWE-476 (NULL Pointer Dereference), ISO/IEC 9899:2018 §6.5.3.2",
-                            message="malloc/calloc return not null-checked — dereference may crash.",
+                            message=f"malloc/calloc return not null-checked — dereference may crash.",
                             code_snippet=stripped,
                         ))
 
             # Format string vulnerability
-            if re.match(r'(printf|fprintf|sprintf|snprintf)\s*\(\s*\w+\s*,', stripped) and ("%s" in stripped or "%n" in stripped):
-                # Check if format string comes from user input (variable, not literal)
-                parts = stripped.split(",")
-                if len(parts) >= 2:
+            if re.match(r'(printf|fprintf|sprintf|snprintf)\s*\(\s*\w+\s*,', stripped):
+                if "%s" in stripped or "%n" in stripped:
+                    # Check if format string comes from user input (variable, not literal)
+                    parts = stripped.split(",")
+                    if len(parts) >= 2:
                         fmt = parts[1].strip()
                         if fmt.startswith('"') and "%n" in fmt:
                             violations.append(Violation(
@@ -19442,7 +19405,8 @@ def _build_memory_safety_patterns() -> list[Pattern]:
                             code_snippet=stripped,
                         ))
             # retain under ARC (error) — must be actual method call, not in comments/strings
-            if not stripped.startswith("//") and not stripped.startswith("/*") and not stripped.startswith("*") and re.search(r'\bretain\]', stripped):
+            if not stripped.startswith("//") and not stripped.startswith("/*") and not stripped.startswith("*"):
+                if re.search(r'\bretain\]', stripped):
                     violations.append(Violation(
                         category="MEMORY_SAFETY",
                         severity=Severity.HIGH,
@@ -19586,7 +19550,7 @@ def _build_objc_sabotage_patterns() -> list[Pattern]:
         - https://docs.python.org/3/
     """
         violations: list[Violation] = []
-        swizzled_methods: dict[str, int] = {}  # noqa: F841 — tracked for future use
+        swizzled_methods: dict[str, int] = {}
         for i, line in enumerate(lines):
             stripped = line.strip()
             # Method swizzling
@@ -19660,7 +19624,7 @@ def _build_objc_sabotage_patterns() -> list[Pattern]:
 def _build_jsts_sabotage_patterns() -> list[Pattern]:
     """
     Detect JS/TS-specific sabotage and anti-patterns:
-    - eval() on dynamic input (code injection)  # nosec: SMT false positive — docstring reference
+    - eval() on dynamic input (code injection)
     - Prototype pollution (__proto__, constructor)
     - Missing await on async functions
     - Unhandled Promise rejection
@@ -19676,7 +19640,7 @@ def _build_jsts_sabotage_patterns() -> list[Pattern]:
     ) -> list[Violation]:
         """
         AXIOMS: JS has implicit type coercion and dynamic code execution.
-        THEORIES: eval() = arbitrary code execution. __proto__ = prototype pollution.  # nosec: SMT false positive — docstring
+        THEORIES: eval() = arbitrary code execution. __proto__ = prototype pollution.
         Missing await = Promise silently discarded. == vs === = coercion bugs.
         APPLICATIONS: Detect all JS-specific anti-patterns.
         CITATIONS: ECMAScript 2024 §20.2 (eval), §23.1 (Map/WeakMap)
@@ -19696,7 +19660,7 @@ def _build_jsts_sabotage_patterns() -> list[Pattern]:
                     filepath=filepath,
                     line=i + 1,
                     standard="CWE-94 (Code Injection), ECMAScript §20.2",
-                    message="eval() used — arbitrary code execution risk. Use JSON.parse or safe parsers.",  # nosec: SMT false positive — violation message
+                    message="eval() used — arbitrary code execution risk. Use JSON.parse or safe parsers.",
                     code_snippet=stripped,
                 ))
             # Prototype pollution
@@ -19711,16 +19675,18 @@ def _build_jsts_sabotage_patterns() -> list[Pattern]:
                     code_snippet=stripped,
                 ))
             # Missing await on async function call
-            if re.search(r'\.then\s*\(', stripped) and "await" not in stripped and ".catch(" not in stripped:
-                violations.append(Violation(
-                    category="JS_TS_SABOTAGE",
-                    severity=Severity.MEDIUM,
-                    filepath=filepath,
-                    line=i + 1,
-                    standard="CWE-252 (Unchecked Return Value)",
-                    message="Promise.then() without .catch() — unhandled rejection possible.",
-                    code_snippet=stripped,
-                ))
+            if re.search(r'\.then\s*\(', stripped) and "await" not in stripped:
+                # Check if .catch is present
+                if ".catch(" not in stripped:
+                    violations.append(Violation(
+                        category="JS_TS_SABOTAGE",
+                        severity=Severity.MEDIUM,
+                        filepath=filepath,
+                        line=i + 1,
+                        standard="CWE-252 (Unchecked Return Value)",
+                        message="Promise.then() without .catch() — unhandled rejection possible.",
+                        code_snippet=stripped,
+                    ))
             # == vs === (loose equality)
             if re.search(r'[^=!]==(?!=)', stripped) and "==" in stripped and "===" not in stripped:
                 if "!=" in stripped and "!==" not in stripped:
@@ -19742,7 +19708,7 @@ def _build_jsts_sabotage_patterns() -> list[Pattern]:
                     filepath=filepath,
                     line=i + 1,
                     standard="CWE-94 (Code Injection)",
-                    message="new Function() — equivalent to eval(), arbitrary code execution.",  # nosec: SMT false positive — violation message
+                    message="new Function() — equivalent to eval(), arbitrary code execution.",
                     code_snippet=stripped,
                 ))
         return violations
@@ -19879,7 +19845,7 @@ def _write_audit_summary_table(
             table.append(f"    {sev:10s}: {count:4d}{marker}")
         table.append("-" * 80)
         table.append("  CATEGORY BREAKDOWN:")
-        for cat, count in sorted(category_counts.items(), key=lambda x: -x[1]):  # nosec: SMT false positive — dict iteration
+        for cat, count in sorted(category_counts.items(), key=lambda x: -x[1]):
             table.append(f"    {cat:35s}: {count:4d}")
         table.append("-" * 80)
         table.append("  VERDICT: ", )
@@ -19896,7 +19862,7 @@ def _write_audit_summary_table(
 
         with open(log_path, "a", encoding="utf-8") as f:
             f.write("\n".join(table) + "\n")
-    except (OSError, ValueError, TypeError) as e:
+    except (OSError, IOError, ValueError, TypeError) as e:
         _verb(f"Failed to write summary table: {e}")
 
 

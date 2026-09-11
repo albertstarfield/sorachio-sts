@@ -123,6 +123,9 @@ class CognitiveGateway:
     ) -> dict[str, Any]:
         """
         Analyze transcript and return structured decision.
+
+        References:
+        - https://docs.python.org/3/library/json.html
         """
 
         transcript = transcript.strip()
@@ -212,6 +215,9 @@ class CognitiveGateway:
         patterns: cut mid-key, cut mid-value, cut mid-scalar, cut mid-array,
         and missing closing braces. Falls back to brute-force right-trim
         if pattern matching cannot fix the output.
+
+        References:
+        - https://docs.python.org/3/library/json.html
         """
 
         if not raw:
@@ -251,7 +257,12 @@ class CognitiveGateway:
         # -------------------------------------------------------------------
 
         def _close(s: str) -> str:
-            """Add missing closing brackets and braces."""
+            """
+            Add missing closing brackets and braces.
+            
+            References:
+        - https://docs.python.org/3/library/json.html
+            """
             s = re.sub(r",\s*}", "}", s)
             s = re.sub(r",\s*]", "]", s)
             ob = s.count("[")
@@ -265,7 +276,12 @@ class CognitiveGateway:
             return s
 
         def _strip_one(s: str) -> str:
-            """Strip one likely-incomplete tail pattern."""
+            """
+            Strip one likely-incomplete tail pattern.
+            
+            References:
+        - https://docs.python.org/3/library/json.html
+            """
             patterns = [
                 r',?\s*"[^"]*$',                                    # unterminated string (key or array elem)
                 r',?\s*"[^"]+"\s*:\s*"[^"]*$',                     # unterminated string value
@@ -329,6 +345,9 @@ class CognitiveGateway:
     ) -> dict[str, Any]:
         """
         Validate and normalize decision output.
+
+        References:
+        - https://docs.python.org/3/library/json.html
         """
 
         result = {**DEFAULT_DECISION}

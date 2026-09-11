@@ -17,6 +17,8 @@ def capture_frame_base64(device_index: int = 0, max_size: int = 512) -> str | No
     and return it as a Base64 encoded JPEG string.
 
     Returns None if the camera is unavailable or an error occurs.
+       References:
+           - https://docs.opencv.org/ — OpenCV for webcam capture
     """
     if not HAS_CV2:
         log.warning("opencv-python is not installed. Vision features are disabled.")

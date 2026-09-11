@@ -49,6 +49,9 @@ def compute_dbfs(pcm_bytes: bytes) -> float:
 
     This function creates a zero-copy numpy view of `pcm_bytes`.
     No heap allocation of new arrays.
+       References:
+           - https://en.wikipedia.org/wiki/Decibel — dBFS energy measurement
+           - https://python-sounddevice.readthedocs.io/ — SoundDevice API
     """
     # Zero-copy view: no data is copied, just reinterpreted
     samples = np.frombuffer(pcm_bytes, dtype=np.int16)
@@ -132,6 +135,10 @@ class AcousticGate:
             False — frame dropped, discard silently.
 
         Thread safety: safe for PortAudio callback thread (no locks, no I/O).
+
+        References:
+        - https://numpy.org/doc/stable/reference/generated/numpy.sqrt.html
+        - https://docs.python.org/3/library/math.html
         """
         if not self.enabled:
             return True
@@ -165,7 +172,13 @@ class AcousticGate:
         return True
 
     def get_stats(self) -> dict[str, int | float]:
-        """Return diagnostic counters. Safe to call from any thread."""
+        """
+        Return diagnostic counters. Safe to call from any thread.
+        
+        References:
+        - https://numpy.org/doc/stable/reference/generated/numpy.sqrt.html
+        - https://docs.python.org/3/library/math.html
+        """
         seen = self._frames_seen
         dropped = self._frames_dropped
         drop_pct = (dropped / seen * 100.0) if seen > 0 else 0.0

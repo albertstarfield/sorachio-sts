@@ -12,6 +12,9 @@ from memory.short_term import ShortTermMemory
 @pytest.mark.asyncio
 async def test_stm_add_and_retrieve():
     """    Test Stm Add And Retrieve.
+
+    References:
+    - https://docs.python.org/3/
     """
     stm = ShortTermMemory(max_messages=10)
     await stm.add("user", "Hello there", emotion="happy")
@@ -26,6 +29,9 @@ async def test_stm_add_and_retrieve():
 @pytest.mark.asyncio
 async def test_stm_rolling_window():
     """    Test Stm Rolling Window.
+
+    References:
+    - https://docs.python.org/3/
     """
     stm = ShortTermMemory(max_messages=3)
     for i in range(5):
@@ -39,6 +45,9 @@ async def test_stm_rolling_window():
 @pytest.mark.asyncio
 async def test_stm_emotion_context():
     """    Test Stm Emotion Context.
+
+    References:
+    - https://docs.python.org/3/
     """
     stm = ShortTermMemory()
     await stm.add("user", "I am stressed", emotion="anxious")
@@ -49,6 +58,9 @@ async def test_stm_emotion_context():
 @pytest.mark.asyncio
 async def test_ltm_store_and_retrieve():
     """    Test Ltm Store And Retrieve.
+
+    References:
+    - https://docs.python.org/3/
     """
     with tempfile.TemporaryDirectory() as tmpdir:
         ltm = LongTermMemory(
@@ -74,6 +86,9 @@ async def test_ltm_store_and_retrieve():
 @pytest.mark.asyncio
 async def test_ltm_importance_threshold():
     """    Test Ltm Importance Threshold.
+
+    References:
+    - https://docs.python.org/3/
     """
     with tempfile.TemporaryDirectory() as tmpdir:
         ltm = LongTermMemory(
@@ -100,6 +115,9 @@ async def test_ltm_importance_threshold():
 @pytest.mark.asyncio
 async def test_ltm_persistence():
     """    Test Ltm Persistence.
+
+    References:
+    - https://docs.python.org/3/
     """
     with tempfile.TemporaryDirectory() as tmpdir:
         path = f"{tmpdir}/ltm.json"

@@ -52,6 +52,8 @@ def _voice_download_url(voice_name: str) -> tuple[str, str]:
     e.g. id/id_ID/news_tts/medium/id_ID-news_tts-medium.onnx
 
     Returns (onnx_url, json_url).
+       References:
+           - https://github.com/rhasspy/piper — Piper ONNX TTS engine
     """
     # Parse voice name: "id_ID-news_tts-medium" → lang="id", country_lang="id_ID", name="news_tts", quality="medium"
     parts = voice_name.split("-")
@@ -132,6 +134,9 @@ class PiperTTSClient:
             offline_only: If True (default), only load models that are already
                           downloaded. No network requests will be made. Set to
                           False only from MBG bootstrap to allow downloading.
+
+        References:
+        - https://github.com/rhasspy/piper
         """
         loop = asyncio.get_event_loop()
         ok = await loop.run_in_executor(None, self._load_voices, offline_only)
@@ -157,6 +162,9 @@ class PiperTTSClient:
         Args:
             offline_only: If True, skip any voice whose model file is missing
                           (no download). If False, attempt to download missing models.
+
+        References:
+        - https://github.com/rhasspy/piper
         """
         try:
             from piper import PiperVoice
@@ -242,6 +250,9 @@ class PiperTTSClient:
                           download from Hugging Face if missing (MBG only).
 
         Returns the path to the .onnx file.
+
+        References:
+        - https://github.com/rhasspy/piper
         """
         onnx_path = self.models_dir / f"{voice_name}.onnx"
         json_path = self.models_dir / f"{voice_name}.onnx.json"
@@ -299,6 +310,9 @@ class PiperTTSClient:
         Called by the pipeline after STT detects the spoken language.
         If set from STT, lock the language for the current response turn so naive
         text langdetect on generated LLM tokens cannot overwrite the spoken voice.
+
+        References:
+        - https://github.com/rhasspy/piper
         """
         if from_stt:
             self._stt_lang_locked = True
@@ -313,7 +327,12 @@ class PiperTTSClient:
         self._current_lang = target
 
     def _get_current_voice(self) -> tuple[Any, str] | None:
-        """Get the currently active PiperVoice based on language setting."""
+        """
+        Get the currently active PiperVoice based on language setting.
+        
+        References:
+        - https://github.com/rhasspy/piper
+        """
         lang = self._current_lang
 
         if lang in self._voices:
@@ -333,6 +352,9 @@ class PiperTTSClient:
         """
         Lightweight language detection from text using keyword heuristics & langdetect.
         Returns 'id' or 'en', or None if detection fails.
+
+        References:
+        - https://github.com/rhasspy/piper
         """
         if not text:
             return None
@@ -364,6 +386,9 @@ class PiperTTSClient:
         """
         Clean problematic text before sending to Piper.
         Prevents crashes from special characters.
+
+        References:
+        - https://github.com/rhasspy/piper
         """
 
         if not text:
@@ -408,6 +433,9 @@ class PiperTTSClient:
 
         Returns numpy array of audio samples (int16), or None on failure.
         Runs synthesis in thread executor to not block event loop.
+
+        References:
+        - https://github.com/rhasspy/piper
         """
 
         text = self._sanitize_text(text)
@@ -435,6 +463,9 @@ class PiperTTSClient:
 
         def _synth():
             """    Synth.
+
+            References:
+            - https://github.com/rhasspy/piper
             """
 
             if not self._available:
@@ -493,6 +524,9 @@ class PiperTTSClient:
         Worker: drain TTS chunk queue, synthesize each chunk, push to audio queue.
 
         This is the TTS worker loop. Call as an asyncio task.
+
+        References:
+        - https://github.com/rhasspy/piper
         """
 
         while True:
@@ -559,6 +593,9 @@ class PiperTTSClient:
         """
         Convenience: synthesize full text and queue all audio directly.
         Used for startup greeting and test mode.
+
+        References:
+        - https://github.com/rhasspy/piper
         """
 
         from utils.chunk_assembler import split_into_chunks

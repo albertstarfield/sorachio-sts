@@ -40,6 +40,9 @@ def _log_event(msg: str, force: bool = False) -> None:
     
         Returns:
             None: Description.
+       References:
+           - https://python-sounddevice.readthedocs.io/ — SoundDevice API for audio I/O
+           - https://webrtcvad.readthedocs.io/ — WebRTC VAD for voice activity detection
     """
     if DEBUG_VERBOSE or force:
         log.info(f"[AUDIO-EVENT] {msg}")
@@ -149,7 +152,13 @@ class AudioCapture:
             )
 
     def _probe_input_device(self) -> bool:
-        """Return True if we can open an input stream on the target device."""
+        """
+        Return True if we can open an input stream on the target device.
+        
+        References:
+        - https://python-sounddevice.readthedocs.io/
+        - https://webrtcvad.readthedocs.io/
+        """
         try:
             dev = self.device_index  # None ⟹ default device
             info = sd.query_devices(dev, kind="input")
@@ -168,7 +177,13 @@ class AudioCapture:
             return False
 
     def _calibrate_acoustic_gate(self) -> None:
-        """Measure background noise floor for 0.8 seconds and calibrate Acoustic Gate threshold."""
+        """
+        Measure background noise floor for 0.8 seconds and calibrate Acoustic Gate threshold.
+        
+        References:
+        - https://python-sounddevice.readthedocs.io/
+        - https://webrtcvad.readthedocs.io/
+        """
         if not hasattr(self, "_acoustic_gate") or not self._acoustic_gate.enabled:
             return
 
@@ -205,7 +220,13 @@ class AudioCapture:
             self._calibrated_threshold = -38.0
 
     def start(self, loop: asyncio.AbstractEventLoop) -> None:
-        """Start capture in background threads."""
+        """
+        Start capture in background threads.
+        
+        References:
+        - https://python-sounddevice.readthedocs.io/
+        - https://webrtcvad.readthedocs.io/
+        """
         if not self._audio_available:
             log.info("[Capture] Skipped — no audio input device")
             self._loop = loop
@@ -240,7 +261,13 @@ class AudioCapture:
         )
 
     def stop(self) -> None:
-        """Stop capture."""
+        """
+        Stop capture.
+        
+        References:
+        - https://python-sounddevice.readthedocs.io/
+        - https://webrtcvad.readthedocs.io/
+        """
         self._running = False
         if self._stream:
             self._stream.stop()
@@ -249,13 +276,25 @@ class AudioCapture:
         log.info("[Capture] Stopped")
 
     def mute(self) -> None:
-        """Logically mute the mic — VAD runs but speech is discarded."""
+        """
+        Logically mute the mic — VAD runs but speech is discarded.
+        
+        References:
+        - https://python-sounddevice.readthedocs.io/
+        - https://webrtcvad.readthedocs.io/
+        """
         self._muted.set()
         _log_event("Playback muted: Mic logically muted", force=True)
         log.debug("[Capture] Muted")
 
     def unmute(self) -> None:
-        """Un-mute — resume sending speech segments to STT."""
+        """
+        Un-mute — resume sending speech segments to STT.
+        
+        References:
+        - https://python-sounddevice.readthedocs.io/
+        - https://webrtcvad.readthedocs.io/
+        """
         self._muted.clear()
         _log_event("Playback unmuted: Mic logically unmuted", force=True)
         log.debug("[Capture] Unmuted")
@@ -263,7 +302,13 @@ class AudioCapture:
     def _audio_callback(
         self, indata: np.ndarray, frames: int, time_info, status
     ) -> None:
-        """sounddevice callback — runs in audio thread."""
+        """
+        sounddevice callback — runs in audio thread.
+        
+        References:
+        - https://python-sounddevice.readthedocs.io/
+        - https://webrtcvad.readthedocs.io/
+        """
         if status:
             log.debug(f"[Capture] Status: {status}")
             _log_event(f"Sounddevice callback status warning: {status}", force=True)
@@ -350,7 +395,13 @@ class AudioCapture:
             _log_event("VAD queue full, dropped audio frame", force=True)
 
     def _vad_worker(self) -> None:
-        """VAD processing thread — detects speech segments with pre-trigger history."""
+        """
+        VAD processing thread — detects speech segments with pre-trigger history.
+        
+        References:
+        - https://python-sounddevice.readthedocs.io/
+        - https://webrtcvad.readthedocs.io/
+        """
         speech_frames: list[bytes] = []
         history_frames: list[bytes] = []  # Rolling buffer of frames prior to speech onset
         triggered = False
@@ -483,14 +534,26 @@ class AudioCapture:
                         active_speech_frames = 0
 
     async def _do_interrupt(self) -> None:
-        """Signal interruption (coroutine, runs in event loop)."""
+        """
+        Signal interruption (coroutine, runs in event loop).
+        
+        References:
+        - https://python-sounddevice.readthedocs.io/
+        - https://webrtcvad.readthedocs.io/
+        """
         if self.interrupt_event:
             self.interrupt_event.set()
         if self.interrupt_callback:
             await self.interrupt_callback()
 
     def _flush_speech(self, frames: list[bytes], active_speech_frames: int, min_active_speech_frames: int) -> None:
-        """Send accumulated speech frames to STT queue."""
+        """
+        Send accumulated speech frames to STT queue.
+        
+        References:
+        - https://python-sounddevice.readthedocs.io/
+        - https://webrtcvad.readthedocs.io/
+        """
         if DEBUG_VERBOSE:
             _log_event(
                 f"_flush_speech: total frames={len(frames)}, "

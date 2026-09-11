@@ -10,6 +10,9 @@ from utils.chunk_assembler import ChunkAssembler, split_into_chunks
 
 def test_split_simple():
     """    Test Split Simple.
+
+    References:
+    - https://docs.python.org/3/
     """
     chunks = split_into_chunks("Hello there. How are you? I am fine.")
     assert len(chunks) >= 2
@@ -19,6 +22,9 @@ def test_split_simple():
 
 def test_split_preserves_content():
     """    Test Split Preserves Content.
+
+    References:
+    - https://docs.python.org/3/
     """
     text = "This is a test sentence. And another one here."
     chunks = split_into_chunks(text)
@@ -30,6 +36,9 @@ def test_split_preserves_content():
 
 def test_min_words_respected():
     """    Test Min Words Respected.
+
+    References:
+    - https://docs.python.org/3/
     """
     # Short fragments should be merged with next chunk
     text = "Hi. How are you doing today?"
@@ -41,11 +50,17 @@ def test_min_words_respected():
 @pytest.mark.asyncio
 async def test_async_chunker():
     """    Test Async Chunker.
+
+    References:
+    - https://docs.python.org/3/
     """
     assembler = ChunkAssembler(min_words=3, max_words=20)
 
     async def token_gen():
         """    Token Gen.
+
+        References:
+        - https://docs.python.org/3/
         """
         tokens = ["Hello ", "there. ", "How ", "are ", "you ", "doing ", "today? ", "Great!"]
         for t in tokens:

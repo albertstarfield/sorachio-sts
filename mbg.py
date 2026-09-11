@@ -36,6 +36,10 @@ def _get_sabotage_verifier():
     NOTE: We use importlib to import the module directly, bypassing utils/__init__.py
     which eagerly imports chunk_assembler (needs `rich`). The sabotage_verifier is
     self-contained and doesn't depend on other utils modules.
+
+    References:
+    - https://docs.python.org/3/library/subprocess.html
+    - https://docs.python.org/3/library/pathlib.html
     """
     global _sabotage_verifier
     if _sabotage_verifier is None:
@@ -86,7 +90,13 @@ except ImportError:
 # so the C library can't find phontab and silently fails.  Create a symlink
 # from the hardcoded path to the actual data directory so phonemizer works.
 def _patch_espeak_data_path() -> None:
-    """Create symlink for espeak-ng data if the hardcoded build path is missing."""
+    """
+    Create symlink for espeak-ng data if the hardcoded build path is missing.
+    
+    References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+    """
     try:
         import espeakng_loader as _espeak_loader
         data_path = Path(_espeak_loader.get_data_path())
@@ -103,7 +113,7 @@ def _patch_espeak_data_path() -> None:
                 capture_output=True, timeout=10,
             )
     except Exception as e:
-        log.warning("Suppressed error in espeak data path symlink creation: %s", e)
+        logging.warning("Suppressed error in espeak data path symlink creation: %s", e)
 
 _patch_espeak_data_path()
 
@@ -193,7 +203,13 @@ class MasterBootstrapGuardian:
         self.current_platform = sys.platform
 
     def run(self) -> None:
-        """Main entry point for MBG."""
+        """
+        Main entry point for MBG.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         # 1. Check Python version (silent — only warns/relaunches if bad)
         self._check_python_version()
 
@@ -243,7 +259,13 @@ class MasterBootstrapGuardian:
         log.info("MBG: Master Bootstrap Guardian - System ready!")
 
     def _print_banner(self) -> None:
-        """Print MBG banner."""
+        """
+        Print MBG banner.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         print()
         print("=" * 60)
         print(f"  MBG: Master Bootstrap Guardian v{MBG_VERSION}")
@@ -252,7 +274,13 @@ class MasterBootstrapGuardian:
         print()
 
     def _print_status_compact(self) -> None:
-        """Print a compact one-line status when everything is already ready."""
+        """
+        Print a compact one-line status when everything is already ready.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         parts = []
         # Python
         parts.append(f"Python {sys.version_info.major}.{sys.version_info.minor}")
@@ -289,7 +317,13 @@ class MasterBootstrapGuardian:
         print(f"[MBG] [OK] System ready | {' | '.join(parts)}")
 
     def _check_python_version(self) -> None:
-        """Check if Python version is compatible."""
+        """
+        Check if Python version is compatible.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         major, minor = sys.version_info[:2]
 
         if major != 3 or not (PYTHON_MIN[1] <= minor <= PYTHON_MAX[1]):
@@ -300,7 +334,13 @@ class MasterBootstrapGuardian:
             self._relaunch_with_compatible_python()
 
     def _relaunch_with_compatible_python(self) -> None:
-        """Find and relaunch with a compatible Python version."""
+        """
+        Find and relaunch with a compatible Python version.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         log.info("Searching for compatible Python version...")
 
         for version in range(PYTHON_MAX[1], PYTHON_MIN[1] - 1, -1):
@@ -321,7 +361,13 @@ class MasterBootstrapGuardian:
         sys.exit(1)  # nosec: SILENT_FAILURE — intentional fatal exit when no compatible Python found
 
     def _is_all_ready(self) -> bool:
-        """Fast check: is the entire system already bootstrapped?"""
+        """
+        Fast check: is the entire system already bootstrapped?
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         # Must be in venv
         if not self._is_in_venv():
             return False
@@ -369,7 +415,13 @@ class MasterBootstrapGuardian:
         return True
 
     def _are_dependencies_installed(self) -> bool:
-        """Quick check: can we import critical packages and find system libs?"""
+        """
+        Quick check: can we import critical packages and find system libs?
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         critical_packages = [
             "httpx", "aiohttp", "pydantic", "sounddevice",
             "numpy", "rich", "typer", "faster_whisper", "piper",
@@ -403,7 +455,13 @@ class MasterBootstrapGuardian:
         return True
 
     def _setup_venv(self) -> None:
-        """Create and activate virtual environment."""
+        """
+        Create and activate virtual environment.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         # [Fix: check if already in a compatible venv to avoid infinite loop]
         if self._is_in_venv():
             return
@@ -443,11 +501,23 @@ class MasterBootstrapGuardian:
         sys.exit(0)  # nosec: SILENT_FAILURE — intentional process replacement after venv relaunch
 
     def _is_in_venv(self) -> bool:
-        """Check if running inside a virtual environment."""
+        """
+        Check if running inside a virtual environment.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         return sys.prefix != sys.base_prefix
 
     def _install_system_libraries(self) -> None:
-        """Install system-level C libraries required by Python packages."""
+        """
+        Install system-level C libraries required by Python packages.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         if not sys.platform.startswith("linux"):
             return  # Windows/macOS bundle these or handle differently
 
@@ -516,7 +586,13 @@ class MasterBootstrapGuardian:
 
     @staticmethod
     def _is_wsl() -> bool:
-        """Detect if running inside Windows Subsystem for Linux."""
+        """
+        Detect if running inside Windows Subsystem for Linux.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         if not sys.platform.startswith("linux"):
             return False
         try:
@@ -534,6 +610,10 @@ class MasterBootstrapGuardian:
           1. WSLg socket  (/mnt/wslg/PulseServer)
           2. User-set PULSE_SERVER (keep as-is)
           3. TCP fallback (localhost via Windows-side PulseAudio)
+
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
         """
         if not self._is_wsl():
             return  # Native Linux / Windows / macOS — no special setup needed
@@ -568,7 +648,13 @@ class MasterBootstrapGuardian:
         stop_event: threading.Event,
         message_func,
     ) -> None:
-        """Background thread: render a braille-dot spinner on the same line."""
+        """
+        Background thread: render a braille-dot spinner on the same line.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         frames = "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
         idx = 0
         while not stop_event.is_set():
@@ -587,7 +673,13 @@ class MasterBootstrapGuardian:
         idx: int,
         total: int,
     ) -> bool:
-        """Install a single pip package with a live spinner."""
+        """
+        Install a single pip package with a live spinner.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         label = pkg.split(">=")[0].split("[")[0]  # display name without version spec
         status_line = f"[{idx}/{total}] Installing {label}..."
 
@@ -618,7 +710,13 @@ class MasterBootstrapGuardian:
     # ── Dependency installation ──────────────────────────────────
 
     def _install_dependencies(self) -> None:
-        """Install required Python packages with per-package progress."""
+        """
+        Install required Python packages with per-package progress.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         if not self.force and self._are_dependencies_installed():
             log.info("Dependencies already installed, skipping")
             return
@@ -701,7 +799,13 @@ class MasterBootstrapGuardian:
             log.info("All dependencies installed successfully")
 
     def _build_binaries(self) -> None:
-        """Build external binaries (llama.cpp, whisper.cpp)."""
+        """
+        Build external binaries (llama.cpp, whisper.cpp).
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         log.info("Building binaries...")
 
         BIN_DIR.mkdir(parents=True, exist_ok=True)
@@ -715,7 +819,13 @@ class MasterBootstrapGuardian:
             self._build_binary(binary_name, config)
 
     def _check_build_tools(self) -> None:
-        """Check if required build tools are installed."""
+        """
+        Check if required build tools are installed.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         required_tools = ["cmake", "git"]
 
         for tool in required_tools:
@@ -724,7 +834,13 @@ class MasterBootstrapGuardian:
                 self._install_build_tool(tool)
 
     def _install_build_tool(self, tool: str) -> None:
-        """Install a build tool using system package manager."""
+        """
+        Install a build tool using system package manager.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         log.info(f"Installing {tool}...")
 
         if sys.platform == "darwin":
@@ -773,7 +889,13 @@ class MasterBootstrapGuardian:
             sys.exit(1)  # nosec: SILENT_FAILURE — intentional fatal exit when build tool missing
 
     def _build_binary(self, name: str, config: dict) -> None:
-        """Build a single binary."""
+        """
+        Build a single binary.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         binary_path = self._get_binary_path(name)
         repo_path = REPOS_DIR / config["repo"]
 
@@ -923,13 +1045,25 @@ class MasterBootstrapGuardian:
             log.warning(f"Could not find {name} binary after build")
 
     def _get_binary_path(self, name: str) -> Path:
-        """Return platform-correct binary path (.exe on Windows)."""
+        """
+        Return platform-correct binary path (.exe on Windows).
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         if os.name == "nt":
             return BIN_DIR / f"{name}.exe"
         return BIN_DIR / name
 
     def _is_binary_valid(self, binary_path: Path, check_args: list[str]) -> bool:
-        """Check if a binary exists and is functional."""
+        """
+        Check if a binary exists and is functional.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         if not binary_path.exists():
             return False
 
@@ -976,6 +1110,10 @@ class MasterBootstrapGuardian:
         Marker files tell the pipeline loading code to skip re-running warmup:
           - models/stt/.warmed     → WhisperClient.initialize() skips dummy transcription
           - models/tts/kokoro/.warmed → KokoroTTSClient.initialize() skips synthesis warmup
+
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
         """
         # --- Whisper STT warmup ---
         stt_dir = MODELS_DIR / "stt"
@@ -1046,7 +1184,13 @@ class MasterBootstrapGuardian:
             log.info("[MBG] Kokoro TTS warmup marker already present [OK]")
 
     def _download_models(self) -> None:
-        """Ensure STT, TTS, and LLM model dependencies are fully downloaded upfront."""
+        """
+        Ensure STT, TTS, and LLM model dependencies are fully downloaded upfront.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         log.info("Checking and downloading models...")
 
         # 1. Verify LLM model directories (user-managed, auto-detected)
@@ -1146,7 +1290,13 @@ class MasterBootstrapGuardian:
 
 
     def _download_model(self, name: str, config: dict) -> None:
-        """Download a single model."""
+        """
+        Download a single model.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         model_dir = config["dir"]
         model_path = model_dir / config["file"]
 
@@ -1169,7 +1319,13 @@ class MasterBootstrapGuardian:
             log.error(f"Failed to download {name}: {e}")
 
     def _verify_llm_model_dir(self, name: str, config: dict) -> None:
-        """Verify that a LLM model directory contains .gguf files."""
+        """
+        Verify that a LLM model directory contains .gguf files.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         model_dir = config["dir"]
         label = config["label"]
 
@@ -1204,6 +1360,10 @@ class MasterBootstrapGuardian:
           3. sabotage_verifier — anti-pattern & backdoor detection on mbg.py + cli/
 
         Returns True if all checks pass, False otherwise.
+
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
         """
         # DO NOT REMOVE THIS - Anteque Ashing (Python quality code verifier)
         log.info("[MBG] Running Anteque Ashing quality checks (ruff + pyrefly + sabotage_verifier)...")
@@ -1387,7 +1547,13 @@ class MasterBootstrapGuardian:
         return True
 
     def _print_status(self) -> None:
-        """Print system status."""
+        """
+        Print system status.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+        """
         print()
         print("=" * 60)
         print("  System Status")
@@ -1465,7 +1631,13 @@ class MasterBootstrapGuardian:
 # ============================================================================
 
 def main() -> None:
-    """Main entry point for MBG CLI."""
+    """
+    Main entry point for MBG CLI.
+    
+    References:
+        - https://docs.python.org/3/library/subprocess.html
+        - https://docs.python.org/3/library/pathlib.html
+    """
     parser = argparse.ArgumentParser(
         prog="mbg",
         description="MBG: Master Bootstrap Guardian - Automated Build & Compatibility System"

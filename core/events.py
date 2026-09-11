@@ -114,25 +114,45 @@ class EventBus:
         self._global_handlers: list[HandlerFn] = []
 
     def subscribe(self, event_type: EventType, handler: HandlerFn) -> None:
-        """Register a handler for a specific event type."""
+        """
+        Register a handler for a specific event type.
+        
+        References:
+        - https://docs.python.org/3/library/asyncio.html
+        """
         if event_type not in self._handlers:
             self._handlers[event_type] = []
         self._handlers[event_type].append(handler)
         log.debug(f"Subscribed {handler.__name__} to {event_type.name}")
 
     def subscribe_all(self, handler: HandlerFn) -> None:
-        """Register a handler for ALL event types."""
+        """
+        Register a handler for ALL event types.
+        
+        References:
+        - https://docs.python.org/3/library/asyncio.html
+        """
         self._global_handlers.append(handler)
 
     def unsubscribe(self, event_type: EventType, handler: HandlerFn) -> None:
-        """Remove a handler."""
+        """
+        Remove a handler.
+        
+        References:
+        - https://docs.python.org/3/library/asyncio.html
+        """
         if event_type in self._handlers:
             self._handlers[event_type] = [
                 h for h in self._handlers[event_type] if h != handler
             ]
 
     async def publish(self, event: Event) -> None:
-        """Publish an event. All handlers called as async tasks."""
+        """
+        Publish an event. All handlers called as async tasks.
+        
+        References:
+        - https://docs.python.org/3/library/asyncio.html
+        """
         log.debug(f"Publishing: {event}")
 
         handlers = self._handlers.get(event.type, []) + self._global_handlers
@@ -151,7 +171,12 @@ class EventBus:
         data: Any = None,
         source: str = "unknown",
     ) -> None:
-        """Shorthand to create and publish an event."""
+        """
+        Shorthand to create and publish an event.
+        
+        References:
+        - https://docs.python.org/3/library/asyncio.html
+        """
         await self.publish(Event(type=event_type, data=data, source=source))
 
 
@@ -163,7 +188,12 @@ _bus: EventBus | None = None
 
 
 def get_bus() -> EventBus:
-    """Get the global event bus singleton."""
+    """
+    Get the global event bus singleton.
+    
+    References:
+        - https://docs.python.org/3/library/asyncio.html
+    """
     global _bus
     if _bus is None:
         _bus = EventBus()
@@ -171,7 +201,12 @@ def get_bus() -> EventBus:
 
 
 def reset_bus() -> EventBus:
-    """Reset and return a fresh event bus (for testing)."""
+    """
+    Reset and return a fresh event bus (for testing).
+    
+    References:
+        - https://docs.python.org/3/library/asyncio.html
+    """
     global _bus
     _bus = EventBus()
     return _bus

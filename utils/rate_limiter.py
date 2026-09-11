@@ -54,6 +54,9 @@ class RateLimiter:
 
         Returns:
             (allowed: bool, retry_after_s: float)
+
+        References:
+        - https://docs.python.org/3/library/time.html
         """
         async with self._lock:
             now = time.monotonic()
@@ -83,6 +86,9 @@ class RateLimiter:
 
         Returns:
             True if request is allowed, False if rate limit exceeded.
+
+        References:
+        - https://docs.python.org/3/library/time.html
         """
         allowed, _ = await self.check_allow()
         return allowed
@@ -93,6 +99,9 @@ class RateLimiter:
 
         Returns:
             True if request was eventually allowed, False if timed out.
+
+        References:
+        - https://docs.python.org/3/library/time.html
         """
         async with self._lock:
             now = time.monotonic()
@@ -119,7 +128,12 @@ class RateLimiter:
         return await self.allow()
 
     def get_status(self) -> dict:
-        """Return current rate limiter status."""
+        """
+        Return current rate limiter status.
+        
+        References:
+        - https://docs.python.org/3/library/time.html
+        """
         now = time.monotonic()
         cutoff = now - self.window_seconds
 

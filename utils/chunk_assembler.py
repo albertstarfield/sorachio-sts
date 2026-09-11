@@ -58,6 +58,8 @@ class ChunkAssembler:
         assembler = ChunkAssembler(config)
         async for chunk in assembler.process(token_stream):
             await tts_queue.put(chunk)
+       References:
+           - https://docs.python.org/3/library/re.html — regex for sentence boundary detection
     """
 
     def __init__(
@@ -87,12 +89,22 @@ class ChunkAssembler:
         self._last_token_time: float = 0.0
 
     def reset(self) -> None:
-        """Reset internal buffer — call between conversations."""
+        """
+        Reset internal buffer — call between conversations.
+        
+        References:
+        - https://docs.python.org/3/library/re.html
+        """
         self._buffer = ""
         self._last_token_time = 0.0
 
     def _should_flush(self, text: str) -> bool:
-        """Determine if current buffer should be flushed as a chunk."""
+        """
+        Determine if current buffer should be flushed as a chunk.
+        
+        References:
+        - https://docs.python.org/3/library/re.html
+        """
         stripped = text.rstrip()
 
         # Sentence-ending punctuation
@@ -127,6 +139,9 @@ class ChunkAssembler:
 
         Yields:
             str: complete speech chunks ready for TTS
+
+        References:
+        - https://docs.python.org/3/library/re.html
         """
         self.reset()
 
@@ -163,6 +178,9 @@ class ChunkAssembler:
         """
         Split text on sentence boundaries. Returns list of segments.
         The last segment is always the incomplete/current one.
+
+        References:
+        - https://docs.python.org/3/library/re.html
         """
         # Split on . ! ? ; followed by whitespace
         pattern = r'(?<=[.!?;])\s+'
@@ -192,6 +210,8 @@ def split_into_chunks(
     """
     Split a complete text into TTS-ready chunks synchronously.
     Useful for testing or pre-processing.
+       References:
+           - https://docs.python.org/3/library/re.html — regex for sentence boundary detection
     """
     ChunkAssembler(min_words=min_words, max_words=max_words)
     pattern = r'(?<=[.!?;])\s+'

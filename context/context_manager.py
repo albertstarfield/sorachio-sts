@@ -74,6 +74,9 @@ class ContextManager:
         Build the full message history for the Personality Core.
         Includes system prompt (100% static to maximize KV cache hits), recent STM,
         and the new user input with injected dynamic context (emotion, topic, LTM, interruption).
+
+        References:
+        - https://docs.python.org/3/library/collections.html
         """
         emotion = cognitive_decision.get("emotion", "neutral")
         topic = cognitive_decision.get("topic", "general")
@@ -176,7 +179,12 @@ class ContextManager:
         return messages
 
     def _build_system_prompt(self) -> str:
-        """Construct a static system prompt to maximize KV Cache reuse."""
+        """
+        Construct a static system prompt to maximize KV Cache reuse.
+        
+        References:
+        - https://docs.python.org/3/library/collections.html
+        """
         parts = [
             self.personality_prompt.strip(),
             f"\nYou are {self.companion_name}. Respond naturally in 1-3 spoken sentences. "
@@ -195,6 +203,9 @@ class ContextManager:
         Store this interaction in STM and optionally LTM.
 
         Called after a successful response has been generated.
+
+        References:
+        - https://docs.python.org/3/library/collections.html
         """
         emotion = cognitive_decision.get("emotion", "neutral")
         topic = cognitive_decision.get("topic", "general")

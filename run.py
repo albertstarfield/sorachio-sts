@@ -29,6 +29,9 @@ def run_step(name: str, cmd: list[str], description: str, required: bool = False
 
     Returns:
         True if step succeeded or was skipped, False if failed.
+
+    References:
+    - https://docs.python.org/3/library/subprocess.html
     """
     print(f"\n{'='*60}")
     print(f"  [{name}] {description}")
@@ -77,6 +80,9 @@ def main() -> int:
 
     Returns:
         0 on success, 1 on failure.
+
+    References:
+    - https://docs.python.org/3/library/subprocess.html
     """
     print(f"\n{'#'*60}")
     print("  Sorachio-STS Pipeline Runner")

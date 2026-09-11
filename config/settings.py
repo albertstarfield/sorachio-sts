@@ -106,7 +106,13 @@ class LLMConfig(BaseModel):
     @field_validator("server_binary", mode="after")
     @classmethod
     def _ensure_exe_llm(cls, v: str) -> str:
-        """Auto-append .exe on Windows regardless of what YAML says."""
+        """
+        Auto-append .exe on Windows regardless of what YAML says.
+        
+        References:
+        - https://docs.pydantic.dev/
+        - https://docs.python.org/3/library/pathlib.html
+        """
         if os.name == "nt" and not v.endswith(".exe"):
             return v + ".exe"
         return v
@@ -224,7 +230,13 @@ _project_root: Path | None = None
 
 
 def get_project_root() -> Path:
-    """Return the project root directory."""
+    """
+    Return the project root directory.
+    
+    References:
+        - https://docs.pydantic.dev/
+        - https://docs.python.org/3/library/pathlib.html
+    """
     global _project_root
     if _project_root is None:
         # Walk up from this file to find project root (contains sorachio.yaml)
@@ -244,6 +256,10 @@ def _auto_scan_models(settings: SorachioSettings) -> None:
     """
     Auto-scan model directories and fill in model_path / mmproj_path
     for any LLM instance that has model_dir set but model_path empty.
+
+    References:
+    - https://docs.pydantic.dev/
+    - https://docs.python.org/3/library/pathlib.html
     """
     from llm.model_scanner import log_scan_summary, scan_model_dir
 
@@ -275,7 +291,13 @@ def _auto_scan_models(settings: SorachioSettings) -> None:
 
 
 def load_settings(config_path: str | None = None) -> SorachioSettings:
-    """Load settings from YAML file, then auto-scan model directories."""
+    """
+    Load settings from YAML file, then auto-scan model directories.
+    
+    References:
+        - https://docs.pydantic.dev/
+        - https://docs.python.org/3/library/pathlib.html
+    """
     global _settings
 
     if config_path is None:
@@ -305,7 +327,13 @@ def load_settings(config_path: str | None = None) -> SorachioSettings:
 
 
 def get_settings() -> SorachioSettings:
-    """Get cached settings (load if not already loaded)."""
+    """
+    Get cached settings (load if not already loaded).
+    
+    References:
+        - https://docs.pydantic.dev/
+        - https://docs.python.org/3/library/pathlib.html
+    """
     global _settings
     if _settings is None:
         _settings = load_settings()
@@ -313,5 +341,11 @@ def get_settings() -> SorachioSettings:
 
 
 def resolve_path(relative: str) -> Path:
-    """Resolve a path relative to the project root."""
+    """
+    Resolve a path relative to the project root.
+    
+    References:
+        - https://docs.pydantic.dev/
+        - https://docs.python.org/3/library/pathlib.html
+    """
     return get_project_root() / relative

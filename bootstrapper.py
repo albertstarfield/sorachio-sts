@@ -34,7 +34,12 @@ class Bootstrapper:
         self.venv_dir = self.root / "venv_runtime"
 
     def _check_python_version(self) -> None:
-        """Check if the current Python version is within the required range."""
+        """
+        Check if the current Python version is within the required range.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        """
         # Required range: 3.10 <= version < 3.13
         major, minor, micro = sys.version_info.major, sys.version_info.minor, sys.version_info.micro
 
@@ -46,7 +51,12 @@ class Bootstrapper:
         self._try_relaunch_with_different_python()
 
     def _try_relaunch_with_different_python(self) -> None:
-        """Try to find and relaunch with a compatible Python version."""
+        """
+        Try to find and relaunch with a compatible Python version.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        """
         log.info("Searching for compatible Python versions (3.10, 3.11, or 3.12)...")
 
         for version in ["3.10", "3.11", "3.12"]:
@@ -64,7 +74,12 @@ class Bootstrapper:
 
 
     def ensure_ready(self) -> None:
-        """Main entry point to ensure the system is ready for execution."""
+        """
+        Main entry point to ensure the system is ready for execution.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        """
         log.info("Checking system readiness...")
 
         # 0. Python Version Check
@@ -87,11 +102,21 @@ class Bootstrapper:
         log.info("System is ready!")
 
     def _is_in_venv(self) -> bool:
-        """Check if the current process is running inside a virtual environment."""
+        """
+        Check if the current process is running inside a virtual environment.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        """
         return sys.prefix != sys.base_prefix
 
     def _setup_venv(self) -> None:
-        """Create a virtual environment and restart the process using it."""
+        """
+        Create a virtual environment and restart the process using it.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        """
         self.venv_dir.mkdir(parents=True, exist_ok=True)
 
         # Use subprocess to create venv to ensure we use the current sys.executable
@@ -118,7 +143,12 @@ class Bootstrapper:
         check: bool = True,
         verbose: bool = False
     ) -> subprocess.CompletedProcess:
-        """Helper to run shell commands."""
+        """
+        Helper to run shell commands.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        """
         try:
             if verbose:
                 log.info(f"Executing: {' '.join(cmd)}")
@@ -157,7 +187,12 @@ class Bootstrapper:
             return subprocess.CompletedProcess(cmd, e.returncode, stdout=e.stdout, stderr=e.stderr)
 
     def _is_binary_valid(self, binary_path: Path, check_args: list[str]) -> bool:
-        """Check if a binary exists, is the correct architecture, and is functional."""
+        """
+        Check if a binary exists, is the correct architecture, and is functional.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        """
         if not binary_path.exists():
             return False
 
@@ -189,7 +224,12 @@ class Bootstrapper:
             return False
 
     def _install_dependencies(self) -> None:
-        """Install all required Python packages."""
+        """
+        Install all required Python packages.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        """
         log.info("Installing dependencies...")
 
         # Upgrade pip
@@ -231,7 +271,12 @@ class Bootstrapper:
             self._run_command([sys.executable, "-m", "pip", "install", "webrtcvad"])
 
     def _install_system_tool(self, tool: str) -> bool:
-        """Attempt to install a system tool using the available package manager."""
+        """
+        Attempt to install a system tool using the available package manager.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        """
         log.info(f"Attempting to auto-install missing tool: {tool}...")
 
         # OS to Package Manager Mapping
@@ -295,7 +340,12 @@ class Bootstrapper:
             return False
 
     def _build_external_tools(self) -> None:
-        """Build and install external C++ tools (llama.cpp)."""
+        """
+        Build and install external C++ tools (llama.cpp).
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        """
         log.info("Building external tools...")
 
         self.bin_dir.mkdir(parents=True, exist_ok=True)
@@ -380,7 +430,12 @@ class Bootstrapper:
         log.info(f"  Model directory: {self.tts_models_dir}")
 
     def _run_self_checks(self) -> None:
-        """Run linting and static analysis checks."""
+        """
+        Run linting and static analysis checks.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        """
         log.info("Running self-checks...")
 
         # Ruff check

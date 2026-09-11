@@ -23,6 +23,10 @@ def setup_logging(
     Configure structured logging with:
     - Rich console handler (coloured, human-readable)
     - Rotating file handler (JSON-friendly for post-analysis)
+
+    References:
+    - https://docs.python.org/3/library/logging.html
+    - https://rich.readthedocs.io/
     """
     global _initialized
     if _initialized:
@@ -76,5 +80,11 @@ def setup_logging(
 
 
 def get_logger(name: str) -> logging.Logger:
-    """Get a child logger under the sorachio namespace."""
+    """
+    Get a child logger under the sorachio namespace.
+    
+    References:
+        - https://docs.python.org/3/library/logging.html
+        - https://rich.readthedocs.io/
+    """
     return logging.getLogger(f"sorachio.{name}")

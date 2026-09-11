@@ -66,6 +66,9 @@ class SingleServerManager:
 
         Returns:
             List of command line arguments for subprocess.Popen.
+
+        References:
+        - https://docs.python.org/3/library/subprocess.html
         """
         cmd = [
             str(self.binary_path),
@@ -104,7 +107,12 @@ class SingleServerManager:
         return cmd
 
     async def start(self) -> bool:
-        """Start the server. Returns True if started successfully."""
+        """
+        Start the server. Returns True if started successfully.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        """
         if self._process and self._process.poll() is None:
             log.info(f"[{self.name}] Already running (PID {self._process.pid})")
             return True
@@ -130,7 +138,12 @@ class SingleServerManager:
         self._log_file = open(log_path, "w", encoding="utf-8")
 
         def _raise_memlock() -> None:
-            """Raise RLIMIT_MEMLOCK to hard limit before exec."""
+            """
+            Raise RLIMIT_MEMLOCK to hard limit before exec.
+            
+            References:
+        - https://docs.python.org/3/library/subprocess.html
+            """
             try:
                 import resource
                 soft, hard = resource.getrlimit(resource.RLIMIT_MEMLOCK)
@@ -159,7 +172,12 @@ class SingleServerManager:
             return False
 
     def stop(self) -> None:
-        """Gracefully stop the server."""
+        """
+        Gracefully stop the server.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        """
         if self._process:
             if self._process.poll() is None:
                 log.info(f"[{self.name}] Stopping (PID {self._process.pid})")
@@ -185,7 +203,12 @@ class SingleServerManager:
             self._log_file = None
 
     async def health_check(self) -> bool:
-        """Check if server endpoint responds to health query."""
+        """
+        Check if server endpoint responds to health query.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        """
         if not self.is_running():
             return False
         import httpx
@@ -200,7 +223,12 @@ class SingleServerManager:
             return False
 
     def is_running(self) -> bool:
-        """Return True if the server process is alive."""
+        """
+        Return True if the server process is alive.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        """
         return self._process is not None and self._process.poll() is None
 
 
@@ -261,14 +289,24 @@ class ServerManager:
         self.max_restart_attempts = 3
 
     async def health_check_all(self) -> dict[str, bool]:
-        """Check health of all managed servers."""
+        """
+        Check health of all managed servers.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        """
         results = {}
         for name, srv in self._servers.items():
             results[name] = await srv.health_check()
         return results
 
     async def start_watchdog(self, check_interval_s: float = 30.0) -> None:
-        """Start watchdog background loop to monitor server health and auto-restart if needed."""
+        """
+        Start watchdog background loop to monitor server health and auto-restart if needed.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        """
         if self._watchdog_task and not self._watchdog_task.done():
             return
 
@@ -277,6 +315,9 @@ class ServerManager:
 
     Returns:
         None: Description.
+
+            References:
+            - https://docs.python.org/3/library/subprocess.html
             """
             log.info(f"[ServerManager] Watchdog started (interval={check_interval_s}s)")
             while True:
@@ -301,14 +342,24 @@ class ServerManager:
         self._watchdog_task = asyncio.create_task(_watchdog_loop())
 
     def stop_watchdog(self) -> None:
-        """Stop the watchdog background task."""
+        """
+        Stop the watchdog background task.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        """
         if self._watchdog_task and not self._watchdog_task.done():
             self._watchdog_task.cancel()
             self._watchdog_task = None
             log.info("[ServerManager] Watchdog stopped")
 
     async def start_all(self, wait_ready: bool = True) -> bool:
-        """Start all servers. Returns True if all started."""
+        """
+        Start all servers. Returns True if all started.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        """
         results = []
         for name, srv in self._servers.items():
             ok = await srv.start()
@@ -349,7 +400,12 @@ class ServerManager:
         return True
 
     def stop_all(self) -> None:
-        """Stop all servers gracefully."""
+        """
+        Stop all servers gracefully.
+        
+        References:
+        - https://docs.python.org/3/library/subprocess.html
+        """
         self.stop_watchdog()
         for srv in self._servers.values():
             srv.stop()
@@ -359,6 +415,9 @@ class ServerManager:
 
         Returns:
             Dictionary mapping server names to their running status.
+
+        References:
+        - https://docs.python.org/3/library/subprocess.html
         """
         return {name: srv.is_running() for name, srv in self._servers.items()}
 

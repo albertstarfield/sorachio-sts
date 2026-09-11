@@ -44,13 +44,21 @@ class STMEntry:
 
     Returns:
         Description.
+
+        References:
+        - https://docs.python.org/3/library/collections.html
         """
         d = asdict(self)
         d["timestamp"] = self.timestamp.isoformat()
         return d
 
     def to_chat_message(self) -> dict[str, str]:
-        """Format as LLM chat message."""
+        """
+        Format as LLM chat message.
+        
+        References:
+        - https://docs.python.org/3/library/collections.html
+        """
         return {"role": self.role, "content": self.content}
 
 
@@ -95,7 +103,12 @@ class ShortTermMemory:
         importance: float = 0.5,
         metadata: dict | None = None,
     ) -> None:
-        """Add a message to the rolling window."""
+        """
+        Add a message to the rolling window.
+        
+        References:
+        - https://docs.python.org/3/library/collections.html
+        """
         async with self._lock:
             entry = STMEntry(
                 role=role,
@@ -111,7 +124,12 @@ class ShortTermMemory:
             log.debug(f"[STM] Added [{role}] len={len(self._window)}")
 
     async def get_recent(self, n: int | None = None) -> list[STMEntry]:
-        """Get the N most recent entries (or all if n=None)."""
+        """
+        Get the N most recent entries (or all if n=None).
+        
+        References:
+        - https://docs.python.org/3/library/collections.html
+        """
         async with self._lock:
             entries = list(self._window)
             if n is not None:
@@ -119,7 +137,12 @@ class ShortTermMemory:
             return entries
 
     async def get_recent_summary(self, n: int = 3) -> str:
-        """Get compact context string of the last N turns for cognitive decision making."""
+        """
+        Get compact context string of the last N turns for cognitive decision making.
+        
+        References:
+        - https://docs.python.org/3/library/collections.html
+        """
         async with self._lock:
             recent = list(self._window)[-n:]
             if not recent:
@@ -133,6 +156,9 @@ class ShortTermMemory:
     async def summarize(self, llm_client: Any, n_to_summarize: int = 10) -> str | None:
         """
         Summarize oldest n_to_summarize messages using LLM and replace them with a system summary.
+
+        References:
+        - https://docs.python.org/3/library/collections.html
         """
         async with self._lock:
             if len(self._window) < n_to_summarize:
@@ -178,7 +204,12 @@ class ShortTermMemory:
         return None
 
     async def auto_summarize_if_needed(self, llm_client: Any) -> str | None:
-        """Auto summarize if current window size reaches or exceeds summary_threshold."""
+        """
+        Auto summarize if current window size reaches or exceeds summary_threshold.
+        
+        References:
+        - https://docs.python.org/3/library/collections.html
+        """
         current_len = await self.size()
         if current_len >= self.summary_threshold:
             n_sum = max(5, current_len // 2)
@@ -186,7 +217,12 @@ class ShortTermMemory:
         return None
 
     async def mark_last_interrupted(self) -> None:
-        """Mark the most recent assistant message in the window as interrupted."""
+        """
+        Mark the most recent assistant message in the window as interrupted.
+        
+        References:
+        - https://docs.python.org/3/library/collections.html
+        """
         async with self._lock:
             if not self._window:
                 return
@@ -195,12 +231,22 @@ class ShortTermMemory:
             log.debug(f"[STM] Marked last message ({self._window[-1].role}) as interrupted")
 
     async def get_chat_messages(self, n: int | None = None) -> list[dict[str, str]]:
-        """Get recent entries formatted as LLM chat messages."""
+        """
+        Get recent entries formatted as LLM chat messages.
+        
+        References:
+        - https://docs.python.org/3/library/collections.html
+        """
         entries = await self.get_recent(n)
         return [e.to_chat_message() for e in entries]
 
     async def get_emotion_context(self) -> str:
-        """Return a brief emotion summary from recent messages."""
+        """
+        Return a brief emotion summary from recent messages.
+        
+        References:
+        - https://docs.python.org/3/library/collections.html
+        """
         async with self._lock:
             recent = list(self._window)[-5:]
             if not recent:
@@ -215,7 +261,12 @@ class ShortTermMemory:
             return user_emotions[-1]
 
     async def clear(self) -> None:
-        """Clear conversation history."""
+        """
+        Clear conversation history.
+        
+        References:
+        - https://docs.python.org/3/library/collections.html
+        """
         async with self._lock:
             self._window.clear()
             self._turn_count = 0
@@ -229,6 +280,9 @@ class ShortTermMemory:
 
     Returns:
         int: Description.
+
+        References:
+        - https://docs.python.org/3/library/collections.html
         """
         async with self._lock:
             return len(self._window)

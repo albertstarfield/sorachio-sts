@@ -53,6 +53,10 @@ class Message:
 
     Returns:
         Description.
+
+        References:
+        - https://docs.aiohttp.io/en/stable/
+        - https://github.com/ggerganov/llama.cpp
         """
         if self.image_b64:
             # Multimodal format (OpenAI-compatible, supported by llama-server)
@@ -117,6 +121,10 @@ class LlamaClient:
 
     Returns:
         Description.
+
+        References:
+        - https://docs.aiohttp.io/en/stable/
+        - https://github.com/ggerganov/llama.cpp
         """
         if self._client is None or self._client.is_closed:
             self._client = httpx.AsyncClient(
@@ -136,13 +144,23 @@ class LlamaClient:
 
     Returns:
         None: Description.
+
+        References:
+        - https://docs.aiohttp.io/en/stable/
+        - https://github.com/ggerganov/llama.cpp
         """
         if self._client and not self._client.is_closed:
             await self._client.aclose()
             self._client = None
 
     async def health_check(self) -> bool:
-        """Return True if the server is healthy and ready."""
+        """
+        Return True if the server is healthy and ready.
+        
+        References:
+        - https://docs.aiohttp.io/en/stable/
+        - https://github.com/ggerganov/llama.cpp
+        """
         try:
             client = await self._get_client()
             resp = await client.get("/health", timeout=5.0)
@@ -152,7 +170,13 @@ class LlamaClient:
             return False
 
     async def wait_for_ready(self, timeout_s: float = 60.0) -> bool:
-        """Poll until server is ready or timeout expires."""
+        """
+        Poll until server is ready or timeout expires.
+        
+        References:
+        - https://docs.aiohttp.io/en/stable/
+        - https://github.com/ggerganov/llama.cpp
+        """
         deadline = asyncio.get_event_loop().time() + timeout_s
         attempt = 0
         while asyncio.get_event_loop().time() < deadline:
@@ -177,6 +201,10 @@ class LlamaClient:
         """
         Non-streaming chat completion.
         Returns the full assistant response as a string.
+
+        References:
+        - https://docs.aiohttp.io/en/stable/
+        - https://github.com/ggerganov/llama.cpp
         """
         payload = self._build_payload(
             messages, temperature, max_tokens, stream=False, extra_params=extra_params
@@ -223,6 +251,10 @@ class LlamaClient:
         """
         Streaming chat completion via Server-Sent Events.
         Yields individual token deltas as strings.
+
+        References:
+        - https://docs.aiohttp.io/en/stable/
+        - https://github.com/ggerganov/llama.cpp
         """
         payload = self._build_payload(
             messages, temperature, max_tokens, stream=True, extra_params=extra_params
@@ -275,6 +307,10 @@ class LlamaClient:
 
     Returns:
         Description.
+
+        References:
+        - https://docs.aiohttp.io/en/stable/
+        - https://github.com/ggerganov/llama.cpp
         """
         payload: dict[str, Any] = {
             "messages": messages,
@@ -296,6 +332,10 @@ class LlamaClient:
         llama-server pre-fills and caches the KV for the real system prompt.
         This means the FIRST real user request benefits from a full cache hit
         on the system portion, instead of re-evaluating it from scratch.
+
+        References:
+        - https://docs.aiohttp.io/en/stable/
+        - https://github.com/ggerganov/llama.cpp
         """
         log.info(f"Warming up model at {self.base_url} (pre-filling KV cache)...")
         try:

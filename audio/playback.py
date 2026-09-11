@@ -85,7 +85,12 @@ class AudioPlayback:
     # ------------------------------------------------------------------
 
     def _probe_audio_device(self) -> bool:
-        """Return True if we can open an output stream on the target device."""
+        """
+        Return True if we can open an output stream on the target device.
+        
+        References:
+        - https://python-sounddevice.readthedocs.io/
+        """
         try:
             # Quick check: can sounddevice query the device at all?
             dev = self.device_index  # None ⟹ default device
@@ -109,7 +114,12 @@ class AudioPlayback:
     # ------------------------------------------------------------------
 
     async def run(self) -> None:
-        """Main playback loop — drain audio queue and play chunks."""
+        """
+        Main playback loop — drain audio queue and play chunks.
+        
+        References:
+        - https://python-sounddevice.readthedocs.io/
+        """
         self._running = True
 
         if self._audio_available:
@@ -152,7 +162,12 @@ class AudioPlayback:
     # ------------------------------------------------------------------
 
     async def _play_chunk(self, audio: np.ndarray) -> None:
-        """Play a single audio chunk synchronously (in threadpool)."""
+        """
+        Play a single audio chunk synchronously (in threadpool).
+        
+        References:
+        - https://python-sounddevice.readthedocs.io/
+        """
         self.playback_active_event.set()
         if self._aec:
             self._aec.set_reference_active(True)
@@ -172,6 +187,9 @@ class AudioPlayback:
 
         def _blocking_play():
             """    Blocking Play.
+
+            References:
+            - https://python-sounddevice.readthedocs.io/
             """
             try:
                 sd.play(
@@ -195,6 +213,9 @@ class AudioPlayback:
         """
         Immediately stop playback and clear the audio queue.
         Called when user speaks during TTS output.
+
+        References:
+        - https://python-sounddevice.readthedocs.io/
         """
         log.info("[Playback] INTERRUPT — clearing audio queue")
         self._interrupted = True
@@ -223,7 +244,12 @@ class AudioPlayback:
         log.info(f"[Playback] Cleared {cleared} queued chunks")
 
     def stop(self) -> None:
-        """Graceful shutdown."""
+        """
+        Graceful shutdown.
+        
+        References:
+        - https://python-sounddevice.readthedocs.io/
+        """
         self._running = False
         if self._audio_available:
             try:

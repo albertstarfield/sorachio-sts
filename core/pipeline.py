@@ -78,7 +78,12 @@ class SorachioPipeline:
         self.on_text_response = None
 
     async def setup(self) -> bool:
-        """Initialize all components. Returns False if critical component fails."""
+        """
+        Initialize all components. Returns False if critical component fails.
+        
+        References:
+        - https://docs.python.org/3/library/asyncio.html
+        """
         cfg = self.settings
         root = resolve_path("")
 
@@ -319,6 +324,9 @@ class SorachioPipeline:
 
         Plays a chirp signal through the speaker while recording from mic,
         then learns room acoustics for echo cancellation.
+
+        References:
+        - https://docs.python.org/3/library/asyncio.html
         """
         from audio.echo_cancellation import CalibrationAEC
 
@@ -338,7 +346,12 @@ class SorachioPipeline:
         loop = asyncio.get_event_loop()
 
         def _run_calibration():
-            """Run calibration synchronously."""
+            """
+            Run calibration synchronously.
+            
+            References:
+        - https://docs.python.org/3/library/asyncio.html
+            """
             import time
 
             import numpy as np
@@ -360,6 +373,9 @@ class SorachioPipeline:
 
             def _record():
                 """    Record.
+
+                References:
+                - https://docs.python.org/3/library/asyncio.html
                 """
                 nonlocal recorded_data
                 try:
@@ -415,7 +431,12 @@ class SorachioPipeline:
             log.error(f"[Pipeline] AEC calibration error: {e}")
 
     async def run(self) -> None:
-        """Start all workers and run until shutdown."""
+        """
+        Start all workers and run until shutdown.
+        
+        References:
+        - https://docs.python.org/3/library/asyncio.html
+        """
         loop = asyncio.get_event_loop()
 
         # Subscribe to playback-finished to unmute the mic
@@ -478,7 +499,12 @@ class SorachioPipeline:
             await self.shutdown()
 
     async def _stt_worker(self) -> None:
-        """Worker: consume audio bytes → transcribe → cognitive queue."""
+        """
+        Worker: consume audio bytes → transcribe → cognitive queue.
+        
+        References:
+        - https://docs.python.org/3/library/asyncio.html
+        """
         log.info("[STT Worker] Started")
         while not self._shutdown_event.is_set():
             try:
@@ -526,6 +552,9 @@ class SorachioPipeline:
 
         Must be called before starting a new response turn so that leftover
         chunks from an interrupted response don't interfere.
+
+        References:
+        - https://docs.python.org/3/library/asyncio.html
         """
         flushed_tts = 0
         while not self._tts_chunk_queue.empty():
@@ -552,7 +581,12 @@ class SorachioPipeline:
             )
 
     async def _cognitive_worker(self) -> None:
-        """Worker: transcript → cognitive decision → personality pipeline."""
+        """
+        Worker: transcript → cognitive decision → personality pipeline.
+        
+        References:
+        - https://docs.python.org/3/library/asyncio.html
+        """
         log.info("[Cognitive Worker] Started")
         while not self._shutdown_event.is_set():
             try:
@@ -685,7 +719,12 @@ class SorachioPipeline:
                 )
 
     async def _tts_worker(self) -> None:
-        """Worker: TTS chunk queue → synthesize → audio queue."""
+        """
+        Worker: TTS chunk queue → synthesize → audio queue.
+        
+        References:
+        - https://docs.python.org/3/library/asyncio.html
+        """
         log.info("[TTS Worker] Started")
         assert self._tts is not None
         await self._tts.process_tts_queue(
@@ -701,6 +740,9 @@ class SorachioPipeline:
         2. Stop audio playback immediately
         3. Unmute mic so barge-in speech is captured
         4. Drain stale queues (cognitive worker will drain again for safety)
+
+        References:
+        - https://docs.python.org/3/library/asyncio.html
         """
         log.info("[Pipeline] ══ INTERRUPT TRIGGERED ══")
 
@@ -738,17 +780,30 @@ class SorachioPipeline:
         """
         Inject text directly as if it were a speech transcript.
         Used by the CLI in --text mode for testing without microphone.
+
+        References:
+        - https://docs.python.org/3/library/asyncio.html
         """
         await self._cognitive_queue.put(text)
 
     async def _on_playback_finished(self, event) -> None:
-        """Called when TTS playback reaches the end-of-stream sentinel."""
+        """
+        Called when TTS playback reaches the end-of-stream sentinel.
+        
+        References:
+        - https://docs.python.org/3/library/asyncio.html
+        """
         log.debug("[Pipeline] PLAYBACK_FINISHED → unmuting mic")
         if self._capture:
             self._capture.unmute()
 
     async def shutdown(self) -> None:
-        """Graceful shutdown of all components."""
+        """
+        Graceful shutdown of all components.
+        
+        References:
+        - https://docs.python.org/3/library/asyncio.html
+        """
         log.info("[Pipeline] Shutting down...")
         self._shutdown_event.set()
 
@@ -780,5 +835,10 @@ class SorachioPipeline:
         log.info("[Pipeline] Shutdown complete")
 
     def request_shutdown(self) -> None:
-        """Thread-safe shutdown request."""
+        """
+        Thread-safe shutdown request.
+        
+        References:
+        - https://docs.python.org/3/library/asyncio.html
+        """
         self._shutdown_event.set()

@@ -48,13 +48,25 @@ class VectorStore:
         self._available = False
 
     async def initialize(self) -> bool:
-        """Initialize ChromaDB and sentence-transformers."""
+        """
+        Initialize ChromaDB and sentence-transformers.
+        
+        References:
+        - https://docs.trychroma.com/
+        - https://www.sbert.net/
+        """
         loop = asyncio.get_event_loop()
         ok = await loop.run_in_executor(None, self._init_sync)
         return ok
 
     def _init_sync(self) -> bool:
-        """Synchronous initialization (runs in executor)."""
+        """
+        Synchronous initialization (runs in executor).
+        
+        References:
+        - https://docs.trychroma.com/
+        - https://www.sbert.net/
+        """
         try:
             import chromadb  # type: ignore[import-untyped]
             from chromadb.api.types import Documents, EmbeddingFunction, Embeddings  # type: ignore[import-untyped]
@@ -127,7 +139,13 @@ class VectorStore:
         content: str,
         metadata: dict[str, Any] | None = None,
     ) -> bool:
-        """Add a memory entry with embedding."""
+        """
+        Add a memory entry with embedding.
+        
+        References:
+        - https://docs.trychroma.com/
+        - https://www.sbert.net/
+        """
         if not self._available:
             return False
 
@@ -142,7 +160,13 @@ class VectorStore:
         content: str,
         metadata: dict[str, Any],
     ) -> bool:
-        """Synchronous add (runs in executor)."""
+        """
+        Synchronous add (runs in executor).
+        
+        References:
+        - https://docs.trychroma.com/
+        - https://www.sbert.net/
+        """
         try:
             if not self._collection:
                 return False
@@ -173,7 +197,13 @@ class VectorStore:
         n_results: int = 5,
         where: dict[str, Any] | None = None,
     ) -> list[dict[str, Any]]:
-        """Query similar memories by semantic search."""
+        """
+        Query similar memories by semantic search.
+        
+        References:
+        - https://docs.trychroma.com/
+        - https://www.sbert.net/
+        """
         if not self._available:
             return []
 
@@ -188,7 +218,13 @@ class VectorStore:
         n_results: int,
         where: dict[str, Any] | None,
     ) -> list[dict[str, Any]]:
-        """Synchronous query (runs in executor)."""
+        """
+        Synchronous query (runs in executor).
+        
+        References:
+        - https://docs.trychroma.com/
+        - https://www.sbert.net/
+        """
         try:
             if not self._collection:
                 return []
@@ -221,7 +257,13 @@ class VectorStore:
             return []
 
     async def delete(self, entry_id: str) -> bool:
-        """Delete a memory entry."""
+        """
+        Delete a memory entry.
+        
+        References:
+        - https://docs.trychroma.com/
+        - https://www.sbert.net/
+        """
         if not self._available:
             return False
 
@@ -229,7 +271,13 @@ class VectorStore:
         return await loop.run_in_executor(None, self._delete_sync, entry_id)
 
     def _delete_sync(self, entry_id: str) -> bool:
-        """Synchronous delete (runs in executor)."""
+        """
+        Synchronous delete (runs in executor).
+        
+        References:
+        - https://docs.trychroma.com/
+        - https://www.sbert.net/
+        """
         try:
             if not self._collection:
                 return False
@@ -242,7 +290,13 @@ class VectorStore:
             return False
 
     async def count(self) -> int:
-        """Return number of entries in the store."""
+        """
+        Return number of entries in the store.
+        
+        References:
+        - https://docs.trychroma.com/
+        - https://www.sbert.net/
+        """
         if not self._available or not self._collection:
             return 0
         return self._collection.count()

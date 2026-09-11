@@ -86,6 +86,9 @@ class _NoiseFilter(logging.Filter):
 
         Returns:
             True if the record should be emitted, False to drop it.
+
+        References:
+        - https://docs.python.org/3/library/argparse.html
         """
         msg = record.getMessage()
         return not any(p in msg for p in self._PATTERNS)
@@ -128,6 +131,9 @@ def _load_settings(config: str | None = None):
 
     Raises:
         typer.Exit: If the config file is not found.
+
+    References:
+    - https://docs.python.org/3/library/argparse.html
     """
     from config.settings import load_settings
     try:
@@ -143,6 +149,9 @@ def _setup_logging(settings):
 
     Args:
         settings: The SorachioSettings containing log_dir and system config.
+
+    References:
+    - https://docs.python.org/3/library/argparse.html
     """
     import os
 
@@ -191,7 +200,12 @@ def _setup_logging(settings):
     )
 
 def _print_banner():
-    """Print the Sorachio-STS banner to the console."""
+    """
+    Print the Sorachio-STS banner to the console.
+    
+    References:
+        - https://docs.python.org/3/library/argparse.html
+    """
     console.print(Panel.fit(
         "[bold cyan]Sorachio-STS[/bold cyan] [dim]v0.2.0[/dim]\n"
         "[dim]Speech To Speech AI Companion System[/dim]",
@@ -209,7 +223,12 @@ def run(
     no_greeting: bool = typer.Option(False, "--no-greeting", help="Skip startup greeting"),
     no_servers: bool = typer.Option(False, "--no-servers", help="Skip starting llama-servers"),
 ):
-    """Run Sorachio in full voice mode (microphone + speakers)."""
+    """
+    Run Sorachio in full voice mode (microphone + speakers).
+    
+    References:
+        - https://docs.python.org/3/library/argparse.html
+    """
     settings = _load_settings(config)
     _setup_logging(settings)
     _print_banner()
@@ -230,7 +249,12 @@ def text(
     message: str | None = typer.Option(None, "--message", "-m", help="Single message (non-interactive)"),
     no_servers: bool = typer.Option(False, "--no-servers", help="Skip starting llama-servers"),
 ):
-    """Run Sorachio in text input mode (no microphone required)."""
+    """
+    Run Sorachio in text input mode (no microphone required).
+    
+    References:
+        - https://docs.python.org/3/library/argparse.html
+    """
     settings = _load_settings(config)
     _setup_logging(settings)
     _print_banner()
@@ -243,6 +267,9 @@ async def _run_text_mode(settings, single_message=None, no_servers=False):
         settings: The SorachioSettings for this session.
         single_message: Optional single message to process (non-interactive).
         no_servers: If True, skip starting llama-server instances.
+
+    References:
+    - https://docs.python.org/3/library/argparse.html
     """
     import logging
     import warnings
@@ -299,7 +326,12 @@ async def _run_text_mode(settings, single_message=None, no_servers=False):
     from core.events import EventType, get_bus
 
     async def _on_response_end_local(event):
-        """Unblocks input loop after Sorachio finishes responding."""
+        """
+        Unblocks input loop after Sorachio finishes responding.
+        
+        References:
+        - https://docs.python.org/3/library/argparse.html
+        """
         await asyncio.sleep(0.05)
         voice_cli.stop()
         response_ready.set()
@@ -473,7 +505,12 @@ class VoiceCLI:
     # ── spinner helpers ───────────────────────────────────────────────
 
     def _spin_start(self, label: str, color: str = "yellow") -> None:
-        """Start a fresh transient Live spinner. Stops any existing one first."""
+        """
+        Start a fresh transient Live spinner. Stops any existing one first.
+        
+        References:
+        - https://docs.python.org/3/library/argparse.html
+        """
         self._spin_stop()
         self._live = Live(
             Spinner("line", text=f"[{color}]{label}[/{color}]", style=color),
@@ -484,7 +521,12 @@ class VoiceCLI:
         self._live.start()
 
     def _spin_stop(self) -> None:
-        """Stop and discard the current spinner (transient removes it from screen)."""
+        """
+        Stop and discard the current spinner (transient removes it from screen).
+        
+        References:
+        - https://docs.python.org/3/library/argparse.html
+        """
         if self._live is not None:
             try:
                 self._live.stop()
@@ -493,7 +535,12 @@ class VoiceCLI:
             self._live = None
 
     def _spin_label(self, label: str, color: str = "yellow") -> None:
-        """Update label of the running spinner without restarting."""
+        """
+        Update label of the running spinner without restarting.
+        
+        References:
+        - https://docs.python.org/3/library/argparse.html
+        """
         if self._live is not None:
             self._live.update(
                 Spinner("line", text=f"[{color}]{label}[/{color}]", style=color)
@@ -502,7 +549,12 @@ class VoiceCLI:
     # ── lifecycle ─────────────────────────────────────────────────────
 
     def start(self) -> None:
-        """Subscribe to pipeline events and show the initial spinner."""
+        """
+        Subscribe to pipeline events and show the initial spinner.
+        
+        References:
+        - https://docs.python.org/3/library/argparse.html
+        """
         from core.events import EventType
         if self.mode == "run":
             self._spin_start("Listening…", "cyan")
@@ -517,7 +569,12 @@ class VoiceCLI:
         self.bus.subscribe(EventType.INTERRUPT,       self.on_interrupt)
 
     def stop(self) -> None:
-        """Unsubscribe from all events and stop the spinner."""
+        """
+        Unsubscribe from all events and stop the spinner.
+        
+        References:
+        - https://docs.python.org/3/library/argparse.html
+        """
         from core.events import EventType
         self._spin_stop()
         if self.mode == "run":
@@ -536,6 +593,9 @@ class VoiceCLI:
 
         Args:
             event: The speech start event containing no payload.
+
+        References:
+        - https://docs.python.org/3/library/argparse.html
         """
         self._spin_label("Listening…", "cyan")
 
@@ -544,6 +604,9 @@ class VoiceCLI:
 
         Args:
             event: The STT event with transcript text in event.data.
+
+        References:
+        - https://docs.python.org/3/library/argparse.html
         """
         transcript = event.data
         if self.mode == "run":
@@ -559,6 +622,9 @@ class VoiceCLI:
 
         Args:
             event: The cognitive event with decision dict in event.data.
+
+        References:
+        - https://docs.python.org/3/library/argparse.html
         """
         # ── Always stop spinner BEFORE printing anything ──────────────
         self._spin_stop()
@@ -652,6 +718,9 @@ class VoiceCLI:
 
         Args:
             event: The response start event (no payload).
+
+        References:
+        - https://docs.python.org/3/library/argparse.html
         """
         self.response_text = ""
         self._spin_stop()
@@ -665,6 +734,9 @@ class VoiceCLI:
 
         Args:
             event: The token event with the token string in event.data.
+
+        References:
+        - https://docs.python.org/3/library/argparse.html
         """
         token = event.data
         self.response_text += token
@@ -677,6 +749,9 @@ class VoiceCLI:
 
         Args:
             event: The response end event (no payload).
+
+        References:
+        - https://docs.python.org/3/library/argparse.html
         """
         console.print()  # Final newline for the response
         if self.mode == "text":
@@ -689,6 +764,9 @@ class VoiceCLI:
 
         Args:
             event: The interrupt event (no payload).
+
+        References:
+        - https://docs.python.org/3/library/argparse.html
         """
         self._spin_stop()
         console.print("  [dim]╌ Interrupted[/dim]")
@@ -702,6 +780,9 @@ async def _run_pipeline(settings, voice_mode=True, no_servers=False):
         settings: The SorachioSettings for this session.
         voice_mode: If True, enable microphone capture. Currently always True.
         no_servers: If True, skip starting llama-server instances.
+
+    References:
+    - https://docs.python.org/3/library/argparse.html
     """
     import platform
     import signal
@@ -786,12 +867,20 @@ def test_stt(
     config: str | None = typer.Option(None, "--config", "-c"),
     audio_file: str | None = typer.Option(None, "--file", "-f", help="WAV file to transcribe"),
 ):
-    """Test STT component with a WAV file or microphone."""
+    """
+    Test STT component with a WAV file or microphone.
+    
+    References:
+        - https://docs.python.org/3/library/argparse.html
+    """
     settings = _load_settings(config)
     _setup_logging(settings)
 
     async def _test():
         """    Test.
+
+        References:
+        - https://docs.python.org/3/library/argparse.html
         """
         from stt.whisper_client import WhisperClient
         stt_cfg = settings.stt
@@ -840,12 +929,20 @@ def test_tts(
     text_input: str = typer.Argument("Hello! I am Sorachio, your AI companion."),
     config: str | None = typer.Option(None, "--config", "-c"),
 ):
-    """Test TTS synthesis and playback."""
+    """
+    Test TTS synthesis and playback.
+    
+    References:
+        - https://docs.python.org/3/library/argparse.html
+    """
     settings = _load_settings(config)
     _setup_logging(settings)
 
     async def _test():
         """    Test.
+
+        References:
+        - https://docs.python.org/3/library/argparse.html
         """
         from tts.kokoro_client import KokoroTTSClient
 
@@ -890,12 +987,20 @@ def test_cognitive(
     config: str | None = typer.Option(None, "--config", "-c"),
     no_servers: bool = typer.Option(False, "--no-servers"),
 ):
-    """Test Cognitive Gateway JSON analysis."""
+    """
+    Test Cognitive Gateway JSON analysis.
+    
+    References:
+        - https://docs.python.org/3/library/argparse.html
+    """
     settings = _load_settings(config)
     _setup_logging(settings)
 
     async def _test():
         """    Test.
+
+        References:
+        - https://docs.python.org/3/library/argparse.html
         """
         import json
 
@@ -948,7 +1053,12 @@ def test_cognitive(
 
 @servers_app.command("status")
 def servers_status(config: str | None = typer.Option(None)):
-    """Show status of llama-server instances."""
+    """
+    Show status of llama-server instances.
+    
+    References:
+        - https://docs.python.org/3/library/argparse.html
+    """
     settings = _load_settings(config)
 
     table = Table(title="LLM Servers", show_header=True)
@@ -970,6 +1080,9 @@ def servers_status(config: str | None = typer.Option(None)):
 
         Returns:
             Rich-formatted status string indicating Running, Error, or Offline.
+
+        References:
+        - https://docs.python.org/3/library/argparse.html
         """
         try:
             r = httpx.get(f"{url}/health", timeout=2.0)
@@ -985,12 +1098,20 @@ def servers_status(config: str | None = typer.Option(None)):
 
 @servers_app.command("start")
 def servers_start(config: str | None = typer.Option(None)):
-    """Start both llama-server instances."""
+    """
+    Start both llama-server instances.
+    
+    References:
+        - https://docs.python.org/3/library/argparse.html
+    """
     settings = _load_settings(config)
     _setup_logging(settings)
 
     async def _start():
         """    Start.
+
+        References:
+        - https://docs.python.org/3/library/argparse.html
         """
         from services.server_manager import ServerManager
         mgr = ServerManager(settings.llm, _project_root)
@@ -1005,11 +1126,19 @@ def servers_start(config: str | None = typer.Option(None)):
 
 @servers_app.command("stop")
 def servers_stop(config: str | None = typer.Option(None)):
-    """Stop both llama-server instances."""
+    """
+    Stop both llama-server instances.
+    
+    References:
+        - https://docs.python.org/3/library/argparse.html
+    """
     settings = _load_settings(config)
 
     async def _stop():
         """    Stop.
+
+        References:
+        - https://docs.python.org/3/library/argparse.html
         """
         from services.server_manager import ServerManager
         mgr = ServerManager(settings.llm, _project_root)
@@ -1025,12 +1154,20 @@ def servers_stop(config: str | None = typer.Option(None)):
 
 @memory_app.command("list")
 def memory_list(config: str | None = typer.Option(None)):
-    """List all long-term memories."""
+    """
+    List all long-term memories.
+    
+    References:
+        - https://docs.python.org/3/library/argparse.html
+    """
     settings = _load_settings(config)
     _setup_logging(settings)
 
     async def _list():
         """    List.
+
+        References:
+        - https://docs.python.org/3/library/argparse.html
         """
         from memory.long_term import LongTermMemory
         ltm = LongTermMemory(
@@ -1057,7 +1194,12 @@ def memory_clear(
     config: str | None = typer.Option(None),
     yes: bool = typer.Option(False, "--yes", "-y", help="Skip confirmation"),
 ):
-    """Clear all long-term memories."""
+    """
+    Clear all long-term memories.
+    
+    References:
+        - https://docs.python.org/3/library/argparse.html
+    """
     settings = _load_settings(config)
     if not yes:
         confirm = Prompt.ask("[red]Delete ALL memories?[/red] Type 'yes' to confirm")

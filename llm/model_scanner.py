@@ -53,6 +53,9 @@ def scan_model_dir(model_dir: str | Path) -> ModelInfo:
 
     Returns:
         ModelInfo with detected paths and metadata
+
+    References:
+    - https://docs.python.org/3/library/pathlib.html
     """
     model_dir = Path(model_dir)
     info = ModelInfo()
@@ -117,6 +120,9 @@ def _extract_model_name(filename: str) -> str:
         "Qwen3.5-0.8B-Q8_0.gguf"     → "Qwen3.5-0.8B"
         "gemma-3-1b-it-Q8_0.gguf"    → "gemma-3-1b-it"
         "Llama-3.2-1B-Q4_K_M.gguf"   → "Llama-3.2-1B"
+
+    References:
+    - https://docs.python.org/3/library/pathlib.html
     """
     name = filename.replace(".gguf", "")
 
@@ -139,7 +145,12 @@ def _extract_model_name(filename: str) -> str:
 
 
 def log_scan_summary(name: str, info: ModelInfo) -> None:
-    """Log a formatted summary of the scan results."""
+    """
+    Log a formatted summary of the scan results.
+    
+    References:
+        - https://docs.python.org/3/library/pathlib.html
+    """
     if info.model_path:
         log.info(
             f"[{name}] Model: {info.model_name} "

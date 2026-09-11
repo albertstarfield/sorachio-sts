@@ -44,7 +44,13 @@ log = get_logger("tts.kokoro")
 
 
 def _resample_audio(audio: np.ndarray, orig_sr: int, target_sr: int) -> np.ndarray:
-    """Resample 1D float32 audio array using polyphase filtering or linear interpolation fallback."""
+    """
+    Resample 1D float32 audio array using polyphase filtering or linear interpolation fallback.
+    
+    References:
+        - https://github.com/hexgrad/kokoro
+        - https://github.com/rhasspy/piper
+    """
     if orig_sr == target_sr or len(audio) == 0:
         return audio
     try:
@@ -126,7 +132,13 @@ class KokoroTTSClient:
         self._available = False
 
     async def initialize(self) -> bool:
-        """Initialize both Kokoro (English) and Piper (Indonesian) models."""
+        """
+        Initialize both Kokoro (English) and Piper (Indonesian) models.
+        
+        References:
+        - https://github.com/hexgrad/kokoro
+        - https://github.com/rhasspy/piper
+        """
         loop = asyncio.get_event_loop()
 
         # Load Kokoro in thread pool.
@@ -164,7 +176,13 @@ class KokoroTTSClient:
         return self._available
 
     def _load_kokoro(self, skip_warmup: bool = False) -> bool:
-        """Load Kokoro pipeline in thread."""
+        """
+        Load Kokoro pipeline in thread.
+        
+        References:
+        - https://github.com/hexgrad/kokoro
+        - https://github.com/rhasspy/piper
+        """
         try:
             kokoro_models_dir = self.models_dir / "kokoro"
             kokoro_models_dir.mkdir(parents=True, exist_ok=True)
@@ -214,6 +232,10 @@ class KokoroTTSClient:
         """
         Set the active language for TTS routing.
         Called when STT detects user language or language preference changes.
+
+        References:
+        - https://github.com/hexgrad/kokoro
+        - https://github.com/rhasspy/piper
         """
         if from_stt:
             self._stt_lang_locked = True
@@ -227,7 +249,13 @@ class KokoroTTSClient:
             self._piper_client.set_language(lang, from_stt=from_stt)
 
     def _detect_text_language(self, text: str) -> str:
-        """Detect if text is Indonesian ('id') or English ('en')."""
+        """
+        Detect if text is Indonesian ('id') or English ('en').
+        
+        References:
+        - https://github.com/hexgrad/kokoro
+        - https://github.com/rhasspy/piper
+        """
         if not text:
             return "en"
 
@@ -253,7 +281,13 @@ class KokoroTTSClient:
         return "en"
 
     def _sanitize_text(self, text: str) -> str:
-        """Clean problematic characters before TTS synthesis."""
+        """
+        Clean problematic characters before TTS synthesis.
+        
+        References:
+        - https://github.com/hexgrad/kokoro
+        - https://github.com/rhasspy/piper
+        """
         if not text:
             return ""
 
@@ -281,6 +315,10 @@ class KokoroTTSClient:
         """
         Synthesize a single text chunk to audio.
         Routes to Kokoro for English and Piper for Indonesian.
+
+        References:
+        - https://github.com/hexgrad/kokoro
+        - https://github.com/rhasspy/piper
         """
         text = self._sanitize_text(text)
         if not text:
@@ -317,6 +355,10 @@ class KokoroTTSClient:
 
     Returns:
         Description.
+
+                References:
+                - https://github.com/hexgrad/kokoro
+                - https://github.com/rhasspy/piper
                 """
                 try:
                     log.debug(f"[TTS] Synthesizing English (Kokoro): {text!r}")
@@ -364,7 +406,13 @@ class KokoroTTSClient:
         tts_chunk_queue: asyncio.Queue,
         interrupt_event: asyncio.Event,
     ) -> None:
-        """Worker loop: drain text chunks, synthesize, put into audio queue."""
+        """
+        Worker loop: drain text chunks, synthesize, put into audio queue.
+        
+        References:
+        - https://github.com/hexgrad/kokoro
+        - https://github.com/rhasspy/piper
+        """
         # Unlock STT language at start of queue processing
         self._stt_lang_locked = False
 
@@ -402,7 +450,13 @@ class KokoroTTSClient:
                 tts_chunk_queue.task_done()
 
     async def speak(self, text: str) -> None:
-        """Convenience method to synthesize full text directly."""
+        """
+        Convenience method to synthesize full text directly.
+        
+        References:
+        - https://github.com/hexgrad/kokoro
+        - https://github.com/rhasspy/piper
+        """
         from utils.chunk_assembler import split_into_chunks
 
         chunks = split_into_chunks(text, min_words=2, max_words=25)

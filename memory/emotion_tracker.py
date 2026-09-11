@@ -60,7 +60,12 @@ class EmotionTracker:
         topic: str = "general",
         importance: float = 0.5,
     ) -> None:
-        """Record an observed emotion from a cognitive decision."""
+        """
+        Record an observed emotion from a cognitive decision.
+        
+        References:
+        - https://docs.python.org/3/library/collections.html
+        """
         entry = EmotionEntry(
             emotion=emotion,
             topic=topic,
@@ -78,7 +83,12 @@ class EmotionTracker:
         )
 
     def _update_mood(self, emotion: str) -> None:
-        """Update current mood based on recent emotions."""
+        """
+        Update current mood based on recent emotions.
+        
+        References:
+        - https://docs.python.org/3/library/collections.html
+        """
         if len(self._history) < 3:
             self._current_mood = emotion
             return
@@ -98,7 +108,12 @@ class EmotionTracker:
             self._mood_history.append(dominant)
 
     def get_mood_summary(self) -> str:
-        """Return a brief mood summary for personality adaptation."""
+        """
+        Return a brief mood summary for personality adaptation.
+        
+        References:
+        - https://docs.python.org/3/library/collections.html
+        """
         if not self._history:
             return "neutral"
 
@@ -115,7 +130,12 @@ class EmotionTracker:
         return max(emotion_counts.items(), key=lambda x: x[1])[0]
 
     def get_emotion_trend(self) -> dict[str, Any]:
-        """Return emotion trend analysis."""
+        """
+        Return emotion trend analysis.
+        
+        References:
+        - https://docs.python.org/3/library/collections.html
+        """
         if not self._history:
             return {
                 "current_mood": "neutral",
@@ -150,11 +170,21 @@ class EmotionTracker:
         }
 
     def should_summarize(self) -> bool:
-        """Return True if it's time to generate an emotion summary for LTM."""
+        """
+        Return True if it's time to generate an emotion summary for LTM.
+        
+        References:
+        - https://docs.python.org/3/library/collections.html
+        """
         return self._turn_count > 0 and self._turn_count % self._summary_interval == 0
 
     def generate_summary(self) -> str | None:
-        """Generate a human-readable emotion summary for LTM storage."""
+        """
+        Generate a human-readable emotion summary for LTM storage.
+        
+        References:
+        - https://docs.python.org/3/library/collections.html
+        """
         if not self._history:
             return None
 
@@ -183,6 +213,9 @@ class EmotionTracker:
         Return personality adaptation signals for the LLM system prompt.
 
         Used by ContextManager to adjust the companion's tone.
+
+        References:
+        - https://docs.python.org/3/library/collections.html
         """
         trend = self.get_emotion_trend()
         mood = trend["current_mood"]
@@ -199,7 +232,12 @@ class EmotionTracker:
         return adaptation
 
     def _get_tone_suggestion(self, mood: str) -> str:
-        """Get suggested tone based on user mood."""
+        """
+        Get suggested tone based on user mood.
+        
+        References:
+        - https://docs.python.org/3/library/collections.html
+        """
         tone_map = {
             "happy": "warm and cheerful",
             "sad": "gentle and supportive",
@@ -213,7 +251,12 @@ class EmotionTracker:
         return tone_map.get(mood, "friendly and natural")
 
     def _get_energy_level(self, mood: str) -> str:
-        """Get suggested energy level based on mood."""
+        """
+        Get suggested energy level based on mood.
+        
+        References:
+        - https://docs.python.org/3/library/collections.html
+        """
         high_energy = {"excited", "happy"}
         low_energy = {"tired", "sad", "anxious"}
 
@@ -224,7 +267,12 @@ class EmotionTracker:
         return "medium"
 
     def _get_empathy_level(self, stability: float) -> str:
-        """Get suggested empathy level based on mood stability."""
+        """
+        Get suggested empathy level based on mood stability.
+        
+        References:
+        - https://docs.python.org/3/library/collections.html
+        """
         if stability < 0.5:
             return "high"  # Fluctuating = more empathy needed
         if stability < 0.8:
@@ -232,7 +280,12 @@ class EmotionTracker:
         return "normal"
 
     def save(self, path: Any) -> None:
-        """Save emotion state to a JSON file."""
+        """
+        Save emotion state to a JSON file.
+        
+        References:
+        - https://docs.python.org/3/library/collections.html
+        """
         import json
         from pathlib import Path
 
@@ -262,7 +315,12 @@ class EmotionTracker:
             log.error(f"[EmotionTracker] Failed to save state to {file_path}: {e}")
 
     def load(self, path: Any) -> None:
-        """Load emotion state from a JSON file."""
+        """
+        Load emotion state from a JSON file.
+        
+        References:
+        - https://docs.python.org/3/library/collections.html
+        """
         import json
         from pathlib import Path
 

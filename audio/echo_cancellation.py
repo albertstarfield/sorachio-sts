@@ -98,6 +98,10 @@ class AECProvider(ABC):
         Returns:
             Processed PCM bytes (same length, same dtype).
             Returning the original bytes unchanged is always valid.
+
+        References:
+        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
+        - https://docs.scipy.org/doc/scipy/reference/signal.html
         """
         ...
 
@@ -111,6 +115,10 @@ class AECProvider(ABC):
         Args:
             active: True when TTS audio is being played back.
                     False when playback stops (silence or interruption).
+
+        References:
+        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
+        - https://docs.scipy.org/doc/scipy/reference/signal.html
         """
         ...
 
@@ -120,6 +128,10 @@ class AECProvider(ABC):
 
         Called from the playback worker — must be thread-safe.
         Only needed for reference-based AEC implementations.
+
+        References:
+        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
+        - https://docs.scipy.org/doc/scipy/reference/signal.html
         """
         pass  # nosec: SILENT_FAILURE — intentional no-op, base class stub for subclasses
 
@@ -128,11 +140,21 @@ class AECProvider(ABC):
         Return the amplitude threshold for detecting real user voice.
 
         Used by VAD to distinguish echo from actual barge-in.
+
+        References:
+        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
+        - https://docs.scipy.org/doc/scipy/reference/signal.html
         """
         return 0.1  # Default threshold
 
     def get_calibration_data(self) -> CalibrationData | None:
-        """Return calibration data if available."""
+        """
+        Return calibration data if available.
+        
+        References:
+        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
+        - https://docs.scipy.org/doc/scipy/reference/signal.html
+        """
         return None
 
 
@@ -197,6 +219,10 @@ class SimpleEnergyAEC(AECProvider):
 
     Returns:
         bytes: Description.
+
+        References:
+        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
+        - https://docs.scipy.org/doc/scipy/reference/signal.html
         """
         if not self._playback_active.is_set():
             return mic_frame
@@ -213,6 +239,10 @@ class SimpleEnergyAEC(AECProvider):
 
     Returns:
         None: Description.
+
+        References:
+        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
+        - https://docs.scipy.org/doc/scipy/reference/signal.html
         """
         if active:
             self._playback_active.set()
@@ -321,6 +351,10 @@ class CalibrationAEC(AECProvider):
 
         Returns:
             CalibrationData with learned parameters
+
+        References:
+        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
+        - https://docs.scipy.org/doc/scipy/reference/signal.html
         """
         log.info("[AEC] Starting calibration phase...")
         log.info("[AEC] Please remain silent during calibration")
@@ -357,6 +391,10 @@ class CalibrationAEC(AECProvider):
 
         Sweeps from 100Hz to 8kHz over the calibration duration.
         This excites all frequencies in the speaker/mic range.
+
+        References:
+        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
+        - https://docs.scipy.org/doc/scipy/reference/signal.html
         """
         duration_samples = int(self.calibration_duration_s * self.sample_rate)
         t = np.linspace(0, self.calibration_duration_s, duration_samples, dtype=np.float32)
@@ -388,6 +426,10 @@ class CalibrationAEC(AECProvider):
         - Echo ratio
         - Noise floor
         - Interrupt threshold
+
+        References:
+        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
+        - https://docs.scipy.org/doc/scipy/reference/signal.html
         """
         cal = CalibrationData()
 
@@ -494,7 +536,13 @@ class CalibrationAEC(AECProvider):
         return cal
 
     def _initialize_lms_filter(self) -> None:
-        """Initialize LMS adaptive filter based on calibration data."""
+        """
+        Initialize LMS adaptive filter based on calibration data.
+        
+        References:
+        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
+        - https://docs.scipy.org/doc/scipy/reference/signal.html
+        """
         if not self._calibration.is_valid or self._calibration.transfer_function is None:
             return
 
@@ -528,6 +576,10 @@ class CalibrationAEC(AECProvider):
         4. Apply Wiener filter for suppression
         5. Update LMS filter (adaptive learning)
         6. Return cleaned audio
+
+        References:
+        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
+        - https://docs.scipy.org/doc/scipy/reference/signal.html
         """
         if not self._playback_active.is_set():
             return mic_frame
@@ -563,6 +615,10 @@ class CalibrationAEC(AECProvider):
         1. Predict echo using transfer function
         2. Apply Wiener filter
         3. Update LMS weights
+
+        References:
+        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
+        - https://docs.scipy.org/doc/scipy/reference/signal.html
         """
         n = len(mic)
 
@@ -622,6 +678,10 @@ class CalibrationAEC(AECProvider):
             w = filter weights
             x = reference signal
             error = mic - predicted_echo
+
+        References:
+        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
+        - https://docs.scipy.org/doc/scipy/reference/signal.html
         """
         n = min(len(reference), self.lms_filter_length)
 
@@ -644,7 +704,13 @@ class CalibrationAEC(AECProvider):
             self._lms_weights /= weight_norm
 
     def _get_reference(self, length: int) -> np.ndarray | None:
-        """Get reference signal of specified length from buffer."""
+        """
+        Get reference signal of specified length from buffer.
+        
+        References:
+        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
+        - https://docs.scipy.org/doc/scipy/reference/signal.html
+        """
         with self._reference_lock:
             if len(self._reference_buffer) < length * 2:
                 return None
@@ -655,7 +721,13 @@ class CalibrationAEC(AECProvider):
         return np.frombuffer(ref_bytes, dtype=np.int16).astype(np.float32)
 
     def _simple_attenuate(self, mic_frame: bytes) -> bytes:
-        """Fallback: simple amplitude attenuation."""
+        """
+        Fallback: simple amplitude attenuation.
+        
+        References:
+        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
+        - https://docs.scipy.org/doc/scipy/reference/signal.html
+        """
         samples = np.frombuffer(mic_frame, dtype=np.int16).astype(np.float32)
         samples *= 0.3  # Default attenuation
         return samples.astype(np.int16).tobytes()
@@ -668,6 +740,10 @@ class CalibrationAEC(AECProvider):
 
     Returns:
         None: Description.
+
+        References:
+        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
+        - https://docs.scipy.org/doc/scipy/reference/signal.html
         """
         if active:
             self._playback_active.set()
@@ -684,6 +760,10 @@ class CalibrationAEC(AECProvider):
 
     Returns:
         None: Description.
+
+        References:
+        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
+        - https://docs.scipy.org/doc/scipy/reference/signal.html
         """
         if not self._playback_active.is_set():
             return
@@ -695,11 +775,23 @@ class CalibrationAEC(AECProvider):
                 self._reference_buffer = self._reference_buffer[-max_buffer:]
 
     def get_interrupt_threshold(self) -> float:
-        """Return interrupt threshold from calibration."""
+        """
+        Return interrupt threshold from calibration.
+        
+        References:
+        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
+        - https://docs.scipy.org/doc/scipy/reference/signal.html
+        """
         return self._calibration.interrupt_threshold
 
     def get_calibration_data(self) -> CalibrationData | None:
-        """Return calibration data."""
+        """
+        Return calibration data.
+        
+        References:
+        - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
+        - https://docs.scipy.org/doc/scipy/reference/signal.html
+        """
         if self._calibration.is_valid:
             return self._calibration
         return None
@@ -719,6 +811,10 @@ def create_aec(provider: str = "null", **kwargs) -> AECProvider:
 
     Returns:
         An AECProvider instance ready for use.
+       References:
+           - https://en.wikipedia.org/wiki/Echo_cancellation — AEC theory
+           - https://en.wikipedia.org/wiki/Wiener_filter — Wiener filter for echo suppression
+           - https://en.wikipedia.org/wiki/Least_mean_squares_filter — LMS adaptive filter
     """
     if provider == "null":
         log.debug("[AEC] Using NullAEC (passthrough)")

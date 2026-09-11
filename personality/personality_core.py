@@ -80,6 +80,9 @@ class PersonalityCore:
         Stream response from LLM #2, assemble chunks, queue for TTS.
 
         Returns the complete response text for storage in STM.
+
+        References:
+        - https://docs.aiohttp.io/en/stable/
         """
         self.interrupt_event.clear()
         self._full_response = ""
@@ -100,6 +103,9 @@ class PersonalityCore:
 
     Returns:
         Description.
+
+                References:
+                - https://docs.aiohttp.io/en/stable/
                 """
                 from core.events import EventType, get_bus
                 bus = get_bus()
@@ -140,6 +146,11 @@ class PersonalityCore:
         return self._full_response
 
     def interrupt(self) -> None:
-        """Signal the generation to stop."""
+        """
+        Signal the generation to stop.
+        
+        References:
+        - https://docs.aiohttp.io/en/stable/
+        """
         self.interrupt_event.set()
         log.info("[Personality] Interrupt signal set")

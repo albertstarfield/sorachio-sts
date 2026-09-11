@@ -36,6 +36,9 @@ class TurnMetrics:
 
     Returns:
         Description.
+
+        References:
+        - https://docs.python.org/3/library/time.html
         """
         return {
             "turn_id": self.turn_id,
@@ -68,6 +71,9 @@ class MetricsCollector:
 
     Returns:
         None: Description.
+
+        References:
+        - https://docs.python.org/3/library/time.html
         """
         if len(self._history) >= self._history_size:
             self._history.pop(0)
@@ -83,6 +89,9 @@ class MetricsCollector:
 
     Returns:
         Description.
+
+        References:
+        - https://docs.python.org/3/library/time.html
         """
         if not self._history:
             return {"total_turns": 0}

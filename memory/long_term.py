@@ -71,6 +71,9 @@ class LTMEntry:
 
     Returns:
         Description.
+
+        References:
+        - https://docs.python.org/3/library/json.html
         """
         return {
             "id": self.id,
@@ -94,6 +97,9 @@ class LTMEntry:
 
     Returns:
         LTMEntry: Description.
+
+        References:
+        - https://docs.python.org/3/library/json.html
         """
         entry = cls(
             content=d["content"],
@@ -110,7 +116,12 @@ class LTMEntry:
         return entry
 
     def relevance_score(self, query_keywords: list[str]) -> float:
-        """Compute relevance score given query keywords."""
+        """
+        Compute relevance score given query keywords.
+        
+        References:
+        - https://docs.python.org/3/library/json.html
+        """
         if not query_keywords:
             return self.importance
 
@@ -189,7 +200,12 @@ class LongTermMemory:
         self._vector_weight = vector_weight
 
     async def initialize(self) -> None:
-        """Load existing memories from disk and sync to vector store."""
+        """
+        Load existing memories from disk and sync to vector store.
+        
+        References:
+        - https://docs.python.org/3/library/json.html
+        """
         self.storage_path.parent.mkdir(parents=True, exist_ok=True)
         await self._load()
         log.info(f"[LTM] Loaded {len(self._entries)} memories from {self.storage_path}")
@@ -199,7 +215,12 @@ class LongTermMemory:
             await self._sync_to_vector_store()
 
     async def _sync_to_vector_store(self) -> None:
-        """Sync all entries to vector store for semantic search."""
+        """
+        Sync all entries to vector store for semantic search.
+        
+        References:
+        - https://docs.python.org/3/library/json.html
+        """
         if not self._vector_store:
             return
 
@@ -233,6 +254,9 @@ class LongTermMemory:
         """
         Store a new memory if it meets the importance threshold.
         Returns the stored entry or None if skipped.
+
+        References:
+        - https://docs.python.org/3/library/json.html
         """
         if importance < self.importance_threshold:
             log.debug(
@@ -290,6 +314,9 @@ class LongTermMemory:
         """
         Retrieve top-K most relevant memories for given query keywords.
         Uses vector similarity search when available, falls back to keyword matching.
+
+        References:
+        - https://docs.python.org/3/library/json.html
         """
         k = top_k or self.retrieval_top_k
 
@@ -352,7 +379,12 @@ class LongTermMemory:
         return results
 
     def format_for_context(self, entries: list[LTMEntry]) -> str:
-        """Format retrieved memories as a context string for LLM."""
+        """
+        Format retrieved memories as a context string for LLM.
+        
+        References:
+        - https://docs.python.org/3/library/json.html
+        """
         if not entries:
             return ""
         lines = ["[Relevant memories about the user:]"]
@@ -361,7 +393,12 @@ class LongTermMemory:
         return "\n".join(lines)
 
     async def _load(self) -> None:
-        """Load memories from JSON file."""
+        """
+        Load memories from JSON file.
+        
+        References:
+        - https://docs.python.org/3/library/json.html
+        """
         if not self.storage_path.exists():
             self._entries = []
             return
@@ -375,7 +412,12 @@ class LongTermMemory:
             self._entries = []
 
     async def _save(self) -> None:
-        """Persist memories to JSON file."""
+        """
+        Persist memories to JSON file.
+        
+        References:
+        - https://docs.python.org/3/library/json.html
+        """
         async with self._lock:
             data = {"memories": [e.to_dict() for e in self._entries]}
             self._dirty = False
@@ -388,7 +430,12 @@ class LongTermMemory:
             log.error(f"[LTM] Failed to save: {e}")
 
     def _extract_keywords(self, text: str) -> list[str]:
-        """Simple keyword extraction (stopword removal)."""
+        """
+        Simple keyword extraction (stopword removal).
+        
+        References:
+        - https://docs.python.org/3/library/json.html
+        """
         stopwords = {
             "i", "me", "my", "you", "your", "we", "they", "it", "is", "am",
             "are", "was", "were", "be", "been", "being", "have", "has", "had",
@@ -415,6 +462,9 @@ class LongTermMemory:
 
     Returns:
         Description.
+
+        References:
+        - https://docs.python.org/3/library/json.html
         """
         async with self._lock:
             return {

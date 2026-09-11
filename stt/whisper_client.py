@@ -32,14 +32,26 @@ log = get_logger("stt.whisper")
 # ---------------------------------------------------------------------------
 
 def _pcm_to_float32(pcm_bytes: bytes, sample_rate: int = 16000) -> np.ndarray:
-    """Convert raw 16-bit mono PCM bytes to float32 numpy array."""
+    """
+    Convert raw 16-bit mono PCM bytes to float32 numpy array.
+    
+    References:
+        - https://github.com/SYSTRAN/faster-whisper
+        - https://github.com/openai/whisper
+    """
     audio_int16 = np.frombuffer(pcm_bytes, dtype=np.int16)
     audio_float32 = audio_int16.astype(np.float32) / 32768.0
     return audio_float32
 
 
 def _clean_transcript(text: str) -> str:
-    """Remove whisper artifacts and clean up transcript."""
+    """
+    Remove whisper artifacts and clean up transcript.
+    
+    References:
+        - https://github.com/SYSTRAN/faster-whisper
+        - https://github.com/openai/whisper
+    """
     # Remove [BLANK_AUDIO], (music), timing markers
     text = re.sub(r"\[.*?\]", "", text)
     text = re.sub(r"\(.*?\)", "", text)
@@ -122,7 +134,13 @@ _HALLUCINATION_PHRASES: set[str] = {
 
 
 def _is_hallucination(text: str) -> bool:
-    """Return True if the transcript looks like a Whisper hallucination."""
+    """
+    Return True if the transcript looks like a Whisper hallucination.
+    
+    References:
+        - https://github.com/SYSTRAN/faster-whisper
+        - https://github.com/openai/whisper
+    """
     import re
 
     normalised = text.strip().lower()
@@ -260,11 +278,23 @@ class WhisperClient:
 
     @property
     def last_detected_language(self) -> str | None:
-        """Language code detected from the most recent transcription (e.g. 'en', 'id')."""
+        """
+        Language code detected from the most recent transcription (e.g. 'en', 'id').
+        
+        References:
+        - https://github.com/SYSTRAN/faster-whisper
+        - https://github.com/openai/whisper
+        """
         return self._last_detected_language
 
     async def initialize(self) -> bool:
-        """Load the faster-whisper model (blocking, run once at startup)."""
+        """
+        Load the faster-whisper model (blocking, run once at startup).
+        
+        References:
+        - https://github.com/SYSTRAN/faster-whisper
+        - https://github.com/openai/whisper
+        """
         loop = asyncio.get_event_loop()
 
         # Skip warmup if MBG already did it (detected via marker file)
@@ -289,7 +319,13 @@ class WhisperClient:
         return ok
 
     def _load_model(self, skip_warmup: bool = False) -> bool:
-        """Load faster-whisper model in thread (avoids blocking event loop)."""
+        """
+        Load faster-whisper model in thread (avoids blocking event loop).
+        
+        References:
+        - https://github.com/SYSTRAN/faster-whisper
+        - https://github.com/openai/whisper
+        """
         try:
             from faster_whisper import WhisperModel
 
@@ -357,6 +393,10 @@ class WhisperClient:
 
         Returns:
             Transcribed text string, or None on failure
+
+        References:
+        - https://github.com/SYSTRAN/faster-whisper
+        - https://github.com/openai/whisper
         """
         if not self._available or self._model is None:
             log.warning("[STT] Model not loaded — call initialize() first")
@@ -411,6 +451,10 @@ class WhisperClient:
 
         Yields partial transcripts as they become available.
         Falls back to non-streaming if streaming not supported.
+
+        References:
+        - https://github.com/SYSTRAN/faster-whisper
+        - https://github.com/openai/whisper
         """
         if not self.streaming or not self._available:
             # Fallback to non-streaming
@@ -434,7 +478,13 @@ class WhisperClient:
         self,
         audio_bytes: bytes,
     ) -> AsyncIterator[str]:
-        """Async wrapper for streaming transcription."""
+        """
+        Async wrapper for streaming transcription.
+        
+        References:
+        - https://github.com/SYSTRAN/faster-whisper
+        - https://github.com/openai/whisper
+        """
         loop = asyncio.get_event_loop()
 
         # Detect language first
@@ -447,6 +497,10 @@ class WhisperClient:
 
         def _stream_gen():
             """Stream Gen.
+
+            References:
+            - https://github.com/SYSTRAN/faster-whisper
+            - https://github.com/openai/whisper
             """
             try:
                 assert self._model is not None
@@ -482,6 +536,10 @@ class WhisperClient:
 
         def _run_stream():
             """Run Stream.
+
+            References:
+            - https://github.com/SYSTRAN/faster-whisper
+            - https://github.com/openai/whisper
             """
             try:
                 for chunk in _stream_gen():
@@ -501,7 +559,13 @@ class WhisperClient:
                 continue
 
     def _detect_language_sync(self, audio_bytes: bytes) -> str:
-        """Synchronous language detection."""
+        """
+        Synchronous language detection.
+        
+        References:
+        - https://github.com/SYSTRAN/faster-whisper
+        - https://github.com/openai/whisper
+        """
         if self.language is not None:
             return self.language
 
@@ -542,6 +606,10 @@ class WhisperClient:
             so Indonesian probabilities are multiplied by a correction factor
             to compensate. We then force Whisper to transcribe using either
             'id' or 'en' to prevent random language misdetection.
+
+        References:
+        - https://github.com/SYSTRAN/faster-whisper
+        - https://github.com/openai/whisper
         """
         try:
             assert self._model is not None
@@ -651,6 +719,10 @@ class WhisperClient:
         Verify and correct Whisper's audio language classification using text content.
         Whisper's audio classifier often misclassifies English words starting with 'In-'
         ('Introduce', 'Inside') as 'id' (Indonesian).
+
+        References:
+        - https://github.com/SYSTRAN/faster-whisper
+        - https://github.com/openai/whisper
         """
         id_keywords = {
             "saya", "aku", "kamu", "dengan", "senang", "halo", "nama", "terima", "kasih",
