@@ -1,7 +1,9 @@
 {
   "source_file": "echo_cancellation.py",
-  "source_hash": "961627847d5c0cc6780af4bff18348180aeb5344a5b4893ffcc2274dbe5a1733",
-  "rs_checksum": "372817279f0473c1d233389cb413d0a8cc921640f9d6cec4c712053b9784a898",
-  "gc_checksum": "1edaff04bbfadd556e3ddc07a5d37279f744aab5266e8561072811db0bd2d44e",
-  "version": "1.0"
+  "source_hash": "506e12b43a1b994a95f50f417e84aee1549df58a5a945a7cdfecdce92b95c794",
+  "rs_checksum": "bdb2c7cbf9b70381bcf6e36660a08c99429c572e4ad582ef35ee8fd9153aad94",
+  "gc_checksum": "35d58b7bb8267cd21496c6ed338f517c29126f37c6c90f1bd84babdd57b8a451",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 98
 }

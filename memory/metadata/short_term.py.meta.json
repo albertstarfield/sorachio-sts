@@ -1,7 +1,9 @@
 {
   "source_file": "short_term.py",
-  "source_hash": "1eaf529be25e8dde2239f8402de3e04cddd8678b15256d80ae93652a2ac7c50c",
-  "rs_checksum": "3682c9d7e00ea88d110821e4b9f87f3670aa2b60a55ce1c3a69da212c2d178ed",
-  "gc_checksum": "44369ef75a6726f95bec605d13697350de10e48262c068910c2a5936c0162814",
-  "version": "1.0"
+  "source_hash": "be46a350aa992730353466f0b4d2700da41f73b8428d8fd19a14a88159a8d701",
+  "rs_checksum": "abd2c4e2872a1866c9beb9f86b7495002d2b1bce56086aa5d63dbd870242718f",
+  "gc_checksum": "db5959fc055d1dc53c1fe40348740e7828ce30c5d21c8961009bf4d8e281ae80",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 50
 }

@@ -1,7 +1,9 @@
 {
   "source_file": "mbg.py",
-  "source_hash": "dc55c0b6ac3144fec6991db71417e6c0cb1dc5557c73064a11e744ea8eef527e",
-  "rs_checksum": "ed3e39116f4cb884f5eb9840aedd5b907f6ead5b2a03160ccfe770f277174f12",
-  "gc_checksum": "20298307a228ea7785677a6255df5a2a430ee11675a35dc2c7e709d90c81a82e",
-  "version": "1.0"
+  "source_hash": "f829e70abf9e44abe6f0799b900c39cedca774e895e30f02939f0c1e6d1abf2c",
+  "rs_checksum": "eeec7b4898f133be1a3907dde0c9e337de256db675066fe41354d1b4007fa42c",
+  "gc_checksum": "b8eeb3771e7968e168e7bb0c7827bc3ac5a8effbc8b003a8dba2babd637e9f7c",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 169
 }

@@ -1,7 +1,9 @@
 {
   "source_file": "logging_setup.py",
-  "source_hash": "168ea6d841b46ef85712da6ba6e431cae7e37104bc74fde6d9929ce7bb452eab",
-  "rs_checksum": "724a45690c2d6de60fd0649dcf0bfd1a9ae32fe8039ae3d68306f224e98065e6",
-  "gc_checksum": "e2db975985a1c629fb004319654e25eee939602faf418b7a7ec5311849be5c7e",
-  "version": "1.0"
+  "source_hash": "a080a1caea7245507aa07f6177d88b1f7378e622ab3a70dc3e9bbf9878f352ed",
+  "rs_checksum": "832b5a8e8a33dd0016668ae64c9cb7977b7bdf9c3c2fdabe0665465f1480d5cf",
+  "gc_checksum": "237c243a842d428e8081b8ab578ef812271f21029ccf61e60b35cddb7df79c5d",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 28
 }

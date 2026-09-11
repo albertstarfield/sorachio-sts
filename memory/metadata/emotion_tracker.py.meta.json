@@ -1,7 +1,9 @@
 {
   "source_file": "emotion_tracker.py",
-  "source_hash": "d670c900bcd2a9ef11e056265fdaf4693ba5360d4b6293939ea8a9322e673d2b",
-  "rs_checksum": "706953a86d2e38ab8c1387d25ac9579461f69630797f144d36d6746d82930593",
-  "gc_checksum": "50a87b0a9c40fcb30aec2f498f2deb7365ff566f1add56f5d38f69fa353f0f39",
-  "version": "1.0"
+  "source_hash": "4a450ee6ffd13d1396d092444a633ab6881596eddb99e62b48dae58108e9cb39",
+  "rs_checksum": "b0673351144f5ecb27b8b0aebda100dd4d575589a848d73d913a2353505fca4f",
+  "gc_checksum": "2f47b10da0c1501236e98554e231d7e7f359df4fd20136f4d6a439d481eea006",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 50
 }

@@ -1,7 +1,9 @@
 {
   "source_file": "vector_store.py",
-  "source_hash": "f8ddd54f7331d0ddb8ae3e9820f0f42c30e6f372ed26ce9d304a675c9e62ccfc",
-  "rs_checksum": "2395cf1efbcdd005a9bfd9c86e80e1f96e865e825c0fc0ccebfe0761c796839b",
-  "gc_checksum": "2b0587fcea4565e23fe351273ac4aaccb09289c90bb4e44b02f9d2e6f753bd9d",
-  "version": "1.0"
+  "source_hash": "cce9f19f59f038adf8d3ab4c82ffaa90560f2115a0189ec5662bad4510e91c09",
+  "rs_checksum": "30316e9d3097b6d4d995d70743662623031add299444d73367fb948b82986279",
+  "gc_checksum": "370189b30af27add36b89321e4c1432c2fa25700eaa0d8ada49cbd11f917c4b3",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 46
 }

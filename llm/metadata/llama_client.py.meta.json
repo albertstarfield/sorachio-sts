@@ -1,7 +1,9 @@
 {
   "source_file": "llama_client.py",
-  "source_hash": "6807cc05032cf2bfdc1244cb368298ae0bfd44dd9ceb56d616976b5b348869d5",
-  "rs_checksum": "52a608cdd4e35a759562cf471459a727e3c553619c92c256503deb4f63a06799",
-  "gc_checksum": "817540f8e23ceb4fc55c771d17057485f5e1497a4762efb0c55d4058f131e6d5",
-  "version": "1.0"
+  "source_hash": "64983c3ade348f0c84855f1a7ebf4261e98bd3af6ac1e6159984b1653ce38d00",
+  "rs_checksum": "95fc68aeccf0a4ef170c1ed818edfb4d79b326724fb85ace2cada18bf7214a43",
+  "gc_checksum": "03cd860d98bc99a42ad14f83b69255e819267f0d5c3d48c37919778d137b40b8",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 58
 }

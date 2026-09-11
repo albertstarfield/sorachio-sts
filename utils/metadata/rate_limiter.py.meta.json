@@ -1,7 +1,9 @@
 {
   "source_file": "rate_limiter.py",
-  "source_hash": "87f85a670d9554ba33d3e6558301e6a73a93179a60a463900f057550ce8c61c8",
-  "rs_checksum": "2ed4eed9d7d1fb95d4d086dbef7ca34202073d257ae50935b766214cefe2a410",
-  "gc_checksum": "96ea451a44521be60adf19642da4fd013dc45987c30133e271e29971efa8f414",
-  "version": "1.0"
+  "source_hash": "bf7e9f64baf26a7903243985cf15df3a24843724f0d2a9b492632fcaa5abc50a",
+  "rs_checksum": "adf2e5fa3b35445ca32373bedbd4803cf382ec308e8e2f4e4527b1a8af24fb55",
+  "gc_checksum": "bb4412f90ed61221b38b6b2f70d3047584b2dc6db1d59f4a5a951a41dd02b124",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 35
 }

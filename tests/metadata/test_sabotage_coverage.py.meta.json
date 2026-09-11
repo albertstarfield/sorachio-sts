@@ -1,7 +1,9 @@
 {
   "source_file": "test_sabotage_coverage.py",
-  "source_hash": "3d2cf059e52c17d1ddfff9dd15892836b4d879cc386866899c1e10946698ccdd",
-  "rs_checksum": "f81f0d047488429f23e74506f175d9d4f2cd745eb763a5a44ab23248531b309b",
-  "gc_checksum": "fe9cc76e5d9add3560dcc790814661bd14b92afa65d4ea9a42eff9f588dcb5d2",
-  "version": "1.0"
+  "source_hash": "82a5c463feafa52355f6895cebefb7bbabdb44779162be7f5df2286780f070b3",
+  "rs_checksum": "96862af4c45b61e4b0996909199bd595e3417c3bb2b89c91e97520cc01c0ec28",
+  "gc_checksum": "33426b4bcc414139a8a19d3c859b935a250f68fcf86621508953591ce0d6877b",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 102
 }

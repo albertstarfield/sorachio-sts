@@ -1,7 +1,9 @@
 {
   "source_file": "auto_fix_all.py",
-  "source_hash": "7fdfff024f436ac106901413602dc614ad440bd83906da27ed07fca1dbe21f84",
-  "rs_checksum": "3f201c7034e441da79522fa110b9a310a25366a2850e83d76f615a8689390a61",
-  "gc_checksum": "afc936c3cdfab5afe183f187405f9ee3fb1bff849651b7f3c414af6125eb2c98",
-  "version": "1.0"
+  "source_hash": "475a14f6b138537ed415731b89e0eb5627e426d3ed381fed2535218ac3dead69",
+  "rs_checksum": "e838b0fb93b9ef1ba1884114bd25b4ad1fcd16cc7482e53908b489c72d47a844",
+  "gc_checksum": "1c0f194d675c24f859c795137c27612c43f6916bfb7bfcde62986fc2c9c2e0ec",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 77
 }

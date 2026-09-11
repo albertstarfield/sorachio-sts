@@ -1,7 +1,9 @@
 {
   "source_file": "context_manager.py",
-  "source_hash": "9fc613525a7040834a5355cf66bb5443a73be8cf345ce4ea64264c0980186c00",
-  "rs_checksum": "1992a9931e6ffb2c46c8c1d3b3eae05475cff592618a04adf2379bc35764052a",
-  "gc_checksum": "5279df95ffa151ad0d9540f64f6e4694720c020a8c9cefd79498b924e2ed79b9",
-  "version": "1.0"
+  "source_hash": "67cef9a5e847225e13405692c3bfbcfc764da368240c606079b2812d13754394",
+  "rs_checksum": "40e50f0ccc001860f84e44e1fa3db865125b2825c34742d2665ef32368a4b835",
+  "gc_checksum": "d2865e8e540f3f77d44f6e0858e93a1ad2e637d20d56fad69a88d3449b21fc30",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 45
 }

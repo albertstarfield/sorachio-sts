@@ -1,7 +1,9 @@
 {
   "source_file": "fix_batch1.py",
-  "source_hash": "92d84fd657a2bc80ca7dbf541f0f5ae0dc1cda4e26b2f8dd01e23296f370de30",
-  "rs_checksum": "56b8d12b4eb6bb38689b75dfa50ac338de76136657b7cd05d87a51d18df40582",
-  "gc_checksum": "c35e7fb41e1389adfb4bfd802f5e2eb9bd81c89268dc96bf1994053846d42500",
-  "version": "1.0"
+  "source_hash": "9e3690a538c860318a08b67aed04fce9b13c9635cf715b9a45ad4d10bc45902b",
+  "rs_checksum": "be704f0ee440802e55ebea76a1919dd751cd7ace171efd1ad5086b31df6c9113",
+  "gc_checksum": "11c5f789b6639547a09fe7b322d56d4c33ce5ac717641d5970d852205c62a742",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 51
 }

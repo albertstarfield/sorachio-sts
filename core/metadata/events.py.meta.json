@@ -1,7 +1,9 @@
 {
   "source_file": "events.py",
-  "source_hash": "f870b4f5b246c111797eb491b3cf1ef97822727acdd24286b8035a0b6bbb5ee5",
-  "rs_checksum": "084b004fb4cf3c1a154e6a3f78a084f506509133d96958994587ebe77df0f048",
-  "gc_checksum": "ad7d2e345053cf0bdeda596041a1a6112b0bc438e3d3974e00a990ee1c7ea6bc",
-  "version": "1.0"
+  "source_hash": "0fc03248c6a2e1e4a10fb0f26075f29a92ccc096b324b6768e98135cfd950b4e",
+  "rs_checksum": "14414fc99b848c114d2105999e2ec7f73834ae9d406fc919616ee79a7de1e14c",
+  "gc_checksum": "13b720d8a3a094e91885156900f2ef2dc4f44ab5715d016df5720850f061c7ca",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 38
 }
