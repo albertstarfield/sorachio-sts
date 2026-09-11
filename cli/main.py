@@ -1129,7 +1129,7 @@ def servers_start(config: str | None = typer.Option(None)):
 
 
 @servers_app.command("stop")
-def servers_stop(config: str | None = typer.Option(None)):  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
+def servers_stop(config: str | None = typer.Option(None)):
     """
     Stop both llama-server instances.
     
@@ -1157,7 +1157,7 @@ def servers_stop(config: str | None = typer.Option(None)):  # nosec: SMT_LOGIC_V
 # ---------------------------------------------------------------------------
 
 @memory_app.command("list")
-def memory_list(config: str | None = typer.Option(None)):  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
+def memory_list(config: str | None = typer.Option(None)):
     """
     List all long-term memories.
     

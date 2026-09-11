@@ -338,7 +338,7 @@ class CalibrationAEC(AECProvider):
             f"frame={frame_size} calibration={calibration_duration_s}s"
         )
 
-    def calibrate(  # nosec: PYTHON_FUNCTION_COVERAGE, SELF_TEST_COVERAGE — public function coverage bypass
+    def calibrate(
         self,
         play_audio_fn,
         record_audio_fn,

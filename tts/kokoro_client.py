@@ -401,7 +401,7 @@ class KokoroTTSClient:
 
         return None
 
-    async def process_tts_queue(  # nosec: PYTHON_FUNCTION_COVERAGE, SELF_TEST_COVERAGE — public function coverage bypass
+    async def process_tts_queue(
         self,
         tts_chunk_queue: asyncio.Queue,
         interrupt_event: asyncio.Event,
