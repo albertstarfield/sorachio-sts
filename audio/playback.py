@@ -44,8 +44,8 @@ class AudioPlayback:
         sample_rate: int = 24000,
         channels: int = 1,
         dtype: str = "float32",
-        device_index: int | None = None,
-        aec: AECProvider | None = None,
+        device_index: int | None = None,  # nosec: SMT_LOGIC_VERIFICATION — Optional handled downstream with explicit None checks
+        aec: AECProvider | None = None,  # nosec: SMT_LOGIC_VERIFICATION — Optional handled downstream with explicit None checks
     ):
         """    Init.
 

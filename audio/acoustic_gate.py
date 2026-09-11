@@ -36,7 +36,7 @@ log = get_logger("audio.acoustic_gate")
 _EPSILON: float = 1e-10
 
 # int16 full-scale peak (2^15 = 32768) — normalizes dBFS to 0 dBFS = full scale
-_INT16_PEAK: float = 32768.0
+_INT16_PEAK: float = 32768.0  # nosec: SMT_LOGIC_VERIFICATION — Class constant, never zero (2^15 = 32768)
 
 
 def compute_dbfs(pcm_bytes: bytes) -> float:

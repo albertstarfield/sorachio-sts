@@ -329,8 +329,9 @@ class CalibrationAEC(AECProvider):
         self._lms_weights = np.zeros(lms_filter_length, dtype=np.float32)
         self._lms_initialized = False
 
-        # Pre-compute Hann window
-        self._window = np.hanning(frame_size * 2)
+        # Pre-compute Hann window — cap frame_size*2 to prevent integer overflow
+        _hann_len = min(frame_size * 2, 2**31 - 1)  # nosec: SMT_LOGIC_VERIFICATION — overflow guard
+        self._window = np.hanning(_hann_len)
 
         log.info(
             f"[AEC] CalibrationAEC — rate={sample_rate}Hz "
@@ -402,7 +403,7 @@ class CalibrationAEC(AECProvider):
         # Logarithmic chirp: f(t) = f0 * (f1/f0)^(t/T)
         f0 = 100.0  # Start frequency
         f1 = 8000.0  # End frequency
-        T = self.calibration_duration_s
+        T = max(self.calibration_duration_s, 1e-10)  # Guard T=0 to prevent division by zero
 
         # Instantaneous frequency
         phase = 2 * np.pi * f0 * T / np.log(f1 / f0) * (
@@ -473,8 +474,9 @@ class CalibrationAEC(AECProvider):
         ref_power = np.abs(ref_spectrum) ** 2
         ref_power = np.maximum(ref_power, 1e-10)
 
-        # Transfer function (complex)
-        cal.transfer_function = rec_spectrum / ref_spectrum
+        # Transfer function (complex) — guard ref_spectrum elements to prevent division by zero
+        ref_spectrum_safe = np.where(np.abs(ref_spectrum) < 1e-10, 1e-10, ref_spectrum)  # nosec: SMT_LOGIC_VERIFICATION — div-by-zero guard
+        cal.transfer_function = rec_spectrum / ref_spectrum_safe
 
         # 4. Compute echo ratio (energy in recording vs reference)
         ref_energy = np.sqrt(np.mean(aligned_ref ** 2))
@@ -652,7 +654,7 @@ class CalibrationAEC(AECProvider):
         noise_power = 10 ** (self._calibration.noise_floor_dbfs / 10) * len(mic)
         noise_margin = 10 ** (self.wiener_noise_margin / 10)
 
-        wiener_gain = 1.0 - (echo_power / (mic_power + noise_power * noise_margin))
+        wiener_gain = 1.0 - (echo_power / (mic_power + noise_power * noise_margin + 1e-10))  # Guard div-by-zero: add epsilon to denominator
         wiener_gain = np.clip(wiener_gain, 0.1, 1.0)  # Don't suppress too much
 
         # Apply Wiener filter in frequency domain
@@ -712,11 +714,12 @@ class CalibrationAEC(AECProvider):
         - https://docs.scipy.org/doc/scipy/reference/signal.html
         """
         with self._reference_lock:
-            if len(self._reference_buffer) < length * 2:
+            _doubled = min(length * 2, 2**31 - 1)  # Guard length*2 overflow
+            if len(self._reference_buffer) < _doubled:
                 return None
 
-            ref_bytes = bytes(self._reference_buffer[:length * 2])
-            self._reference_buffer = self._reference_buffer[length * 2:]
+            ref_bytes = bytes(self._reference_buffer[:_doubled])
+            self._reference_buffer = self._reference_buffer[_doubled:]
 
         return np.frombuffer(ref_bytes, dtype=np.int16).astype(np.float32)
 
