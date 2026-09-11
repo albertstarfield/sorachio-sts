@@ -1,8 +1,0 @@
-DIGEST 5329b6d41e32bfc62940e76439d776c5
-Fcapture
-mod 215:221 <> capture
-R240:245 Coq.ZArith.ZArith <> <> lib
-R263:268 Coq.QArith.QArith <> <> lib
-R286:299 Coq.Strings.String <> <> lib
-R317:326 Coq.Lists.List <> <> lib
-R344:347 Coq.Bool.Bool <> <> lib

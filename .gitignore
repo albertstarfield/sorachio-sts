@@ -112,3 +112,6 @@ _e501_report.txt
 _long_lines.txt
 _remaining_v4.txt
 _ruff_final.txt
+audio/proofs/
+src/
+_fix_apa7_*.py

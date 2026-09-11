@@ -1,8 +1,0 @@
-DIGEST 52dd9adf023af2148d078eacd2c2de27
-Fecho_cancellation
-mod 225:241 <> echo_cancellation
-R260:265 Coq.ZArith.ZArith <> <> lib
-R283:288 Coq.QArith.QArith <> <> lib
-R306:319 Coq.Strings.String <> <> lib
-R337:346 Coq.Lists.List <> <> lib
-R364:367 Coq.Bool.Bool <> <> lib

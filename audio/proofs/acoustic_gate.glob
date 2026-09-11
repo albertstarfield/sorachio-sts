@@ -1,8 +1,0 @@
-DIGEST 8e89ed02abc973b36b435f54922ca31f
-Facoustic_gate
-mod 221:233 <> acoustic_gate
-R252:257 Coq.ZArith.ZArith <> <> lib
-R275:280 Coq.QArith.QArith <> <> lib
-R298:311 Coq.Strings.String <> <> lib
-R329:338 Coq.Lists.List <> <> lib
-R356:359 Coq.Bool.Bool <> <> lib

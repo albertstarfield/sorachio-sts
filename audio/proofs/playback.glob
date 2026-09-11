@@ -1,8 +1,0 @@
-DIGEST d5b85e96a270ef1f19bb7a4a60b119e2
-Fplayback
-mod 216:223 <> playback
-R242:247 Coq.ZArith.ZArith <> <> lib
-R265:270 Coq.QArith.QArith <> <> lib
-R288:301 Coq.Strings.String <> <> lib
-R319:328 Coq.Lists.List <> <> lib
-R346:349 Coq.Bool.Bool <> <> lib
