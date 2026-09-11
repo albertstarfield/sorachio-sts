@@ -530,11 +530,11 @@ class VoiceCLI:
 
         decision         = event.data
         emotion          = decision.get("emotion",          "neutral")
-        respond          = decision.get("respond",          True)
         memory           = decision.get("store_memory",     False)
         topic            = decision.get("topic",            "general")
         priority         = decision.get("priority",         "medium")
         action           = decision.get("action",           "conversation")
+        search_query     = (decision.get("search_params") or {}).get("query", "")
 
         icon, emo_color = self._EMOTION_ICON.get(emotion, ("○", "bright_black"))
 
@@ -553,13 +553,7 @@ class VoiceCLI:
             emo_bg   = _EMO_BG.get(emotion, "grey23")
             emo_pill = f"[bold white on {emo_bg}] {icon} {emotion} [/]"
 
-            # Respond pill
-            if respond:
-                r_pill = "[bold white on dark_green] ✓ respond [/]"
-            else:
-                r_pill = "[bold white on dark_red] ✗ ignore [/]"
-
-            # Action pill
+            # Action pill (replaces old 'respond' pill — LLM1 is now Action Planner)
             _ACTION_BG = {
                 "conversation": "dark_blue",
                 "move": "dark_red",
@@ -591,36 +585,31 @@ class VoiceCLI:
 
             # ── Print the status capsule row ──────────────────────────────
             sep = "  [dim][/dim]  "
-            console.print(
+            status_row = (
                 "  [bold dim]>>> STATUS[/bold dim]  "
                 + emo_pill
-                + sep + r_pill
                 + sep + act_pill
                 + sep + p_pill
                 + sep + m_pill
                 + sep + t_pill
             )
+            # Append search query inline if action is 'search'
+            if action == "search" and search_query:
+                status_row += f"  [dim italic]🔍 {search_query[:40]}[/dim italic]"
+            console.print(status_row)
         else:
-            intent_str = "respond" if respond else "ignore"
             mem_str = "true" if memory else "false"
 
             console.print("\n[bold magenta]Cognition[/bold magenta]")
             console.print(f"├─ action      {action}")
             console.print(f"├─ mood        {emotion}")
-            console.print(f"├─ intent      {intent_str}")
             console.print(f"├─ energy      {priority}")
             console.print(f"├─ memory      {mem_str}")
+            if search_query:
+                console.print(f"├─ query       {search_query}")
             console.print(f"└─ topic       {topic}\n")
 
-            if not respond:
-                console.print("[dim][ IGNORED ][/dim]")
-                console.print("[dim]Low-priority input filtered by cognitive layer.[/dim]\n")
-                console.print("────────────────────────────────────────")
-
-        if respond:
-            self._spin_start(f"{icon} Composing…", emo_color)
-        elif self.mode == "run":
-            self._spin_start("Active Mode — Listening for commands…", "green")
+        self._spin_start(f"{icon} Composing…", emo_color)
 
     async def on_response_start(self, event) -> None:
         self.response_text = ""
