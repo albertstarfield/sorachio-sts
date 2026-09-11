@@ -8,5 +8,8 @@
     "rs": "Reed-Solomon(255,223)",
     "gc": "GF(2^8) Galois Chunk"
   },
-  "generated_by": "generate_split_parity()"
+  "generated_by": "generate_split_parity()",
+  "rs_checksum": "acc0e82511fdcdb0cc2a8b6b218ee4aea299412a2a560e262a2c7d2104e05469",
+  "gc_checksum": "7369af13cff03932c3558342f1981dc17fab7b9348f043a463ee848233bc0eae",
+  "version": "1.0.0"
 }
