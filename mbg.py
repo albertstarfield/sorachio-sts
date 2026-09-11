@@ -1001,6 +1001,28 @@ class MasterBootstrapGuardian:
         except Exception as e:
             log.warning(f"[MBG] Vector Embedding model verification failed: {e}")
 
+        # 6. Ensure Wake Word models exist in models/wakeword/
+        try:
+            wakeword_dir = MODELS_DIR / "wakeword"
+            wakeword_dir.mkdir(parents=True, exist_ok=True)
+            existing_ww = list(wakeword_dir.glob("*.onnx"))
+            if not existing_ww:
+                import openwakeword
+                res_dir = Path(openwakeword.__file__).parent / "resources" / "models"
+                default_models = ["alexa_v0.1.onnx", "hey_jarvis_v0.1.onnx", "hey_mycroft_v0.1.onnx"]
+                copied = 0
+                for mdl in default_models:
+                    src = res_dir / mdl
+                    dst = wakeword_dir / mdl
+                    if src.exists() and not dst.exists():
+                        shutil.copy2(src, dst)
+                        copied += 1
+                log.info(f"[MBG] Wake word models initialized in {wakeword_dir} ({copied} models) [OK]")
+            else:
+                log.info(f"[MBG] Wake word models ready in {wakeword_dir} ({len(existing_ww)} models) [OK]")
+        except Exception as e:
+            log.warning(f"[MBG] Wake word models verification failed: {e}")
+
 
 
 

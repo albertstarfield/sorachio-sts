@@ -1,21 +1,21 @@
 # Sorachio-STS
 
-**Speech To Speech AI Companion & Agentic Robotics System**  
-*Local-first, real-time voice AI companion powered by dual-LLM cognition, wake word detection, action engine, and SBC/ESP32 robotics architecture*
+**Speech To Speech AI Companion & Autonomous Robotics System**  
+*Local-first, real-time voice AI companion powered by dual-LLM cognition, wake word detection, agentic action planning, and modular robotics architecture*
 
 ---
 
 ### System in Action (CLI Showcase)
 
-Here is a preview of how the interactive CLI behaves in voice mode, showcasing the real-time **Cognitive Gateway Action Badges**, **Wake Word State Machine**, and state transitions.
+Preview of how the interactive CLI behaves in voice mode, showcasing the real-time **Cognitive Gateway Action Badges**, **Wake Word State Transitions**, and state management.
 
 #### 1. Full Voice/Run Mode (`python main.py run`)
-In voice mode, the pipeline continuously monitors microphone input in **IDLE Mode** for wake word activation (`alexa`, `hey_jarvis`, `hey_mycroft`, or custom `hey_sorachio.onnx`). Upon detection, Sorachio emits an instant audio response ("Hey there!", "I'm listening!", "Hello!"), transitions to **ACTIVE Mode**, processes speech via STT, and uses LLM1 as an **Agentic Action Planner** to execute physical movements or web searches before routing to LLM2.
+In voice mode, the pipeline monitors microphone input in **IDLE Mode** for wake word activation (`alexa`, `hey_jarvis`, `hey_mycroft`, or custom `.onnx`). Upon detection, Sorachio plays an instant audio response ("Hey there!", "I'm listening!", "Hello!"), transitions to **ACTIVE Mode**, processes speech via STT, and uses LLM1 as an **Agentic Action Planner** to execute physical movements or web searches before routing to LLM2.
 
 ![Sorachio-STS Voice Mode](docs/ss-run.png)
 
 #### 2. Interactive Text Mode (`python main.py text`)
-In text mode, you can chat with the companion using keyboard inputs. Perfect for testing prompts, observing Cognitive Gateway JSON action decisions, and validating tool dispatching without a microphone.
+In text mode, you can interact with the companion using keyboard inputs. Ideal for testing prompts, inspecting Cognitive Gateway JSON action decisions, and validating tool dispatching without a microphone.
 
 ![Sorachio-STS Text Mode](docs/ss-txt.png)
 
@@ -30,8 +30,8 @@ In text mode, you can chat with the companion using keyboard inputs. Perfect for
 5. [Threading & State Model](#5-threading--state-model)
 6. [Installation](#6-installation)
 7. [Model Setup](#7-model-setup)
-8. [Wake Word & ONNX Models](#8-wake-word--onnx-models)
-9. [Agentic Action Engine & Robotics](#9-agentic-action-engine--robotics)
+8. [Wake Word Engine](#8-wake-word-engine)
+9. [Agentic Action Engine & Robotics HAL](#9-agentic-action-engine--robotics-hal)
 10. [Running the System](#10-running-the-system)
 11. [Configuration Guide](#11-configuration-guide)
 12. [Cognitive Gateway & Action Planning](#12-cognitive-gateway--action-planning)
@@ -42,37 +42,39 @@ In text mode, you can chat with the companion using keyboard inputs. Perfect for
 17. [CLI Reference](#17-cli-reference)
 18. [MBG System](#18-mbg-system)
 19. [Troubleshooting](#19-troubleshooting)
-20. [Future Robotics Expansion & ESP32 Hardware](#20-future-robotics-expansion--esp32-hardware)
+20. [Future Robotics Expansion](#20-future-robotics-expansion)
 
 ---
 
 ## 1. Project Overview
 
-Sorachio-STS is a **complete, local-first, real-time Speech-to-Speech (STS) AI Companion & Autonomous Agent** system. It runs entirely on your local machine / SBC — no cloud APIs, no subscriptions, no data sent anywhere.
+Sorachio-STS is a **complete, 100% local-first, real-time Speech-to-Speech (STS) AI Companion & Autonomous Agent** platform. It runs entirely on your local hardware — no cloud APIs, no subscriptions, no telemetry, and zero mandatory external network calls.
 
-The system is designed from the ground up as a **scalable AI companion operating system** — with architecture that anticipates future expansion into robotics (Orange Pi 5 Pro 16GB + ESP32 actuators), multi-agent systems, cameras, sensors, and ROS2 integration.
+The system is designed from the ground up as a **modular companion operating system** — with architecture optimized to run across standard PCs/laptops or embedded Single Board Computers (SBCs), interfacing with external microcontrollers, sensors, and actuators for embodied robotics.
 
 ### Key Properties
 
 | Property | Detail |
 |----------|--------|
-| **Fully Local** | All inference runs on-device via llama.cpp + openwakeword + faster-whisper + Kokoro TTS / Piper TTS |
-| **Real-Time Streaming** | TTS begins before LLM finishes generating |
-| **Wake Word Engine** | OpenWakeWord detector (`alexa`, `hey_jarvis`, `hey_mycroft`, custom ONNX scanning) with state machine |
-| **Instant Wake Response** | Zero-latency instant audio confirmation ("Hey there!", "I'm listening!", "Hello!") on wake trigger |
+| **100% Local & Offline** | All inference runs on-device via llama.cpp + openwakeword + faster-whisper + Kokoro / Piper TTS |
+| **Real-Time Streaming** | TTS begins audio playback before LLM finishes text generation |
+| **Wake Word Engine** | OpenWakeWord detector (`alexa`, `hey_jarvis`, `hey_mycroft`, custom ONNX models) with state machine |
+| **Instant Wake Response** | Fast instant audio acknowledgment ("Hey there!", "I'm listening!", "Hello!") on wake trigger |
 | **Two-LLM Architecture** | Agentic Action Planner (LLM #1) + Personality Core (LLM #2) |
-| **Agentic Action Engine** | Autonomous function execution (`move`, `look`, `search`, `remember`, `multi`) via modular dispatcher |
-| **Robotics Modular HAL** | Hardware Abstraction Layer with `MockRobotController` (laptop) and `ESP32RobotController` (Orange Pi + ESP32) |
-| **Live Web Search** | Real-time instant web search via DuckDuckGo engine (`utils/web_search.py`) |
+| **Agentic Action Engine** | Autonomous action execution (`move`, `look`, `search`, `remember`, `multi`) via modular dispatcher |
+| **Robotics Modular HAL** | Hardware Abstraction Layer with `MockRobotController` (laptop/dev) and `ESP32RobotController` (serial/HTTP) |
+| **Live Web Search** | Optional real-time web search via DuckDuckGo engine (`utils/web_search.py`) |
 | **Model-Agnostic** | Auto-detects any GGUF model in `models/llm1/` and `models/llm2/` — drop & restart |
 | **Vision Ready** | LLM #2 supports multimodal input via `mmproj` projector |
 | **Bilingual** | Automatic English / Indonesian language detection & voice routing |
 | **Interruptible** | VAD-based barge-in stops playback instantly; self-interrupt shielded |
 | **Adaptive AEC** | Calibration-based room impulse response echo cancellation (3s chirp sweep + Wiener/LMS filter) |
-| **Deep Buffer Reset** | OpenWakeWord preprocessor feature buffer clearing preventing ghost wake-word triggers |
-| **Vector Memory** | ChromaDB semantic search + sentence-transformers embeddings for LTM |
+| **Deep Buffer Reset** | OpenWakeWord preprocessor buffer clearing to guarantee zero ghost triggers |
+| **Vector Memory** | ChromaDB semantic search + sentence-transformers embeddings for LTM (offline) |
 | **Emotion Persistence** | Long-term mood trend detection and emotion pattern tracking |
-| **Rich CLI UI** | Mode indicators, action status badges, transient spinners, and cognitive status pills |
+| **Rate Limiting** | Sliding window algorithm to protect the cognitive pipeline from rapid-fire spikes |
+| **Anteque Ashing** | Mandatory Python quality code verifier (`ruff` + `pyrefly`) enforced on bootstrap |
+| **Rich CLI UI** | Mode indicators, action status badges, transient spinners, and cognitive pills |
 
 ### Current Model Configuration
 
@@ -86,7 +88,7 @@ The system is designed from the ground up as a **scalable AI companion operating
 | TTS (ID) | Piper `id_ID-news_tts-medium` | ~67 MB | Indonesian female voice — 22.05kHz→24kHz | `models/tts/` |
 | Vector Embed | all-MiniLM-L6-v2 | ~90 MB | Semantic memory embeddings (offline) | `models/vector/all-MiniLM-L6-v2/` |
 
-> **All model weights live inside the project** under `models/` — no cloud cache, no `~/.cache` writes. Everything is self-contained and portable.
+> **Self-Contained Storage**: All model weights, configurations, and vector databases live inside `models/` and `data/` within the project. Nothing is hidden in `~/.cache`.
 
 ---
 
@@ -143,8 +145,8 @@ The system is designed from the ground up as a **scalable AI companion operating
 |                                      v                          v          v      |
 |                            +-------------------+          +----------+ +----+     |
 |                            | Actuators (HAL)   |          | WebSearch| |LTM |     |
-|                            | Mock / ESP32      |          | (DuckDuck| |Vector    |
-|                            | (Move/Look)       |          |  Go)     | |Memory    |
+|                            | Mock / Micro-     |          | (DuckDuck| |Vector    |
+|                            | controller (Move) |          |  Go)     | |Memory    |
 |                            +-------------------+          +----------+ +----+     |
 |                                                                            |      |
 |                                                                            v      |
@@ -172,7 +174,7 @@ The system is designed from the ground up as a **scalable AI companion operating
 ## 3. Data Flow
 
 ```
-[User speaks wake word: "Alexa" / "Hey Jarvis"]
+[User speaks wake word: "Alexa" / "Hey Jarvis" / "Hey Sorachio"]
     |
     v PCM bytes (16kHz, 16-bit mono)
 [WakeWordDetector (OpenWakeWord)] -- confidence >= 0.50
@@ -183,7 +185,7 @@ The system is designed from the ground up as a **scalable AI companion operating
     |
 [User speaks command: "Turn left and search python news"]
     |
-[Acoustic Gate & AEC] -- drops noise, cancels room echo
+[Acoustic Gate & AEC] -- drops ambient noise, cancels room echo
     |
 [STT Worker: faster-whisper] -- transcribes audio to text transcript
     |
@@ -199,7 +201,7 @@ The system is designed from the ground up as a **scalable AI companion operating
     |  }
     |
 [Action Dispatcher]
-    |--> RobotController (Mock / ESP32 over HTTP/Serial) -> Executes rotation
+    |--> RobotController (Mock / Serial / HTTP) -> Executes motion
     |--> WebSearchEngine (DuckDuckGo) -> Fetches web snippets
     |--> Memory System & Emotion Tracker -> Injects context + search results
     |
@@ -237,10 +239,10 @@ Sorachio-STS/
 |   +-- echo_cancellation.py # CalibrationAEC (3s chirp sweep) + SpectralSubAEC + NullAEC
 |
 +-- actuators/
-|   +-- robot_controller.py # Robot Hardware Abstraction Layer (Mock & ESP32 HTTP/Serial)
+|   +-- robot_controller.py # Robot Hardware Abstraction Layer (Mock & Microcontroller Serial/HTTP)
 |
 +-- cognition/
-|   +-- cognitive_gateway.py  # Agentic Action Planner (JSON schema schema builder)
+|   +-- cognitive_gateway.py  # Agentic Action Planner (JSON schema prompt builder)
 |   +-- action_dispatcher.py  # Action dispatcher (actuators, search, memory, LLM2)
 |
 +-- utils/
@@ -290,7 +292,7 @@ Sorachio-STS/
 |   +-- vector/             # sentence-transformers embeddings (auto-downloaded by MBG)
 |
 +-- bin/
-|   +-- llama-server        # llama-server binary (Vulkan support)
+|   +-- llama-server        # llama-server binary (Vulkan GPU support)
 |
 +-- data/
 |   +-- memory/             # ltm.json + ChromaDB vector embeddings
@@ -312,7 +314,7 @@ Main Thread (asyncio event loop)
 +-- [asyncio Task] Personality Worker   -- LLM #2 streaming speech output
 +-- [asyncio Task] TTS Worker           -- Kokoro/Piper audio synthesis
 |
-+-- [Thread] VAD & WakeWord Worker      -- audio capture loop
++-- [Thread] VAD & WakeWord Worker      -- continuous audio capture loop
 |   +-- Mode: IDLE   --> passes PCM to OpenWakeWord detector
 |   +-- Mode: ACTIVE --> passes PCM to webrtcvad & STT queue
 |
@@ -323,7 +325,7 @@ Main Thread (asyncio event loop)
 
 ## 6. Installation
 
-### Path A — Linux / macOS (Recommended)
+### Path A — Linux / macOS (Build from Source)
 
 #### Step 1 — Install Prerequisites
 
@@ -335,6 +337,11 @@ sudo apt update && sudo apt install -y python3.12 python3.12-venv git cmake buil
 **Fedora / RHEL:**
 ```bash
 sudo dnf install -y python3.12 git cmake gcc gcc-c++ portaudio-devel
+```
+
+**macOS:**
+```bash
+brew install python@3.12 git cmake portaudio
 ```
 
 #### Step 2 — Clone and Run
@@ -349,7 +356,24 @@ MBG handles everything automatically:
 - Creates `venv_runtime/` virtual environment
 - Installs Python packages + Anteque Ashing verification (`ruff` + `pyrefly`)
 - Compiles `llama.cpp` binary into `bin/` with Vulkan GPU acceleration
-- Auto-downloads STT (Whisper), TTS (Kokoro/Piper), and Vector Embedding models
+- Auto-downloads STT (Whisper), TTS (Kokoro/Piper), Vector Embedding, and Wake Word models
+
+---
+
+### Path B — Windows (Pre-built Binaries)
+
+#### Step 1 — Install Python 3.10–3.12
+Download from [python.org](https://www.python.org/downloads/). Ensure **"Add Python to PATH"** is checked.
+
+#### Step 2 — Download llama-server
+Download prebuilt `llama-server.exe` from [llama.cpp releases](https://github.com/ggerganov/llama.cpp/releases) and place `llama-server.exe` and its `.dll` files into `bin/`.
+
+#### Step 3 — Clone and Run
+```powershell
+git clone https://github.com/izzulgod/sorachio-sts.git
+cd sorachio-sts
+python main.py run
+```
 
 ---
 
@@ -359,38 +383,46 @@ MBG handles everything automatically:
 
 1. **Download** any GGUF model from Hugging Face.
 2. **Place GGUF files**:
-   - `models/llm1/`: Cognitive Gateway Action Planner (recommended: `qwen2.5-coder-0.5b-instruct-q8_0.gguf`)
-   - `models/llm2/`: Personality Core + Vision (recommended: `Qwen3.5-4B-Q4_K_M.gguf` + `mmproj-BF16.gguf`)
+   - `models/llm1/`: Cognitive Gateway Action Planner (e.g. `qwen2.5-coder-0.5b-instruct-q8_0.gguf`)
+   - `models/llm2/`: Personality Core + Vision (e.g. `Qwen3.5-4B-Q4_K_M.gguf` + `mmproj-BF16.gguf`)
 3. **Restart**: `python main.py run` (auto-detected!).
 
+### Auto-Detection Logic
+
+| Feature | How it works |
+|---------|-------------|
+| LLM model file | Largest `.gguf` in the directory (excluding `mmproj`) |
+| Vision projector | Any `mmproj*.gguf` in the same directory |
+| Context size | Read from GGUF metadata (`--ctx-size 0`) |
+| Chat template | Read from GGUF metadata (`--jinja`) |
+
 ---
 
-## 8. Wake Word & ONNX Models
+## 8. Wake Word Engine
 
-Sorachio-STS uses **OpenWakeWord** for real-time wake word detection.
+Sorachio-STS uses **OpenWakeWord** for real-time, low-latency wake word detection.
 
-### Supported Wake Words Out-of-the-Box
-- `alexa`
-- `hey_jarvis`
-- `hey_mycroft`
-
-### Custom Wake Word Models (`hey_sorachio.onnx`)
-Place custom OpenWakeWord `.onnx` models inside `models/wakeword/`:
+### Models Location (`models/wakeword/`)
+All wake word models reside locally in `models/wakeword/`:
 ```
 models/wakeword/
-+-- hey_sorachio.onnx
++-- alexa_v0.1.onnx
++-- hey_jarvis_v0.1.onnx
++-- hey_mycroft_v0.1.onnx
++-- hey_sorachio.onnx        # Optional custom model
 +-- README.md
 ```
-Sorachio automatically scans `models/wakeword/*.onnx` on startup and activates custom wake words alongside built-in models!
 
-### OpenWakeWord Deep Reset Mechanism
-Standard OpenWakeWord `reset()` only clears score dictionaries. Sorachio implements a **Deep Reset** inside `WakeWordDetector.reset()` that zeroes out `raw_data_buffer`, `feature_buffer` `(116, 96)`, and `melspectrogram_buffer` `(76, 32)` to guarantee **zero ghost re-triggers** after active timeout.
+MBG automatically initializes the default ONNX models into `models/wakeword/`. Any custom `.onnx` model placed here will be auto-scanned and loaded at startup.
+
+### Deep Buffer Reset Mechanism
+Standard OpenWakeWord `reset()` only clears prediction scores, leaving audio and melspectrogram buffers intact in memory. Sorachio implements a **Deep Reset** in `WakeWordDetector.reset()` that clears `raw_data_buffer`, `feature_buffer` `(116, 96)`, and `melspectrogram_buffer` `(76, 32)`, completely preventing **ghost re-triggers** upon returning to IDLE mode.
 
 ---
 
-## 9. Agentic Action Engine & Robotics
+## 9. Agentic Action Engine & Robotics HAL
 
-LLM #1 (Cognitive Gateway) acts as an **Agentic Action Planner**. Instead of producing conversational text, it emits a structured JSON action plan.
+LLM #1 (Cognitive Gateway) functions as an **Agentic Action Planner**, outputting structured JSON actions instead of conversational text.
 
 ### JSON Action Schema
 ```json
@@ -405,7 +437,7 @@ LLM #1 (Cognitive Gateway) acts as an **Agentic Action Planner**. Instead of pro
     },
     {
       "action": "search",
-      "query": "cuaca hari ini"
+      "query": "weather forecast"
     },
     {
       "action": "conversation"
@@ -425,6 +457,10 @@ LLM #1 (Cognitive Gateway) acts as an **Agentic Action Planner**. Instead of pro
 | `multi` | `actions: [...]` | Sequential execution of multiple tool calls |
 | `conversation` | N/A | Default pass-through to LLM2 streaming |
 
+### Hardware Abstraction Layer (HAL)
+- **`MockRobotController`**: Simulates physical actuator behavior in logs for laptop/desktop development.
+- **`ESP32RobotController`**: Sends JSON action commands over HTTP or Serial UART to connected microcontrollers or motor controllers.
+
 ---
 
 ## 10. Running the System
@@ -433,7 +469,7 @@ LLM #1 (Cognitive Gateway) acts as an **Agentic Action Planner**. Instead of pro
 # Full voice mode (Wake Word + Action Engine + STT + Dual LLM + TTS)
 python main.py run
 
-# Interactive text mode (keyboard interface for prompt testing)
+# Interactive text mode (keyboard interface for prompt & action testing)
 python main.py text
 
 # Single query text mode
@@ -466,7 +502,7 @@ wakeword:
 
 # Robotics HAL Configuration
 robot:
-  controller_type: "mock"    # "mock" for laptop dev, "esp32" for production SBC + ESP32
+  controller_type: "mock"    # "mock" for local dev, "esp32" for microcontroller serial/HTTP
   esp32_url: "http://192.168.1.100"
   serial_port: "/dev/ttyUSB0"
   baud_rate: 115200
@@ -495,11 +531,9 @@ memory:
 
 ## 12. Cognitive Gateway & Action Planning
 
-LLM #1 is optimized for ultra-fast JSON decisions (<300ms latency).
+LLM #1 is optimized for low-latency JSON routing (<300ms). It interprets user intent, emotional tone, and decides whether physical or digital actions are required.
 
-### Example Terminal Status Badges
-
-When LLM #1 issues action decisions, the Rich CLI displays dynamic status pills:
+### Terminal Status Badges
 
 ```
   >>> STATUS   ◕ happy      ✓ respond      ⚡ move: forward      ⚡ search      ○ memory       topic: robotics
@@ -509,10 +543,10 @@ When LLM #1 issues action decisions, the Rich CLI displays dynamic status pills:
 
 ## 13. Acoustic Intelligence Layer
 
-1. **Acoustic Gate**: Drops audio frames below `-40.0 dBFS` to save compute.
-2. **Pre-Trigger Ring Buffer**: 8-frame (~240ms) onset buffer preserves initial word consonants.
+1. **Acoustic Gate**: Drops audio frames below `-40.0 dBFS` to save compute and eliminate silence processing.
+2. **Pre-Trigger Ring Buffer**: 8-frame (~240ms) onset buffer preserves initial consonants of speech.
 3. **Playback Gate Shield**: Dynamically raises gate threshold to `max(-15.0 dBFS, speaker_peak + 7.0 dB)` during TTS playback to prevent self-interruption.
-4. **CalibrationAEC**: 3-second chirp room impulse calibration with LMS/Wiener filtering.
+4. **CalibrationAEC**: 3-second chirp room impulse calibration with LMS/Wiener filtering for acoustic echo cancellation.
 
 ---
 
@@ -539,7 +573,7 @@ TTS Engine:        Synthesizing chunk 1       Synthesizing chunk 2
 Audio Playback:    Playing chunk 1 ---------> Playing chunk 2
 ```
 
-First audio chunk is played within **0.5 – 1.2 seconds**.
+First audio chunk is played within **0.5 – 1.2 seconds** of LLM start.
 
 ---
 
@@ -559,68 +593,114 @@ First audio chunk is played within **0.5 – 1.2 seconds**.
 python main.py run          # Voice Mode with Wake Word
 python main.py text         # Keyboard CLI Mode
 
+# Testing
+python main.py test-stt     # Test Whisper STT
+python main.py test-tts     # Test Kokoro/Piper TTS
+python main.py test-cognitive # Test LLM1 Action Planning
+
+# Server Management
+python main.py servers status
+python main.py servers start
+python main.py servers stop
+
+# Memory Management
+python main.py memory list
+python main.py memory clear --yes
+
 # MBG Management
-python mbg.py --check       # System dependency check
+python mbg.py --check       # System status check
 python mbg.py --force       # Rebuild virtualenv & binaries
-python mbg.py --models      # Download model weights only
+python mbg.py --models      # Download/verify model weights only
 ```
 
 ---
 
 ## 18. MBG System
 
-**MBG (Master Bootstrap Guardian)** automates system initialization:
+**MBG (Master Bootstrap Guardian)** automates system initialization and health checks:
 - Python 3.10 – 3.12 environment verification & auto-relaunch
-- Virtual environment creation (`venv_runtime/`)
+- Virtual environment management (`venv_runtime/`)
 - Quality Code Verification: Enforces `ruff check .` and `pyrefly check` on bootstrap (Anteque Ashing)
 - Compiles `llama-server` with Vulkan GPU acceleration
-- Auto-downloads faster-whisper, Kokoro, Piper, and all-MiniLM models
+- Downloads & verifies faster-whisper, Kokoro, Piper, all-MiniLM, and OpenWakeWord models in `models/`
 
 ---
 
 ## 19. Troubleshooting
 
-### Wake Word Ghost Re-triggering
-Ensure `audio/wakeword.py` deep reset is active. Run `python main.py run` — `WakeWordDetector.reset()` clears all preprocessor buffers on active timeout.
+### "Binary not found" / llama-server missing
+On Windows: binary must be `llama-server.exe` in `bin/`. Run `python mbg.py --check` to verify.
 
-### Active Timeout Too Fast
-Active timeout countdown starts **after** TTS playback completes. If timeout occurs prematurely, check `capture.touch_active_time()` logs.
+### Wake Word Ghost Re-triggering
+Ensure `audio/wakeword.py` deep reset is active. `WakeWordDetector.reset()` clears all preprocessor buffers on active timeout to eliminate ghost triggers.
+
+### Sorachio interrupts itself during playback
+The Playback Gate Shield holds the threshold at `max(-15.0 dBFS, speaker_peak + 7.0 dB)`. If self-interruption occurs, raise the minimum in `audio/capture.py`:
+```python
+playback_thresh = max(-13.0, self._speaker_baseline_dbfs + 7.0)
+```
+
+### "LLM server not responding"
+```bash
+python main.py servers status
+cat logs/cognitivegateway_server.log
+cat logs/personalitycore_server.log
+```
+
+### Audio device issues
+List devices:
+```bash
+python -c "import sounddevice; print(sounddevice.query_devices())"
+```
+Configure index in `config/sorachio.yaml`:
+```yaml
+audio:
+  capture:
+    device_index: 0
+  playback:
+    device_index: 1
+```
+
+### High latency
+1. Enable GPU: `n_gpu_layers: 99` in config.
+2. Rebuild with Vulkan: `python mbg.py --force --build`.
+3. Reduce `max_tokens: 150` in `personality_core`.
 
 ---
 
-## 20. Future Robotics Expansion & ESP32 Hardware
+## 20. Future Robotics Expansion
 
-Sorachio-STS is designed to run on a **Single Board Computer (Orange Pi 5 Pro 16GB)** connected to an **ESP32 microcontroller**:
+Sorachio-STS is designed to act as the primary brain of an autonomous companion robot, adaptable across standard PCs, laptops, and various Single Board Computers (SBCs) connected to microcontrollers:
 
 ```
 +-------------------------------------------------------------+
-|             Orange Pi 5 Pro (16GB RAM) - SBC                |
+|              Main Compute Unit (PC / Laptop / SBC)          |
 |                                                             |
-|  - Sorachio-STS Main Runtime (Python 3.12)                  |
-|  - llama-server (GGUF LLM1 & LLM2 with RKNN / NPU / Vulkan)  |
+|  - Sorachio-STS Runtime (Python 3.12)                       |
+|  - llama-server (GGUF LLM1 Action Planner & LLM2)           |
 |  - OpenWakeWord + Whisper STT + Kokoro/Piper TTS            |
-|  - Web Search & Vector Store                                |
+|  - Web Search Engine & Vector Memory                        |
 +------------------------------+------------------------------+
                                |
-                               | HTTP / Serial UART
+                               | Serial UART / USB / HTTP
                                v
 +-------------------------------------------------------------+
-|                   ESP32 Microcontroller                     |
+|               Microcontroller / Actuator Driver             |
 |                                                             |
-|  - Motor Drivers / Wheel Actuators (Rover Motion)           |
-|  - Pan-Tilt Servo Head (Camera Tracking)                    |
-|  - LED Ring Indicators (Emotional Mood Colors)              |
-|  - Ultrasonic / ToF Distance Sensors                        |
+|  - Wheel Motors / Rover Drive                               |
+|  - Pan-Tilt Head Servos                                     |
+|  - Emotional Status LED Indicators                          |
+|  - Proximity / Distance Sensors                             |
 +-------------------------------------------------------------+
 ```
 
-### Hardware Abstraction Layer (HAL) Roadmap
+### Modular Expansion Roadmap
 
-- [x] `MockRobotController`: Software simulation for laptop development.
-- [x] `ESP32RobotController`: HTTP/Serial JSON command protocol for ESP32 actuators.
-- [ ] `sensors/camera.py`: Real-time camera frame provider for LLM2 vision.
-- [ ] `actuators/led_ring.py`: WS2812B LED status ring controller.
-- [ ] ROS2 Bridge (`core/ros2_bridge.py`): ROS2 node integration for navigation & SLAM.
+- [x] `MockRobotController`: Software simulation for local development.
+- [x] `ESP32RobotController`: Generic Serial/HTTP protocol for microcontroller actuators.
+- [ ] `sensors/camera.py`: Real-time camera feed provider for LLM2 vision.
+- [ ] `actuators/led_ring.py`: WS2812B LED emotional status ring controller.
+- [ ] `core/ros2_bridge.py`: ROS2 node integration for navigation & SLAM.
 
 ---
 
