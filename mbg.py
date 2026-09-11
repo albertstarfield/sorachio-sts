@@ -871,29 +871,34 @@ class MasterBootstrapGuardian:
                 log.error(f"  [FATAL] cvc5 install failed: {exc}")
                 _missing.append("cvc5")
 
+        # ── opam: required for alt-ergo and coq — block immediately if missing ──
+        # [Citation: sabotage_verifier.py lines 65,67 — alt-ergo + coq require opam]
+        opam_path = _shutil.which("opam")
+        if not opam_path:
+            log.error(
+                "  [FATAL] opam not found on PATH — required for alt-ergo and coq.\n"
+                "  Install opam:\n"
+                "    macOS:   brew install opam\n"
+                "    Linux:   sudo apt install opam && opam init\n"
+                "  URL: https://opam.ocaml.org/doc/Install.html\n"
+                "  Then re-run: python main.py run"
+            )
+            raise SystemExit(1)
+
         # ── alt-ergo (opam) ──
         # [Citation: sabotage_verifier.py line 65 — alt-ergo required for Ada/SPARK]
         if _shutil.which("alt-ergo"):
             log.info("  [OK] alt-ergo available")
         else:
-            opam_path = _shutil.which("opam")
-            if opam_path:
-                log.info("  [INSTALL] alt-ergo not found — attempting opam install...")
-                try:
-                    subprocess.run(
-                        [opam_path, "install", "-y", "alt-ergo"],
-                        capture_output=True, text=True, timeout=600, check=True,
-                    )
-                    log.info("  [OK] alt-ergo installed via opam")
-                except Exception as exc:
-                    log.error(f"  [FATAL] alt-ergo opam install failed: {exc}")
-                    _missing.append("alt-ergo")
-            else:
-                log.error(
-                    "  [FATAL] opam not found — cannot install alt-ergo.\n"
-                    "  Install opam: https://opam.ocaml.org/doc/Install.html\n"
-                    "  Then run: opam install alt-ergo"
+            log.info("  [INSTALL] alt-ergo not found — attempting opam install...")
+            try:
+                subprocess.run(
+                    [opam_path, "install", "-y", "alt-ergo"],
+                    capture_output=True, text=True, timeout=600, check=True,
                 )
+                log.info("  [OK] alt-ergo installed via opam")
+            except Exception as exc:
+                log.error(f"  [FATAL] alt-ergo opam install failed: {exc}")
                 _missing.append("alt-ergo")
 
         # ── coq (opam) ──
@@ -901,34 +906,25 @@ class MasterBootstrapGuardian:
         if _shutil.which("coqc"):
             log.info("  [OK] coq available")
         else:
-            opam_path = _shutil.which("opam")
-            if opam_path:
-                log.info("  [INSTALL] coq not found — attempting opam install...")
-                try:
-                    subprocess.run(
-                        [opam_path, "install", "-y", "coq"],
-                        capture_output=True, text=True, timeout=1200, check=True,
-                    )
-                    log.info("  [OK] coq installed via opam")
-                except Exception as exc:
-                    log.error(f"  [FATAL] coq opam install failed: {exc}")
-                    _missing.append("coq")
-            else:
-                log.error(
-                    "  [FATAL] opam not found — cannot install coq.\n"
-                    "  Install opam: https://opam.ocaml.org/doc/Install.html\n"
-                    "  Then run: opam install coq"
+            log.info("  [INSTALL] coq not found — attempting opam install...")
+            try:
+                subprocess.run(
+                    [opam_path, "install", "-y", "coq"],
+                    capture_output=True, text=True, timeout=1200, check=True,
                 )
+                log.info("  [OK] coq installed via opam")
+            except Exception as exc:
+                log.error(f"  [FATAL] coq opam install failed: {exc}")
                 _missing.append("coq")
 
-        # ── Block if any solver is missing ──
+        # ── Block if any solver failed to install ──
         if _missing:
             _msg = (
-                f"[MBG] FATAL: Required formal verification solvers missing: "
+                f"[MBG] FATAL: Required formal verification solvers failed to install: "
                 f"{', '.join(_missing)}\n"
                 "  All solvers are MEDIUM+ violations in sabotage_verifier.py and MUST "
                 "be present for bootstrap to proceed.\n"
-                "  Install the missing solvers and re-run."
+                "  Install manually and re-run."
             )
             log.error(_msg)
             raise SystemExit(1)
