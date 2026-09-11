@@ -1,0 +1,9 @@
+DIGEST 91066a01e51d67c08f5ec8e282e18e9a
+Ffix_remaining
+mod 215:227 <> fix_remaining
+R246:251 Coq.ZArith.ZArith <> <> lib
+R269:274 Coq.QArith.QArith <> <> lib
+R292:305 Coq.Strings.String <> <> lib
+R323:332 Coq.Lists.List <> <> lib
+R350:353 Coq.Bool.Bool <> <> lib
+R497:509 fix_remaining fix_remaining <> mod

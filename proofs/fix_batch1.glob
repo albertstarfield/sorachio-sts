@@ -1,0 +1,8 @@
+DIGEST 8665978791c2a18b3ac62c6d82ecef5d
+Ffix_batch1
+mod 212:221 <> fix_batch1
+R240:245 Coq.ZArith.ZArith <> <> lib
+R263:268 Coq.QArith.QArith <> <> lib
+R286:299 Coq.Strings.String <> <> lib
+R317:326 Coq.Lists.List <> <> lib
+R344:347 Coq.Bool.Bool <> <> lib
