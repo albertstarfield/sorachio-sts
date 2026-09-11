@@ -68,7 +68,7 @@ audio:
 # STT Configuration (faster-whisper / CTranslate2)
 # =============================================================================
 stt:
-  model_size: "small"             # Multilingual small model (484MB) — 100% cached on disk, loads in 1s, highest precision
+  model_size: "medium"            # Multilingual medium model (1.5GB) — much higher accuracy, reduces hallucination
   language: "auto"                # "auto" = auto-detect id/en, or pin to "en"/"id"
   threads: 6
   beam_size: 2                    # Beam size 2 — balance between accuracy and speed

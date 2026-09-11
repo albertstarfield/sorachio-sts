@@ -254,11 +254,17 @@ class WhisperClient:
         """Load the faster-whisper model (blocking, run once at startup)."""
         loop = asyncio.get_event_loop()
 
-        # Skip warmup if MBG already did it (detected via marker file)
+        # Skip warmup if MBG already did it (detected via marker file matching model_size)
         stt_warmed_marker = self.models_dir / ".warmed"
-        skip_warmup = stt_warmed_marker.exists()
+        skip_warmup = False
+        if stt_warmed_marker.exists():
+            try:
+                content = stt_warmed_marker.read_text().strip()
+                skip_warmup = (content == self.model_size or content == "")
+            except Exception:
+                skip_warmup = True
         if skip_warmup:
-            log.info("[STT] Whisper warmup marker found — skipping JIT warmup (already done by MBG)")
+            log.info(f"[STT] Whisper warmup marker found for '{self.model_size}' — skipping JIT warmup")
 
         ok = await loop.run_in_executor(None, self._load_model, skip_warmup)
         self._available = ok

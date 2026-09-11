@@ -266,7 +266,19 @@ class MasterBootstrapGuardian:
 
         # STT model present in models/stt?
         stt_dir = MODELS_DIR / "stt"
-        if not stt_dir.exists() or not any(stt_dir.iterdir()):
+        stt_model_name = "medium"
+        try:
+            yaml_path = PROJECT_ROOT / "config" / "sorachio.yaml"
+            if yaml_path.exists():
+                import yaml  # type: ignore[import-untyped]
+                with open(yaml_path, encoding="utf-8") as f:
+                    cfg_data = yaml.safe_load(f)
+                    stt_model_name = cfg_data.get("stt", {}).get("model_size", "medium")
+        except Exception:
+            pass
+
+        stt_hf_dir = stt_dir / f"models--Systran--faster-whisper-{stt_model_name}"
+        if not (stt_hf_dir.exists() or (stt_dir / "model.bin").exists()):
             return False
 
         # TTS Piper model present in models/tts?
@@ -839,17 +851,26 @@ class MasterBootstrapGuardian:
         # --- Whisper STT warmup ---
         stt_dir = MODELS_DIR / "stt"
         stt_warmed_marker = stt_dir / ".warmed"
-        if not stt_warmed_marker.exists():
-            stt_model_name = "small"
+        stt_model_name = "medium"
+        try:
+            yaml_path = PROJECT_ROOT / "config" / "sorachio.yaml"
+            if yaml_path.exists():
+                import yaml  # type: ignore[import-untyped]
+                with open(yaml_path, encoding="utf-8") as f:
+                    cfg_data = yaml.safe_load(f)
+                    stt_model_name = cfg_data.get("stt", {}).get("model_size", "medium")
+        except Exception:
+            pass
+
+        marker_valid = False
+        if stt_warmed_marker.exists():
             try:
-                yaml_path = PROJECT_ROOT / "config" / "sorachio.yaml"
-                if yaml_path.exists():
-                    import yaml  # type: ignore[import-untyped]
-                    with open(yaml_path, encoding="utf-8") as f:
-                        cfg_data = yaml.safe_load(f)
-                        stt_model_name = cfg_data.get("stt", {}).get("model_size", "small")
+                marker_content = stt_warmed_marker.read_text().strip()
+                marker_valid = (marker_content == stt_model_name)
             except Exception:
-                pass
+                marker_valid = False
+
+        if not marker_valid:
             try:
                 log.info(f"[MBG] Warming up Whisper STT model ('{stt_model_name}')...")
                 from faster_whisper import WhisperModel
@@ -865,14 +886,14 @@ class MasterBootstrapGuardian:
                 segs, _ = _warmup_model.transcribe(dummy, language="en", beam_size=1, temperature=0.0)
                 _ = list(segs)
                 del _warmup_model
-                stt_warmed_marker.touch()
-                log.info("[MBG] Whisper STT warmup complete [OK] — marker written")
+                stt_warmed_marker.write_text(stt_model_name)
+                log.info(f"[MBG] Whisper STT warmup ('{stt_model_name}') complete [OK] — marker written")
             except Exception as warmup_err:
                 log.warning(f"[MBG] Whisper STT warmup failed (non-fatal): {warmup_err}")
                 if stt_warmed_marker.exists():
                     stt_warmed_marker.unlink()
         else:
-            log.info("[MBG] Whisper STT warmup marker already present [OK]")
+            log.info(f"[MBG] Whisper STT warmup marker ('{stt_model_name}') already present [OK]")
 
         # --- Kokoro TTS warmup ---
         kokoro_dir = MODELS_DIR / "tts" / "kokoro"
@@ -912,22 +933,22 @@ class MasterBootstrapGuardian:
         for name, config in LLM_MODEL_DIRS.items():
             self._verify_llm_model_dir(name, config)
 
-        # 2. Pre-download STT Whisper model (small / base) to models/stt/
+        # 2. Pre-download STT Whisper model to models/stt/
         try:
-            stt_model_name = "small"
+            stt_model_name = "medium"
             yaml_path = PROJECT_ROOT / "config" / "sorachio.yaml"
             if yaml_path.exists():
                 import yaml  # type: ignore[import-untyped]
                 with open(yaml_path, encoding="utf-8") as f:
                     cfg_data = yaml.safe_load(f)
-                    stt_model_name = cfg_data.get("stt", {}).get("model_size", "small")
+                    stt_model_name = cfg_data.get("stt", {}).get("model_size", "medium")
 
             stt_dir = MODELS_DIR / "stt"
             stt_dir.mkdir(parents=True, exist_ok=True)
 
             log.info(f"[MBG] Verifying Whisper STT model ('{stt_model_name}') in {stt_dir}...")
             from faster_whisper import download_model
-            download_model(stt_model_name, output_dir=str(stt_dir))
+            download_model(stt_model_name, cache_dir=str(stt_dir))
             log.info(f"[MBG] Whisper STT model ('{stt_model_name}') is ready [OK]")
         except Exception as e:
             log.warning(f"[MBG] STT model verification: {e}")
