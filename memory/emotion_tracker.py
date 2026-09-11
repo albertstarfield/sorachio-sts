@@ -39,6 +39,10 @@ class EmotionTracker:
 
         # test: test___init__
     def __init__(
+    """TODO: Add description.
+    
+    # test: test_EmotionTracker_init
+    """
         self,
         history_size: int = 50,
         summary_interval_turns: int = 10,

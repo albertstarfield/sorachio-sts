@@ -17,6 +17,10 @@ ENTRY_POINT = "main.py"
 VERIFIER = "utils/sabotage_verifier.py"
 SRC_VERIFIER = "src/utils/sabotage_verifier.py"
 
+"""TODO: Add description.
+
+# test: test_run_step
+"""
 
 def run_step(name: str, cmd: list[str], description: str, required: bool = False) -> bool:
     """Run a pipeline step and report status.
@@ -73,6 +77,10 @@ def run_step(name: str, cmd: list[str], description: str, required: bool = False
         if required:
             return False
         return True
+        """TODO: Add description.
+        
+        # test: test_main
+        """
 
 
 def main() -> int:

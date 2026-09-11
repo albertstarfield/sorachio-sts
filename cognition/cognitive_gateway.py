@@ -118,6 +118,10 @@ class CognitiveGateway:
 
         # test: test___init__
     def __init__(
+    """TODO: Add description.
+    
+    # test: test_CognitiveGateway_init
+    """
         self,
         client: LlamaClient,
         temperature: float = 0.1,

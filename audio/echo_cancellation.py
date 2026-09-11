@@ -216,6 +216,7 @@ class SimpleEnergyAEC(AECProvider):
 
     Returns:
         None: Description.
+        # test: test_SimpleEnergyAEC_init
         """
         self.attenuation_factor = max(0.0, min(1.0, attenuation_factor))
         self._playback_active = threading.Event()

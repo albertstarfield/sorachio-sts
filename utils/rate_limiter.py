@@ -45,6 +45,10 @@ class RateLimiter:
 
         # test: test___init__
     def __init__(
+    """TODO: Add description.
+    
+    # test: test_RateLimiter_init
+    """
         self,
         max_requests: int = 10,
         window_seconds: float = 60.0,

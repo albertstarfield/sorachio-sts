@@ -61,6 +61,7 @@ class Message:
     role (str): Description.
     content (str): Description.
     image_b64: Description.
+        # test: test_Message_init
         """
         self.role = role
         self.content = content

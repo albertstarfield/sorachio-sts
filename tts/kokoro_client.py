@@ -427,6 +427,10 @@ class KokoroTTSClient:
 
         # test: test_process_tts_queue
     async def process_tts_queue(
+    """TODO: Add description.
+    
+    # test: test_KokoroTTSClient_process_tts_queue
+    """
         self,
         tts_chunk_queue: asyncio.Queue,
         interrupt_event: asyncio.Event,

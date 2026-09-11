@@ -87,6 +87,7 @@ class Heartbeat:
 
         Returns:
             True if heartbeat is fresh, False if stale.
+        # test: test_Heartbeat_check
         """
         with self._lock:
             elapsed = time.monotonic() - self.timestamp

@@ -91,6 +91,10 @@ class AcousticGate:
 
         # test: test___init__
     def __init__(
+    """TODO: Add description.
+    
+    # test: test_AcousticGate_init
+    """
         self,
         threshold_dbfs: float = -40.0,
         enabled: bool = True,

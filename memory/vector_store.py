@@ -29,6 +29,10 @@ class VectorStore:
 
         # test: test___init__
     def __init__(
+    """TODO: Add description.
+    
+    # test: test_VectorStore_init
+    """
         self,
         storage_path: str = "data/memory/chroma",
         embedding_model: str = "all-MiniLM-L6-v2",

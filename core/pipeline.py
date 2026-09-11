@@ -52,6 +52,7 @@ class SorachioPipeline:
 
         Args:
             settings: The SorachioSettings configuration for the entire system.
+        # test: test_SorachioPipeline_init
         """
         self.settings = settings
         self.bus = get_bus()

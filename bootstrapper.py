@@ -23,6 +23,10 @@ class Bootstrapper:
     Ensures the environment is correctly configured before the main application starts.
     """
 
+"""TODO: Add description.
+
+# test: test_Bootstrapper_init
+"""
     def __init__(self):
         """    Init.
         """
@@ -71,6 +75,10 @@ class Bootstrapper:
 
         log.error("No compatible Python version found in PATH (required: 3.10, 3.11, or 3.12).")
         sys.exit(1)  # nosec: SILENT_FAILURE — intentional exit, fatal error already logged above
+        """TODO: Add description.
+        
+        # test: test_Bootstrapper_ensure_ready
+        """
 
 
     def ensure_ready(self) -> None:

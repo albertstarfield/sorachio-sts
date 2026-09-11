@@ -468,6 +468,10 @@ class WhisperClient:
 
         # test: test_transcribe_streaming
     async def transcribe_streaming(
+    """TODO: Add description.
+    
+    # test: test_WhisperClient_transcribe_streaming
+    """
         self,
         audio_bytes: bytes,
     ) -> AsyncIterator[str]:

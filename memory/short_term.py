@@ -67,6 +67,7 @@ class STMEntry:
         - https://docs.python.org/3/library/collections.html
 
         # test: test_STMEntry_to_dict
+        # test: test_STMEntry_to_dict
         """
         d = asdict(self)
         d["timestamp"] = self.timestamp.isoformat()

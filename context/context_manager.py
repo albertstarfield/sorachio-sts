@@ -87,6 +87,10 @@ class ContextManager:
 
         # test: test_build_prompt
     async def build_prompt(
+    """TODO: Add description.
+    
+    # test: test_ContextManager_build_prompt
+    """
         self,
         user_input: str,
         cognitive_decision: dict[str, Any],

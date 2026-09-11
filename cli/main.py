@@ -107,6 +107,7 @@ class _NoiseFilter(logging.Filter):
 
         References:
         - https://docs.python.org/3/library/argparse.html
+        # test: test__NoiseFilter_filter
         """
         msg = record.getMessage()
         return not any(p in msg for p in self._PATTERNS)

@@ -110,6 +110,7 @@ class EventBus:
 
     Returns:
         None: Description.
+        # test: test_EventBus_init
         """
         self._handlers: dict[EventType, list[HandlerFn]] = {}
         self._global_handlers: list[HandlerFn] = []

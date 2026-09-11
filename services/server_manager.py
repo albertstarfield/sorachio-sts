@@ -275,6 +275,7 @@ class ServerManager:
         Args:
             llm_config: The LLM configuration containing server settings for both instances.
             project_root: The project root directory path.
+        # test: test_ServerManager_init
         """
         self.project_root = project_root
         self.llm_config = llm_config

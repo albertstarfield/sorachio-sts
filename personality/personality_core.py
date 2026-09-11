@@ -95,6 +95,10 @@ class PersonalityCore:
 
         # test: test_generate_streaming
     async def generate_streaming(
+    """TODO: Add description.
+    
+    # test: test_PersonalityCore_generate_streaming
+    """
         self,
         messages: list[dict[str, str]],
     ) -> str:

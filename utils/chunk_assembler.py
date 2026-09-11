@@ -64,6 +64,10 @@ class ChunkAssembler:
 
         # test: test___init__
     def __init__(
+    """TODO: Add description.
+    
+    # test: test_ChunkAssembler_init
+    """
         self,
         min_words: int = 3,
         max_words: int = 30,
@@ -90,6 +94,10 @@ class ChunkAssembler:
 
         self._buffer: str = ""
         self._last_token_time: float = 0.0
+        """TODO: Add description.
+        
+        # test: test_ChunkAssembler_reset
+        """
 
     def reset(self) -> None:
         """

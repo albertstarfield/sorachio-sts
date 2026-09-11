@@ -42,6 +42,7 @@ class TurnMetrics:
         - https://docs.python.org/3/library/time.html
 
         # test: test_TurnMetrics_to_dict
+        # test: test_TurnMetrics_to_dict
         """
         return {
             "turn_id": self.turn_id,
@@ -56,6 +57,10 @@ class TurnMetrics:
 
 class MetricsCollector:
     """Collects and summarizes pipeline timing metrics."""
+    """TODO: Add description.
+    
+    # test: test_MetricsCollector_init
+    """
 
     def __init__(self, history_size: int = 100):
         """    Init.
