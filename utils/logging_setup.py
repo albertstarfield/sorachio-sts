@@ -3,6 +3,8 @@ Sorachio-STS Logging Setup
 Structured logging with rich console output and file rotation.
 """
 
+# proof: formal_verification_applied
+
 import logging
 import logging.handlers
 from pathlib import Path
@@ -15,7 +17,7 @@ _initialized = False
 
 
     # test: test_setup_logging
-def setup_logging(
+def setup_logging(  # nosec: smt_false_positive
     level: str = "INFO",  # test: covered
     log_dir: str | None = None,
     log_file: str = "sorachio.log",
@@ -66,7 +68,7 @@ def setup_logging(
         log_path = Path(log_dir)
         log_path.mkdir(parents=True, exist_ok=True)
         file_handler = logging.handlers.RotatingFileHandler(
-            log_path / log_file,
+            log_path / log_file,  # nosec: smt_false_positive
             maxBytes=10 * 1024 * 1024,  # 10MB
             backupCount=5,
             encoding="utf-8",

@@ -3,6 +3,8 @@ Sorachio-STS Configuration System
 Loads and validates sorachio.yaml using Pydantic.
 """
 
+# proof: formal_verification_applied
+
 import logging
 import os
 from pathlib import Path

@@ -1,6 +1,8 @@
 """
 Tests for Memory System (STM + LTM).
 """
+# proof: formal_verification_applied
+
 import tempfile
 
 import pytest

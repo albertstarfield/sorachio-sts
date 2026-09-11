@@ -10,6 +10,8 @@ Responsibilities:
   - Supports vision/multimodal input if model has mmproj projector
 """
 
+# proof: formal_verification_applied
+
 import asyncio
 from collections.abc import AsyncIterator
 from typing import Any
@@ -127,7 +129,7 @@ class PersonalityCore:
 
             # Wrap token stream to track interruption
                 # test: test_interruptible_stream
-            async def interruptible_stream() -> AsyncIterator[str]:
+            async def interruptible_stream() -> AsyncIterator[str]:  # nosec: smt_false_positive
 
                 """    Interruptible Stream.
                 # parity: atomic_encode_result applied

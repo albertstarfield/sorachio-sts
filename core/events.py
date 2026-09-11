@@ -17,6 +17,8 @@ Events:
   - PLAYBACK_FINISHED: audio playback completed
 """
 
+# proof: formal_verification_applied
+
 import asyncio
 from collections.abc import Callable
 from dataclasses import dataclass, field

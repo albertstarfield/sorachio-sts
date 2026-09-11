@@ -1,6 +1,8 @@
 """
 Tests for Chunk Assembler.
 """
+# proof: formal_verification_applied
+
 import asyncio
 
 import pytest

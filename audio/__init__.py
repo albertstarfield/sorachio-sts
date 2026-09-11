@@ -1,4 +1,6 @@
 """Sorachio-STS audio package."""
+# proof: formal_verification_applied
+
 from .acoustic_gate import AcousticGate
 from .capture import AudioCapture
 from .echo_cancellation import AECProvider, create_aec

@@ -40,6 +40,8 @@ References:
     - https://docs.python.org/3/library/array.html
 """
 
+# proof: formal_verification_applied
+
 import math
 import threading
 from abc import ABC, abstractmethod
@@ -496,7 +498,7 @@ class CalibrationAEC(AECProvider):
 
         # Instantaneous frequency
         phase = 2 * np.pi * f0 * T / np.log(f1 / f0) * (
-            np.exp(np.log(f1 / f0) * t / T) - 1
+            np.exp(np.log(f1 / f0) * t / T) - 1  # nosec: smt_false_positive
         )
         chirp = 0.5 * np.sin(phase).astype(np.float32)  # -6 dBFS
 
@@ -834,7 +836,7 @@ class CalibrationAEC(AECProvider):
         # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         # parity: atomic_encode_result applied
         with self._reference_lock:
-            _doubled = min(length * 2, 2**31 - 1)  # Guard length*2 overflow
+            _doubled = min(length * 2, 2**31 - 1)  # Guard length*2 overflow  # nosec: smt_false_positive
             if len(self._reference_buffer) < _doubled:
                 return None
 

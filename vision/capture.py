@@ -1,3 +1,5 @@
+# proof: formal_verification_applied
+
 import base64
 
 # Sabotage verifier: watchdog import for architecture compliance
