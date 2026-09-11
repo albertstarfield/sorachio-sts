@@ -1,0 +1,14 @@
+{
+  "module": "services",
+  "version": "1.0.0",
+  "split_parity": {
+    "algorithm": "Reed-Solomon",
+    "parameters": "RS(255,223)",
+    "field": "GF(2^8)",
+    "shards": 2,
+    "parity_one": ".par2-one",
+    "parity_two": ".par2-two"
+  },
+  "created": "2026-09-11T00:00:00Z",
+  "description": "Split parity data for services module crash recovery"
+}

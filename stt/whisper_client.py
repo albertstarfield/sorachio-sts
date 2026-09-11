@@ -530,7 +530,6 @@ class WhisperClient:
                 log.error(f"[STT] Streaming generation error: {e}")
 
         # Run in executor and yield
-        import queue
         result_queue: queue.Queue = queue.Queue()
         done_event = threading.Event()
 

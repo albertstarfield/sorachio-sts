@@ -36,9 +36,10 @@ import sys
 import threading
 import time
 import traceback
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -128,12 +129,12 @@ class Watchdog_A:
         self._interval = check_interval
         self._heartbeats: dict[str, Heartbeat] = {}
         self._state = WatchdogState.IDLE
-        self._thread: Optional[threading.Thread] = None
+        self._thread: threading.Thread | None = None
         self._stop_event = threading.Event()
         self._lock = threading.Lock()
         self._recovery_callbacks: dict[str, Callable[[], None]] = {}
-        self._cross_check_callback: Optional[Callable[[], bool]] = None
-        self._resurrect_callback: Optional[Callable[[], None]] = None
+        self._cross_check_callback: Callable[[], bool] | None = None
+        self._resurrect_callback: Callable[[], None] | None = None
         self._crash_count = 0
         self._max_crashes = 5
         logger.info(
@@ -155,7 +156,7 @@ class Watchdog_A:
     def register_component(
         self,
         name: str,
-        recovery_callback: Optional[Callable[[], None]] = None,
+        recovery_callback: Callable[[], None] | None = None,
     ) -> None:
         """Register a component to be monitored.
 
@@ -404,12 +405,12 @@ class Watchdog_B:
         self._interval = check_interval
         self._heartbeats: dict[str, Heartbeat] = {}
         self._state = WatchdogState.IDLE
-        self._thread: Optional[threading.Thread] = None
+        self._thread: threading.Thread | None = None
         self._stop_event = threading.Event()
         self._lock = threading.Lock()
         self._recovery_callbacks: dict[str, Callable[[], None]] = {}
-        self._cross_check_callback: Optional[Callable[[], bool]] = None
-        self._resurrect_callback: Optional[Callable[[], None]] = None
+        self._cross_check_callback: Callable[[], bool] | None = None
+        self._resurrect_callback: Callable[[], None] | None = None
         self._crash_count = 0
         self._max_crashes = 5
         logger.info(
@@ -431,7 +432,7 @@ class Watchdog_B:
     def register_component(
         self,
         name: str,
-        recovery_callback: Optional[Callable[[], None]] = None,
+        recovery_callback: Callable[[], None] | None = None,
     ) -> None:
         """Register a component to be monitored.
 
@@ -668,7 +669,7 @@ def Cross_Monitor(watchdog_a: Watchdog_A, watchdog_b: Watchdog_B) -> None:
 # ---------------------------------------------------------------------------
 
 # Global reference to resurrection callback (set by Segfault_Recover)
-_resurrect_fn: Optional[Callable[[], None]] = None
+_resurrect_fn: Callable[[], None] | None = None
 
 
 def Handle_Segfault(signum: int, frame: Any) -> None:
@@ -716,7 +717,7 @@ def Handle_Segfault(signum: int, frame: Any) -> None:
 
 
 def Segfault_Recover(
-    resurrect_callback: Optional[Callable[[], None]] = None,
+    resurrect_callback: Callable[[], None] | None = None,
 ) -> None:
     """Register segfault handler with resurrection callback.
 
@@ -777,7 +778,7 @@ def _save_crash_state(signal_name: str, frame: Any) -> None:
 def Resurrect(
     watchdog_a: Watchdog_A,
     watchdog_b: Watchdog_B,
-    restart_fn: Optional[Callable[[], None]] = None,
+    restart_fn: Callable[[], None] | None = None,
 ) -> None:
     """Resurrect the system after catastrophic failure.
 
@@ -836,7 +837,7 @@ def Resurrect(
 # ---------------------------------------------------------------------------
 
 def initialize_watchdogs(
-    restart_fn: Optional[Callable[[], None]] = None,
+    restart_fn: Callable[[], None] | None = None,
 ) -> tuple[Watchdog_A, Watchdog_B]:
     """Initialize and wire up both watchdogs with cross-monitoring.
 
