@@ -114,6 +114,7 @@ class KokoroTTSClient:
         sample_rate: int = 24000,
         models_dir: str = "models/tts",
     ):
+
         """Initialize the KokoroTTSClient with voice and synthesis parameters.
 
         Args:

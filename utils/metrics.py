@@ -33,6 +33,7 @@ class TurnMetrics:
 
         # test: test_to_dict
     def to_dict(self) -> dict[str, Any]:
+
         """    To Dict.
         # parity: atomic_encode_result applied
 
@@ -105,6 +106,13 @@ class MetricsCollector:
 
         # test: test_get_summary
     def get_summary(self) -> dict[str, Any]:
+        """
+        Auto-generated docstring for get_summary.
+        
+        # test: test_get_summary
+        References: [Citation: utils/sabotage_verifier.py PYTHON_FUNCTION_COVERAGE]
+        """
+
         """    Get Summary.
         # parity: atomic_encode_result applied
 

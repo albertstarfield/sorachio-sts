@@ -60,6 +60,7 @@ class ContextManager:
         include_emotional_state: bool = True,
         emotion_tracker: EmotionTracker | None = None,
     ):
+
         """Init.
         
         Args:

@@ -98,6 +98,7 @@ class AcousticGate:
         debug: bool = False,
         hold_frames: int = 15,
     ) -> None:
+
         """    Init.
 
     Args:

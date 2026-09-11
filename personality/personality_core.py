@@ -62,6 +62,7 @@ class PersonalityCore:
         temperature: float = 0.8,
         max_tokens: int = 512,
     ):
+
         """    Init.
 
     Args:
@@ -126,6 +127,7 @@ class PersonalityCore:
             # Wrap token stream to track interruption
                 # test: test_interruptible_stream
             async def interruptible_stream() -> AsyncIterator[str]:
+
                 """    Interruptible Stream.
                 # parity: atomic_encode_result applied
 

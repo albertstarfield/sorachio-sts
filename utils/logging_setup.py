@@ -90,6 +90,7 @@ def setup_logging(
 
 
 def get_logger(name: str) -> logging.Logger:
+
     """
     Get a child logger under the sorachio namespace.
     

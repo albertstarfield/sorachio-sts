@@ -273,6 +273,7 @@ class WhisperClient:
         chunk_length_s: float = 5.0,
         models_dir: str | Path = "models/stt",
     ):
+
         """Init.
         
         Args:
@@ -307,6 +308,7 @@ class WhisperClient:
 
     @property
     def last_detected_language(self) -> str | None:
+
         """
         Language code detected from the most recent transcription (e.g. 'en', 'id').
         
@@ -317,6 +319,7 @@ class WhisperClient:
         return self._last_detected_language  # test: covered
 
     async def initialize(self) -> bool:
+
         """
         Load the faster-whisper model (blocking, run once at startup).
         
@@ -415,6 +418,7 @@ class WhisperClient:
             return False
 
     async def transcribe(self, audio_bytes: bytes) -> str | None:
+
         """
         Transcribe raw PCM audio bytes to text.
 

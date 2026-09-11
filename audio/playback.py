@@ -47,6 +47,7 @@ class AudioPlayback:
         device_index: int | None = None,  # nosec: SMT_LOGIC_VERIFICATION — Optional handled downstream with explicit None checks
         aec: AECProvider | None = None,  # nosec: SMT_LOGIC_VERIFICATION — Optional handled downstream with explicit None checks
     ):
+
         """    Init.
 
     Args:

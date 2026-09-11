@@ -1,0 +1,8 @@
+DIGEST ce86ac93fe32077d8b39d1efb96f4801
+Ffix_targeted
+mod 214:225 <> fix_targeted
+R244:249 Coq.ZArith.ZArith <> <> lib
+R267:272 Coq.QArith.QArith <> <> lib
+R290:303 Coq.Strings.String <> <> lib
+R321:330 Coq.Lists.List <> <> lib
+R348:351 Coq.Bool.Bool <> <> lib

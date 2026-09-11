@@ -96,6 +96,7 @@ class PiperTTSClient:
         sample_rate: int = 22050,
         models_dir: str = "models/tts",
     ):
+
         """Initialize the PiperTTSClient with voice and synthesis parameters.
 
         Args:
@@ -127,6 +128,7 @@ class PiperTTSClient:
         self._response_lang_locked: bool = False  # True once lang is resolved
 
     async def initialize(self, offline_only: bool = True) -> bool:
+
         """
         Load Piper voices (blocking, run once at startup).
 
@@ -306,6 +308,7 @@ class PiperTTSClient:
         return onnx_path
 
     def set_language(self, lang: str, from_stt: bool = False) -> None:
+
         """
         Set the active language for voice routing.
 
@@ -432,6 +435,7 @@ class PiperTTSClient:
         return text
 
     async def synthesize_chunk(self, text: str) -> np.ndarray | None:
+
         """
         Synthesize a single text chunk to audio.
 
@@ -602,6 +606,7 @@ class PiperTTSClient:
                 tts_chunk_queue.task_done()
 
     async def speak(self, text: str) -> None:
+
         """
         Convenience: synthesize full text and queue all audio directly.
         Used for startup greeting and test mode.
@@ -676,6 +681,7 @@ def test_speak() -> None:
 
 
 def test_atomic_encode_result() -> None:
+
     """Test coverage for atomic_encode_result.    References:
     - https://docs.python.org/3/
     References:

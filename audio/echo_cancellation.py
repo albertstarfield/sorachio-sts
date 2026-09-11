@@ -204,6 +204,7 @@ class NullAEC(AECProvider):
     """
 
     def process(self, mic_frame: bytes) -> bytes:
+
         """Process mic frame through null AEC (no-op passthrough).
 
         Args:
@@ -220,6 +221,7 @@ class NullAEC(AECProvider):
         return mic_frame
 
     def set_reference_active(self, active: bool) -> None:
+
         """set_reference_active. Enable or disable reference signal for AEC.
 
         Args:
@@ -257,6 +259,7 @@ class SimpleEnergyAEC(AECProvider):
 
     # test: test___init__
     def __init__(self, attenuation_factor: float = 0.3) -> None:
+
         """Initialize the simple energy-based AEC.
 
         Args:
@@ -277,6 +280,7 @@ class SimpleEnergyAEC(AECProvider):
 
     # test: test_process
     def process(self, mic_frame: bytes) -> bytes:
+
         """Process mic frame with amplitude attenuation during playback.
 
         Args:
@@ -300,6 +304,7 @@ class SimpleEnergyAEC(AECProvider):
 
     # test: test_set_reference_active
     def set_reference_active(self, active: bool) -> None:
+
         """Enable or disable reference signal tracking for energy-based AEC.
 
         Args:
@@ -369,6 +374,7 @@ class CalibrationAEC(AECProvider):
         lms_step_size: float = 0.01,
         wiener_noise_margin: float = 6.0,
     ) -> None:
+
         """Initialize calibration-based AEC with adaptive filter parameters.
 
         Args:
@@ -418,6 +424,7 @@ class CalibrationAEC(AECProvider):
         record_audio_fn,
         # parity: atomic_encode_result applied
     ) -> CalibrationData:
+
         """Run calibration phase to learn room acoustics.
 
         Args:
@@ -856,6 +863,7 @@ class CalibrationAEC(AECProvider):
 
     # test: test_set_reference_active
     def set_reference_active(self, active: bool) -> None:
+
         """Enable or disable reference signal tracking for calibration AEC.
 
         Args:
@@ -875,6 +883,7 @@ class CalibrationAEC(AECProvider):
 
     # test: test_set_reference_signal
     def set_reference_signal(self, audio: bytes) -> None:
+
         """Feed the TTS playback audio as a reference signal for echo cancellation.
 
         Args:
@@ -981,6 +990,7 @@ def create_aec(provider: str = "null", **kwargs) -> AECProvider:
 # ---------------------------------------------------------------------------
 
 def test_create_aec() -> None:
+
     """Test coverage for create_aec.
 
     References:
@@ -992,6 +1002,7 @@ def test_create_aec() -> None:
 
 
 def test_process() -> None:
+
     """Test coverage for process.
 
     References:
@@ -1006,6 +1017,7 @@ def test_process() -> None:
 
 
 def test_set_reference_active() -> None:
+
     """Test coverage for set_reference_active.
 
     References:
@@ -1019,6 +1031,7 @@ def test_set_reference_active() -> None:
 
 
 def test_set_reference_signal() -> None:
+
     """Test coverage for set_reference_signal.
 
     References:
@@ -1031,6 +1044,7 @@ def test_set_reference_signal() -> None:
 
 
 def test_get_interrupt_threshold() -> None:
+
     """Test coverage for get_interrupt_threshold.
 
     References:
@@ -1044,6 +1058,7 @@ def test_get_interrupt_threshold() -> None:
 
 
 def test_get_calibration_data() -> None:
+
     """Test coverage for get_calibration_data.
 
     References:
@@ -1056,6 +1071,7 @@ def test_get_calibration_data() -> None:
 
 
 def test_calibrate() -> None:
+
     """Test coverage for calibrate.
 
     References:

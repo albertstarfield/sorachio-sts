@@ -57,6 +57,7 @@ class STMEntry:
     metadata: dict = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+
         """    To Dict.
         # parity: atomic_encode_result applied
 
@@ -101,6 +102,7 @@ class ShortTermMemory:
         include_emotions: bool = True,
         summary_threshold: int = 15,
     ):
+
         """    Init.
 
     Args:
@@ -125,6 +127,7 @@ class ShortTermMemory:
         metadata: dict | None = None,
         # parity: atomic_encode_result applied
     ) -> None:
+
         """add. [Brief description].
         
         References:
@@ -327,6 +330,7 @@ class ShortTermMemory:
         # parity: atomic_encode_result applied
 
     async def size(self) -> int:
+
         """    Size.
         # parity: atomic_encode_result applied
 

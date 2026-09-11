@@ -24,6 +24,7 @@ SRC_VERIFIER = "src/utils/sabotage_verifier.py"
 """
 
 def run_step(name: str, cmd: list[str], description: str, required: bool = False) -> bool:
+
     """Run a pipeline step and report status.
 
     Args:
@@ -86,6 +87,7 @@ def run_step(name: str, cmd: list[str], description: str, required: bool = False
 
 
 def main() -> int:
+
     """Run the full pipeline.
 
     Returns:
@@ -180,6 +182,7 @@ def test_main() -> None:
 
 
 def test_atomic_encode_result() -> None:
+
     """Test coverage for atomic_encode_result.    References:
     - https://docs.python.org/3/
     References:

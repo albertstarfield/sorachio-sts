@@ -64,6 +64,7 @@ class SingleServerManager:
         log_dir: Path,
         mmproj_path: Path | None = None,
     ):
+
         """Initialize the LLM server manager.
 
         Args:
@@ -139,6 +140,7 @@ class SingleServerManager:
         return cmd
 
     async def start(self) -> bool:
+
         """Start the server subprocess and verify it launches successfully.
 
         Returns:
@@ -256,6 +258,7 @@ class SingleServerManager:
             self._log_file = None
 
     async def health_check(self) -> bool:
+
         """Check if server endpoint responds to health query.
 
         Returns:
@@ -280,6 +283,7 @@ class SingleServerManager:
             return False
 
     def is_running(self) -> bool:
+
         """Return True if the server process is alive and not yet terminated.
 
         Returns:
@@ -309,6 +313,7 @@ class ServerManager:
     """
 
     def __init__(self, llm_config, project_root: Path) -> None:
+
         """Initialize the ServerManager with both LLM server configurations.
 
         Args:
@@ -359,6 +364,7 @@ class ServerManager:
         self.max_restart_attempts = 3
 
     async def health_check_all(self) -> dict[str, bool]:
+
         """Check health of all managed servers.
 
         Returns:
@@ -375,6 +381,7 @@ class ServerManager:
         return results
 
     async def start_watchdog(self, check_interval_s: float = 30.0) -> None:
+
         """Start watchdog background loop to monitor server health and auto-restart if needed.
 
         Args:
@@ -431,6 +438,7 @@ class ServerManager:
             log.info("[ServerManager] Watchdog stopped")
 
     async def start_all(self, wait_ready: bool = True) -> bool:
+
         """Start all servers and optionally wait for them to become ready.
 
         Args:
@@ -496,6 +504,7 @@ class ServerManager:
             srv.stop()
 
     def status(self) -> dict[str, bool]:
+
         """Return running status of all managed servers.
 
         Returns:
@@ -528,6 +537,7 @@ except ImportError:
 # ---------------------------------------------------------------------------
 
 def test_start() -> None:
+
     """Test coverage for start.
 
     References:
@@ -539,6 +549,7 @@ def test_start() -> None:
 
 
 def test_stop() -> None:
+
     """Test coverage for stop.
 
     References:
@@ -553,6 +564,7 @@ def test_stop() -> None:
 
 
 def test_health_check() -> None:
+
     """Test coverage for health_check.
 
     References:
@@ -567,6 +579,7 @@ def test_health_check() -> None:
 
 
 def test_is_running() -> None:
+
     """Test coverage for is_running.
 
     References:
@@ -580,6 +593,7 @@ def test_is_running() -> None:
 
 
 def test_health_check_all() -> None:
+
     """Test coverage for health_check_all.
 
     References:
@@ -594,6 +608,7 @@ def test_health_check_all() -> None:
 
 
 def test_start_watchdog() -> None:
+
     """Test coverage for start_watchdog.
 
     References:
@@ -606,6 +621,7 @@ def test_start_watchdog() -> None:
 
 
 def test_stop_watchdog() -> None:
+
     """Test coverage for stop_watchdog.
 
     References:
@@ -619,6 +635,7 @@ def test_stop_watchdog() -> None:
 
 
 def test_start_all() -> None:
+
     """Test coverage for start_all.
 
     References:
@@ -631,6 +648,7 @@ def test_start_all() -> None:
 
 
 def test_stop_all() -> None:
+
     """Test coverage for stop_all.
 
     References:
@@ -645,6 +663,7 @@ def test_stop_all() -> None:
 
 
 def test_status() -> None:
+
     """Test coverage for status.
 
     References:
@@ -658,6 +677,7 @@ def test_status() -> None:
 
 
 def test_atomic_encode_result() -> None:
+
     """Test coverage for atomic_encode_result.
 
     References:

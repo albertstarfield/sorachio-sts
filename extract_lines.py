@@ -6,6 +6,7 @@ try:
     from utils.atomic_parity import atomic_encode_result
 except ImportError:
     def atomic_encode_result(x):  # type -> None: ignore[misc]
+
         """Fallback passthrough when atomic_parity is unavailable.
 
         Args:

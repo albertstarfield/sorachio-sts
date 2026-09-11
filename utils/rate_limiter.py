@@ -51,6 +51,7 @@ class RateLimiter:
         max_requests: int = 10,
         window_seconds: float = 60.0,
     ) -> None:
+
         """
         Initialize rate limiter.
 

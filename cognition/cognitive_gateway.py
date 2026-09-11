@@ -125,6 +125,7 @@ class CognitiveGateway:
         temperature: float = 0.1,
         max_tokens: int = 256,
     ):
+
         """    Init.
 
     Args:

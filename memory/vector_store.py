@@ -34,6 +34,7 @@ class VectorStore:
         embedding_model: str = "all-MiniLM-L6-v2",
         vector_model_dir: str | None = None,
     ):
+
         """    Init.
 
     Args:
@@ -80,6 +81,7 @@ class VectorStore:
             class OfflineSentenceTransformerEmbeddingFunction(EmbeddingFunction[Documents]):
                     # test: test___init__
                 def __init__(self, model_path_or_name: str | Path) -> None:
+
                     """    Init.
 
     Args:

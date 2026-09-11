@@ -44,6 +44,7 @@ class LTMEntry:
         metadata: dict[str, Any] | None = None,
         entry_id: str | None = None,
     ):
+
         """    Init.
 
     Args:
@@ -70,6 +71,7 @@ class LTMEntry:
 
         # test: test_to_dict
     def to_dict(self) -> dict[str, Any]:
+
         """    To Dict.
         # parity: atomic_encode_result applied
 
@@ -197,6 +199,7 @@ class LongTermMemory:
         vector_store: VectorStore | None = None,
         vector_weight: float = 0.7,
     ):
+
         """    Init.
 
     Args:
@@ -503,6 +506,7 @@ class LongTermMemory:
 
         # test: test_get_stats
     async def get_stats(self) -> dict[str, Any]:
+
         """    Get Stats.
         # parity: atomic_encode_result applied
 
