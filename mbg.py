@@ -772,6 +772,8 @@ class MasterBootstrapGuardian:
         dev_deps = [
             "ruff",
             "pyrefly",
+            "z3-solver",
+            "cvc5",
         ]
 
         # VAD package (try binary wheel first)
@@ -800,6 +802,138 @@ class MasterBootstrapGuardian:
             log.warning(f"Some packages failed to install: {', '.join(failed)}")
         else:
             log.info("All dependencies installed successfully")
+
+        # Install formal verification solvers (z3, cvc5 via pip; alt-ergo, coq via opam)
+        # These are required by sabotage_verifier.py for full audit coverage
+        # [Citation: sabotage_verifier.py lines 61-71 — solver requirements]
+        self._install_solver_tools()
+
+    def _install_solver_tools(self) -> None:
+        """
+        Auto-install formal verification solvers required by sabotage_verifier.
+
+        Blocks bootstrap (SystemExit) if any solver cannot be installed — these are
+        MEDIUM+ violations that MUST NOT be skipped.
+
+        Solvers installed:
+          - z3-solver (pip) — SMT solver for Python/Ada/TS/JS verification
+          - cvc5 (pip) — cross-checking SMT solver
+          - alt-ergo (opam) — SMT solver for Ada/SPARK proofs
+          - coq (opam) — proof assistant for Coq proof files
+
+        References:
+          - https://github.com/Z3Prover/z3
+          - https://cvc5.github.io/docs-ci/
+          - https://alt-ergo.ocamlpro.com/
+          - https://coq.inria.fr/
+
+        Raises:
+            SystemExit: if any solver is missing and cannot be installed.
+        """
+        import shutil as _shutil
+
+        log.info("[MBG] Checking formal verification solvers...")
+        _missing: list[str] = []
+
+        # ── z3-solver (pip) ──
+        # [Citation: sabotage_verifier.py line 61 — z3 required for SMT checks]
+        try:
+            __import__("z3")
+            log.info("  [OK] z3 available")
+        except ImportError:
+            log.info("  [INSTALL] z3 not importable — pip install z3-solver...")
+            try:
+                subprocess.run(
+                    [sys.executable, "-m", "pip", "install", "z3-solver"],
+                    capture_output=True, text=True, timeout=120, check=True,
+                )
+                __import__("z3")
+                log.info("  [OK] z3 installed via pip")
+            except Exception as exc:
+                log.error(f"  [FATAL] z3-solver install failed: {exc}")
+                _missing.append("z3-solver")
+
+        # ── cvc5 (pip) ──
+        # [Citation: sabotage_verifier.py line 63 — cvc5 required for cross-check]
+        try:
+            __import__("cvc5")
+            log.info("  [OK] cvc5 available")
+        except ImportError:
+            log.info("  [INSTALL] cvc5 not importable — pip install cvc5...")
+            try:
+                subprocess.run(
+                    [sys.executable, "-m", "pip", "install", "cvc5"],
+                    capture_output=True, text=True, timeout=120, check=True,
+                )
+                __import__("cvc5")
+                log.info("  [OK] cvc5 installed via pip")
+            except Exception as exc:
+                log.error(f"  [FATAL] cvc5 install failed: {exc}")
+                _missing.append("cvc5")
+
+        # ── alt-ergo (opam) ──
+        # [Citation: sabotage_verifier.py line 65 — alt-ergo required for Ada/SPARK]
+        if _shutil.which("alt-ergo"):
+            log.info("  [OK] alt-ergo available")
+        else:
+            opam_path = _shutil.which("opam")
+            if opam_path:
+                log.info("  [INSTALL] alt-ergo not found — attempting opam install...")
+                try:
+                    subprocess.run(
+                        [opam_path, "install", "-y", "alt-ergo"],
+                        capture_output=True, text=True, timeout=600, check=True,
+                    )
+                    log.info("  [OK] alt-ergo installed via opam")
+                except Exception as exc:
+                    log.error(f"  [FATAL] alt-ergo opam install failed: {exc}")
+                    _missing.append("alt-ergo")
+            else:
+                log.error(
+                    "  [FATAL] opam not found — cannot install alt-ergo.\n"
+                    "  Install opam: https://opam.ocaml.org/doc/Install.html\n"
+                    "  Then run: opam install alt-ergo"
+                )
+                _missing.append("alt-ergo")
+
+        # ── coq (opam) ──
+        # [Citation: sabotage_verifier.py line 67 — coq required for proof files]
+        if _shutil.which("coqc"):
+            log.info("  [OK] coq available")
+        else:
+            opam_path = _shutil.which("opam")
+            if opam_path:
+                log.info("  [INSTALL] coq not found — attempting opam install...")
+                try:
+                    subprocess.run(
+                        [opam_path, "install", "-y", "coq"],
+                        capture_output=True, text=True, timeout=1200, check=True,
+                    )
+                    log.info("  [OK] coq installed via opam")
+                except Exception as exc:
+                    log.error(f"  [FATAL] coq opam install failed: {exc}")
+                    _missing.append("coq")
+            else:
+                log.error(
+                    "  [FATAL] opam not found — cannot install coq.\n"
+                    "  Install opam: https://opam.ocaml.org/doc/Install.html\n"
+                    "  Then run: opam install coq"
+                )
+                _missing.append("coq")
+
+        # ── Block if any solver is missing ──
+        if _missing:
+            _msg = (
+                f"[MBG] FATAL: Required formal verification solvers missing: "
+                f"{', '.join(_missing)}\n"
+                "  All solvers are MEDIUM+ violations in sabotage_verifier.py and MUST "
+                "be present for bootstrap to proceed.\n"
+                "  Install the missing solvers and re-run."
+            )
+            log.error(_msg)
+            raise SystemExit(1)
+
+        log.info("[MBG] All solver tools available")
 
     def _build_binaries(self) -> None:
         """
