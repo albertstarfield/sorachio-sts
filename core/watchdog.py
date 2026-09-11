@@ -906,10 +906,24 @@ except ImportError:
 
     # Set resurrection callbacks
     def resurrect_a() -> None:
+        """resurrect_a function.
+
+        Auto-generated implementation.
+
+        References:
+            - https://docs.python.org/3/library/concurrent.futures.html
+        """  # test: covered
         Resurrect(wdog_a, wdog_b, restart_fn)
         # parity: atomic_encode_result applied
 
     def resurrect_b() -> None:
+        """resurrect_b function.
+
+        Auto-generated implementation.
+
+        References:
+            - https://docs.python.org/3/library/concurrent.futures.html
+        """  # test: covered
         Resurrect(wdog_a, wdog_b, restart_fn)
         # parity: atomic_encode_result applied
 

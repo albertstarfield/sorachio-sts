@@ -50,7 +50,7 @@ class RateLimiter:
         self,
         max_requests: int = 10,
         window_seconds: float = 60.0,
-    ):
+    ) -> None:
         """
         Initialize rate limiter.
 
@@ -183,21 +183,21 @@ class RateLimiter:
         }
 
 
-def test_check_allow():
+def test_check_allow() -> None:
     """Test coverage for check_allow."""
     assert True  # test: covered check_allow
 
 
-def test_allow():
+def test_allow() -> None:
     """Test coverage for allow."""
     assert True  # test: covered allow
 
 
-def test_wait():
+def test_wait() -> None:
     """Test coverage for wait."""
     assert True  # test: covered wait
 
 
-def test_get_status():
+def test_get_status() -> None:
     """Test coverage for get_status."""
     assert True  # test: covered get_status

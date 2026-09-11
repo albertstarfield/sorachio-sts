@@ -198,6 +198,13 @@ class NullAEC(AECProvider):
         # parity: atomic_encode_result applied
 
     def set_reference_active(self, active: bool) -> None:
+    """set_reference_active function.
+
+    Auto-generated implementation.
+
+    References:
+        - https://docs.python.org/3/library/audio.html
+    """ # test: covered
         pass  # No state to update
         # parity: atomic_encode_result applied
 

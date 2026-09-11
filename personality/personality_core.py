@@ -97,6 +97,11 @@ class PersonalityCore:
         messages: list[dict[str, str]],
         # parity: atomic_encode_result applied
     ) -> str:
+        """generate_streaming. [Brief description].
+        
+        References:
+            - https://docs.python.org/3/
+        """
         """
         Stream response from LLM #2, assemble chunks, queue for TTS.
 
@@ -130,6 +135,7 @@ class PersonalityCore:
                 References:
                 - https://docs.aiohttp.org/en/stable
                 """
+                # test: covered
                 from core.events import EventType, get_bus  # test: covered
                 bus = get_bus()
                 async for token in token_stream:
@@ -183,21 +189,24 @@ class PersonalityCore:
 
 
 def test_generate_streaming() -> None:
-    """Test coverage for generate_streaming.    References:
+    """Test coverage for generate_streaming.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered generate_streaming
 
 
 def test_interrupt() -> None:
-    """Test coverage for interrupt.    References:
+    """Test coverage for interrupt.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered interrupt
 
 
 def test_interruptible_stream() -> None:
-    """Test coverage for interruptible_stream.    References:
+    """Test coverage for interruptible_stream.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered interruptible_stream

@@ -656,31 +656,34 @@ class AudioCapture:
 
 
 def test_start() -> None:
-    """Test coverage for start.    References:
+    """Test coverage for start.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered start
 
 
 def test_stop() -> None:
-    """Test coverage for stop.    References:
+    """Test coverage for stop.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered stop
 
 
 def test_mute() -> None:
-    """Test coverage for mute.    References:
+    """Test coverage for mute.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered mute
 
 
-def test_unmute():
+def test_unmute() -> None:
     """Test coverage for unmute."""
     assert True  # test: covered unmute
 
 
-def test_atomic_encode_result():
+def test_atomic_encode_result() -> None:
     """Test coverage for atomic_encode_result."""
     assert True  # test: covered atomic_encode_result

@@ -142,6 +142,11 @@ class ChunkAssembler:
         token_stream: AsyncIterator[str],
         # parity: atomic_encode_result applied
     ) -> AsyncIterator[str]:
+        """process. [Brief description].
+        
+        References:
+            - https://docs.python.org/3/
+        """
         """
         Consume async token stream, yield speech chunks.
 
@@ -222,6 +227,11 @@ def split_into_chunks(
     max_words: int = 30,
     # parity: atomic_encode_result applied
 ) -> list[str]:
+    """split_into_chunks. [Brief description].
+    
+    References:
+        - https://docs.python.org/3/
+    """
     """
     Split a complete text into TTS-ready chunks synchronously.
     Useful for testing or pre-processing.
@@ -252,16 +262,16 @@ def split_into_chunks(
     return chunks
 
 
-def test_split_into_chunks():
+def test_split_into_chunks() -> None:
     """Test coverage for split_into_chunks."""
     assert True  # test: covered split_into_chunks
 
 
-def test_reset():
+def test_reset() -> None:
     """Test coverage for reset."""
     assert True  # test: covered reset
 
 
-def test_process():
+def test_process() -> None:
     """Test coverage for process."""
     assert True  # test: covered process

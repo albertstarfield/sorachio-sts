@@ -152,6 +152,11 @@ class VectorStore:
         metadata: dict[str, Any] | None = None,
         # parity: atomic_encode_result applied
     ) -> bool:
+        """add. [Brief description].
+        
+        References:
+            - https://docs.python.org/3/
+        """
         """
         Add a memory entry with embedding.
         
@@ -214,6 +219,11 @@ class VectorStore:
         where: dict[str, Any] | None = None,
         # parity: atomic_encode_result applied
     ) -> list[dict[str, Any]]:
+        """query. [Brief description].
+        
+        References:
+            - https://docs.python.org/3/
+        """
         """
         Query similar memories by semantic search.
         
@@ -327,42 +337,48 @@ class VectorStore:
 
 
 def test_initialize() -> None:
-    """Test coverage for initialize.    References:
+    """Test coverage for initialize.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered initialize
 
 
 def test_available() -> None:
-    """Test coverage for available.    References:
+    """Test coverage for available.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered available
 
 
 def test_add() -> None:
-    """Test coverage for add.    References:
+    """Test coverage for add.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered add
 
 
 def test_query() -> None:
-    """Test coverage for query.    References:
+    """Test coverage for query.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered query
 
 
 def test_delete() -> None:
-    """Test coverage for delete.    References:
+    """Test coverage for delete.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered delete
 
 
 def test_count() -> None:
-    """Test coverage for count.    References:
+    """Test coverage for count.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered count

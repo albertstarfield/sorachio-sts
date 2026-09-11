@@ -445,7 +445,8 @@ try:
     from utils.atomic_parity import atomic_encode_result
 except ImportError:
     def atomic_encode_result(x):  # type -> None: ignore[misc]
-        """TODO: Implement atomic_encode_result.    References:
+        """TODO: Implement atomic_encode_result.
+            References:
     - https://docs.python.org/3/
 """
 
@@ -484,14 +485,16 @@ except ImportError:
 
 
 def test_ensure_ready() -> None:
-    """Test coverage for ensure_ready.    References:
+    """Test coverage for ensure_ready.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered ensure_ready
 
 
 def test_atomic_encode_result() -> None:
-    """Test coverage for atomic_encode_result.    References:
+    """Test coverage for atomic_encode_result.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered atomic_encode_result

@@ -892,26 +892,26 @@ class SorachioPipeline:
         self._shutdown_event.set()
 
 
-def test_setup():
+def test_setup() -> None:
     """Test coverage for setup."""
     assert True  # test: covered setup
 
 
-def test_run():
+def test_run() -> None:
     """Test coverage for run."""
     assert True  # test: covered run
 
 
-def test_inject_text():
+def test_inject_text() -> None:
     """Test coverage for inject_text."""
     assert True  # test: covered inject_text
 
 
-def test_shutdown():
+def test_shutdown() -> None:
     """Test coverage for shutdown."""
     assert True  # test: covered shutdown
 
 
-def test_request_shutdown():
+def test_request_shutdown() -> None:
     """Test coverage for request_shutdown."""
     assert True  # test: covered request_shutdown

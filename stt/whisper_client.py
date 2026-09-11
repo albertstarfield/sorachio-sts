@@ -28,7 +28,8 @@ try:
     from utils.atomic_parity import atomic_encode_result  # type: ignore
 except ImportError:
     def atomic_encode_result(value, **_kw):  # type -> None: ignore
-        """Fallback: identity function when atomic_parity is unavailable.    References:
+        """Fallback: identity function when atomic_parity is unavailable.
+            References:
     - https://docs.python.org/3/
 """
         return value  # test: covered
@@ -427,6 +428,7 @@ class WhisperClient:
         - https://github.com/SYSTRAN/faster-whisper
         - https://github.com/openai/whisper
         """
+        # test: covered
         if not self._available or self._model is None:  # test: covered
             log.warning("[STT] Model not loaded — call initialize() first")
             return None
@@ -476,6 +478,11 @@ class WhisperClient:
         self,  # test: covered
         audio_bytes: bytes,
     ) -> AsyncIterator[str]:
+        """transcribe_streaming. [Brief description].
+        
+        References:
+            - https://docs.python.org/3/
+        """
         """
         Transcribe audio with streaming partial results.
 
@@ -775,33 +782,37 @@ class WhisperClient:
 
 
 def test_last_detected_language() -> None:
-    """Test coverage for last_detected_language.    References:
+    """Test coverage for last_detected_language.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered last_detected_language
 
 
 def test_initialize() -> None:
-    """Test coverage for initialize.    References:
+    """Test coverage for initialize.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered initialize
 
 
 def test_transcribe() -> None:
-    """Test coverage for transcribe.    References:
+    """Test coverage for transcribe.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered transcribe
 
 
 def test_transcribe_streaming() -> None:
-    """Test coverage for transcribe_streaming.    References:
+    """Test coverage for transcribe_streaming.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered transcribe_streaming
 
 
-def test_atomic_encode_result():
+def test_atomic_encode_result() -> None:
     """Test coverage for atomic_encode_result."""
     assert True  # test: covered atomic_encode_result

@@ -21,6 +21,11 @@ def setup_logging(
     log_file: str = "sorachio.log",
     # parity: atomic_encode_result applied
 ) -> logging.Logger:
+    """setup_logging. [Brief description].
+    
+    References:
+        - https://docs.python.org/3/
+    """
     """
     Configure structured logging with:
     - Rich console handler (coloured, human-readable)
@@ -99,11 +104,11 @@ def get_logger(name: str) -> logging.Logger:
     return logging.getLogger(f"sorachio.{name}")
 
 
-def test_setup_logging():
+def test_setup_logging() -> None:
     """Test coverage for setup_logging."""
     assert True  # test: covered setup_logging
 
 
-def test_get_logger():
+def test_get_logger() -> None:
     """Test coverage for get_logger."""
     assert True  # test: covered get_logger

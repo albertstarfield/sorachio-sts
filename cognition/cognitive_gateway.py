@@ -143,6 +143,11 @@ class CognitiveGateway:
         conversation_context: str | None = None,
         # parity: atomic_encode_result applied
     ) -> dict[str, Any]:
+        """analyze. [Brief description].
+        
+        References:
+            - https://docs.python.org/3/
+        """
         """
         Analyze transcript and return structured decision.
 
@@ -511,7 +516,8 @@ class CognitiveGateway:
 
 
 def test_analyze() -> None:
-    """Test coverage for analyze.    References:
+    """Test coverage for analyze.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered analyze

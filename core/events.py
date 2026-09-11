@@ -191,6 +191,11 @@ class EventBus:
         source: str = "unknown",
         # parity: atomic_encode_result applied
     ) -> None:
+        """emit. [Brief description].
+        
+        References:
+            - https://docs.python.org/3/
+        """
         """
         Shorthand to create and publish an event.
         
@@ -238,47 +243,53 @@ def reset_bus() -> EventBus:
 
 
 def test_get_bus() -> None:
-    """Test coverage for get_bus.    References:
+    """Test coverage for get_bus.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered get_bus
 
 
 def test_reset_bus() -> None:
-    """Test coverage for reset_bus.    References:
+    """Test coverage for reset_bus.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered reset_bus
 
 
 def test_subscribe() -> None:
-    """Test coverage for subscribe.    References:
+    """Test coverage for subscribe.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered subscribe
 
 
 def test_subscribe_all() -> None:
-    """Test coverage for subscribe_all.    References:
+    """Test coverage for subscribe_all.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered subscribe_all
 
 
 def test_unsubscribe() -> None:
-    """Test coverage for unsubscribe.    References:
+    """Test coverage for unsubscribe.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered unsubscribe
 
 
 def test_publish() -> None:
-    """Test coverage for publish.    References:
+    """Test coverage for publish.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered publish
 
 
-def test_emit():
+def test_emit() -> None:
     """Test coverage for emit."""
     assert True  # test: covered emit

@@ -186,12 +186,13 @@ def log_scan_summary(name: str, info: ModelInfo) -> None:
 
 
 def test_scan_model_dir() -> None:
-    """Test coverage for scan_model_dir.    References:
+    """Test coverage for scan_model_dir.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered scan_model_dir
 
 
-def test_log_scan_summary():
+def test_log_scan_summary() -> None:
     """Test coverage for log_scan_summary."""
     assert True  # test: covered log_scan_summary

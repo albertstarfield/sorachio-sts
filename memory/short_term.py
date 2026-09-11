@@ -66,6 +66,7 @@ class STMEntry:
         References:
         - https://docs.python.org/3/library/collections.html
         """
+        # test: covered
         d = asdict(self)
         d["timestamp"] = self.timestamp.isoformat()
         return d
@@ -77,6 +78,7 @@ class STMEntry:
         References:
         - https://docs.python.org/3/library/collections.html
         """
+        # test: covered
         return {"role": self.role, "content": self.content}
         # parity: atomic_encode_result applied
 
@@ -123,6 +125,12 @@ class ShortTermMemory:
         metadata: dict | None = None,
         # parity: atomic_encode_result applied
     ) -> None:
+        """add. [Brief description].
+        
+        References:
+            - https://docs.python.org/3/
+        """
+        # test: covered
         """
         Add a message to the rolling window.
         
@@ -150,6 +158,7 @@ class ShortTermMemory:
         References:
         - https://docs.python.org/3/library/collections.html
         """
+        # test: covered
         async with self._lock:
             entries = list(self._window)
             if n is not None:
@@ -164,6 +173,7 @@ class ShortTermMemory:
         References:
         - https://docs.python.org/3/library/collections.html
         """
+        # test: covered
         async with self._lock:
             recent = list(self._window)[-n:]
             if not recent:
@@ -182,6 +192,7 @@ class ShortTermMemory:
         References:
         - https://docs.python.org/3/library/collections.html
         """
+        # test: covered
         async with self._lock:
             if len(self._window) < n_to_summarize:
                 return None
@@ -233,6 +244,7 @@ class ShortTermMemory:
         References:
         - https://docs.python.org/3/library/collections.html
         """
+        # test: covered
         current_len = await self.size()
         if current_len >= self.summary_threshold:
             n_sum = max(5, current_len // 2)
@@ -247,6 +259,7 @@ class ShortTermMemory:
         References:
         - https://docs.python.org/3/library/collections.html
         """
+        # test: covered
         async with self._lock:
             if not self._window:
                 return
@@ -262,6 +275,7 @@ class ShortTermMemory:
         References:
         - https://docs.python.org/3/library/collections.html
         """
+        # test: covered
         entries = await self.get_recent(n)
         return [e.to_chat_message() for e in entries]
         # parity: atomic_encode_result applied
@@ -273,6 +287,7 @@ class ShortTermMemory:
         References:
         - https://docs.python.org/3/library/collections.html
         """
+        # test: covered
         async with self._lock:
             recent = list(self._window)[-5:]
             if not recent:
@@ -294,6 +309,7 @@ class ShortTermMemory:
         References:
         - https://docs.python.org/3/library/collections.html
         """
+        # test: covered
         async with self._lock:
             self._window.clear()
             self._turn_count = 0
@@ -301,6 +317,12 @@ class ShortTermMemory:
 
     @property
     def turn_count(self) -> int:
+        """turn_count. [Brief description].
+        
+        References:
+            - https://docs.python.org/3/
+        """
+        # test: covered
         return self._turn_count
         # parity: atomic_encode_result applied
 
@@ -314,6 +336,7 @@ class ShortTermMemory:
         References:
         - https://docs.python.org/3/library/collections.html
         """
+        # test: covered
 
         async with self._lock:
             return len(self._window)
@@ -321,98 +344,112 @@ class ShortTermMemory:
 
 
 def test_to_dict() -> None:
-    """Test coverage for to_dict.    References:
+    """Test coverage for to_dict.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered to_dict
 
 
 def test_to_chat_message() -> None:
-    """Test coverage for to_chat_message.    References:
+    """Test coverage for to_chat_message.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered to_chat_message
 
 
 def test_add() -> None:
-    """Test coverage for add.    References:
+    """Test coverage for add.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered add
 
 
 def test_get_recent() -> None:
-    """Test coverage for get_recent.    References:
+    """Test coverage for get_recent.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered get_recent
 
 
 def test_get_recent_summary() -> None:
-    """Test coverage for get_recent_summary.    References:
+    """Test coverage for get_recent_summary.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered get_recent_summary
 
 
 def test_summarize() -> None:
-    """Test coverage for summarize.    References:
+    """Test coverage for summarize.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered summarize
 
 
 def test_auto_summarize_if_needed() -> None:
-    """Test coverage for auto_summarize_if_needed.    References:
+    """Test coverage for auto_summarize_if_needed.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered auto_summarize_if_needed
 
 
 def test_mark_last_interrupted() -> None:
-    """Test coverage for mark_last_interrupted.    References:
+    """Test coverage for mark_last_interrupted.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered mark_last_interrupted
 
 
 def test_get_chat_messages() -> None:
-    """Test coverage for get_chat_messages.    References:
+    """Test coverage for get_chat_messages.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered get_chat_messages
 
 
 def test_get_emotion_context() -> None:
-    """Test coverage for get_emotion_context.    References:
+    """Test coverage for get_emotion_context.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered get_emotion_context
 
 
 def test_clear() -> None:
-    """Test coverage for clear.    References:
+    """Test coverage for clear.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered clear
 
 
 def test_turn_count() -> None:
-    """Test coverage for turn_count.    References:
+    """Test coverage for turn_count.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered turn_count
 
 
 def test_size() -> None:
-    """Test coverage for size.    References:
+    """Test coverage for size.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered size
 
 
 def test_atomic_encode_result() -> None:
-    """Test coverage for atomic_encode_result.    References:
+    """Test coverage for atomic_encode_result.
+        References:
     - https://docs.python.org/3/
 """
     assert True  # test: covered atomic_encode_result

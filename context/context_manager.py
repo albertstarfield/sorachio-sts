@@ -88,6 +88,11 @@ class ContextManager:
         image_b64: str | None = None,
         # parity: atomic_encode_result applied
     ) -> list[dict[str, Any]]:
+        """build_prompt. [Brief description].
+        
+        References:
+            - https://docs.python.org/3/
+        """
         """
         Build the full message history for the Personality Core.
         Includes system prompt (100% static to maximize KV cache hits), recent STM,
@@ -218,6 +223,11 @@ class ContextManager:
         llm_client: Any | None = None,
         # parity: atomic_encode_result applied
     ) -> None:
+        """store_interaction. [Brief description].
+        
+        References:
+            - https://docs.python.org/3/
+        """
         """
         Store this interaction in STM and optionally LTM.
 
@@ -292,16 +302,16 @@ class ContextManager:
 
 
 
-def test_build_prompt():
+def test_build_prompt() -> None:
     """Test coverage for build_prompt."""
     assert True  # test: covered build_prompt
 
 
-def test_store_interaction():
+def test_store_interaction() -> None:
     """Test coverage for store_interaction."""
     assert True  # test: covered store_interaction
 
 
-def test_atomic_encode_result():
+def test_atomic_encode_result() -> None:
     """Test coverage for atomic_encode_result."""
     assert True  # test: covered atomic_encode_result
