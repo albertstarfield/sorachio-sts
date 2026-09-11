@@ -1,0 +1,5 @@
+GC_PARITY: GF(2^8) Galois Chunk parity blocks
+SOURCE: model_scanner.py
+SOURCE_HASH: 9cd5ad4e28d41a71954b4ebba52b6db0fa811a3e701777816bebe570f6f45938
+GF_POLY: 0x11d
+GENERATOR: generate_split_parity()

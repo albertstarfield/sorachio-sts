@@ -1,0 +1,12 @@
+{
+  "source": "main.py",
+  "source_hash": "5bd32f5edbcec85c4e119f5508a8309d7e10bb02d0e584d64850af248d2418f3",
+  "parity_type": "split",
+  "rs_parity": "main.py.par2-one",
+  "gc_parity": "main.py.par2-two",
+  "algorithm": {
+    "rs": "Reed-Solomon(255,223)",
+    "gc": "GF(2^8) Galois Chunk"
+  },
+  "generated_by": "generate_split_parity()"
+}

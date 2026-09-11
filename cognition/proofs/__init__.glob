@@ -1,0 +1,9 @@
+DIGEST d47ac1629c05c35e77e5005a5a1e1939
+F__init__
+mod 220:227 <> __init__
+R246:251 Coq.ZArith.ZArith <> <> lib
+R269:274 Coq.QArith.QArith <> <> lib
+R292:305 Coq.Strings.String <> <> lib
+R323:332 Coq.Lists.List <> <> lib
+R350:353 Coq.Bool.Bool <> <> lib
+R497:504 __init__ __init__ <> mod

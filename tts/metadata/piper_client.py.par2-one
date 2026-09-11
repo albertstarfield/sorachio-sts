@@ -1,0 +1,5 @@
+RS_PARITY: Reed-Solomon(255,223) parity blocks
+SOURCE: piper_client.py
+SOURCE_HASH: d464d218b5a33e7310af16a332744ce68cd5574f288e36134b6529f44954f7e0
+BLOCK_SIZE: 512
+GENERATOR: generate_split_parity()

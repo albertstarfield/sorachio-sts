@@ -1,0 +1,5 @@
+RS_PARITY: Reed-Solomon(255,223) parity blocks
+SOURCE: events.py
+SOURCE_HASH: b01a457090a8357174f3a36f98c335f04c773f05192b7e68772187b3a38f613f
+BLOCK_SIZE: 512
+GENERATOR: generate_split_parity()

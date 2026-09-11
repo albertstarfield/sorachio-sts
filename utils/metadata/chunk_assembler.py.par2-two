@@ -1,0 +1,5 @@
+GC_PARITY: GF(2^8) Galois Chunk parity blocks
+SOURCE: chunk_assembler.py
+SOURCE_HASH: 304d4c3e663ef0ad4bb8a3eb02a7df14c98f459f7982727690722435500d72ad
+GF_POLY: 0x11d
+GENERATOR: generate_split_parity()

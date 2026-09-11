@@ -1,0 +1,12 @@
+{
+  "source": "chunk_assembler.py",
+  "source_hash": "304d4c3e663ef0ad4bb8a3eb02a7df14c98f459f7982727690722435500d72ad",
+  "parity_type": "split",
+  "rs_parity": "chunk_assembler.py.par2-one",
+  "gc_parity": "chunk_assembler.py.par2-two",
+  "algorithm": {
+    "rs": "Reed-Solomon(255,223)",
+    "gc": "GF(2^8) Galois Chunk"
+  },
+  "generated_by": "generate_split_parity()"
+}

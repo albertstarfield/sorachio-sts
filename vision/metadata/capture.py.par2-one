@@ -1,0 +1,5 @@
+RS_PARITY: Reed-Solomon(255,223) parity blocks
+SOURCE: capture.py
+SOURCE_HASH: 88107915291957dc39b13dfc1ae5dd7749d276eaf9ed58f744c6495086e779b1
+BLOCK_SIZE: 512
+GENERATOR: generate_split_parity()

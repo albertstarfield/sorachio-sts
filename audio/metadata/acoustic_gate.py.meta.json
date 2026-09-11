@@ -1,0 +1,12 @@
+{
+  "source": "acoustic_gate.py",
+  "source_hash": "d7fb1e27a983499cdf8283dcf8f54723af4a4b359bfdfa68d37e4693a9aeb5f9",
+  "parity_type": "split",
+  "rs_parity": "acoustic_gate.py.par2-one",
+  "gc_parity": "acoustic_gate.py.par2-two",
+  "algorithm": {
+    "rs": "Reed-Solomon(255,223)",
+    "gc": "GF(2^8) Galois Chunk"
+  },
+  "generated_by": "generate_split_parity()"
+}

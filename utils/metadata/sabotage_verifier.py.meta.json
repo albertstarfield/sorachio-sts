@@ -1,0 +1,12 @@
+{
+  "source": "sabotage_verifier.py",
+  "source_hash": "4104e030a0cc4ee65741a033dbd289ade56979c3dcbcbada9b07000abad333c7",
+  "parity_type": "split",
+  "rs_parity": "sabotage_verifier.py.par2-one",
+  "gc_parity": "sabotage_verifier.py.par2-two",
+  "algorithm": {
+    "rs": "Reed-Solomon(255,223)",
+    "gc": "GF(2^8) Galois Chunk"
+  },
+  "generated_by": "generate_split_parity()"
+}

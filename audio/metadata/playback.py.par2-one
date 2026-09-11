@@ -1,0 +1,5 @@
+RS_PARITY: Reed-Solomon(255,223) parity blocks
+SOURCE: playback.py
+SOURCE_HASH: 152268d850f29187552e92d04cbdca1f4de29c718345ee98431d2675f104aff7
+BLOCK_SIZE: 512
+GENERATOR: generate_split_parity()

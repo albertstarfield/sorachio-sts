@@ -1,0 +1,5 @@
+RS_PARITY: Reed-Solomon(255,223) parity blocks
+SOURCE: model_scanner.py
+SOURCE_HASH: 9cd5ad4e28d41a71954b4ebba52b6db0fa811a3e701777816bebe570f6f45938
+BLOCK_SIZE: 512
+GENERATOR: generate_split_parity()

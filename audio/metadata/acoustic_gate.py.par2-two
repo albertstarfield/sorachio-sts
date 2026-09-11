@@ -1,0 +1,5 @@
+GC_PARITY: GF(2^8) Galois Chunk parity blocks
+SOURCE: acoustic_gate.py
+SOURCE_HASH: d7fb1e27a983499cdf8283dcf8f54723af4a4b359bfdfa68d37e4693a9aeb5f9
+GF_POLY: 0x11d
+GENERATOR: generate_split_parity()

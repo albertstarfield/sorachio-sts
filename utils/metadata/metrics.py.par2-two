@@ -1,0 +1,5 @@
+GC_PARITY: GF(2^8) Galois Chunk parity blocks
+SOURCE: metrics.py
+SOURCE_HASH: 7e3101380898618cc82e49b6b1353393de461d2cce969c097a21ead540100549
+GF_POLY: 0x11d
+GENERATOR: generate_split_parity()

@@ -1,0 +1,12 @@
+{
+  "source": "context_manager.py",
+  "source_hash": "4e4a9e3d647f0d0ce0946c10c54799f2b122d6f18cb37c6ea994d8e2f55410c9",
+  "parity_type": "split",
+  "rs_parity": "context_manager.py.par2-one",
+  "gc_parity": "context_manager.py.par2-two",
+  "algorithm": {
+    "rs": "Reed-Solomon(255,223)",
+    "gc": "GF(2^8) Galois Chunk"
+  },
+  "generated_by": "generate_split_parity()"
+}

@@ -1,0 +1,12 @@
+{
+  "source": "rate_limiter.py",
+  "source_hash": "b72d1b2f8de4f9d5fc4f9e15f68433e02d67790c0e8c4177002e91aad8eeb0db",
+  "parity_type": "split",
+  "rs_parity": "rate_limiter.py.par2-one",
+  "gc_parity": "rate_limiter.py.par2-two",
+  "algorithm": {
+    "rs": "Reed-Solomon(255,223)",
+    "gc": "GF(2^8) Galois Chunk"
+  },
+  "generated_by": "generate_split_parity()"
+}

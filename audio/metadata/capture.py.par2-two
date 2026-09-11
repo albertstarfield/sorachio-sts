@@ -1,0 +1,5 @@
+GC_PARITY: GF(2^8) Galois Chunk parity blocks
+SOURCE: capture.py
+SOURCE_HASH: b05cdafc731dcf51f5015bbce836870bde9e14b654e6b3e4e55ca1aa63c8d571
+GF_POLY: 0x11d
+GENERATOR: generate_split_parity()

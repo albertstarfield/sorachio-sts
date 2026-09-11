@@ -1,0 +1,5 @@
+RS_PARITY: Reed-Solomon(255,223) parity blocks
+SOURCE: logging_setup.py
+SOURCE_HASH: ef541626b63a6d4a510b3bb90bd4ece5a9f5c91f16ffc2e90709281fd8d01e94
+BLOCK_SIZE: 512
+GENERATOR: generate_split_parity()

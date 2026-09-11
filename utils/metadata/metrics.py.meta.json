@@ -1,0 +1,12 @@
+{
+  "source": "metrics.py",
+  "source_hash": "7e3101380898618cc82e49b6b1353393de461d2cce969c097a21ead540100549",
+  "parity_type": "split",
+  "rs_parity": "metrics.py.par2-one",
+  "gc_parity": "metrics.py.par2-two",
+  "algorithm": {
+    "rs": "Reed-Solomon(255,223)",
+    "gc": "GF(2^8) Galois Chunk"
+  },
+  "generated_by": "generate_split_parity()"
+}

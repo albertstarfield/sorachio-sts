@@ -1,0 +1,12 @@
+{
+  "source": "echo_cancellation.py",
+  "source_hash": "f9ec08131af5c049250668d7933cb2e06e98e08ca251ca35031eeeaa642ebcc3",
+  "parity_type": "split",
+  "rs_parity": "echo_cancellation.py.par2-one",
+  "gc_parity": "echo_cancellation.py.par2-two",
+  "algorithm": {
+    "rs": "Reed-Solomon(255,223)",
+    "gc": "GF(2^8) Galois Chunk"
+  },
+  "generated_by": "generate_split_parity()"
+}

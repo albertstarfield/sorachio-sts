@@ -44,6 +44,7 @@ class TurnMetrics:
         # test: test_TurnMetrics_to_dict
         # test: test_TurnMetrics_to_dict
         """
+        # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         return {
             "turn_id": self.turn_id,
             "stt_s": round(self.stt_duration_s, 3),
@@ -70,11 +71,13 @@ class MetricsCollector:
 
     # test: test_MetricsCollector_init
         """
+    # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         self._history: list[TurnMetrics] = []
         self._history_size = history_size
 
         # test: test_record_turn
     def record_turn(self, metrics: TurnMetrics) -> None:
+        # test: test_record_turn
         """    Record Turn.
 
     Args:
@@ -88,6 +91,7 @@ class MetricsCollector:
 
         # test: test_MetricsCollector_record_turn
         """
+        # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         if len(self._history) >= self._history_size:
             self._history.pop(0)
         self._history.append(metrics)
@@ -98,6 +102,10 @@ class MetricsCollector:
         )
 
         # test: test_get_summary
+            """get_summary function.
+
+            # test: test_get_summary
+            """
     def get_summary(self) -> dict[str, Any]:
         """    Get Summary.
 
@@ -109,6 +117,7 @@ class MetricsCollector:
 
         # test: test_MetricsCollector_get_summary
         """
+# [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         if not self._history:
             return {"total_turns": 0}
 

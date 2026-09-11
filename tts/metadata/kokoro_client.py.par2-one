@@ -1,0 +1,5 @@
+RS_PARITY: Reed-Solomon(255,223) parity blocks
+SOURCE: kokoro_client.py
+SOURCE_HASH: 43e4186a607bf1523229285a2be1907a07b4d948c92907b693b60b8737078d6d
+BLOCK_SIZE: 512
+GENERATOR: generate_split_parity()

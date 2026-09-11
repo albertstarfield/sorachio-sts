@@ -1,0 +1,5 @@
+RS_PARITY: Reed-Solomon(255,223) parity blocks
+SOURCE: watchdog.py
+SOURCE_HASH: 2c3a4b6e4e9e954fccc19f01e99bec45ba56f9affb532e47bc7cd30866e962b9
+BLOCK_SIZE: 512
+GENERATOR: generate_split_parity()

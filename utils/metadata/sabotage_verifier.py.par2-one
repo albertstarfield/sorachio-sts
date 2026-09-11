@@ -1,0 +1,5 @@
+RS_PARITY: Reed-Solomon(255,223) parity blocks
+SOURCE: sabotage_verifier.py
+SOURCE_HASH: 4104e030a0cc4ee65741a033dbd289ade56979c3dcbcbada9b07000abad333c7
+BLOCK_SIZE: 512
+GENERATOR: generate_split_parity()

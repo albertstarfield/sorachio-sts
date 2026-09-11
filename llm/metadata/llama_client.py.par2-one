@@ -1,0 +1,5 @@
+RS_PARITY: Reed-Solomon(255,223) parity blocks
+SOURCE: llama_client.py
+SOURCE_HASH: 52eb20d1ec31bd113c23e615d64167135124abfc50c06bf3f0897fc58cd8953e
+BLOCK_SIZE: 512
+GENERATOR: generate_split_parity()

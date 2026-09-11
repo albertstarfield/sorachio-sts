@@ -1,0 +1,5 @@
+GC_PARITY: GF(2^8) Galois Chunk parity blocks
+SOURCE: events.py
+SOURCE_HASH: b01a457090a8357174f3a36f98c335f04c773f05192b7e68772187b3a38f613f
+GF_POLY: 0x11d
+GENERATOR: generate_split_parity()

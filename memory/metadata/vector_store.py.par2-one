@@ -1,0 +1,5 @@
+RS_PARITY: Reed-Solomon(255,223) parity blocks
+SOURCE: vector_store.py
+SOURCE_HASH: 14c2213f6a8a76c0a82cca77a035b8fe6a0c038f0f67f6745ef3b340d4d4005e
+BLOCK_SIZE: 512
+GENERATOR: generate_split_parity()

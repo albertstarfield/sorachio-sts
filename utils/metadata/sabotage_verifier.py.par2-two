@@ -1,0 +1,5 @@
+GC_PARITY: GF(2^8) Galois Chunk parity blocks
+SOURCE: sabotage_verifier.py
+SOURCE_HASH: 4104e030a0cc4ee65741a033dbd289ade56979c3dcbcbada9b07000abad333c7
+GF_POLY: 0x11d
+GENERATOR: generate_split_parity()

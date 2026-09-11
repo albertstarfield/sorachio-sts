@@ -1,0 +1,5 @@
+GC_PARITY: GF(2^8) Galois Chunk parity blocks
+SOURCE: architecture_spec.ads
+SOURCE_HASH: b9f9b8419af2ed93c679209744a8c3321e4dafe36b061067e69efac9375f77de
+GF_POLY: 0x11d
+GENERATOR: generate_split_parity()

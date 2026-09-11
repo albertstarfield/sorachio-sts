@@ -1,0 +1,5 @@
+GC_PARITY: GF(2^8) Galois Chunk parity blocks
+SOURCE: whisper_client.py
+SOURCE_HASH: 907ee7ec23a3d508674a69625779659ce0b294e8d1898ef521998d09b088d1e8
+GF_POLY: 0x11d
+GENERATOR: generate_split_parity()

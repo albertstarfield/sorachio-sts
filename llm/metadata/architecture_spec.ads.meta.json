@@ -1,0 +1,12 @@
+{
+  "source": "architecture_spec.ads",
+  "source_hash": "9518b2580ec163d275466e65c58c68213999999fd10070a7dc8895144fa79498",
+  "parity_type": "split",
+  "rs_parity": "architecture_spec.ads.par2-one",
+  "gc_parity": "architecture_spec.ads.par2-two",
+  "algorithm": {
+    "rs": "Reed-Solomon(255,223)",
+    "gc": "GF(2^8) Galois Chunk"
+  },
+  "generated_by": "generate_split_parity()"
+}

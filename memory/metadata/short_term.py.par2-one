@@ -1,0 +1,5 @@
+RS_PARITY: Reed-Solomon(255,223) parity blocks
+SOURCE: short_term.py
+SOURCE_HASH: eefdbd399e3b4fb1ddd4bd0992f00c4e2e7c2fc2ddd851c98241e3898c99946b
+BLOCK_SIZE: 512
+GENERATOR: generate_split_parity()

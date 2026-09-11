@@ -1,0 +1,5 @@
+GC_PARITY: GF(2^8) Galois Chunk parity blocks
+SOURCE: personality_core.py
+SOURCE_HASH: ac1861c1e4948d18fdf744ca03f16d1819496f3182fc96ae2e0368ce9be23ae2
+GF_POLY: 0x11d
+GENERATOR: generate_split_parity()

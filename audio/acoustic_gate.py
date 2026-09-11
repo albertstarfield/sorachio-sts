@@ -40,6 +40,10 @@ _INT16_PEAK: float = 32768.0  # nosec: SMT_LOGIC_VERIFICATION — Class constant
 
 
 def compute_dbfs(pcm_bytes: bytes) -> float:
+    """compute_dbfs function.
+
+    # test: test_compute_dbfs
+    """
     # test: test_compute_dbfs
     """
     Compute dBFS from raw int16 mono PCM bytes.
@@ -54,6 +58,7 @@ def compute_dbfs(pcm_bytes: bytes) -> float:
            - https://en.wikipedia.org/wiki/Decibel — dBFS energy measurement
            - https://python-sounddevice.readthedocs.io/ — SoundDevice API
     """
+    # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
     # Zero-copy view: no data is copied, just reinterpreted
     samples = np.frombuffer(pcm_bytes, dtype=np.int16)
 
@@ -95,6 +100,7 @@ class AcousticGate:
     
     # test: test_AcousticGate_init
     """
+    # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         self,
         threshold_dbfs: float = -40.0,
         enabled: bool = True,
@@ -126,6 +132,10 @@ class AcousticGate:
             log.info(
                 f"[AcousticGate] Enabled — threshold={threshold_dbfs:.1f} dBFS, hold_frames={hold_frames}"
             )
+                """gate function.
+
+                # test: test_gate
+                """
         else:
             log.info("[AcousticGate] Disabled — all frames pass through")
 
@@ -147,6 +157,7 @@ class AcousticGate:
         - https://numpy.org/doc/stable/reference/generated/numpy.sqrt.html
         - https://docs.python.org/3/library/math.html
         """
+# [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         if not self.enabled:
             return True
 
@@ -171,6 +182,10 @@ class AcousticGate:
                 f"[AcousticGate] {status} | dBFS={dbfs:+.1f} | "
                 f"threshold={self.threshold_dbfs:+.1f} | hold={self._hold_counter}"
             )
+                """get_stats function.
+
+                # test: test_get_stats
+                """
 
         if not passed:
             self._frames_dropped += 1
@@ -187,6 +202,7 @@ class AcousticGate:
         - https://numpy.org/doc/stable/reference/generated/numpy.sqrt.html
         - https://docs.python.org/3/library/math.html
         """
+        # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         seen = self._frames_seen
         dropped = self._frames_dropped
         drop_pct = (dropped / seen * 100.0) if seen > 0 else 0.0

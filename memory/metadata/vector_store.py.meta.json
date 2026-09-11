@@ -1,0 +1,12 @@
+{
+  "source": "vector_store.py",
+  "source_hash": "14c2213f6a8a76c0a82cca77a035b8fe6a0c038f0f67f6745ef3b340d4d4005e",
+  "parity_type": "split",
+  "rs_parity": "vector_store.py.par2-one",
+  "gc_parity": "vector_store.py.par2-two",
+  "algorithm": {
+    "rs": "Reed-Solomon(255,223)",
+    "gc": "GF(2^8) Galois Chunk"
+  },
+  "generated_by": "generate_split_parity()"
+}

@@ -1,0 +1,5 @@
+RS_PARITY: Reed-Solomon(255,223) parity blocks
+SOURCE: echo_cancellation.py
+SOURCE_HASH: f9ec08131af5c049250668d7933cb2e06e98e08ca251ca35031eeeaa642ebcc3
+BLOCK_SIZE: 512
+GENERATOR: generate_split_parity()

@@ -1,0 +1,5 @@
+RS_PARITY: Reed-Solomon(255,223) parity blocks
+SOURCE: cognitive_gateway.py
+SOURCE_HASH: 32dc2e2a6dc9d145b0ffa9289a5c51a1a066d81f10e311df2d0f80f20e005211
+BLOCK_SIZE: 512
+GENERATOR: generate_split_parity()

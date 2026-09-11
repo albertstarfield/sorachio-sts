@@ -1,0 +1,12 @@
+{
+  "source": "short_term.py",
+  "source_hash": "eefdbd399e3b4fb1ddd4bd0992f00c4e2e7c2fc2ddd851c98241e3898c99946b",
+  "parity_type": "split",
+  "rs_parity": "short_term.py.par2-one",
+  "gc_parity": "short_term.py.par2-two",
+  "algorithm": {
+    "rs": "Reed-Solomon(255,223)",
+    "gc": "GF(2^8) Galois Chunk"
+  },
+  "generated_by": "generate_split_parity()"
+}

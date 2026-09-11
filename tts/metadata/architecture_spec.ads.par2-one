@@ -1,0 +1,5 @@
+RS_PARITY: Reed-Solomon(255,223) parity blocks
+SOURCE: architecture_spec.ads
+SOURCE_HASH: b69bd19ab888c3473614d957bf97ced42609f17a571e0ca1f33ff5c94881ef4e
+BLOCK_SIZE: 512
+GENERATOR: generate_split_parity()

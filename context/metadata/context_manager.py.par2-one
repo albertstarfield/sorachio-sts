@@ -1,0 +1,5 @@
+RS_PARITY: Reed-Solomon(255,223) parity blocks
+SOURCE: context_manager.py
+SOURCE_HASH: 4e4a9e3d647f0d0ce0946c10c54799f2b122d6f18cb37c6ea994d8e2f55410c9
+BLOCK_SIZE: 512
+GENERATOR: generate_split_parity()

@@ -1,0 +1,5 @@
+GC_PARITY: GF(2^8) Galois Chunk parity blocks
+SOURCE: emotion_tracker.py
+SOURCE_HASH: ff86e8b24b0974e6825848259769d634a1d783d39023104c747566b43768aef8
+GF_POLY: 0x11d
+GENERATOR: generate_split_parity()

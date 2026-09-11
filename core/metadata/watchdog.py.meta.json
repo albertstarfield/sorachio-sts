@@ -1,0 +1,12 @@
+{
+  "source": "watchdog.py",
+  "source_hash": "2c3a4b6e4e9e954fccc19f01e99bec45ba56f9affb532e47bc7cd30866e962b9",
+  "parity_type": "split",
+  "rs_parity": "watchdog.py.par2-one",
+  "gc_parity": "watchdog.py.par2-two",
+  "algorithm": {
+    "rs": "Reed-Solomon(255,223)",
+    "gc": "GF(2^8) Galois Chunk"
+  },
+  "generated_by": "generate_split_parity()"
+}

@@ -1,0 +1,12 @@
+{
+  "source": "events.py",
+  "source_hash": "b01a457090a8357174f3a36f98c335f04c773f05192b7e68772187b3a38f613f",
+  "parity_type": "split",
+  "rs_parity": "events.py.par2-one",
+  "gc_parity": "events.py.par2-two",
+  "algorithm": {
+    "rs": "Reed-Solomon(255,223)",
+    "gc": "GF(2^8) Galois Chunk"
+  },
+  "generated_by": "generate_split_parity()"
+}

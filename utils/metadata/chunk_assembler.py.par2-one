@@ -1,0 +1,5 @@
+RS_PARITY: Reed-Solomon(255,223) parity blocks
+SOURCE: chunk_assembler.py
+SOURCE_HASH: 304d4c3e663ef0ad4bb8a3eb02a7df14c98f459f7982727690722435500d72ad
+BLOCK_SIZE: 512
+GENERATOR: generate_split_parity()

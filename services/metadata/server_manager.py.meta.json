@@ -1,0 +1,12 @@
+{
+  "source": "server_manager.py",
+  "source_hash": "f6e9770fa2832bd878020cf22963dd1ceff820abc9e1f8740387689865ba98ed",
+  "parity_type": "split",
+  "rs_parity": "server_manager.py.par2-one",
+  "gc_parity": "server_manager.py.par2-two",
+  "algorithm": {
+    "rs": "Reed-Solomon(255,223)",
+    "gc": "GF(2^8) Galois Chunk"
+  },
+  "generated_by": "generate_split_parity()"
+}

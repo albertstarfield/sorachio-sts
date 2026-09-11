@@ -1,0 +1,5 @@
+RS_PARITY: Reed-Solomon(255,223) parity blocks
+SOURCE: whisper_client.py
+SOURCE_HASH: 907ee7ec23a3d508674a69625779659ce0b294e8d1898ef521998d09b088d1e8
+BLOCK_SIZE: 512
+GENERATOR: generate_split_parity()

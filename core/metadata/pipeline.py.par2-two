@@ -1,0 +1,5 @@
+GC_PARITY: GF(2^8) Galois Chunk parity blocks
+SOURCE: pipeline.py
+SOURCE_HASH: b7d4cfacf1d7f1a51a08524250211c30bd0c02dcb438f889efbbd508efb3c705
+GF_POLY: 0x11d
+GENERATOR: generate_split_parity()

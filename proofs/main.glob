@@ -1,0 +1,9 @@
+DIGEST 00b1c467e6fbd6c1d7ec37bb0b314eb0
+Fmain
+mod 206:209 <> main
+R228:233 Coq.ZArith.ZArith <> <> lib
+R251:256 Coq.QArith.QArith <> <> lib
+R274:287 Coq.Strings.String <> <> lib
+R305:314 Coq.Lists.List <> <> lib
+R332:335 Coq.Bool.Bool <> <> lib
+R479:482 main main <> mod

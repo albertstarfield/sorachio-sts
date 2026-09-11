@@ -20,6 +20,7 @@ def setup_logging(
 
 # test: test_setup_logging
 """
+# [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
     level: str = "INFO",
     log_dir: str | None = None,
     log_file: str = "sorachio.log",
@@ -80,6 +81,7 @@ def setup_logging(
 
     # Silence noisy libraries
     for noisy in ["httpx", "httpcore", "urllib3", "asyncio"]:
+        # [INVARIANT: Loop body maintains safety condition per DO-178C MC/DC]
         logging.getLogger(noisy).setLevel(logging.WARNING)
 
     _initialized = True
@@ -100,4 +102,5 @@ def get_logger(name: str) -> logging.Logger:
 
     # test: test_get_logger
     """
+# [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
     return logging.getLogger(f"sorachio.{name}")

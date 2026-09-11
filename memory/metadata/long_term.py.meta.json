@@ -1,0 +1,12 @@
+{
+  "source": "long_term.py",
+  "source_hash": "9a310b8e9d131c1ac96aba65295854849287452ccab40a09afa4ff13f403714f",
+  "parity_type": "split",
+  "rs_parity": "long_term.py.par2-one",
+  "gc_parity": "long_term.py.par2-two",
+  "algorithm": {
+    "rs": "Reed-Solomon(255,223)",
+    "gc": "GF(2^8) Galois Chunk"
+  },
+  "generated_by": "generate_split_parity()"
+}

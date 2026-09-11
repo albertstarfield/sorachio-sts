@@ -1,0 +1,12 @@
+{
+  "source": "capture.py",
+  "source_hash": "88107915291957dc39b13dfc1ae5dd7749d276eaf9ed58f744c6495086e779b1",
+  "parity_type": "split",
+  "rs_parity": "capture.py.par2-one",
+  "gc_parity": "capture.py.par2-two",
+  "algorithm": {
+    "rs": "Reed-Solomon(255,223)",
+    "gc": "GF(2^8) Galois Chunk"
+  },
+  "generated_by": "generate_split_parity()"
+}
