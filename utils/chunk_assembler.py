@@ -39,14 +39,6 @@ _CLEANUP = re.compile(r"\s+")
 
 
 def _word_count(text: str) -> int:
-    """_word_count function.
-
-    # test: test__word_count
-    """
-        """_clean function.
-
-        # test: test__clean
-        """
     return len(text.split())
 
 
@@ -66,10 +58,6 @@ class ChunkAssembler:
         assembler = ChunkAssembler(config)
         async for chunk in assembler.process(token_stream):
             await tts_queue.put(chunk)
-                """__init__ function.
-
-                # test: test___init__
-                """
        References:
            - https://docs.python.org/3/library/re.html — regex for sentence boundary detection
     """
@@ -78,11 +66,6 @@ class ChunkAssembler:
 
         # test: test___init__
     def __init__(
-    """TODO: Add description.
-    
-    # test: test_ChunkAssembler_init
-    """
-        # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         self,
         min_words: int = 3,
         max_words: int = 30,
@@ -103,21 +86,12 @@ class ChunkAssembler:
         """
         self.min_words = min_words
         self.max_words = max_words
-            """reset function.
-
-            # test: test_reset
-            """
         self.sentence_endings = sentence_endings or [".", "!", "?", ";", "..."]
         self.flush_on_comma = flush_on_comma
         self.flush_timeout_s = flush_timeout_s
 
         self._buffer: str = ""
         self._last_token_time: float = 0.0
-        """TODO: Add description.
-        
-        # test: test_ChunkAssembler_reset
-        # test: test__should_flush
-        """
 
     def reset(self) -> None:
         """
@@ -195,10 +169,6 @@ class ChunkAssembler:
                     # [INVARIANT: Loop body maintains safety condition per DO-178C MC/DC]
                     chunk = _clean(chunk)
                     if chunk and _word_count(chunk) >= self.min_words:
-                        """_split_on_boundaries function.
-
-                        # test: test__split_on_boundaries
-                        """
                         log.debug(f"[Chunker] Emitting: {chunk!r}")
                         yield chunk
                     elif chunk:
@@ -225,10 +195,6 @@ class ChunkAssembler:
         """
                 # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         # Split on . ! ? ; followed by whitespace
-            """split_into_chunks function.
-
-            # test: test_split_into_chunks
-            """
         pattern = r'(?<=[.!?;])\s+'
         parts = re.split(pattern, text)
 

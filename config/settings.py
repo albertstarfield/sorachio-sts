@@ -250,10 +250,6 @@ _settings: SorachioSettings | None = None
 _project_root: Path | None = None
 
 
-    """get_project_root function.
-
-    # test: test_get_project_root
-    """
 def get_project_root() -> Path:
     # test: test_get_project_root
     """
@@ -276,10 +272,6 @@ def get_project_root() -> Path:
                 return _project_root
             current = current.parent
         # Fallback: use working directory
-            """_auto_scan_models function.
-
-            # test: test__auto_scan_models
-            """
         _project_root = Path.cwd()
     return _project_root
 
@@ -317,10 +309,6 @@ def _auto_scan_models(settings: SorachioSettings) -> None:
 
         if info.model_path:
             # Store as relative path (consistent with YAML convention)
-                """load_settings function.
-
-                # test: test_load_settings
-                """
             instance.model_path = str(info.model_path.relative_to(root))
 
         if info.mmproj_path:
@@ -357,10 +345,6 @@ def load_settings(config_path: str | None = None) -> SorachioSettings:
     try:
         with open(config_file, encoding="utf-8") as f:
             raw = yaml.safe_load(f)
-                """get_settings function.
-
-                # test: test_get_settings
-                """
     except OSError as e:
         log.warning("[Settings] Could not read %s: %s", config_file, e)
         raise
@@ -373,10 +357,6 @@ def load_settings(config_path: str | None = None) -> SorachioSettings:
     return _settings
 
 
-    """resolve_path function.
-
-    # test: test_resolve_path
-    """
 def get_settings() -> SorachioSettings:
     # test: test_get_settings
     """

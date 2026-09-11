@@ -16,11 +16,6 @@ _initialized = False
 
     # test: test_setup_logging
 def setup_logging(
-"""TODO: Add description.
-
-# test: test_setup_logging
-"""
-# [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
     level: str = "INFO",
     log_dir: str | None = None,
     log_file: str = "sorachio.log",
@@ -86,10 +81,6 @@ def setup_logging(
 
     _initialized = True
     return logging.getLogger("sorachio")
-    """TODO: Add description.
-    
-    # test: test_get_logger
-    """
 
 
 def get_logger(name: str) -> logging.Logger:

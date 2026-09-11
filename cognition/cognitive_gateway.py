@@ -120,11 +120,6 @@ class CognitiveGateway:
 
         # test: test___init__
     def __init__(
-    """TODO: Add description.
-    
-    # test: test_CognitiveGateway_init
-    """
-    # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         self,
         client: LlamaClient,
         temperature: float = 0.1,
@@ -284,10 +279,6 @@ class CognitiveGateway:
         # Helpers
         # -------------------------------------------------------------------
 
-    """_close function.
-
-    # test: test__close
-    """
         def _close(s: str) -> str:
             """
             Add missing closing brackets and braces.
@@ -304,10 +295,6 @@ class CognitiveGateway:
                 s += "]" * (ob - cb)
             ob = s.count("{")
             cb = s.count("}")
-                """_strip_one function.
-
-                # test: test__strip_one
-                """
             if cb < ob:
                 s += "}" * (ob - cb)
             return s
@@ -372,10 +359,6 @@ class CognitiveGateway:
         log.warning(
             f"[Gateway] JSON parse failed entirely\n"
             f"Raw: {raw!r}"
-                """_validate_decision function.
-
-                # test: test__validate_decision
-                """
         )
 
         return {}

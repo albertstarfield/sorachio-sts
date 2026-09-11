@@ -29,11 +29,6 @@ class VectorStore:
 
         # test: test___init__
     def __init__(
-    """TODO: Add description.
-    
-    # test: test_VectorStore_init
-    """
-    # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         self,
         storage_path: str = "data/memory/chroma",
         embedding_model: str = "all-MiniLM-L6-v2",
@@ -83,10 +78,6 @@ class VectorStore:
 
             class OfflineSentenceTransformerEmbeddingFunction(EmbeddingFunction[Documents]):
                     # test: test___init__
-                        """__init__ function.
-
-                        # test: test___init__
-                        """
                 def __init__(self, model_path_or_name: str | Path):
                     """    Init.
 
@@ -100,10 +91,6 @@ class VectorStore:
                         log.info(f"[VectorStore] Loading offline embedding model from {model_path}...")
                         self.model = SentenceTransformer(str(model_path), local_files_only=True)
                     else:
-                        """__call__ function.
-
-                        # test: test___call__
-                        """
                         log.info(f"[VectorStore] Loading embedding model '{model_path_or_name}'...")
                         # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
                         self.model = SentenceTransformer(str(model_path_or_name))
@@ -142,10 +129,6 @@ class VectorStore:
             log.warning(
                 f"[VectorStore] chromadb / sentence-transformers not installed ({e}). "
                 "Install with: pip install chromadb sentence-transformers"
-                    """available function.
-
-                    # test: test_available
-                    """
             )
             return False
 
@@ -155,10 +138,6 @@ class VectorStore:
 
     @property
     def available(self) -> bool:
-    """TODO: Add description for available.
-    
-    # test: test_available
-    """
             # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         return self._available
 
@@ -172,10 +151,6 @@ class VectorStore:
         """
         Add a memory entry with embedding.
         
-            """_add_sync function.
-
-            # test: test__add_sync
-            """
         References:
         - https://docs.trychroma.com/
         - https://www.sbert.net/
@@ -233,10 +208,6 @@ class VectorStore:
         query_text: str,
         n_results: int = 5,
         where: dict[str, Any] | None = None,
-            """_query_sync function.
-
-            # test: test__query_sync
-            """
     ) -> list[dict[str, Any]]:
         """
         Query similar memories by semantic search.
@@ -294,10 +265,6 @@ class VectorStore:
 
             log.debug(f"[VectorStore] Query returned {len(entries)} results")
             return entries
-                """_delete_sync function.
-
-                # test: test__delete_sync
-                """
 
         except Exception as e:
             log.error(f"[VectorStore] Query failed: {e}")

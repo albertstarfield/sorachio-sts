@@ -42,16 +42,13 @@ try:
     _sabotage_recover_watchdog = Recover_Watchdog() if Recover_Watchdog else None
     _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None
     _sabotage_resurrect = Resurrect() if Resurrect else None
-except Exception as _exc:
-        logging.getLogger(__name__).warning(
-            "Caught exception in capture: %s", _exc
-        )
+except Exception:
+    pass
 
 # Global flag to enable raw per-frame debug print spam
 DEBUG_VERBOSE = False
 
 def _log_event(msg: str, force: bool = False) -> None:
-        # test: test__log_event
     """Log Event.
     
     Args:
@@ -64,7 +61,6 @@ def _log_event(msg: str, force: bool = False) -> None:
            - https://python-sounddevice.readthedocs.io/ — SoundDevice API for audio I/O
            - https://github.com/wiseman/py-webrtcvad — WebRTC VAD for voice activity detection
     """
-    # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
     if DEBUG_VERBOSE or force:
         log.info(f"[AUDIO-EVENT] {msg}")
 
@@ -82,16 +78,7 @@ class AudioCapture:
     VAD processing happens in a separate worker thread.
     """
 
-    """__init__ function.
-
-    # test: test___init__
-    """
     def __init__(
-    """TODO: Add description for __init__.
-    
-    # test: test___init__
-    """
-    # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         self,
         stt_queue: asyncio.Queue,
         interrupt_callback: Callable | None = None,  # nosec: SMT_LOGIC_VERIFICATION — Optional handled downstream with explicit None checks
@@ -181,10 +168,6 @@ class AudioCapture:
         if not self._audio_available:
             log.warning(
                 "[Capture] No audio input device found — "
-                    """_probe_input_device function.
-
-                    # test: test__probe_input_device
-                    """
                 "mic capture disabled (WSL / headless detected). "
                 "Use text mode instead."
             )
@@ -197,7 +180,6 @@ class AudioCapture:
         - https://python-sounddevice.readthedocs.io/
         - https://github.com/wiseman/py-webrtcvad
         """
-# [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         try:
             dev = self.device_index  # None ⟹ default device
             info = sd.query_devices(dev, kind="input")
@@ -207,10 +189,6 @@ class AudioCapture:
                 samplerate=self.sample_rate,
                 channels=self.channels,
                 dtype="int16",
-                    """_calibrate_acoustic_gate function.
-
-                    # test: test__calibrate_acoustic_gate
-                    """
                 blocksize=self._frame_size,
                 device=dev,
             )
@@ -227,7 +205,6 @@ class AudioCapture:
         - https://python-sounddevice.readthedocs.io/
         - https://github.com/wiseman/py-webrtcvad
         """
-            # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         if not hasattr(self, "_acoustic_gate") or not self._acoustic_gate.enabled:
             return
 
@@ -251,10 +228,6 @@ class AudioCapture:
             dbfs = compute_dbfs(noise_data.tobytes())
 
             # Set threshold to 8.0 dB above the background noise floor, clamped to safe ranges (min -38 dBFS)
-                """start function.
-
-                # test: test_start
-                """
             calibrated_threshold = max(-38.0, min(-20.0, dbfs + 8.0))
 
             self._calibrated_threshold = calibrated_threshold
@@ -268,7 +241,6 @@ class AudioCapture:
             self._calibrated_threshold = -38.0
 
     def start(self, loop: asyncio.AbstractEventLoop) -> None:
-        # test: test_start
         """
         Start capture in background threads.
         
@@ -276,7 +248,6 @@ class AudioCapture:
         - https://python-sounddevice.readthedocs.io/
         - https://github.com/wiseman/py-webrtcvad
         """
-            # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         if not self._audio_available:
             log.info("[Capture] Skipped — no audio input device")
             self._loop = loop
@@ -294,10 +265,6 @@ class AudioCapture:
         )
         self._vad_thread.start()
 
-    """stop function.
-
-    # test: test_stop
-    """
         # sounddevice stream
         self._stream = sd.InputStream(
             samplerate=self.sample_rate,
@@ -311,40 +278,25 @@ class AudioCapture:
         log.info(
             f"[Capture] Started — device={self.device_index or 'default'} "
             f"rate={self.sample_rate}Hz VAD={self.vad_aggressiveness} "
-                """mute function.
-
-                # test: test_mute
-                """
             f"GateThreshold={self._acoustic_gate.threshold_dbfs:.1f}dBFS"
         )
 
     def stop(self) -> None:
-        # test: test_stop
         """
         Stop capture.
         
         References:
         - https://python-sounddevice.readthedocs.io/
-            """unmute function.
-
-            # test: test_unmute
-            """
         - https://github.com/wiseman/py-webrtcvad
         """
-            # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         self._running = False
         if self._stream:
             self._stream.stop()
             self._stream.close()
             self._stream = None
         log.info("[Capture] Stopped")
-            """_audio_callback function.
-
-            # test: test__audio_callback
-            """
 
     def mute(self) -> None:
-        # test: test_mute
         """
         Logically mute the mic — VAD runs but speech is discarded.
         
@@ -352,13 +304,11 @@ class AudioCapture:
         - https://python-sounddevice.readthedocs.io/
         - https://github.com/wiseman/py-webrtcvad
         """
-            # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         self._muted.set()
         _log_event("Playback muted: Mic logically muted", force=True)
         log.debug("[Capture] Muted")
 
     def unmute(self) -> None:
-        # test: test_unmute
         """
         Un-mute — resume sending speech segments to STT.
         
@@ -374,7 +324,6 @@ class AudioCapture:
         self, indata: np.ndarray, frames: int, time_info, status
     ) -> None:
         """
-        # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         sounddevice callback — runs in audio thread.
         
         References:
@@ -434,10 +383,6 @@ class AudioCapture:
             if getattr(self, "_in_playback", False):
                 self._in_playback = False  # Mark transition back to idle
                 self._playback_preroll_frames = 0
-                    """_vad_worker function.
-
-                    # test: test__vad_worker
-                    """
             self._speaker_baseline_dbfs = cal_thresh
             self._acoustic_gate.threshold_dbfs = cal_thresh
 
@@ -478,7 +423,6 @@ class AudioCapture:
         - https://python-sounddevice.readthedocs.io/
         - https://github.com/wiseman/py-webrtcvad
         """
-        # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         speech_frames: list[bytes] = []
         history_frames: list[bytes] = []  # Rolling buffer of frames prior to speech onset
         triggered = False
@@ -492,7 +436,6 @@ class AudioCapture:
         min_active_speech_frames = 6
 
         while self._running:
-            # [INVARIANT: Loop body maintains safety condition per DO-178C MC/DC]
             try:
                 pcm = self._raw_queue.get(timeout=0.1)
                 if DEBUG_VERBOSE:
@@ -588,10 +531,6 @@ class AudioCapture:
                     if pcm:
                         speech_frames.append(pcm)
                     else:
-                        """_flush_speech function.
-
-                        # test: test__flush_speech
-                        """
                         # Append digital silence to preserve timing for STT
                         speech_frames.append(b'\x00' * (self._frame_size * 2))
                     if DEBUG_VERBOSE:
@@ -630,7 +569,6 @@ class AudioCapture:
 
     def _flush_speech(self, frames: list[bytes], active_speech_frames: int, min_active_speech_frames: int) -> None:
         """
-        # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         Send accumulated speech frames to STT queue.
         
         References:

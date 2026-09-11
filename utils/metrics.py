@@ -58,10 +58,6 @@ class TurnMetrics:
 
 class MetricsCollector:
     """Collects and summarizes pipeline timing metrics."""
-    """TODO: Add description.
-    
-    # test: test_MetricsCollector_init
-    """
 
     def __init__(self, history_size: int = 100):
         """    Init.
@@ -102,10 +98,6 @@ class MetricsCollector:
         )
 
         # test: test_get_summary
-            """get_summary function.
-
-            # test: test_get_summary
-            """
     def get_summary(self) -> dict[str, Any]:
         """    Get Summary.
 

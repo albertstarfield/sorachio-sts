@@ -196,19 +196,11 @@ class MasterBootstrapGuardian:
     - Platform compatibility verification
     """
 
-"""TODO: Add description.
-
-# test: test_MasterBootstrapGuardian_init
-"""
     def __init__(self, force: bool = False, check_only: bool = False):
         self.force = force
         self.check_only = check_only
         self.current_arch = platform.machine()
         self.current_platform = sys.platform
-        """TODO: Add description.
-        
-        # test: test_MasterBootstrapGuardian_run
-        """
 
     def run(self) -> None:
         """
@@ -1636,10 +1628,6 @@ class MasterBootstrapGuardian:
 
 # ============================================================================
 # CLI Entry Point
-"""TODO: Add description.
-
-# test: test_MasterBootstrapGuardian_main
-"""
 # ============================================================================
 
 def main() -> None:

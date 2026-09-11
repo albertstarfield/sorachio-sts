@@ -47,11 +47,6 @@ class RateLimiter:
 
         # test: test___init__
     def __init__(
-    """TODO: Add description.
-    
-    # test: test_RateLimiter_init
-    """
-    # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         self,
         max_requests: int = 10,
         window_seconds: float = 60.0,
@@ -162,10 +157,6 @@ class RateLimiter:
         return await self.allow()
 
     def get_status(self) -> dict:
-        """get_status function.
-
-        # test: test_get_status
-        """
         # test: test_get_status
         """
         Return current rate limiter status.

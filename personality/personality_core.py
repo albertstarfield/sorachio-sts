@@ -54,11 +54,6 @@ class PersonalityCore:
     """
 
     def __init__(
-    """TODO: Add description for __init__.
-    
-    # test: test___init__
-    """
-    # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         self,
         client: LlamaClient,
         tts_queue: asyncio.Queue,
@@ -98,10 +93,6 @@ class PersonalityCore:
 
         # test: test_generate_streaming
     async def generate_streaming(
-    """TODO: Add description.
-    
-    # test: test_PersonalityCore_generate_streaming
-    """
         self,
         messages: list[dict[str, str]],
     ) -> str:
@@ -176,10 +167,6 @@ class PersonalityCore:
         return self._full_response
 
     def interrupt(self) -> None:
-        """interrupt function.
-
-        # test: test_interrupt
-        """
         # test: test_interrupt
         """
         Signal the generation to stop.

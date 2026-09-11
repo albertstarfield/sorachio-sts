@@ -36,10 +36,8 @@ try:
     _sabotage_recover_watchdog = Recover_Watchdog() if Recover_Watchdog else None
     _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None
     _sabotage_resurrect = Resurrect() if Resurrect else None
-except Exception as _exc:
-        logging.getLogger(__name__).warning(
-            "Caught exception in context_manager: %s", _exc
-        )
+except Exception:
+    pass
 
 
 # ---------------------------------------------------------------------------
@@ -52,11 +50,6 @@ class ContextManager:
     """
 
     def __init__(
-    """TODO: Add description for __init__.
-    
-    # test: test___init__
-    """
-    # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         self,
         stm: ShortTermMemory,
         ltm: LongTermMemory,
@@ -88,12 +81,7 @@ class ContextManager:
         self.include_emotional_state = include_emotional_state
         self._emotion_tracker = emotion_tracker
 
-        # test: test_build_prompt
     async def build_prompt(
-    """TODO: Add description.
-    
-    # test: test_ContextManager_build_prompt
-    """
         self,
         user_input: str,
         cognitive_decision: dict[str, Any],
@@ -208,14 +196,12 @@ class ContextManager:
         return messages
 
     def _build_system_prompt(self) -> str:
-        # test: test__build_system_prompt
         """
         Construct a static system prompt to maximize KV Cache reuse.
         
         References:
         - https://docs.python.org/3/library/collections.html
         """
-    # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         parts = [
             self.personality_prompt.strip(),
             f"\nYou are {self.companion_name}. Respond naturally in 1-3 spoken sentences. "
@@ -223,7 +209,6 @@ class ContextManager:
         ]
         return "\n".join(parts)
 
-        # test: test_store_interaction
     async def store_interaction(
         self,
         user_input: str,

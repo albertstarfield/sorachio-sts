@@ -89,10 +89,6 @@ class AECProvider(ABC):
 
     @abstractmethod
     def process(self, mic_frame: bytes) -> bytes:
-        """process function.
-
-        # test: test_process
-        """
         # test: test_process
         """
         Process a microphone PCM frame.
@@ -109,10 +105,6 @@ class AECProvider(ABC):
         - https://docs.scipy.org/doc/scipy/reference/signal.html
         """
         # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
-            """set_reference_active function.
-
-            # test: test_set_reference_active
-            """
         ...
 
     @abstractmethod
@@ -127,10 +119,6 @@ class AECProvider(ABC):
             active: True when TTS audio is being played back.
                     False when playback stops (silence or interruption).
 
-    """set_reference_signal function.
-
-    # test: test_set_reference_signal
-    """
         References:
         - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
         - https://docs.scipy.org/doc/scipy/reference/signal.html
@@ -142,10 +130,6 @@ class AECProvider(ABC):
         # test: test_set_reference_signal
         """
         Feed the TTS playback audio as a reference signal for echo cancellation.
-            """get_interrupt_threshold function.
-
-            # test: test_get_interrupt_threshold
-            """
 
         Called from the playback worker — must be thread-safe.
         Only needed for reference-based AEC implementations.
@@ -156,10 +140,6 @@ class AECProvider(ABC):
         """
 # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         pass  # nosec: SILENT_FAILURE — intentional no-op, base class stub for subclasses
-            """get_calibration_data function.
-
-            # test: test_get_calibration_data
-            """
 
     def get_interrupt_threshold(self) -> float:
         # test: test_get_interrupt_threshold
@@ -180,18 +160,10 @@ class AECProvider(ABC):
         """
         Return calibration data if available.
         
-            """process function.
-
-            # test: test_process
-            """
         References:
         - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
         - https://docs.scipy.org/doc/scipy/reference/signal.html
         """
-            """set_reference_active function.
-
-            # test: test_set_reference_active
-            """
         return None
 
 
@@ -208,23 +180,9 @@ class NullAEC(AECProvider):
     """
 
     def process(self, mic_frame: bytes) -> bytes:
-    """TODO: Add description for process.
-    # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
-    
-    # test: test_process
-    """
         return mic_frame
 
-    """__init__ function.
-
-    # test: test___init__
-    """
     def set_reference_active(self, active: bool) -> None:
-    """TODO: Add description for set_reference_active.
-    # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
-    
-    # test: test_set_reference_active
-    """
         pass  # No state to update
 
 
@@ -235,10 +193,6 @@ class NullAEC(AECProvider):
 class SimpleEnergyAEC(AECProvider):
     """
     Simple energy-based echo suppressor.
-        """process function.
-
-        # test: test_process
-        """
 
     When TTS playback is active, attenuates the microphone frame
     by a configurable factor. This is NOT production AEC — it does not
@@ -257,10 +211,6 @@ class SimpleEnergyAEC(AECProvider):
     Args:
     attenuation_factor (float): Description.
 
-    """set_reference_active function.
-
-    # test: test_set_reference_active
-    """
     Returns:
         None: Description.
         # test: test_SimpleEnergyAEC_init
@@ -316,10 +266,6 @@ class SimpleEnergyAEC(AECProvider):
         else:
             self._playback_active.clear()
             log.debug("[AEC] Reference inactive (playback stopped)")
-                """__init__ function.
-
-                # test: test___init__
-                """
 
 
 # ---------------------------------------------------------------------------
@@ -360,21 +306,12 @@ class CalibrationAEC(AECProvider):
     """
 
     def __init__(
-    """TODO: Add description for __init__.
-        # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
-    
-    # test: test___init__
-    """
         self,
         sample_rate: int = 16000,
         frame_size: int = 480,
         calibration_duration_s: float = 3.0,
         lms_filter_length: int = 256,
         lms_step_size: float = 0.01,
-            """calibrate function.
-
-            # test: test_calibrate
-            """
         wiener_noise_margin: float = 6.0,
     ) -> None:
         """    Init.
@@ -420,10 +357,6 @@ class CalibrationAEC(AECProvider):
         # test: test_calibrate
     def calibrate(
         self,
-            """_generate_chirp function.
-
-            # test: test__generate_chirp
-            """
         play_audio_fn,
         record_audio_fn,
     ) -> CalibrationData:
@@ -449,10 +382,6 @@ class CalibrationAEC(AECProvider):
         chirp = self._generate_chirp()
         chirp_samples = len(chirp)
 
-    """_analyze_calibration function.
-
-    # test: test__analyze_calibration
-    """
         # Record while playing chirp
         recorded = np.zeros(chirp_samples, dtype=np.float32)
 
@@ -573,10 +502,6 @@ class CalibrationAEC(AECProvider):
         ref_energy = np.sqrt(np.mean(aligned_ref ** 2))
         rec_energy = np.sqrt(np.mean(aligned_rec ** 2))
 
-    """_initialize_lms_filter function.
-
-    # test: test__initialize_lms_filter
-    """
         if ref_energy > 1e-10:
             cal.echo_ratio = min(1.0, rec_energy / ref_energy)
         else:
@@ -606,10 +531,6 @@ class CalibrationAEC(AECProvider):
             cal.noise_floor_dbfs = -100.0
 
         # 6. Compute interrupt threshold
-            """process function.
-
-            # test: test_process
-            """
         # Threshold = echo_level * margin + noise_floor
         # Real voice should be significantly above echo
         echo_level_rms = rec_energy
@@ -646,10 +567,6 @@ class CalibrationAEC(AECProvider):
         - https://docs.scipy.org/doc/scipy/reference/signal.html
         """
         # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
-            """_cancel_echo function.
-
-            # test: test__cancel_echo
-            """
         if not self._calibration.is_valid or self._calibration.transfer_function is None:
             return
 
@@ -711,10 +628,6 @@ class CalibrationAEC(AECProvider):
             return cleaned.astype(np.int16).tobytes()
         except Exception as e:
             log.debug(f"[AEC] Echo cancellation failed: {e}")
-                """_update_lms function.
-
-                # test: test__update_lms
-                """
             return self._simple_attenuate(mic_frame)
 
     def _cancel_echo(
@@ -748,10 +661,6 @@ class CalibrationAEC(AECProvider):
                 predicted_echo_spectrum = ref_spectrum * H[:len(ref_spectrum)]
             else:
                 # Pad H to match spectrum length
-                    """_get_reference function.
-
-                    # test: test__get_reference
-                    """
                 H_padded = np.zeros_like(ref_spectrum)
                 H_padded[:len(H)] = H
                 predicted_echo_spectrum = ref_spectrum * H_padded
@@ -767,10 +676,6 @@ class CalibrationAEC(AECProvider):
         mic_power = np.abs(np.fft.rfft(mic * self._window[:n])) ** 2
         echo_power = np.abs(np.fft.rfft(predicted_echo * self._window[:n])) ** 2
 
-    """_simple_attenuate function.
-
-    # test: test__simple_attenuate
-    """
         noise_power = 10 ** (self._calibration.noise_floor_dbfs / 10) * len(mic)
         noise_margin = 10 ** (self.wiener_noise_margin / 10)
 
@@ -781,10 +686,6 @@ class CalibrationAEC(AECProvider):
         # Apply Wiener filter in frequency domain
         mic_spectrum = np.fft.rfft(mic * self._window[:n])
         cleaned_spectrum = mic_spectrum * wiener_gain
-            """set_reference_active function.
-
-            # test: test_set_reference_active
-            """
         cleaned = np.fft.irfft(cleaned_spectrum, n=n)
 
         # 3. Update LMS adaptive filter
@@ -802,10 +703,6 @@ class CalibrationAEC(AECProvider):
             w(n+1) = w(n) + step_size * error(n) * x(n)
 
         where:
-            """set_reference_signal function.
-
-            # test: test_set_reference_signal
-            """
             w = filter weights
             x = reference signal
             error = mic - predicted_echo
@@ -825,10 +722,6 @@ class CalibrationAEC(AECProvider):
             ref_padded = reference[:self.lms_filter_length]
 
         # Average error over frame
-            """get_interrupt_threshold function.
-
-            # test: test_get_interrupt_threshold
-            """
         error_mean = np.mean(error)
 
         # Update weights
@@ -838,10 +731,6 @@ class CalibrationAEC(AECProvider):
         weight_norm = np.sqrt(np.sum(self._lms_weights ** 2))
         if weight_norm > 1.0:
             self._lms_weights /= weight_norm
-                """get_calibration_data function.
-
-                # test: test_get_calibration_data
-                """
 
     def _get_reference(self, length: int) -> np.ndarray | None:
         """
@@ -856,10 +745,6 @@ class CalibrationAEC(AECProvider):
             _doubled = min(length * 2, 2**31 - 1)  # Guard length*2 overflow
             if len(self._reference_buffer) < _doubled:
                 return None
-                    """create_aec function.
-
-                    # test: test_create_aec
-                    """
 
             ref_bytes = bytes(self._reference_buffer[:_doubled])
             self._reference_buffer = self._reference_buffer[_doubled:]

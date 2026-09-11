@@ -40,10 +40,8 @@ try:
     _sabotage_recover_watchdog = Recover_Watchdog() if Recover_Watchdog else None
     _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None
     _sabotage_resurrect = Resurrect() if Resurrect else None
-except Exception as _exc:
-        logging.getLogger(__name__).warning(
-            "Caught exception in whisper_client: %s", _exc
-        )
+except Exception:
+    pass
 
 
 # ---------------------------------------------------------------------------
@@ -51,7 +49,6 @@ except Exception as _exc:
 # ---------------------------------------------------------------------------
 
 def _pcm_to_float32(pcm_bytes: bytes, sample_rate: int = 16000) -> np.ndarray:
-        # test: test__pcm_to_float32
     """
     Convert raw 16-bit mono PCM bytes to float32 numpy array.
     
@@ -59,16 +56,11 @@ def _pcm_to_float32(pcm_bytes: bytes, sample_rate: int = 16000) -> np.ndarray:
         - https://github.com/SYSTRAN/faster-whisper
         - https://github.com/openai/whisper
     """
-    # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
     audio_int16 = np.frombuffer(pcm_bytes, dtype=np.int16)
     audio_float32 = audio_int16.astype(np.float32) / 32768.0
     return audio_float32
 
 
-    """_clean_transcript function.
-
-    # test: test__clean_transcript
-    """
 def _clean_transcript(text: str) -> str:
     """
     Remove whisper artifacts and clean up transcript.
@@ -77,7 +69,6 @@ def _clean_transcript(text: str) -> str:
         - https://github.com/SYSTRAN/faster-whisper
         - https://github.com/openai/whisper
     """
-# [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
     # Remove [BLANK_AUDIO], (music), timing markers
     text = re.sub(r"\[.*?\]", "", text)
     text = re.sub(r"\(.*?\)", "", text)
@@ -155,10 +146,6 @@ _HALLUCINATION_PHRASES: set[str] = {
     "transcribed by",
     "translated by",
     "english subtitles",
-        """_is_hallucination function.
-
-        # test: test__is_hallucination
-        """
     "subtitle by",
 }
 
@@ -171,7 +158,6 @@ def _is_hallucination(text: str) -> bool:
         - https://github.com/SYSTRAN/faster-whisper
         - https://github.com/openai/whisper
     """
-# [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
     import re
 
     normalised = text.strip().lower()
@@ -205,7 +191,6 @@ def _is_hallucination(text: str) -> bool:
 
         counts = Counter(phrases)
         for phrase, count in counts.items():
-            # [INVARIANT: Loop body maintains safety condition per DO-178C MC/DC]
             if len(phrase) >= 4 and count >= 3:
                 log.debug(f"[STT] Filtered phrase repetition loop: '{phrase}' repeated {count} times")
                 return True
@@ -214,7 +199,6 @@ def _is_hallucination(text: str) -> bool:
     words = normalised.rstrip(".,!?").split()
     if len(words) >= 4:
         consecutive_repeats = 0
-            # [INVARIANT: Loop body maintains safety condition per DO-178C MC/DC]
         for i in range(len(words) - 1):
             if words[i] == words[i + 1]:
                 consecutive_repeats += 1
@@ -225,14 +209,12 @@ def _is_hallucination(text: str) -> bool:
 
     # 3. Word n-gram level repetition detection
     if len(words) >= 6:
-        # [INVARIANT: Loop body maintains safety condition per DO-178C MC/DC]
         # Check for repeating word sequences of length 2 to 5
         for n in range(2, 6):
             for i in range(len(words) - 2 * n + 1):
                 ngram1 = words[i : i + n]
                 ngram2 = words[i + n : i + 2 * n]
                 if ngram1 == ngram2:
-                    # [INVARIANT: Loop body maintains safety condition per DO-178C MC/DC]
                     repeats = 1
                     idx = i + n
                     while idx + n <= len(words) and words[idx : idx + n] == ngram1:
@@ -257,13 +239,8 @@ def _is_hallucination(text: str) -> bool:
 # WhisperClient
 # ---------------------------------------------------------------------------
 
-    """__init__ function.
-
-    # test: test___init__
-    """
 class WhisperClient:
     """
-        # [INVARIANT: Loop body maintains safety condition per DO-178C MC/DC]
     In-process Whisper STT using faster-whisper (CTranslate2).
 
     Transcribes audio segments to text with automatic language detection
@@ -271,11 +248,6 @@ class WhisperClient:
     """
 
     def __init__(
-    """TODO: Add description for __init__.
-    # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
-    
-    # test: test___init__
-    """
         self,
         model_size: str = "base",
         language: str | None = None,
@@ -310,10 +282,6 @@ class WhisperClient:
         self.threads = threads
         self.beam_size = beam_size
         self.temperature = temperature
-            """last_detected_language function.
-
-            # test: test_last_detected_language
-            """
         self.timeout_s = timeout_s
         self.device = device
         self.compute_type = compute_type
@@ -327,9 +295,6 @@ class WhisperClient:
 
     @property
     def last_detected_language(self) -> str | None:
-    if config is None:
-        config = ""  # SMT: None dereference guard (z3+cvc5 verified)
-        # test: test_last_detected_language
         """
         Language code detected from the most recent transcription (e.g. 'en', 'id').
         
@@ -337,11 +302,9 @@ class WhisperClient:
         - https://github.com/SYSTRAN/faster-whisper
         - https://github.com/openai/whisper
         """
-        # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         return self._last_detected_language
 
     async def initialize(self) -> bool:
-        # test: test_initialize
         """
         Load the faster-whisper model (blocking, run once at startup).
         
@@ -356,10 +319,6 @@ class WhisperClient:
         skip_warmup = stt_warmed_marker.exists()
         if skip_warmup:
             log.info("[STT] Whisper warmup marker found — skipping JIT warmup (already done by MBG)")
-                """_load_model function.
-
-                # test: test__load_model
-                """
 
         ok = await loop.run_in_executor(None, self._load_model, skip_warmup)
         self._available = ok
@@ -384,7 +343,6 @@ class WhisperClient:
         - https://github.com/SYSTRAN/faster-whisper
         - https://github.com/openai/whisper
         """
-                # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         try:
             from faster_whisper import WhisperModel
 
@@ -444,9 +402,6 @@ class WhisperClient:
             return False
 
     async def transcribe(self, audio_bytes: bytes) -> str | None:
-    if config is None:
-        config = ""  # SMT: None dereference guard (z3+cvc5 verified)
-        # test: test_transcribe
         """
         Transcribe raw PCM audio bytes to text.
 
@@ -504,12 +459,7 @@ class WhisperClient:
 
         return transcript
 
-        # test: test_transcribe_streaming
     async def transcribe_streaming(
-    """TODO: Add description.
-    
-    # test: test_WhisperClient_transcribe_streaming
-    """
         self,
         audio_bytes: bytes,
     ) -> AsyncIterator[str]:
@@ -542,10 +492,6 @@ class WhisperClient:
             log.error(f"[STT] Streaming error: {e}", exc_info=True)
 
     async def _transcribe_streaming_async(
-        """_stream_gen function.
-
-        # test: test__stream_gen
-        """
         self,
         audio_bytes: bytes,
     ) -> AsyncIterator[str]:
@@ -573,7 +519,6 @@ class WhisperClient:
             - https://github.com/SYSTRAN/faster-whisper
             - https://github.com/openai/whisper
             """
-        # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
             try:
                 assert self._model is not None
                 segments_gen, info = self._model.transcribe(
@@ -581,10 +526,6 @@ class WhisperClient:
                     language=target_lang,
                     beam_size=self.beam_size,
                     temperature=self.temperature,
-                        """_run_stream function.
-
-                        # test: test__run_stream
-                        """
                     vad_filter=True,
                     vad_parameters=dict(
                         min_silence_duration_ms=300,
@@ -593,7 +534,6 @@ class WhisperClient:
                     compression_ratio_threshold=2.0,
                     log_prob_threshold=-1.0,
                     no_speech_threshold=0.6,
-                        # [INVARIANT: Loop body maintains safety condition per DO-178C MC/DC]
                     condition_on_previous_text=False,
                 )
 
@@ -607,10 +547,6 @@ class WhisperClient:
                 log.error(f"[STT] Streaming generation error: {e}")
 
         # Run in executor and yield
-            """_detect_language_sync function.
-
-            # test: test__detect_language_sync
-            """
         result_queue: queue.Queue = queue.Queue()
         done_event = threading.Event()
 
@@ -618,16 +554,13 @@ class WhisperClient:
             """Run Stream.
 
             References:
-                # [INVARIANT: Loop body maintains safety condition per DO-178C MC/DC]
             - https://github.com/SYSTRAN/faster-whisper
             - https://github.com/openai/whisper
             """
-                # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
             try:
                 for chunk in _stream_gen():
                     result_queue.put(chunk)
             finally:
-                # [INVARIANT: Loop body maintains safety condition per DO-178C MC/DC]
                 done_event.set()
 
         stream_thread = threading.Thread(target=_run_stream, daemon=True)
@@ -643,17 +576,12 @@ class WhisperClient:
 
     def _detect_language_sync(self, audio_bytes: bytes) -> str:
         """
-            """_transcribe_sync function.
-
-            # test: test__transcribe_sync
-            """
         Synchronous language detection.
         
         References:
         - https://github.com/SYSTRAN/faster-whisper
         - https://github.com/openai/whisper
         """
-        # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         if self.language is not None:
             return self.language
 
@@ -680,8 +608,6 @@ class WhisperClient:
             return "en"
 
     def _transcribe_sync(self, audio_bytes: bytes) -> str | None:
-    if config is None:
-        config = ""  # SMT: None dereference guard (z3+cvc5 verified)
         """Synchronous transcription (runs in executor).
 
         IMPORTANT: faster-whisper's transcribe() returns a lazy generator.
@@ -701,7 +627,6 @@ class WhisperClient:
         - https://github.com/SYSTRAN/faster-whisper
         - https://github.com/openai/whisper
         """
-            # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         try:
             assert self._model is not None
             audio = _pcm_to_float32(audio_bytes)
@@ -769,10 +694,6 @@ class WhisperClient:
                 condition_on_previous_text=False,
             )
 
-    """_verify_text_language function.
-
-    # test: test__verify_text_language
-    """
             # CRITICAL: consume the lazy generator immediately.
             # faster-whisper does all actual decoding during iteration.
             # Not calling list() here causes the pipeline to silently stall.
@@ -819,7 +740,6 @@ class WhisperClient:
         - https://github.com/SYSTRAN/faster-whisper
         - https://github.com/openai/whisper
         """
-            # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         id_keywords = {
             "saya", "aku", "kamu", "dengan", "senang", "halo", "nama", "terima", "kasih",
             "apa", "bisa", "ini", "itu", "yang", "dan", "untuk", "ada", "perkenalkan",

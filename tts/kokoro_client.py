@@ -35,10 +35,6 @@ try:
     if not hasattr(_EspeakWrapper, "set_data_path"):
         @classmethod
         def _set_data_path(cls, path: str) -> None:
-            """_set_data_path function.
-
-            # test: test__set_data_path
-            """
             # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
             cls.data_path = path
         _EspeakWrapper.set_data_path = _set_data_path  # type: ignore[attr-defined]
@@ -64,10 +60,6 @@ try:
 except Exception as _exc:
         logging.getLogger(__name__).warning(
             "Caught exception in kokoro_client: %s", _exc
-                """_resample_audio function.
-
-                # test: test__resample_audio
-                """
         )
 
 
@@ -114,11 +106,6 @@ class KokoroTTSClient:
     """
 
     def __init__(
-    """TODO: Add description for __init__.
-    
-    # test: test___init__
-    """
-# [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         self,
         audio_queue: asyncio.Queue,
         voice: str = "af_heart",
@@ -203,10 +190,6 @@ class KokoroTTSClient:
                 f"Indonesian: Piper (id_ID-news_tts-medium)"
             )
         elif self._kokoro_available:
-            """_load_kokoro function.
-
-            # test: test__load_kokoro
-            """
             log.info(f"[TTS] Kokoro TTS ready — voice={self.voice} (English active)")
         elif self._piper_available:
             log.info("[TTS] Piper TTS ready (Indonesian active)")
@@ -258,10 +241,6 @@ class KokoroTTSClient:
                         _ = result[-1]
                         break
                     log.info("[TTS] Kokoro warmup complete [OK]")
-                        """set_language function.
-
-                        # test: test_set_language
-                        """
                 except Exception as warmup_error:
                     log.warning(f"[TTS] Kokoro warmup failed: {warmup_error}")
 
@@ -280,10 +259,6 @@ class KokoroTTSClient:
         Set the active language for TTS routing.
         Called when STT detects user language or language preference changes.
 
-    """_detect_text_language function.
-
-    # test: test__detect_text_language
-    """
         References:
         - https://github.com/hexgrad/kokoro
         - https://github.com/rhasspy/piper
@@ -313,10 +288,6 @@ class KokoroTTSClient:
             return "en"
 
         id_keywords = {
-            """_sanitize_text function.
-
-            # test: test__sanitize_text
-            """
             "saya", "aku", "kamu", "dengan", "senang", "halo", "nama", "terima", "kasih",
             "apa", "bisa", "ini", "itu", "yang", "dan", "untuk", "ada", "bicarakan",
             "perkenalkan", "diri", "hari", "merasa", "teman", "setia", "sekali", "baik",
@@ -386,10 +357,6 @@ class KokoroTTSClient:
 
         # Determine target language
         if self._stt_lang_locked:
-            """_synth_kokoro function.
-
-            # test: test__synth_kokoro
-            """
             target_lang = self._current_lang
         elif self.lang == "auto":
             target_lang = self._detect_text_language(text)
@@ -469,10 +436,6 @@ class KokoroTTSClient:
 
         # test: test_process_tts_queue
     async def process_tts_queue(
-    """TODO: Add description.
-    
-    # test: test_KokoroTTSClient_process_tts_queue
-    """
         self,
         tts_chunk_queue: asyncio.Queue,
         interrupt_event: asyncio.Event,

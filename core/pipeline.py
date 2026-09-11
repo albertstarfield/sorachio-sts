@@ -396,10 +396,6 @@ class SorachioPipeline:
             recorded_data = np.zeros(chirp_samples, dtype=np.float32)
             recording_done = threading.Event()
 
-    """_record function.
-
-    # test: test__record
-    """
             def _record():
                 """    Record.
 
@@ -575,10 +571,6 @@ class SorachioPipeline:
                     self._tts.set_language(detected_lang, from_stt=True)
 
                 await self.bus.emit(
-                    """_flush_queues function.
-
-                    # test: test__flush_queues
-                    """
                     EventType.STT_RESULT, data=transcript, source="stt"
                 )
                 await self._cognitive_queue.put(transcript)
@@ -870,10 +862,6 @@ class SorachioPipeline:
         if hasattr(self, "_emotion_tracker") and self._emotion_tracker and hasattr(self, "_emotion_state_path"):
             self._emotion_tracker.save(self._emotion_state_path)
 
-    """request_shutdown function.
-
-    # test: test_request_shutdown
-    """
         # Close LLM clients
         if self._llm_gateway:
             await self._llm_gateway.close()

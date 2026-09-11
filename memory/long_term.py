@@ -35,11 +35,6 @@ log = get_logger("memory.ltm")
 
 class LTMEntry:
     def __init__(
-    """TODO: Add description for __init__.
-    
-    # test: test___init__
-    """
-    # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         self,
         content: str,
         topic: str = "general",
@@ -132,10 +127,6 @@ class LTMEntry:
         entry.access_count = d.get("access_count", 0)
         return entry
 
-    """relevance_score function.
-
-    # test: test_relevance_score
-    """
     def relevance_score(self, query_keywords: list[str]) -> float:
         # test: test_relevance_score
         """
@@ -190,20 +181,11 @@ class LongTermMemory:
       - Store memories with importance scoring
       - Vector similarity search (ChromaDB) for semantic retrieval
       - Keyword-based fallback if vector store unavailable
-          """__init__ function.
-
-          # test: test___init__
-          """
       - Persistence across sessions
       - Access tracking
     """
 
     def __init__(
-    """TODO: Add description for __init__.
-      # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
-    
-    # test: test___init__
-    """
         self,
         storage_path: str = "data/memory/ltm.json",
         max_entries: int = 500,
@@ -278,10 +260,6 @@ class LongTermMemory:
         log.info(f"[LTM] Synced {synced}/{len(self._entries)} entries to vector store")
 
     async def store(
-    """TODO: Add description for store.
-    
-    # test: test_store
-    """
         self,
         content: str,
         topic: str = "general",
@@ -413,10 +391,6 @@ class LongTermMemory:
                 entry.accessed_at = now
                 entry.access_count += 1
             if results:
-                """format_for_context function.
-
-                # test: test_format_for_context
-                """
                 self._dirty = True
 
         if results:

@@ -38,11 +38,6 @@ class AudioPlayback:
     """
 
     def __init__(
-    """TODO: Add description for __init__.
-    
-    # test: test___init__
-    """
-    # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         self,
         audio_queue: asyncio.Queue,
         playback_active_event: asyncio.Event,
@@ -194,10 +189,6 @@ class AudioPlayback:
 
         loop = asyncio.get_event_loop()
 
-    """_blocking_play function.
-
-    # test: test__blocking_play
-    """
         def _blocking_play():
             """    Blocking Play.
 
@@ -219,10 +210,6 @@ class AudioPlayback:
 
         await loop.run_in_executor(None, _blocking_play)
 
-    """interrupt function.
-
-    # test: test_interrupt
-    """
     # ------------------------------------------------------------------
     # Interrupt / Stop
     # ------------------------------------------------------------------
@@ -256,10 +243,6 @@ class AudioPlayback:
                 self.audio_queue.get_nowait()
                 self.audio_queue.task_done()
                 cleared += 1
-                    """stop function.
-
-                    # test: test_stop
-                    """
             except asyncio.QueueEmpty:
                 break
 

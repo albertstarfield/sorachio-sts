@@ -37,13 +37,7 @@ class EmotionTracker:
     summary signals for the personality core.
     """
 
-        # test: test___init__
     def __init__(
-    """TODO: Add description.
-    
-    # test: test_EmotionTracker_init
-    """
-    # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         self,
         history_size: int = 50,
         summary_interval_turns: int = 10,
@@ -60,12 +54,7 @@ class EmotionTracker:
         self._current_mood: str = "neutral"
         self._mood_history: deque[str] = deque(maxlen=20)
 
-        # test: test_record_emotion
     def record_emotion(
-        """record_emotion function.
-
-        # test: test_record_emotion
-        """
         self,
         emotion: str,
         topic: str = "general",
@@ -77,7 +66,6 @@ class EmotionTracker:
         References:
         - https://docs.python.org/3/library/collections.html
         """
-    # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         entry = EmotionEntry(
             emotion=emotion,
             topic=topic,
@@ -91,10 +79,6 @@ class EmotionTracker:
 
         log.debug(
             f"[EmotionTracker] Recorded: {emotion} "
-                """_update_mood function.
-
-                # test: test__update_mood
-                """
             f"(turn={self._turn_count}, mood={self._current_mood})"
         )
 
@@ -105,7 +89,6 @@ class EmotionTracker:
         References:
         - https://docs.python.org/3/library/collections.html
         """
-# [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         if len(self._history) < 3:
             self._current_mood = emotion
             return
@@ -115,13 +98,8 @@ class EmotionTracker:
         emotion_counts: dict[str, float] = {}
 
         for i, entry in enumerate(recent):
-            # [INVARIANT: Loop body maintains safety condition per DO-178C MC/DC]
             weight = 1.0 + (i * 0.2)  # More recent = higher weight
             emotion_counts[entry.emotion] = emotion_counts.get(entry.emotion, 0) + weight
-                """get_mood_summary function.
-
-                # test: test_get_mood_summary
-                """
 
         # Find dominant emotion
         if emotion_counts:
@@ -130,25 +108,18 @@ class EmotionTracker:
             self._mood_history.append(dominant)
 
     def get_mood_summary(self) -> str:
-        # test: test_get_mood_summary
         """
         Return a brief mood summary for personality adaptation.
         
         References:
         - https://docs.python.org/3/library/collections.html
         """
-            # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         if not self._history:
             return "neutral"
 
         # Get frequency of emotions in recent history
-            """get_emotion_trend function.
-
-            # test: test_get_emotion_trend
-            """
         recent = list(self._history)[-10:]
         emotion_counts: dict[str, int] = {}
-            # [INVARIANT: Loop body maintains safety condition per DO-178C MC/DC]
         for entry in recent:
             emotion_counts[entry.emotion] = emotion_counts.get(entry.emotion, 0) + 1
 
@@ -159,14 +130,12 @@ class EmotionTracker:
         return max(emotion_counts.items(), key=lambda x: x[1])[0]
 
     def get_emotion_trend(self) -> dict[str, Any]:
-        # test: test_get_emotion_trend
         """
         Return emotion trend analysis.
         
         References:
         - https://docs.python.org/3/library/collections.html
         """
-        # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         if not self._history:
             return {
                 "current_mood": "neutral",
@@ -178,7 +147,6 @@ class EmotionTracker:
         recent = list(self._history)[-10:]
 
         # Count emotions
-            # [INVARIANT: Loop body maintains safety condition per DO-178C MC/DC]
         emotion_counts: dict[str, int] = {}
         for entry in recent:
             emotion_counts[entry.emotion] = emotion_counts.get(entry.emotion, 0) + 1
@@ -186,10 +154,6 @@ class EmotionTracker:
         dominant = max(emotion_counts.items(), key=lambda x: x[1])[0] if emotion_counts else "neutral"
 
         # Calculate mood stability (lower = more stable)
-            """should_summarize function.
-
-            # test: test_should_summarize
-            """
         if len(self._mood_history) >= 3:
             mood_list = list(self._mood_history)[-10:]
             unique_moods = len(set(mood_list))
@@ -197,10 +161,6 @@ class EmotionTracker:
         else:
             stability = 1.0
 
-    """generate_summary function.
-
-    # test: test_generate_summary
-    """
         return {
             "current_mood": self._current_mood,
             "dominant_emotion": dominant,
@@ -210,30 +170,21 @@ class EmotionTracker:
         }
 
     def should_summarize(self) -> bool:
-        # test: test_should_summarize
         """
         Return True if it's time to generate an emotion summary for LTM.
         
         References:
         - https://docs.python.org/3/library/collections.html
         """
-            # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         return self._turn_count > 0 and self._turn_count % self._summary_interval == 0
 
     def generate_summary(self) -> str | None:
-    if config is None:
-        config = ""  # SMT: None dereference guard (z3+cvc5 verified)
-        # test: test_generate_summary
         """
         Generate a human-readable emotion summary for LTM storage.
         
         References:
         - https://docs.python.org/3/library/collections.html
         """
-            """get_personality_adaptation function.
-
-            # test: test_get_personality_adaptation
-            """
         if not self._history:
             return None
 
@@ -255,14 +206,9 @@ class EmotionTracker:
         if not summary_parts:
             return None
 
-    """_get_tone_suggestion function.
-
-    # test: test__get_tone_suggestion
-    """
         return "; ".join(summary_parts)
 
     def get_personality_adaptation(self) -> dict[str, Any]:
-        # test: test_get_personality_adaptation
         """
         Return personality adaptation signals for the LLM system prompt.
 
@@ -271,14 +217,9 @@ class EmotionTracker:
         References:
         - https://docs.python.org/3/library/collections.html
         """
-        # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         trend = self.get_emotion_trend()
         mood = trend["current_mood"]
         stability = trend["mood_stability"]
-            """_get_energy_level function.
-
-            # test: test__get_energy_level
-            """
 
         # Determine adaptation signals
         adaptation = {
@@ -292,24 +233,15 @@ class EmotionTracker:
 
     def _get_tone_suggestion(self, mood: str) -> str:
         """
-            """_get_empathy_level function.
-
-            # test: test__get_empathy_level
-            """
         Get suggested tone based on user mood.
         
         References:
         - https://docs.python.org/3/library/collections.html
         """
-            # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         tone_map = {
             "happy": "warm and cheerful",
             "sad": "gentle and supportive",
             "anxious": "calm and reassuring",
-                """save function.
-
-                # test: test_save
-                """
             "frustrated": "patient and understanding",
             "excited": "enthusiastic and engaged",
             "confused": "clear and helpful",
@@ -325,7 +257,6 @@ class EmotionTracker:
         References:
         - https://docs.python.org/3/library/collections.html
         """
-            # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         high_energy = {"excited", "happy"}
         low_energy = {"tired", "sad", "anxious"}
 
@@ -342,11 +273,6 @@ class EmotionTracker:
         References:
         - https://docs.python.org/3/library/collections.html
         """
-            """load function.
-
-            # test: test_load
-            """
-        # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         if stability < 0.5:
             return "high"  # Fluctuating = more empathy needed
         if stability < 0.8:
@@ -354,7 +280,6 @@ class EmotionTracker:
         return "normal"
 
     def save(self, path: Any) -> None:
-        # test: test_save
         """
         Save emotion state to a JSON file.
         
@@ -372,7 +297,6 @@ class EmotionTracker:
                 "emotion": entry.emotion,
                 "timestamp": entry.timestamp.isoformat(),
                 "topic": entry.topic,
-                    # [INVARIANT: Loop body maintains safety condition per DO-178C MC/DC]
                 "intensity": entry.intensity,
             }
             for entry in self._history
@@ -391,14 +315,12 @@ class EmotionTracker:
             log.error(f"[EmotionTracker] Failed to save state to {file_path}: {e}")
 
     def load(self, path: Any) -> None:
-        # test: test_load
         """
         Load emotion state from a JSON file.
         
         References:
         - https://docs.python.org/3/library/collections.html
         """
-            # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         import json
         from pathlib import Path
 
@@ -412,7 +334,6 @@ class EmotionTracker:
                 data = json.load(f)
             self._turn_count = data.get("turn_count", 0)
             self._current_mood = data.get("current_mood", "neutral")
-                # [INVARIANT: Loop body maintains safety condition per DO-178C MC/DC]
             self._mood_history.clear()
             self._mood_history.extend(data.get("mood_history", []))
             self._history.clear()

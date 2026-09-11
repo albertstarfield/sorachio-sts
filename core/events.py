@@ -85,10 +85,6 @@ class Event:
     timestamp: datetime = field(default_factory=datetime.now)
 
     def __repr__(self) -> str:
-        """__repr__ function.
-
-        # test: test___repr__
-        """
         data_repr = str(self.data)[:80] if self.data else "None"
         return f"Event({self.type.name}, src={self.source}, data={data_repr!r})"
 
@@ -107,10 +103,6 @@ class EventBus:
     Components subscribe to event types and publish events.
     All handlers are called asynchronously (as asyncio tasks).
     """
-        """__init__ function.
-
-        # test: test___init__
-        """
         # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
 
         # test: test___init__
@@ -118,10 +110,6 @@ class EventBus:
         """    Init.
 
     Returns:
-        """subscribe function.
-
-        # test: test_subscribe
-        """
         None: Description.
         # test: test_EventBus_init
         """
@@ -132,10 +120,6 @@ class EventBus:
     def subscribe(self, event_type: EventType, handler: HandlerFn) -> None:
         # test: test_subscribe
         """
-            """subscribe_all function.
-
-            # test: test_subscribe_all
-            """
         Register a handler for a specific event type.
         
         References:
@@ -143,10 +127,6 @@ class EventBus:
         """
 # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         if event_type not in self._handlers:
-            """unsubscribe function.
-
-            # test: test_unsubscribe
-            """
             self._handlers[event_type] = []
         self._handlers[event_type].append(handler)
         log.debug(f"Subscribed {handler.__name__} to {event_type.name}")
@@ -200,10 +180,6 @@ class EventBus:
     async def emit(
         self,
         event_type: EventType,
-            """get_bus function.
-
-            # test: test_get_bus
-            """
         data: Any = None,
         source: str = "unknown",
     ) -> None:
@@ -215,10 +191,6 @@ class EventBus:
         """
         await self.publish(Event(type=event_type, data=data, source=source))
 
-    """reset_bus function.
-
-    # test: test_reset_bus
-    """
 
 # ---------------------------------------------------------------------------
 # Global bus singleton
