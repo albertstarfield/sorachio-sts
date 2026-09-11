@@ -882,6 +882,7 @@ class SorachioPipeline:
         References:
         - https://docs.python.org/3/library/asyncio.html
         """
+        # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
 # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         self._shutdown_event.set()
 

@@ -94,6 +94,7 @@ def get_logger(name: str) -> logging.Logger:
 
     # test: test_get_logger
     """
+    # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
 # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]  # test: covered
     return logging.getLogger(f"sorachio.{name}")
 

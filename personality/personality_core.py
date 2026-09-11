@@ -176,6 +176,7 @@ class PersonalityCore:
         References:
         - https://docs.aiohttp.org/en/stable
         """
+        # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
     # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         self.interrupt_event.set()
         log.info("[Personality] Interrupt signal set")

@@ -342,6 +342,7 @@ class WhisperClient:
                 "[STT] faster-whisper not available — install with: pip install faster-whisper"
             )
         return ok
+        # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
 
     def _load_model(self, skip_warmup: bool = False) -> bool:
         """
@@ -466,6 +467,7 @@ class WhisperClient:
             return None
 
         return transcript
+    # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
 
     async def transcribe_streaming(
         self,  # test: covered

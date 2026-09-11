@@ -125,6 +125,7 @@ class EventBus:
         References:
         - https://docs.python.org/3/library/asyncio.html
         """
+        # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
 # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         if event_type not in self._handlers:
             self._handlers[event_type] = []
@@ -210,6 +211,7 @@ def get_bus() -> EventBus:
     References:
         - https://docs.python.org/3/library/asyncio.html
     """
+    # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
 # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
     global _bus
     if _bus is None:

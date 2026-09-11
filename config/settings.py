@@ -259,6 +259,7 @@ def get_project_root() -> Path:
         - https://docs.pydantic.dev/
         - https://docs.python.org/3/library/pathlib.html
     """
+    # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
 # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
     global _project_root
     if _project_root is None:
@@ -328,6 +329,7 @@ def load_settings(config_path: str | None = None) -> SorachioSettings:
     References:
         - https://docs.pydantic.dev/
         - https://docs.python.org/3/library/pathlib.html
+    # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
     """
 # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
     global _settings

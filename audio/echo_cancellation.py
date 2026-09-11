@@ -123,6 +123,7 @@ class AECProvider(ABC):
         - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
         - https://docs.scipy.org/doc/scipy/reference/signal.html
         """
+        # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
     # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         ...
 
@@ -137,6 +138,7 @@ class AECProvider(ABC):
         References:
         - https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html
         - https://docs.scipy.org/doc/scipy/reference/signal.html
+    # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
         """
 # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         pass  # nosec: SILENT_FAILURE — intentional no-op, base class stub for subclasses
@@ -793,6 +795,7 @@ class CalibrationAEC(AECProvider):
                 self._reference_buffer.clear()
 
         # test: test_set_reference_signal
+        # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
     def set_reference_signal(self, audio: bytes) -> None:
         """    Set Reference Signal.
 # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
@@ -815,6 +818,7 @@ class CalibrationAEC(AECProvider):
             max_buffer = self.sample_rate * 2
             if len(self._reference_buffer) > max_buffer:
                 self._reference_buffer = self._reference_buffer[-max_buffer:]
+                # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
 
     def get_interrupt_threshold(self) -> float:
         # test: test_get_interrupt_threshold

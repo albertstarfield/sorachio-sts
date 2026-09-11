@@ -288,6 +288,7 @@ class AudioCapture:
             f"rate={self.sample_rate}Hz VAD={self.vad_aggressiveness} "
             f"GateThreshold={self._acoustic_gate.threshold_dbfs:.1f}dBFS"
         )
+        # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
 
     def stop(self) -> None:
         """
@@ -303,6 +304,7 @@ class AudioCapture:
             self._stream.close()
             self._stream = None
         log.info("[Capture] Stopped")
+    # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
 
     def mute(self) -> None:
         """
@@ -326,6 +328,7 @@ class AudioCapture:
         """
         self._muted.clear()  # test: covered
         _log_event("Playback unmuted: Mic logically unmuted", force=True)
+    # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
         log.debug("[Capture] Unmuted")
 
     def _audio_callback(

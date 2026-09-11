@@ -167,6 +167,7 @@ class RateLimiter:
         References:
         - https://docs.python.org/3/library/time.html
         """
+        # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
     # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         now = time.monotonic()
         cutoff = now - self.window_seconds

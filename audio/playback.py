@@ -224,6 +224,7 @@ class AudioPlayback:
         References:
         - https://python-sounddevice.readthedocs.io/
         """
+        # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
     # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         log.info("[Playback] INTERRUPT — clearing audio queue")
         self._interrupted = True

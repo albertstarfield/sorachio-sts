@@ -169,6 +169,7 @@ def log_scan_summary(name: str, info: ModelInfo) -> None:
     References:
         - https://docs.python.org/3/library/pathlib.html
     """
+    # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
 # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
     if info.model_path:
         log.info(

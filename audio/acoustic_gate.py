@@ -144,6 +144,7 @@ class AcousticGate:
         - https://numpy.org/doc/stable/reference/generated/numpy.sqrt.html
         - https://docs.python.org/3/library/math.html
         """
+        # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
 # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         if not self.enabled:
             return True

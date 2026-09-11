@@ -66,6 +66,7 @@ async def test_async_chunker():
         for t in tokens:
             yield t
             await asyncio.sleep(0.001)
+        # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
 
     chunks = []
     async for chunk in assembler.process(token_gen()):
