@@ -54,6 +54,8 @@ class RateLimiter:
         Args:
             max_requests: Maximum requests allowed within the window.
             window_seconds: Sliding window duration in seconds.
+
+        # test: test_RateLimiter_init
         """
         self.max_requests = max_requests
         self.window_seconds = window_seconds
@@ -106,6 +108,8 @@ class RateLimiter:
 
         References:
         - https://docs.python.org/3/library/time.html
+
+        # test: test_RateLimiter_allow
         """
         allowed, _ = await self.check_allow()
         return allowed

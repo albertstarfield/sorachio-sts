@@ -27,6 +27,8 @@ def setup_logging(
     References:
     - https://docs.python.org/3/library/logging.html
     - https://rich.readthedocs.io/
+
+    # test: test_setup_logging
     """
     global _initialized
     if _initialized:
@@ -86,5 +88,7 @@ def get_logger(name: str) -> logging.Logger:
     References:
         - https://docs.python.org/3/library/logging.html
         - https://rich.readthedocs.io/
+
+    # test: test_get_logger
     """
     return logging.getLogger(f"sorachio.{name}")

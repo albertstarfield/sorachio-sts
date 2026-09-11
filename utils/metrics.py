@@ -39,6 +39,8 @@ class TurnMetrics:
 
         References:
         - https://docs.python.org/3/library/time.html
+
+        # test: test_TurnMetrics_to_dict
         """
         return {
             "turn_id": self.turn_id,
@@ -59,6 +61,8 @@ class MetricsCollector:
 
     Args:
     history_size (int): Description.
+
+    # test: test_MetricsCollector_init
         """
         self._history: list[TurnMetrics] = []
         self._history_size = history_size
@@ -74,6 +78,8 @@ class MetricsCollector:
 
         References:
         - https://docs.python.org/3/library/time.html
+
+        # test: test_MetricsCollector_record_turn
         """
         if len(self._history) >= self._history_size:
             self._history.pop(0)
@@ -92,6 +98,8 @@ class MetricsCollector:
 
         References:
         - https://docs.python.org/3/library/time.html
+
+        # test: test_MetricsCollector_get_summary
         """
         if not self._history:
             return {"total_turns": 0}
