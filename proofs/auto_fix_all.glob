@@ -1,8 +1,0 @@
-DIGEST 31b02f1d3df38e92f2c1f79c9a155d2a
-Fauto_fix_all
-mod 214:225 <> auto_fix_all
-R244:249 Coq.ZArith.ZArith <> <> lib
-R267:272 Coq.QArith.QArith <> <> lib
-R290:303 Coq.Strings.String <> <> lib
-R321:330 Coq.Lists.List <> <> lib
-R348:351 Coq.Bool.Bool <> <> lib
