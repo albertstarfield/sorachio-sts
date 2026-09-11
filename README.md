@@ -83,7 +83,7 @@ The system is designed from the ground up as a **modular companion operating sys
 | Wake Word | OpenWakeWord ONNX (`alexa`, `hey_jarvis`, etc.) | ~5 MB | Instant wake word detection | `models/wakeword/` |
 | LLM #1 | Qwen2.5-Coder-0.5B-Instruct (Q8_0) | ~644 MB | Agentic Action Planner (JSON action router) | `models/llm1/` |
 | LLM #2 | Qwen3.5-4B (Q4_K_M) | ~2.6 GB | Personality Core (conversation) + **Vision** | `models/llm2/` |
-| STT | faster-whisper small | ~484 MB | Speech-to-Text (multilingual ID/EN) | `models/stt/` |
+| STT | faster-whisper medium | ~1.5 GB | Speech-to-Text (multilingual ID/EN, high accuracy) | `models/stt/` |
 | TTS (EN) | Kokoro-82M (`af_heart`) | ~327 MB | English female voice — 24kHz native | `models/tts/kokoro/` |
 | TTS (ID) | Piper `id_ID-news_tts-medium` | ~67 MB | Indonesian female voice — 22.05kHz→24kHz | `models/tts/` |
 | Vector Embed | all-MiniLM-L6-v2 | ~90 MB | Semantic memory embeddings (offline) | `models/vector/all-MiniLM-L6-v2/` |
@@ -509,7 +509,7 @@ robot:
 
 # STT & Acoustic Settings
 stt:
-  model_size: "small"
+  model_size: "medium"
   language: "auto"
 
 audio:
@@ -536,17 +536,19 @@ LLM #1 is optimized for low-latency JSON routing (<300ms). It interprets user in
 ### Terminal Status Badges
 
 ```
-  >>> STATUS   ◕ happy      ✓ respond      ⚡ move: forward      ⚡ search      ○ memory       topic: robotics
+  >>> STATUS   ◕ happy      ⚡ conversation      ⚡ medium       ○ memory       topic: greeting
 ```
+*(When action is search, an inline query pill is automatically displayed: `⚡ search ... 🔍 query`)*
 
 ---
 
 ## 13. Acoustic Intelligence Layer
 
-1. **Acoustic Gate**: Drops audio frames below `-40.0 dBFS` to save compute and eliminate silence processing.
-2. **Pre-Trigger Ring Buffer**: 8-frame (~240ms) onset buffer preserves initial consonants of speech.
-3. **Playback Gate Shield**: Dynamically raises gate threshold to `max(-15.0 dBFS, speaker_peak + 7.0 dB)` during TTS playback to prevent self-interruption.
-4. **CalibrationAEC**: 3-second chirp room impulse calibration with LMS/Wiener filtering for acoustic echo cancellation.
+1. **Auto-Calibrated Noise Floor**: Measures ambient background noise for 0.8s on startup and establishes an adaptive noise threshold (`threshold = noise_dbfs + 8.0 dB`, clamped between `-38.0` and `-20.0 dBFS`).
+2. **Acoustic Gate (dBFS / RMS)**: Pre-VAD zero-copy energy filter. Frames below the threshold (silence, fan hum, HVAC) are instantly dropped (100% discarded) before reaching the VAD queue, saving CPU compute.
+3. **Hold-Frames (Hangover Buffer)**: 15-frame (~450ms) buffer prevents trailing consonants and fading word endings from getting clipped.
+4. **Dynamic TTS Playback Clamping**: During TTS playback, dynamically tracks speaker output energy and raises the gate threshold +10.0 dB above speaker baseline with an 8-frame pre-roll shield, eliminating mic echo and self-interruption.
+5. **CalibrationAEC**: 3-second room impulse response calibration with LMS/Wiener filtering for acoustic echo cancellation.
 
 ---
 
