@@ -1,0 +1,8 @@
+DIGEST 981b0667cb38520faf1c353d6bb208d5
+Flong_term
+mod 218:226 <> long_term
+R245:250 Coq.ZArith.ZArith <> <> lib
+R268:273 Coq.QArith.QArith <> <> lib
+R291:304 Coq.Strings.String <> <> lib
+R322:331 Coq.Lists.List <> <> lib
+R349:352 Coq.Bool.Bool <> <> lib

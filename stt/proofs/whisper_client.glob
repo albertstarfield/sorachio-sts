@@ -1,0 +1,8 @@
+DIGEST 69cc64bf7bbcaca2303cc351af5f8e79
+Fwhisper_client
+mod 220:233 <> whisper_client
+R252:257 Coq.ZArith.ZArith <> <> lib
+R275:280 Coq.QArith.QArith <> <> lib
+R298:311 Coq.Strings.String <> <> lib
+R329:338 Coq.Lists.List <> <> lib
+R356:359 Coq.Bool.Bool <> <> lib

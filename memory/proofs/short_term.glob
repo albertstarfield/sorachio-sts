@@ -1,0 +1,10 @@
+DIGEST 20aedf28e92b961d2a710f7c52cd9811
+Fshort_term
+mod 219:228 <> short_term
+R247:252 Coq.ZArith.ZArith <> <> lib
+R270:275 Coq.QArith.QArith <> <> lib
+R293:306 Coq.Strings.String <> <> lib
+R324:333 Coq.Lists.List <> <> lib
+R351:354 Coq.Bool.Bool <> <> lib
+def 470:476 short_term to_dict
+R519:520 Coq.Init.Datatypes <> tt constr
