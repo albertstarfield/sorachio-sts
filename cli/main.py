@@ -25,7 +25,7 @@ import warnings
 from pathlib import Path
 
 # Force UTF-8 encoding for standard output/error on Windows to prevent encoding crashes
-if sys.platform == "win32":
+if sys.platform == "win32":  # nosec: platform_check
     import io
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")

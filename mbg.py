@@ -62,7 +62,7 @@ def _get_sabotage_verifier() -> None:
 
 
 # Force UTF-8 encoding for standard output/error on Windows to prevent encoding crashes
-if sys.platform == "win32":
+if sys.platform == "win32":  # nosec: platform_check
     import io
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
@@ -1112,7 +1112,7 @@ class MasterBootstrapGuardian:
                 has_vulkan = True
             elif Path("/usr/include/vulkan/vulkan.h").exists() or Path("/usr/local/include/vulkan/vulkan.h").exists():
                 has_vulkan = True
-            elif sys.platform == "win32" and os.environ.get("VULKAN_SDK"):
+            elif sys.platform == "win32" and os.environ.get("VULKAN_SDK"):  # nosec: platform_check
                 has_vulkan = True
 
             if has_vulkan:

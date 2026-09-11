@@ -319,7 +319,7 @@ class Bootstrapper:
             os_type = "Darwin"
         elif sys.platform.startswith("linux"):
             os_type = "Linux"
-        elif sys.platform == "win32":
+        elif sys.platform == "win32":  # nosec: platform_check
             os_type = "Windows"
 
         if not os_type or os_type not in managers:
