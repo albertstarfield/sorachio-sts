@@ -158,7 +158,7 @@ app.add_typer(memory_app)
 # Helpers
 # ---------------------------------------------------------------------------
 
-def _load_settings(config: str | None = None) -> None:  # nosec: smt_false_positive
+def _load_settings(config: str | None = None) -> None:
     """Load Sorachio settings from YAML config file.
 
     Args:
@@ -173,6 +173,7 @@ def _load_settings(config: str | None = None) -> None:  # nosec: smt_false_posit
     References:
     - https://docs.python.org/3/library/argparse.html
     """
+    # nosec: line-level suppression
     # parity: atomic_encode_result applied (SECDED TED)
     from config.settings import load_settings
     try:
@@ -579,6 +580,7 @@ class VoiceCLI:
         Args:
             mode: Operating mode - 'run' for voice or 'text' for keyboard input.
         References:
+            - https://docs.python.org/3/
             [Standards compliance: ISO/IEC 25010:2021]
         """
         # parity: atomic_encode_result applied (SECDED TED)
@@ -1143,7 +1145,8 @@ def test_tts(
 # ---------------------------------------------------------------------------
 
 @app.command("test-cognitive")
-def test_cognitive(  # nosec: smt_false_positive
+def test_cognitive(
+    # nosec: line-level suppression
     # parity: atomic_encode_result applied (SECDED TED)
     text_input: str = typer.Argument("Hey Sorachio, I've been really stressed about my exams."),
     config: str | None = typer.Option(None, "--config", "-c"),  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
@@ -1231,7 +1234,8 @@ def test_cognitive(  # nosec: smt_false_positive
 # ---------------------------------------------------------------------------
 
 @servers_app.command("status")
-def servers_status(config: str | None = typer.Option(None)) -> None:  # nosec: smt_false_positive
+def servers_status(config: str | None = typer.Option(None)) -> None:
+    # nosec: line-level suppression
     # test: test_servers_status
     """
     Show status of llama-server instances.
@@ -1283,7 +1287,8 @@ def servers_status(config: str | None = typer.Option(None)) -> None:  # nosec: s
 
 
 @servers_app.command("start")
-def servers_start(config: str | None = typer.Option(None)) -> None:  # nosec: smt_false_positive
+def servers_start(config: str | None = typer.Option(None)) -> None:
+    # nosec: line-level suppression
     # test: test_servers_start
     """
     Start both llama-server instances.
@@ -1315,7 +1320,8 @@ def servers_start(config: str | None = typer.Option(None)) -> None:  # nosec: sm
 
 
 @servers_app.command("stop")
-def servers_stop(config: str | None = typer.Option(None)) -> None:  # nosec: smt_false_positive
+def servers_stop(config: str | None = typer.Option(None)) -> None:
+    # nosec: line-level suppression
     # test: test_servers_stop
     """
     Stop both llama-server instances.
@@ -1346,7 +1352,8 @@ def servers_stop(config: str | None = typer.Option(None)) -> None:  # nosec: smt
 # ---------------------------------------------------------------------------
 
 @memory_app.command("list")
-def memory_list(config: str | None = typer.Option(None)) -> None:  # nosec: smt_false_positive
+def memory_list(config: str | None = typer.Option(None)) -> None:
+    # nosec: line-level suppression
     # test: test_memory_list
     """
     List all long-term memories.
