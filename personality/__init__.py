@@ -59,7 +59,8 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
       import json
       import zlib
 
-      source_data = open(source_path, "rb").read()
+      with open(source_path, "rb") as _f:
+          source_data = _f.read()
       source_hash = hashlib.sha256(source_data).hexdigest()
 
       # Split into blocks
@@ -268,7 +269,8 @@ def verify_parity(source_path: str) -> bool:
             return False
 
         # Verify source hash
-        source_data = open(source_path, "rb").read()
+        with open(source_path, "rb") as _f:
+            source_data = _f.read()
         if hashlib.sha256(source_data).hexdigest() != meta.get("source_hash"):
             return False
 

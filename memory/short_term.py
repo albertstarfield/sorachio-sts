@@ -378,7 +378,13 @@ def test_to_dict() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered to_dict
+    entry = STMEntry(role="user", content="hello", emotion="happy")
+    d = entry.to_dict()
+    assert isinstance(d, dict), "to_dict must return a dict"
+    assert d["role"] == "user", "Role must match"
+    assert d["content"] == "hello", "Content must match"
+    assert d["emotion"] == "happy", "Emotion must match"
+    assert "timestamp" in d, "Dict must contain timestamp"
 
 
 def test_to_chat_message() -> None:
@@ -388,7 +394,9 @@ def test_to_chat_message() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered to_chat_message
+    entry = STMEntry(role="assistant", content="Hi there!")
+    msg = entry.to_chat_message()
+    assert msg == {"role": "assistant", "content": "Hi there!"}, "Chat message must match"
 
 
 def test_add() -> None:
@@ -398,7 +406,14 @@ def test_add() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered add
+    import asyncio
+    stm = ShortTermMemory(max_messages=20)
+    asyncio.get_event_loop().run_until_complete(
+        stm.add(role="user", content="hello")
+    )
+    recent = asyncio.get_event_loop().run_until_complete(stm.get_recent())
+    assert len(recent) == 1, "Window should have 1 entry"
+    assert recent[0].content == "hello", "Content must match"
 
 
 def test_get_recent() -> None:
@@ -408,7 +423,16 @@ def test_get_recent() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered get_recent
+    import asyncio
+    stm = ShortTermMemory(max_messages=20)
+    for i in range(5):
+        asyncio.get_event_loop().run_until_complete(
+            stm.add(role="user", content=f"msg{i}")
+        )
+    recent = asyncio.get_event_loop().run_until_complete(stm.get_recent(n=3))
+    assert len(recent) == 3, "get_recent(3) should return 3 entries"
+    assert recent[0].content == "msg2", "First entry should be msg2"
+    assert recent[2].content == "msg4", "Last entry should be msg4"
 
 
 def test_get_recent_summary() -> None:
@@ -418,7 +442,13 @@ def test_get_recent_summary() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered get_recent_summary
+    import asyncio
+    stm = ShortTermMemory(max_messages=20)
+    assert asyncio.get_event_loop().run_until_complete(stm.get_recent_summary()) == "", "Empty summary should be empty"
+    asyncio.get_event_loop().run_until_complete(stm.add(role="user", content="hello"))
+    asyncio.get_event_loop().run_until_complete(stm.add(role="assistant", content="hi"))
+    summary = asyncio.get_event_loop().run_until_complete(stm.get_recent_summary(n=2))
+    assert "User" in summary or "Assistant" in summary, "Summary should mention roles"
 
 
 def test_summarize() -> None:
@@ -428,7 +458,16 @@ def test_summarize() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered summarize
+    import asyncio
+    stm = ShortTermMemory(max_messages=20)
+    for i in range(3):
+        asyncio.get_event_loop().run_until_complete(
+            stm.add(role="user", content=f"message {i}")
+        )
+    result = asyncio.get_event_loop().run_until_complete(
+        stm.summarize(llm_client=None, n_to_summarize=2)
+    )
+    assert result is None, "Summarize with None client should return None"
 
 
 def test_auto_summarize_if_needed() -> None:
@@ -438,7 +477,13 @@ def test_auto_summarize_if_needed() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered auto_summarize_if_needed
+    import asyncio
+    stm = ShortTermMemory(max_messages=20, summary_threshold=5)
+    asyncio.get_event_loop().run_until_complete(stm.add(role="user", content="hi"))
+    result = asyncio.get_event_loop().run_until_complete(
+        stm.auto_summarize_if_needed(llm_client=None)
+    )
+    assert result is None, "Below threshold should return None"
 
 
 def test_mark_last_interrupted() -> None:
@@ -448,7 +493,13 @@ def test_mark_last_interrupted() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered mark_last_interrupted
+    import asyncio
+    stm = ShortTermMemory(max_messages=20)
+    asyncio.get_event_loop().run_until_complete(stm.add(role="assistant", content="response"))
+    asyncio.get_event_loop().run_until_complete(stm.mark_last_interrupted())
+    recent = asyncio.get_event_loop().run_until_complete(stm.get_recent())
+    assert len(recent) == 1, "Should have 1 entry"
+    assert recent[0].metadata.get("interrupted") is True, "Last message must be marked interrupted"
 
 
 def test_get_chat_messages() -> None:
@@ -458,7 +509,14 @@ def test_get_chat_messages() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered get_chat_messages
+    import asyncio
+    stm = ShortTermMemory(max_messages=20)
+    asyncio.get_event_loop().run_until_complete(stm.add(role="user", content="hello"))
+    asyncio.get_event_loop().run_until_complete(stm.add(role="assistant", content="hi"))
+    msgs = asyncio.get_event_loop().run_until_complete(stm.get_chat_messages())
+    assert len(msgs) == 2, "Should return 2 messages"
+    assert msgs[0] == {"role": "user", "content": "hello"}, "First msg must match"
+    assert msgs[1] == {"role": "assistant", "content": "hi"}, "Second msg must match"
 
 
 def test_get_emotion_context() -> None:
@@ -468,7 +526,15 @@ def test_get_emotion_context() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered get_emotion_context
+    import asyncio
+    stm = ShortTermMemory(max_messages=20)
+    ctx = asyncio.get_event_loop().run_until_complete(stm.get_emotion_context())
+    assert ctx == "neutral", "Empty STM should return neutral"
+    asyncio.get_event_loop().run_until_complete(
+        stm.add(role="user", content="test", emotion="happy")
+    )
+    ctx2 = asyncio.get_event_loop().run_until_complete(stm.get_emotion_context())
+    assert ctx2 == "happy", "Should return recorded emotion"
 
 
 def test_clear() -> None:
@@ -478,7 +544,12 @@ def test_clear() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered clear
+    import asyncio
+    stm = ShortTermMemory(max_messages=20)
+    asyncio.get_event_loop().run_until_complete(stm.add(role="user", content="hello"))
+    assert asyncio.get_event_loop().run_until_complete(stm.size()) == 1, "Should have 1 entry"
+    asyncio.get_event_loop().run_until_complete(stm.clear())
+    assert asyncio.get_event_loop().run_until_complete(stm.size()) == 0, "Should be empty after clear"
 
 
 def test_turn_count() -> None:
@@ -488,7 +559,13 @@ def test_turn_count() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered turn_count
+    import asyncio
+    stm = ShortTermMemory(max_messages=20)
+    assert stm.turn_count == 0, "Initial turn count should be 0"
+    asyncio.get_event_loop().run_until_complete(stm.add(role="user", content="hello"))
+    assert stm.turn_count == 1, "Turn count should be 1 after user message"
+    asyncio.get_event_loop().run_until_complete(stm.add(role="assistant", content="hi"))
+    assert stm.turn_count == 1, "Turn count should stay 1 for assistant message"
 
 
 def test_size() -> None:
@@ -498,7 +575,11 @@ def test_size() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered size
+    import asyncio
+    stm = ShortTermMemory(max_messages=20)
+    assert asyncio.get_event_loop().run_until_complete(stm.size()) == 0, "Empty STM size should be 0"
+    asyncio.get_event_loop().run_until_complete(stm.add(role="user", content="hello"))
+    assert asyncio.get_event_loop().run_until_complete(stm.size()) == 1, "Size should be 1 after add"
 
 
 def test_atomic_encode_result() -> None:
@@ -508,7 +589,11 @@ def test_atomic_encode_result() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered atomic_encode_result
+    import asyncio
+    stm = ShortTermMemory(max_messages=20)
+    asyncio.get_event_loop().run_until_complete(stm.add(role="user", content="test"))
+    recent = asyncio.get_event_loop().run_until_complete(stm.get_recent())
+    assert len(recent) == 1, "Should have 1 entry"
 
 # ── Split Parity Functions ──────────────────────────────────────────────────────
 # Reed-Solomon(255,223), GF(2^8) Galois Chunk parity protection
@@ -563,7 +648,8 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
       import json
       import zlib
 
-      source_data = open(source_path, "rb").read()
+      with open(source_path, "rb") as _f:
+          source_data = _f.read()
       source_hash = hashlib.sha256(source_data).hexdigest()
 
       # Split into blocks
@@ -772,7 +858,8 @@ def verify_parity(source_path: str) -> bool:
             return False
 
         # Verify source hash
-        source_data = open(source_path, "rb").read()
+        with open(source_path, "rb") as _f:
+            source_data = _f.read()
         if hashlib.sha256(source_data).hexdigest() != meta.get("source_hash"):
             return False
 
@@ -860,7 +947,19 @@ def test_generate_parity() -> None:
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True, 'test for generate_parity verified'
+    import os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for parity generation")
+        tmp_path = tmp.name
+    try:
+        result = generate_parity(tmp_path)
+        assert result is not None, "generate_parity should return a dict"
+        assert isinstance(result, dict), "generate_parity must return dict"
+        assert "rs_parity" in result, "Result must contain rs_parity"
+        assert "gc_parity" in result, "Result must contain gc_parity"
+        assert "source_hash" in result, "Result must contain source_hash"
+    finally:
+        os.unlink(tmp_path)
 
 def test_store_parity() -> None:
     """Test for store_parity function.
@@ -869,7 +968,20 @@ def test_store_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for store_parity verified'
+    import json, os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for store parity")
+        tmp_path = tmp.name
+    try:
+        parity_data = generate_parity(tmp_path)
+        result = store_parity(tmp_path, parity_data)
+        assert result is not None, "store_parity should return paths"
+        assert "rs_path" in result, "Result must contain rs_path"
+        assert "gc_path" in result, "Result must contain gc_path"
+        assert os.path.isfile(result["rs_path"]), "rs_path file must exist"
+        assert os.path.isfile(result["gc_path"]), "gc_path file must exist"
+    finally:
+        os.unlink(tmp_path)
 
 def test_verify_parity() -> None:
     """Test for verify_parity function.
@@ -878,7 +990,17 @@ def test_verify_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for verify_parity verified'
+    import os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for verify parity")
+        tmp_path = tmp.name
+    try:
+        parity_data = generate_parity(tmp_path)
+        store_parity(tmp_path, parity_data)
+        result = verify_parity(tmp_path)
+        assert result is True, "verify_parity should return True for valid parity"
+    finally:
+        os.unlink(tmp_path)
 
 def test_restore_parity() -> None:
     """Test for restore_parity function.
@@ -887,7 +1009,17 @@ def test_restore_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for restore_parity verified'
+    import os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for restore parity")
+        tmp_path = tmp.name
+    try:
+        parity_data = generate_parity(tmp_path)
+        store_parity(tmp_path, parity_data)
+        result = restore_parity(tmp_path)
+        assert result is True, "restore_parity should return True for valid parity"
+    finally:
+        os.unlink(tmp_path)
 
 def test_regenerate_parity() -> None:
     """Test for regenerate_parity function.
@@ -897,5 +1029,16 @@ def test_regenerate_parity() -> None:
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True, 'test for regenerate_parity verified'
+    import os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for regenerate parity")
+        tmp_path = tmp.name
+    try:
+        parity_data = generate_parity(tmp_path)
+        store_parity(tmp_path, parity_data)
+        result = regenerate_parity(tmp_path)
+        assert result is True, "regenerate_parity should return True"
+        assert verify_parity(tmp_path) is True, "Parity must be valid after regeneration"
+    finally:
+        os.unlink(tmp_path)
 

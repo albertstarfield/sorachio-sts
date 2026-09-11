@@ -271,7 +271,9 @@ def test_get_bus() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered get_bus
+    # AXIOM: get_bus must return an EventBus instance
+    bus = get_bus()
+    assert isinstance(bus, EventBus), "get_bus must return an EventBus"
 
 
 def test_reset_bus() -> None:
@@ -281,7 +283,10 @@ def test_reset_bus() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered reset_bus
+    # AXIOM: reset_bus must return a fresh EventBus instance
+    bus = reset_bus()
+    assert isinstance(bus, EventBus), "reset_bus must return an EventBus"
+    assert len(bus._handlers) == 0, "reset_bus must return empty handlers"
 
 
 def test_subscribe() -> None:
@@ -291,7 +296,11 @@ def test_subscribe() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered subscribe
+    # AXIOM: subscribe must register a handler for an event type
+    bus = EventBus()
+    handler = lambda event: None
+    bus.subscribe(EventType.INTERRUPT, handler)
+    assert handler in bus._handlers[EventType.INTERRUPT], "Handler must be registered"
 
 
 def test_subscribe_all() -> None:
@@ -301,7 +310,11 @@ def test_subscribe_all() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered subscribe_all
+    # AXIOM: subscribe_all must register handler in global handlers list
+    bus = EventBus()
+    handler = lambda event: None
+    bus.subscribe_all(handler)
+    assert handler in bus._global_handlers, "Handler must be in global handlers"
 
 
 def test_unsubscribe() -> None:
@@ -311,7 +324,12 @@ def test_unsubscribe() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered unsubscribe
+    # AXIOM: unsubscribe must remove a previously subscribed handler
+    bus = EventBus()
+    handler = lambda event: None
+    bus.subscribe(EventType.INTERRUPT, handler)
+    bus.unsubscribe(EventType.INTERRUPT, handler)
+    assert handler not in bus._handlers.get(EventType.INTERRUPT, []), "Handler must be removed"
 
 
 def test_publish() -> None:
@@ -321,7 +339,16 @@ def test_publish() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered publish
+    # AXIOM: publish must accept an Event and call handlers
+    import asyncio
+    bus = EventBus()
+    received = []
+    handler = lambda event: received.append(event)
+    bus.subscribe(EventType.INTERRUPT, handler)
+    event = Event(type=EventType.INTERRUPT, data="test")
+    asyncio.run(bus.publish(event))
+    assert len(received) == 1, "Handler must be called once"
+    assert received[0].type == EventType.INTERRUPT, "Handler must receive correct event"
 
 
 def test_emit() -> None:
@@ -332,7 +359,14 @@ def test_emit() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered emit
+    # AXIOM: emit must create and publish an Event
+    import asyncio
+    bus = EventBus()
+    received = []
+    handler = lambda event: received.append(event)
+    bus.subscribe(EventType.STT_RESULT, handler)
+    asyncio.run(emit("test_module", EventType.STT_RESULT, "hello world"))
+    assert len(received) >= 1, "emit must publish event to handlers"
 
 # ── Split Parity Functions ──────────────────────────────────────────────────────
 # Reed-Solomon(255,223), GF(2^8) Galois Chunk parity protection
@@ -387,7 +421,8 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
       import json
       import zlib
 
-      source_data = open(source_path, "rb").read()
+      with open(source_path, "rb") as _f:
+          source_data = _f.read()
       source_hash = hashlib.sha256(source_data).hexdigest()
 
       # Split into blocks
@@ -596,7 +631,8 @@ def verify_parity(source_path: str) -> bool:
             return False
 
         # Verify source hash
-        source_data = open(source_path, "rb").read()
+        with open(source_path, "rb") as _f:
+            source_data = _f.read()
         if hashlib.sha256(source_data).hexdigest() != meta.get("source_hash"):
             return False
 
@@ -684,7 +720,23 @@ def test_generate_parity() -> None:
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True, 'test for generate_parity verified'
+    # AXIOM: generate_parity must return dict with required keys
+    import tempfile, os
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as tmp:
+        tmp.write(b"test data for parity verification")
+        tmp_path = tmp.name
+    try:
+        result = generate_parity(tmp_path, block_size=512)
+        assert isinstance(result, dict), "generate_parity must return dict"
+        assert "rs_parity" in result, "Result must contain 'rs_parity'"
+        assert "gc_parity" in result, "Result must contain 'gc_parity'"
+        assert "source_hash" in result, "Result must contain 'source_hash'"
+        assert "rs_checksum" in result, "Result must contain 'rs_checksum'"
+        assert "gc_checksum" in result, "Result must contain 'gc_checksum'"
+        assert isinstance(result["source_hash"], str), "source_hash must be str"
+        assert len(result["source_hash"]) == 64, "source_hash must be sha256 hex"
+    finally:
+        os.unlink(tmp_path)
 
 def test_store_parity() -> None:
     """Test for store_parity function.
@@ -693,7 +745,27 @@ def test_store_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for store_parity verified'
+    # AXIOM: store_parity must return dict with path keys
+    import tempfile, os
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as tmp:
+        tmp.write(b"test data for store parity")
+        tmp_path = tmp.name
+    try:
+        parity_data = generate_parity(tmp_path, block_size=512)
+        result = store_parity(tmp_path, parity_data)
+        assert isinstance(result, dict), "store_parity must return dict"
+        assert "rs_path" in result, "Result must contain 'rs_path'"
+        assert "gc_path" in result, "Result must contain 'gc_path'"
+        assert "meta_path" in result, "Result must contain 'meta_path'"
+        assert os.path.isfile(result["rs_path"]), "RS parity file must exist"
+        assert os.path.isfile(result["gc_path"]), "GC parity file must exist"
+        assert os.path.isfile(result["meta_path"]), "Meta file must exist"
+    finally:
+        os.unlink(tmp_path)
+        meta_dir = os.path.join(os.path.dirname(tmp_path), "metadata")
+        if os.path.isdir(meta_dir):
+            import shutil
+            shutil.rmtree(meta_dir, ignore_errors=True)
 
 def test_verify_parity() -> None:
     """Test for verify_parity function.
@@ -702,7 +774,25 @@ def test_verify_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for verify_parity verified'
+    # AXIOM: verify_parity must return bool
+    import tempfile, os
+    result = verify_parity("/nonexistent/path/to/file.txt")
+    assert isinstance(result, bool), "verify_parity must return bool"
+    assert result is False, "verify_parity must return False for non-existent path"
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as tmp:
+        tmp.write(b"test data for verify parity")
+        tmp_path = tmp.name
+    try:
+        parity_data = generate_parity(tmp_path, block_size=512)
+        store_parity(tmp_path, parity_data)
+        result2 = verify_parity(tmp_path)
+        assert result2 is True, "verify_parity must return True for valid parity"
+    finally:
+        os.unlink(tmp_path)
+        meta_dir = os.path.join(os.path.dirname(tmp_path), "metadata")
+        if os.path.isdir(meta_dir):
+            import shutil
+            shutil.rmtree(meta_dir, ignore_errors=True)
 
 def test_restore_parity() -> None:
     """Test for restore_parity function.
@@ -711,7 +801,10 @@ def test_restore_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for restore_parity verified'
+    # AXIOM: restore_parity must return bool
+    result = restore_parity("/nonexistent/path/to/file.txt")
+    assert isinstance(result, bool), "restore_parity must return bool"
+    assert result is False, "restore_parity must return False for invalid parity"
 
 def test_regenerate_parity() -> None:
     """Test for regenerate_parity function.
@@ -721,5 +814,8 @@ def test_regenerate_parity() -> None:
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True, 'test for regenerate_parity verified'
+    # AXIOM: regenerate_parity must return bool
+    result = regenerate_parity("/nonexistent/path/to/file.txt")
+    assert isinstance(result, bool), "regenerate_parity must return bool"
+    assert result is False, "regenerate_parity must return False for non-existent file"
 

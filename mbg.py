@@ -1919,7 +1919,8 @@ def test_main() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered main
+    from mbg import main as _mbg_main
+    assert callable(_mbg_main), "mbg.main should be callable"
 
 
 def test_run() -> None:
@@ -1930,7 +1931,8 @@ def test_run() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered run
+    from mbg import run as _mbg_run
+    assert callable(_mbg_run), "mbg.run should be callable"
 
 
 def self_test() -> None:
@@ -2293,7 +2295,10 @@ def test_self_test() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for self_test verified'
+    from mbg import self_test as _self_test
+    assert callable(_self_test), "self_test should be callable"
+    _self_test()  # execute self_test to verify it works
+    assert _self_test is not None, "self_test function must exist"
 
 def test_generate_parity() -> None:
     """Test for generate_parity function.
@@ -2303,7 +2308,19 @@ def test_generate_parity() -> None:
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True, 'test for generate_parity verified'
+    import tempfile, os
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as tmp:
+        tmp.write(b"test content for parity verification")
+        tmp_path = tmp.name
+    try:
+        from tests import generate_parity
+        result = generate_parity(tmp_path, block_size=256)
+        assert isinstance(result, dict), "generate_parity must return a dict"
+        assert "rs_parity" in result, "result must contain rs_parity key"
+        assert "gc_parity" in result, "result must contain gc_parity key"
+        assert "source_hash" in result, "result must contain source_hash key"
+    finally:
+        os.unlink(tmp_path)
 
 def test_store_parity() -> None:
     """Test for store_parity function.
@@ -2312,7 +2329,19 @@ def test_store_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for store_parity verified'
+    import tempfile, os
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as tmp:
+        tmp.write(b"test content for parity storage")
+        tmp_path = tmp.name
+    try:
+        from tests import generate_parity, store_parity
+        parity_data = generate_parity(tmp_path, block_size=256)
+        result = store_parity(tmp_path, parity_data)
+        assert isinstance(result, dict), "store_parity must return a dict"
+        assert "rs_path" in result, "result must contain rs_path key"
+        assert "gc_path" in result, "result must contain gc_path key"
+    finally:
+        os.unlink(tmp_path)
 
 def test_verify_parity() -> None:
     """Test for verify_parity function.
@@ -2321,7 +2350,19 @@ def test_verify_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for verify_parity verified'
+    import tempfile, os
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as tmp:
+        tmp.write(b"test content for parity verification")
+        tmp_path = tmp.name
+    try:
+        from tests import generate_parity, store_parity, verify_parity
+        parity_data = generate_parity(tmp_path, block_size=256)
+        store_parity(tmp_path, parity_data)
+        result = verify_parity(tmp_path)
+        assert isinstance(result, bool), "verify_parity must return a bool"
+        assert result is True, "verify_parity should return True for valid parity"
+    finally:
+        os.unlink(tmp_path)
 
 def test_restore_parity() -> None:
     """Test for restore_parity function.
@@ -2330,7 +2371,18 @@ def test_restore_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for restore_parity verified'
+    import tempfile, os
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as tmp:
+        tmp.write(b"test content for parity restore")
+        tmp_path = tmp.name
+    try:
+        from tests import generate_parity, store_parity, restore_parity
+        parity_data = generate_parity(tmp_path, block_size=256)
+        store_parity(tmp_path, parity_data)
+        result = restore_parity(tmp_path)
+        assert isinstance(result, bool), "restore_parity must return a bool"
+    finally:
+        os.unlink(tmp_path)
 
 def test_regenerate_parity() -> None:
     """Test for regenerate_parity function.
@@ -2340,5 +2392,15 @@ def test_regenerate_parity() -> None:
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True, 'test for regenerate_parity verified'
+    import tempfile, os
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as tmp:
+        tmp.write(b"test content for parity regeneration")
+        tmp_path = tmp.name
+    try:
+        from tests import regenerate_parity
+        result = regenerate_parity(tmp_path)
+        assert isinstance(result, bool), "regenerate_parity must return a bool"
+        assert result is True, "regenerate_parity should return True for valid source"
+    finally:
+        os.unlink(tmp_path)
 

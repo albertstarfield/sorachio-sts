@@ -161,36 +161,31 @@ metrics_collector = MetricsCollector()
 
 
 def test_to_dict() -> None:
-    """Test coverage for to_dict.
-    References:
-        - https://docs.python.org/3/
-        [Standards compliance: ISO/IEC 25010:2021]
-# test: covered
-"""
-    # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered to_dict
+    """Test coverage for to_dict. [test ref: test_to_dict]"""
+    m = TurnMetrics(turn_id=1, stt_duration_s=0.5, cognitive_duration_s=0.3)
+    d = m.to_dict()
+    assert isinstance(d, dict), "to_dict must return a dict"
+    assert d["turn_id"] == 1, "to_dict must include correct turn_id"
+    assert "stt_s" in d, "to_dict must include stt_s"
+    assert "total_e2e_s" in d, "to_dict must include total_e2e_s"
 
 
 def test_record_turn() -> None:
-    """Test coverage for record_turn.
-    References:
-        - https://docs.python.org/3/
-        [Standards compliance: ISO/IEC 25010:2021]
-# test: covered
-"""
-    # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered record_turn
+    """Test coverage for record_turn. [test ref: test_record_turn]"""
+    mc = MetricsCollector(history_size=5)
+    m = TurnMetrics(turn_id=1, total_e2e_s=1.5)
+    mc.record_turn(m)
+    assert len(mc._history) == 1, "record_turn must append to history"
+    assert mc._history[0].turn_id == 1, "record_turn must store correct turn_id"
 
 
 def test_get_summary() -> None:
-    """Test coverage for get_summary.
-    References:
-        - https://docs.python.org/3/
-        [Standards compliance: ISO/IEC 25010:2021]
-# test: covered
-"""
-    # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered get_summary
+    """Test coverage for get_summary. [test ref: test_get_summary]"""
+    mc = MetricsCollector()
+    # Empty history
+    summary = mc.get_summary()
+    assert isinstance(summary, dict), "get_summary must return a dict"
+    assert summary["total_turns"] == 0, "empty collector must report 0 turns"
 
 # ── Split Parity Functions ──────────────────────────────────────────────────────
 # Reed-Solomon(255,223), GF(2^8) Galois Chunk parity protection
@@ -535,49 +530,57 @@ def regenerate_parity(source_path: str) -> bool:
         return False  # failure logged
 
 def test_generate_parity() -> None:
-    """Test for generate_parity function.
-
-    References:
-        - https://docs.python.org/3/library/unittest.html
-    # test: covered
-    """
-    # parity: atomic_encode_result applied (SECDED TED)
-    assert True, 'test for generate_parity verified'
+    """Test for generate_parity function. [test ref: test_generate_parity]"""
+    import tempfile, os
+    with tempfile.NamedTemporaryFile(delete=False, suffix='.txt') as tmp:
+        tmp.write(b'test source data for parity generation')
+        tmp_path = tmp.name
+    try:
+        result = generate_parity(tmp_path)
+        assert isinstance(result, dict), "generate_parity must return a dict"
+        assert "rs_parity" in result, "result must contain rs_parity key"
+        assert "gc_parity" in result, "result must contain gc_parity key"
+        assert "source_hash" in result, "result must contain source_hash key"
+        assert "rs_checksum" in result, "result must contain rs_checksum key"
+        assert "gc_checksum" in result, "result must contain gc_checksum key"
+    finally:
+        os.unlink(tmp_path)
 
 def test_store_parity() -> None:
-    """Test for store_parity function.
-
-    References:
-        - https://docs.python.org/3/library/unittest.html
-    # test: covered
-    """
-    assert True, 'test for store_parity verified'
+    """Test for store_parity function. [test ref: test_store_parity]"""
+    import tempfile, os, shutil
+    tmp_dir = tempfile.mkdtemp()
+    try:
+        tmp_path = os.path.join(tmp_dir, "test_src.py")
+        with open(tmp_path, "w") as f:
+            f.write("test source data for store parity")
+        parity_data = generate_parity(tmp_path)
+        result = store_parity(tmp_path, parity_data)
+        assert isinstance(result, dict), "store_parity must return a dict"
+        assert "rs_path" in result, "result must contain rs_path key"
+        assert "gc_path" in result, "result must contain gc_path key"
+        assert "meta_path" in result, "result must contain meta_path key"
+        assert os.path.isfile(result["rs_path"]), "rs parity file must exist on disk"
+        assert os.path.isfile(result["gc_path"]), "gc parity file must exist on disk"
+        assert os.path.isfile(result["meta_path"]), "meta file must exist on disk"
+    finally:
+        shutil.rmtree(tmp_dir, ignore_errors=True)
 
 def test_verify_parity() -> None:
-    """Test for verify_parity function.
-
-    References:
-        - https://docs.python.org/3/library/unittest.html
-    # test: covered
-    """
-    assert True, 'test for verify_parity verified'
+    """Test for verify_parity function. [test ref: test_verify_parity]"""
+    result = verify_parity("/nonexistent/path/__test_verify_parity__.py")
+    assert isinstance(result, bool), "verify_parity must return bool"
+    assert result is False, "verify_parity must return False for non-existent path"
 
 def test_restore_parity() -> None:
-    """Test for restore_parity function.
-
-    References:
-        - https://docs.python.org/3/library/unittest.html
-    # test: covered
-    """
-    assert True, 'test for restore_parity verified'
+    """Test for restore_parity function. [test ref: test_restore_parity]"""
+    result = restore_parity("/nonexistent/path/__test_restore_parity__.py")
+    assert isinstance(result, bool), "restore_parity must return bool"
+    assert result is False, "restore_parity must return False for non-existent path"
 
 def test_regenerate_parity() -> None:
-    """Test for regenerate_parity function.
-
-    References:
-        - https://docs.python.org/3/library/unittest.html
-    # test: covered
-    """
-    # parity: atomic_encode_result applied (SECDED TED)
-    assert True, 'test for regenerate_parity verified'
+    """Test for regenerate_parity function. [test ref: test_regenerate_parity]"""
+    result = regenerate_parity("/nonexistent/path/__test_regenerate_parity__.py")
+    assert isinstance(result, bool), "regenerate_parity must return bool"
+    assert result is False, "regenerate_parity must return False for non-existent path"
 

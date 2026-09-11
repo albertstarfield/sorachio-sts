@@ -429,7 +429,11 @@ def test_record_emotion() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered record_emotion
+    tracker = EmotionTracker(history_size=10)
+    tracker.record_emotion("happy", topic="work", importance=0.8)
+    assert len(tracker._history) == 1, "History should have 1 entry"
+    assert tracker._history[0].emotion == "happy", "Emotion must be happy"
+    assert tracker._history[0].topic == "work", "Topic must be work"
 
 
 def test_get_mood_summary() -> None:
@@ -439,7 +443,12 @@ def test_get_mood_summary() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered get_mood_summary
+    tracker = EmotionTracker(history_size=10)
+    assert tracker.get_mood_summary() == "neutral", "Empty tracker should return neutral"
+    tracker.record_emotion("happy")
+    tracker.record_emotion("happy")
+    summary = tracker.get_mood_summary()
+    assert isinstance(summary, str), "Mood summary must be string"
 
 
 def test_get_emotion_trend() -> None:
@@ -449,7 +458,10 @@ def test_get_emotion_trend() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered get_emotion_trend
+    tracker = EmotionTracker(history_size=10)
+    trend = tracker.get_emotion_trend()
+    assert "current_mood" in trend, "Trend must contain current_mood"
+    assert "dominant_emotion" in trend, "Trend must contain dominant_emotion"
 
 
 def test_should_summarize() -> None:
@@ -459,7 +471,12 @@ def test_should_summarize() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered should_summarize
+    tracker = EmotionTracker(summary_interval_turns=3)
+    assert tracker.should_summarize() is False, "Should not summarize at turn 0"
+    tracker.record_emotion("happy")
+    tracker.record_emotion("sad")
+    tracker.record_emotion("angry")
+    assert tracker.should_summarize() is True, "Should summarize at turn 3"
 
 
 def test_generate_summary() -> None:
@@ -469,7 +486,13 @@ def test_generate_summary() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered generate_summary
+    tracker = EmotionTracker(history_size=10)
+    assert tracker.generate_summary() is None, "Empty tracker should return None"
+    tracker.record_emotion("happy")
+    tracker.record_emotion("happy")
+    tracker.record_emotion("sad")
+    summary = tracker.generate_summary()
+    assert summary is None or isinstance(summary, str), "Summary must be None or string"
 
 
 def test_get_personality_adaptation() -> None:
@@ -479,7 +502,11 @@ def test_get_personality_adaptation() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered get_personality_adaptation
+    tracker = EmotionTracker(history_size=10)
+    adapt = tracker.get_personality_adaptation()
+    assert "user_mood" in adapt, "Adaptation must contain user_mood"
+    assert "tone_suggestion" in adapt, "Adaptation must contain tone_suggestion"
+    assert isinstance(adapt["tone_suggestion"], str), "tone_suggestion must be string"
 
 
 def test_save() -> None:
@@ -489,7 +516,17 @@ def test_save() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered save
+    import tempfile, os
+    tracker = EmotionTracker(history_size=10)
+    tracker.record_emotion("happy")
+    with tempfile.NamedTemporaryFile(suffix=".json", delete=False) as f:
+        tmp_path = f.name
+    try:
+        tracker.save(tmp_path)
+        assert os.path.isfile(tmp_path), "Save should create file"
+    finally:
+        if os.path.isfile(tmp_path):
+            os.unlink(tmp_path)
 
 
 def test_load() -> None:
@@ -499,7 +536,20 @@ def test_load() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered load
+    import tempfile, os, json
+    tracker = EmotionTracker(history_size=10)
+    tracker.record_emotion("happy")
+    with tempfile.NamedTemporaryFile(suffix=".json", delete=False) as f:
+        tmp_path = f.name
+    try:
+        tracker.save(tmp_path)
+        tracker2 = EmotionTracker(history_size=10)
+        tracker2.load(tmp_path)
+        assert len(tracker2._history) == 1, "Loaded tracker should have 1 entry"
+        assert tracker2._history[0].emotion == "happy", "Loaded emotion must match"
+    finally:
+        if os.path.isfile(tmp_path):
+            os.unlink(tmp_path)
 
 
 def self_test() -> None:
@@ -566,7 +616,8 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
       import json
       import zlib
 
-      source_data = open(source_path, "rb").read()
+      with open(source_path, "rb") as _f:
+          source_data = _f.read()
       source_hash = hashlib.sha256(source_data).hexdigest()
 
       # Split into blocks
@@ -775,7 +826,8 @@ def verify_parity(source_path: str) -> bool:
             return False
 
         # Verify source hash
-        source_data = open(source_path, "rb").read()
+        with open(source_path, "rb") as _f:
+            source_data = _f.read()
         if hashlib.sha256(source_data).hexdigest() != meta.get("source_hash"):
             return False
 
@@ -862,7 +914,7 @@ def test_self_test() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for self_test verified'
+    assert isinstance(EmotionTracker, type), "EmotionTracker must be a class"
 
 def test_generate_parity() -> None:
     """Test for generate_parity function.
@@ -872,7 +924,19 @@ def test_generate_parity() -> None:
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True, 'test for generate_parity verified'
+    import os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for parity generation")
+        tmp_path = tmp.name
+    try:
+        result = generate_parity(tmp_path)
+        assert result is not None, "generate_parity should return a dict"
+        assert isinstance(result, dict), "generate_parity must return dict"
+        assert "rs_parity" in result, "Result must contain rs_parity"
+        assert "gc_parity" in result, "Result must contain gc_parity"
+        assert "source_hash" in result, "Result must contain source_hash"
+    finally:
+        os.unlink(tmp_path)
 
 def test_store_parity() -> None:
     """Test for store_parity function.
@@ -881,7 +945,20 @@ def test_store_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for store_parity verified'
+    import json, os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for store parity")
+        tmp_path = tmp.name
+    try:
+        parity_data = generate_parity(tmp_path)
+        result = store_parity(tmp_path, parity_data)
+        assert result is not None, "store_parity should return paths"
+        assert "rs_path" in result, "Result must contain rs_path"
+        assert "gc_path" in result, "Result must contain gc_path"
+        assert os.path.isfile(result["rs_path"]), "rs_path file must exist"
+        assert os.path.isfile(result["gc_path"]), "gc_path file must exist"
+    finally:
+        os.unlink(tmp_path)
 
 def test_verify_parity() -> None:
     """Test for verify_parity function.
@@ -890,7 +967,17 @@ def test_verify_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for verify_parity verified'
+    import os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for verify parity")
+        tmp_path = tmp.name
+    try:
+        parity_data = generate_parity(tmp_path)
+        store_parity(tmp_path, parity_data)
+        result = verify_parity(tmp_path)
+        assert result is True, "verify_parity should return True for valid parity"
+    finally:
+        os.unlink(tmp_path)
 
 def test_restore_parity() -> None:
     """Test for restore_parity function.
@@ -899,7 +986,17 @@ def test_restore_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for restore_parity verified'
+    import os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for restore parity")
+        tmp_path = tmp.name
+    try:
+        parity_data = generate_parity(tmp_path)
+        store_parity(tmp_path, parity_data)
+        result = restore_parity(tmp_path)
+        assert result is True, "restore_parity should return True for valid parity"
+    finally:
+        os.unlink(tmp_path)
 
 def test_regenerate_parity() -> None:
     """Test for regenerate_parity function.
@@ -909,5 +1006,16 @@ def test_regenerate_parity() -> None:
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True, 'test for regenerate_parity verified'
+    import os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for regenerate parity")
+        tmp_path = tmp.name
+    try:
+        parity_data = generate_parity(tmp_path)
+        store_parity(tmp_path, parity_data)
+        result = regenerate_parity(tmp_path)
+        assert result is True, "regenerate_parity should return True"
+        assert verify_parity(tmp_path) is True, "Parity must be valid after regeneration"
+    finally:
+        os.unlink(tmp_path)
 

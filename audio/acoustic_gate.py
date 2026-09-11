@@ -215,33 +215,63 @@ class AcousticGate:
 
 
 def test_compute_dbfs() -> None:
+    # test: test_compute_dbfs
     """Test coverage for compute_dbfs.
         References:
     - https://docs.python.org/3/
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered compute_dbfs
+    # AXIOM: compute_dbfs must return a finite float ≤ 0.0 dBFS for non-silence
+    samples = np.array([1000, -1000, 500, -500], dtype=np.int16)
+    pcm = samples.tobytes()
+    result = compute_dbfs(pcm)
+    assert isinstance(result, float), "compute_dbfs must return a float"
+    assert result <= 0.0, "dBFS must be <= 0 (0 dBFS = full scale)"
+    # Test silence returns very low dBFS
+    silence = np.zeros(100, dtype=np.int16).tobytes()
+    silence_dbfs = compute_dbfs(silence)
+    assert silence_dbfs < -90.0, "Digital silence must be well below -90 dBFS"
 
 
 def test_gate() -> None:
+    # test: test_gate
     """Test coverage for gate.
         References:
     - https://docs.python.org/3/
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered gate
+    # AXIOM: gate returns True for loud frames, False for silent frames
+    gate_inst = AcousticGate(threshold_dbfs=-40.0, enabled=True)
+    loud = np.full(1000, 30000, dtype=np.int16).tobytes()
+    assert gate_inst.gate(loud) is True, "Loud frame must pass the gate"
+    silent = np.zeros(1000, dtype=np.int16).tobytes()
+    assert gate_inst.gate(silent) is False, "Silent frame must be dropped by gate"
+    # Disabled gate always passes
+    disabled_gate = AcousticGate(enabled=False)
+    assert disabled_gate.gate(silent) is True, "Disabled gate must pass all frames"
 
 
 def test_get_stats() -> None:
+    # test: test_get_stats
     """Test coverage for get_stats.
         References:
     - https://docs.python.org/3/
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered get_stats
+    # AXIOM: get_stats must return a dict with required keys
+    gate_inst = AcousticGate(threshold_dbfs=-40.0, enabled=True)
+    stats = gate_inst.get_stats()
+    assert isinstance(stats, dict), "get_stats must return a dict"
+    assert "frames_seen" in stats, "stats must contain frames_seen"
+    assert "frames_dropped" in stats, "stats must contain frames_dropped"
+    assert "drop_pct" in stats, "stats must contain drop_pct"
+    # Feed a loud frame and verify counter increments
+    loud = np.full(1000, 30000, dtype=np.int16).tobytes()
+    gate_inst.gate(loud)
+    assert gate_inst.get_stats()["frames_seen"] >= 1, "frames_seen must increment after gate()"
 
 # ── Split Parity Functions ──────────────────────────────────────────────────────
 # Reed-Solomon(255,223), GF(2^8) Galois Chunk parity protection
@@ -296,7 +326,8 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
       import json
       import zlib
 
-      source_data = open(source_path, "rb").read()
+      with open(source_path, "rb") as _fh:
+          source_data = _fh.read()
       source_hash = hashlib.sha256(source_data).hexdigest()
 
       # Split into blocks
@@ -505,7 +536,8 @@ def verify_parity(source_path: str) -> bool:
             return False
 
         # Verify source hash
-        source_data = open(source_path, "rb").read()
+        with open(source_path, "rb") as _fh:
+            source_data = _fh.read()
         if hashlib.sha256(source_data).hexdigest() != meta.get("source_hash"):
             return False
 
@@ -586,6 +618,7 @@ def regenerate_parity(source_path: str) -> bool:
         return False  # failure logged
 
 def test_generate_parity() -> None:
+    # test: test_generate_parity
     """Test for generate_parity function.
 
     References:
@@ -593,36 +626,81 @@ def test_generate_parity() -> None:
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True, 'test for generate_parity verified'
+    # AXIOM: generate_parity returns dict with rs_parity, gc_parity, source_hash keys
+    import os
+    import tempfile
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as _tf:
+        _tf.write(b"test data for parity generation")
+        _tmp = _tf.name
+    try:
+        result = generate_parity(_tmp)
+        assert isinstance(result, dict), "generate_parity must return a dict"
+        assert "rs_parity" in result, "result must contain rs_parity"
+        assert "gc_parity" in result, "result must contain gc_parity"
+        assert "source_hash" in result, "result must contain source_hash"
+        assert "rs_checksum" in result, "result must contain rs_checksum"
+        assert "gc_checksum" in result, "result must contain gc_checksum"
+    finally:
+        os.unlink(_tmp)
 
 def test_store_parity() -> None:
+    # test: test_store_parity
     """Test for store_parity function.
 
     References:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for store_parity verified'
+    # AXIOM: store_parity returns dict with rs_path, gc_path, meta_path
+    import os
+    import tempfile
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as _tf:
+        _tf.write(b"test data for store parity")
+        _tmp = _tf.name
+    try:
+        parity_data = generate_parity(_tmp)
+        result = store_parity(_tmp, parity_data)
+        assert isinstance(result, dict), "store_parity must return a dict"
+        assert "rs_path" in result, "result must contain rs_path"
+        assert "gc_path" in result, "result must contain gc_path"
+        assert "meta_path" in result, "result must contain meta_path"
+        assert os.path.isfile(result["rs_path"]), "RS parity file must exist on disk"
+        assert os.path.isfile(result["gc_path"]), "GC parity file must exist on disk"
+    finally:
+        os.unlink(_tmp)
+        meta_dir = os.path.join(os.path.dirname(_tmp), "metadata")
+        if os.path.isdir(meta_dir):
+            import shutil
+            shutil.rmtree(meta_dir, ignore_errors=True)
 
 def test_verify_parity() -> None:
+    # test: test_verify_parity
     """Test for verify_parity function.
 
     References:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for verify_parity verified'
+    # AXIOM: verify_parity returns bool, False for nonexistent file
+    result = verify_parity("/nonexistent/path/file.txt")
+    assert isinstance(result, bool), "verify_parity must return a bool"
+    assert result is False, "verify_parity must return False for nonexistent file"
 
 def test_restore_parity() -> None:
+    # test: test_restore_parity
     """Test for restore_parity function.
 
     References:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for restore_parity verified'
+    # AXIOM: restore_parity returns bool, False for nonexistent file
+    result = restore_parity("/nonexistent/path/file.txt")
+    assert isinstance(result, bool), "restore_parity must return a bool"
+    assert result is False, "restore_parity must return False for nonexistent file"
 
 def test_regenerate_parity() -> None:
+    # test: test_regenerate_parity
     """Test for regenerate_parity function.
 
     References:
@@ -630,5 +708,8 @@ def test_regenerate_parity() -> None:
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True, 'test for regenerate_parity verified'
+    # AXIOM: regenerate_parity returns bool, False for nonexistent file
+    result = regenerate_parity("/nonexistent/path/file.txt")
+    assert isinstance(result, bool), "regenerate_parity must return a bool"
+    assert result is False, "regenerate_parity must return False for nonexistent file"
 

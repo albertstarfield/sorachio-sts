@@ -562,7 +562,11 @@ def test_to_dict() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered to_dict
+    entry = LTMEntry(content="test memory", topic="work", emotion="happy", importance=0.8)
+    d = entry.to_dict()
+    assert isinstance(d, dict), "to_dict must return a dict"
+    assert "content" in d, "Dict must contain content"
+    assert d["content"] == "test memory", "Content must match"
 
 
 def test_from_dict() -> None:
@@ -572,7 +576,12 @@ def test_from_dict() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered from_dict
+    d = {"content": "hello world", "topic": "tech", "emotion": "curious",
+         "importance": 0.6, "keywords": ["hello", "world"], "id": "test123"}
+    entry = LTMEntry.from_dict(d)
+    assert entry.content == "hello world", "Content must match"
+    assert entry.topic == "tech", "Topic must match"
+    assert entry.emotion == "curious", "Emotion must match"
 
 
 def test_relevance_score() -> None:
@@ -582,7 +591,12 @@ def test_relevance_score() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered relevance_score
+    entry = LTMEntry(content="I love programming in Python",
+                     topic="tech", importance=0.8, keywords=["python", "coding"])
+    score_empty = entry.relevance_score([])
+    assert score_empty == 0.8, "Empty query should return importance"
+    score_match = entry.relevance_score(["python"])
+    assert score_match > 0, "Matching keyword should yield positive score"
 
 
 def test_initialize() -> None:
@@ -592,7 +606,11 @@ def test_initialize() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered initialize
+    import tempfile, os
+    with tempfile.TemporaryDirectory() as tmpdir:
+        path = os.path.join(tmpdir, "ltm.json")
+        ltm = LongTermMemory(storage_path=path)
+        assert ltm.max_entries == 500, "Default max_entries should be 500"
 
 
 def test_store() -> None:
@@ -602,7 +620,15 @@ def test_store() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered store
+    import asyncio, tempfile, os
+    with tempfile.TemporaryDirectory() as tmpdir:
+        path = os.path.join(tmpdir, "ltm.json")
+        ltm = LongTermMemory(storage_path=path, importance_threshold=0.3)
+        entry = asyncio.get_event_loop().run_until_complete(
+            ltm.store("Test memory content", topic="test", importance=0.8)
+        )
+        assert entry is not None, "store should return an entry above threshold"
+        assert entry.content == "Test memory content", "Stored content must match"
 
 
 def test_retrieve() -> None:
@@ -612,7 +638,17 @@ def test_retrieve() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered retrieve
+    import asyncio, tempfile, os
+    with tempfile.TemporaryDirectory() as tmpdir:
+        path = os.path.join(tmpdir, "ltm.json")
+        ltm = LongTermMemory(storage_path=path, importance_threshold=0.0)
+        asyncio.get_event_loop().run_until_complete(
+            ltm.store("Python programming tips", importance=0.9)
+        )
+        results = asyncio.get_event_loop().run_until_complete(
+            ltm.retrieve(["Python"])
+        )
+        assert isinstance(results, list), "retrieve must return a list"
 
 
 def test_format_for_context() -> None:
@@ -622,7 +658,11 @@ def test_format_for_context() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered format_for_context
+    ltm = LongTermMemory()
+    assert ltm.format_for_context([]) == "", "Empty list should return empty string"
+    entry = LTMEntry(content="User likes cats", topic="pets")
+    result = ltm.format_for_context([entry])
+    assert "[pets]" in result, "Formatted context should contain topic"
 
 
 def test_get_stats() -> None:
@@ -632,7 +672,13 @@ def test_get_stats() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered get_stats
+    import asyncio, tempfile, os
+    with tempfile.TemporaryDirectory() as tmpdir:
+        path = os.path.join(tmpdir, "ltm.json")
+        ltm = LongTermMemory(storage_path=path)
+        stats = asyncio.get_event_loop().run_until_complete(ltm.get_stats())
+        assert "total_memories" in stats, "Stats must contain total_memories"
+        assert stats["total_memories"] == 0, "Empty LTM should have 0 memories"
 
 # ── Split Parity Functions ──────────────────────────────────────────────────────
 # Reed-Solomon(255,223), GF(2^8) Galois Chunk parity protection
@@ -687,7 +733,8 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
       import json
       import zlib
 
-      source_data = open(source_path, "rb").read()
+      with open(source_path, "rb") as _f:
+          source_data = _f.read()
       source_hash = hashlib.sha256(source_data).hexdigest()
 
       # Split into blocks
@@ -896,7 +943,8 @@ def verify_parity(source_path: str) -> bool:
             return False
 
         # Verify source hash
-        source_data = open(source_path, "rb").read()
+        with open(source_path, "rb") as _f:
+            source_data = _f.read()
         if hashlib.sha256(source_data).hexdigest() != meta.get("source_hash"):
             return False
 
@@ -984,7 +1032,19 @@ def test_generate_parity() -> None:
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True, 'test for generate_parity verified'
+    import os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for parity generation")
+        tmp_path = tmp.name
+    try:
+        result = generate_parity(tmp_path)
+        assert result is not None, "generate_parity should return a dict"
+        assert isinstance(result, dict), "generate_parity must return dict"
+        assert "rs_parity" in result, "Result must contain rs_parity"
+        assert "gc_parity" in result, "Result must contain gc_parity"
+        assert "source_hash" in result, "Result must contain source_hash"
+    finally:
+        os.unlink(tmp_path)
 
 def test_store_parity() -> None:
     """Test for store_parity function.
@@ -993,7 +1053,20 @@ def test_store_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for store_parity verified'
+    import json, os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for store parity")
+        tmp_path = tmp.name
+    try:
+        parity_data = generate_parity(tmp_path)
+        result = store_parity(tmp_path, parity_data)
+        assert result is not None, "store_parity should return paths"
+        assert "rs_path" in result, "Result must contain rs_path"
+        assert "gc_path" in result, "Result must contain gc_path"
+        assert os.path.isfile(result["rs_path"]), "rs_path file must exist"
+        assert os.path.isfile(result["gc_path"]), "gc_path file must exist"
+    finally:
+        os.unlink(tmp_path)
 
 def test_verify_parity() -> None:
     """Test for verify_parity function.
@@ -1002,7 +1075,17 @@ def test_verify_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for verify_parity verified'
+    import os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for verify parity")
+        tmp_path = tmp.name
+    try:
+        parity_data = generate_parity(tmp_path)
+        store_parity(tmp_path, parity_data)
+        result = verify_parity(tmp_path)
+        assert result is True, "verify_parity should return True for valid parity"
+    finally:
+        os.unlink(tmp_path)
 
 def test_restore_parity() -> None:
     """Test for restore_parity function.
@@ -1011,7 +1094,17 @@ def test_restore_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for restore_parity verified'
+    import os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for restore parity")
+        tmp_path = tmp.name
+    try:
+        parity_data = generate_parity(tmp_path)
+        store_parity(tmp_path, parity_data)
+        result = restore_parity(tmp_path)
+        assert result is True, "restore_parity should return True for valid parity"
+    finally:
+        os.unlink(tmp_path)
 
 def test_regenerate_parity() -> None:
     """Test for regenerate_parity function.
@@ -1021,5 +1114,16 @@ def test_regenerate_parity() -> None:
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True, 'test for regenerate_parity verified'
+    import os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for regenerate parity")
+        tmp_path = tmp.name
+    try:
+        parity_data = generate_parity(tmp_path)
+        store_parity(tmp_path, parity_data)
+        result = regenerate_parity(tmp_path)
+        assert result is True, "regenerate_parity should return True"
+        assert verify_parity(tmp_path) is True, "Parity must be valid after regeneration"
+    finally:
+        os.unlink(tmp_path)
 
