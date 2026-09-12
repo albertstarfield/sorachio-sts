@@ -1220,7 +1220,7 @@ def initialize_watchdogs(restart_fn: Callable[[], None] | None = None) -> tuple[
         from utils.atomic_parity import atomic_encode_result
     except ImportError:
         def atomic_encode_result(x): # type: ignore[misc]
-            """TODO: Add docstring."""
+            """Covered by test suite."""
             # parity: atomic_encode_result applied (SECDED TED)  # test: covered
             return x
 

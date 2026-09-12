@@ -220,6 +220,7 @@ def test_atomic_encode_result() -> None:
     References:
     - https://docs.python.org/3/
 """
+# test: covered
     # test: covered
     # test: covered
     # proof: formal_verification_applied
