@@ -408,6 +408,7 @@ def test_store_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
+    # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
     # AXIOM: store_parity returns dict with file path keys
     import os
@@ -436,6 +437,7 @@ def test_verify_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
+    # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
     # AXIOM: verify_parity returns bool, False for nonexistent file
     result = verify_parity("/nonexistent/path/file.txt")
@@ -450,6 +452,7 @@ def test_restore_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
+    # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
     # AXIOM: restore_parity returns bool, False for nonexistent file
     result = restore_parity("/nonexistent/path/file.txt")

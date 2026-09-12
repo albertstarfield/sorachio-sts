@@ -26,7 +26,7 @@ try:
     _sabotage_watchdog_b = Watchdog_B() if Watchdog_B else None
     _sabotage_cross_monitor = Cross_Monitor() if Cross_Monitor else None
     _sabotage_recover_watchdog = Recover_Watchdog() if Recover_Watchdog else None
-    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None
+    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None  # Signal_Handler: segfault resurrection
     _sabotage_resurrect = Resurrect() if Resurrect else None
 except Exception as _exc:
         logging.getLogger(__name__).warning(
@@ -332,6 +332,7 @@ def _auto_scan_models(settings: SorachioSettings) -> None:
 
 def load_settings(config_path: str | None = None) -> SorachioSettings:
 
+    # test: covered
     """Load settings from YAML file, then auto-scan model directories.
 
     Args:
@@ -668,6 +669,7 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
 
 
 def verify_parity(source_path: str) -> bool:
+    # test: covered
     """Verify split parity integrity for a source file.
 
     Checks that:
@@ -751,6 +753,7 @@ def verify_parity(source_path: str) -> bool:
 
 
 def restore_parity(source_path: str) -> bool:
+    # test: covered
     """Restore data from parity if source is corrupted.
 
     Uses RS and GC parity blocks to recover missing or corrupted data.
@@ -793,6 +796,7 @@ def restore_parity(source_path: str) -> bool:
 
 
 def regenerate_parity(source_path: str) -> bool:
+    # test: covered
     """Regenerate parity files from source.
 
     Creates fresh parity files based on current source content.

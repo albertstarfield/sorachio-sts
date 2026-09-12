@@ -32,7 +32,7 @@ try:
     _sabotage_watchdog_b = Watchdog_B() if Watchdog_B else None
     _sabotage_cross_monitor = Cross_Monitor() if Cross_Monitor else None
     _sabotage_recover_watchdog = Recover_Watchdog() if Recover_Watchdog else None
-    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None
+    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None  # Signal_Handler: segfault resurrection
     _sabotage_resurrect = Resurrect() if Resurrect else None
 except Exception as _exc:
         logging.getLogger(__name__).warning(
@@ -359,8 +359,8 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
           "rs_checksum": rs_checksum,
           "gc_checksum": gc_checksum,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _e:
+        log.debug("Exception caught: %s", _e)
 
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
@@ -433,8 +433,8 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
           "gc_path": gc_path,
           "meta_path": meta_path,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _e:
+        log.debug("Exception caught: %s", _e)
 
 
 def verify_parity(source_path: str) -> bool:
@@ -588,7 +588,8 @@ def regenerate_parity(source_path: str) -> bool:
         store_parity(source_path, parity_data)
         return True
     # test: covered
-    except Exception:
+    except Exception as _e:
+        log.debug("Exception caught: %s", _e)
         return False  # failure logged
 
 def test_generate_parity() -> None:

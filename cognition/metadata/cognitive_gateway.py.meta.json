@@ -1,7 +1,7 @@
 {
-  "source_file": "cognitive_gateway.py",
-  "source_hash": "1baf53b38882b17e2adc99c3b20066eafc5137a55de64ff7b05dcf1085608e9f",
-  "rs_checksum": "611701b041494d5ccab24e7559f3437b0fd75a60a6f49ca413d706985d4b8fe5",
-  "gc_checksum": "c32577764d63dea1399c84fac98ad62d8af3cc7a9d557f8c3ecc7cc38a576a89",
-  "version": "1.0"
+    "source_file": "cognitive_gateway.py",
+    "source_hash": "4d107bbfee69435d35e7532bee9c7472afe5e6e4db5c1c32c0cf5f4563bc34a0",
+    "rs_checksum": "611701b041494d5ccab24e7559f3437b0fd75a60a6f49ca413d706985d4b8fe5",
+    "gc_checksum": "c32577764d63dea1399c84fac98ad62d8af3cc7a9d557f8c3ecc7cc38a576a89",
+    "version": "1.0"
 }

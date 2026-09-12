@@ -1,7 +1,7 @@
 {
-  "source_file": "test_memory.py",
-  "source_hash": "da58dcdf4f90fa1aeedbe7799f9159f7cd5c33fda75822071f5f51b69dafc8cc",
-  "rs_checksum": "9e94fa6195f152e41a08b3b3244ad6193a72268028a5a64e10231f28c18ba342",
-  "gc_checksum": "34dc05cef5b296de5a49fd580d782a975fcdbbac8b73a3e3e42d8071b31c7ba0",
-  "version": "1.0"
+    "source_file": "test_memory.py",
+    "source_hash": "10ec0aa6d6ea9b3751548d962989fbb5c319231717c9248899c3e03a9baea7b6",
+    "rs_checksum": "9e94fa6195f152e41a08b3b3244ad6193a72268028a5a64e10231f28c18ba342",
+    "gc_checksum": "34dc05cef5b296de5a49fd580d782a975fcdbbac8b73a3e3e42d8071b31c7ba0",
+    "version": "1.0"
 }

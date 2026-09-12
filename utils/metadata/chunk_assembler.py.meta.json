@@ -1,7 +1,7 @@
 {
-  "source_file": "chunk_assembler.py",
-  "source_hash": "ab2bee14c39062ccfe98d59d978758f4a45d43e6e9edc9e3b36a4b3284e98c1f",
-  "rs_checksum": "4c0d1af68605aff22bf5e3fec350f1ac53dcb02051fb2f0b8b785803039bb9c1",
-  "gc_checksum": "a1decb557be78ff1ee4899c0bf3c0b08c9a795d693e6eeb0eb1a5b8c35d92ce9",
-  "version": "1.0"
+    "source_file": "chunk_assembler.py",
+    "source_hash": "852d2cd3f22fcf29b9542d8f733b53ac6b9f1940e22999691be91b3fc9fded45",
+    "rs_checksum": "4c0d1af68605aff22bf5e3fec350f1ac53dcb02051fb2f0b8b785803039bb9c1",
+    "gc_checksum": "a1decb557be78ff1ee4899c0bf3c0b08c9a795d693e6eeb0eb1a5b8c35d92ce9",
+    "version": "1.0"
 }

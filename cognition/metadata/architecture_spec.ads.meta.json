@@ -1,15 +1,15 @@
 {
-  "source": "architecture_spec.ads",
-  "source_hash": "15ef0f4e9e8a1da8e1595f8312df6dc032c4341a23778cd84476d6f34817d159",
-  "parity_type": "split",
-  "rs_parity": "architecture_spec.ads.par2-one",
-  "gc_parity": "architecture_spec.ads.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "generate_split_parity()",
-  "rs_checksum": "a7a453b1accc5920b2bec56db32aaac8fc808aebe593e12069e3bf38d433f9b3",
-  "gc_checksum": "e41b074918cbac80eadaa87083358b21a307b740ca3f39e6c148b73cee5c9000",
-  "version": "1.0.0"
+    "source": "architecture_spec.ads",
+    "source_hash": "3c49f9bd8d783af4d3dd07cd23a353802c69fe34eb44b76b6c4650523fa8cfa6",
+    "parity_type": "split",
+    "rs_parity": "architecture_spec.ads.par2-one",
+    "gc_parity": "architecture_spec.ads.par2-two",
+    "algorithm": {
+        "rs": "Reed-Solomon(255,223)",
+        "gc": "GF(2^8) Galois Chunk"
+    },
+    "generated_by": "generate_split_parity()",
+    "rs_checksum": "a7a453b1accc5920b2bec56db32aaac8fc808aebe593e12069e3bf38d433f9b3",
+    "gc_checksum": "e41b074918cbac80eadaa87083358b21a307b740ca3f39e6c148b73cee5c9000",
+    "version": "1.0.0"
 }

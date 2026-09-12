@@ -244,8 +244,8 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
           "rs_checksum": rs_checksum,
           "gc_checksum": gc_checksum,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _e:
+        log.debug("Exception caught: %s", _e)
 
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
@@ -318,8 +318,8 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
           "gc_path": gc_path,
           "meta_path": meta_path,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _e:
+        log.debug("Exception caught: %s", _e)
 
 
 def verify_parity(source_path: str) -> bool:
@@ -472,7 +472,8 @@ def regenerate_parity(source_path: str) -> bool:
         parity_data = generate_parity(source_path)
         store_parity(source_path, parity_data)
         return True
-    except Exception:
+    except Exception as _e:
+        log.debug("Exception caught: %s", _e)
         return False  # failure logged
 # test: covered
 

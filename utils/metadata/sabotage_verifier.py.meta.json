@@ -1,15 +1,15 @@
 {
-  "source": "sabotage_verifier.py",
-  "source_hash": "4104e030a0cc4ee65741a033dbd289ade56979c3dcbcbada9b07000abad333c7",
-  "parity_type": "split",
-  "rs_parity": "sabotage_verifier.py.par2-one",
-  "gc_parity": "sabotage_verifier.py.par2-two",
-  "algorithm": {
-    "rs": "Reed-Solomon(255,223)",
-    "gc": "GF(2^8) Galois Chunk"
-  },
-  "generated_by": "generate_split_parity()",
-  "rs_checksum": "98ba231a55debc232504a8e798216c63b60aa4d6dd22692aa142e015185069a4",
-  "gc_checksum": "cb6a1fd489039b752ad69c5bc5025bcb51ae5c23f57ecc2cec77f28b0be55ccf",
-  "version": "1.0.0"
+    "source": "sabotage_verifier.py",
+    "source_hash": "a1ad79ef62530a34e1e789cc71fdf3099eeeeee0bb117a6b4594d03f88a9eb2e",
+    "parity_type": "split",
+    "rs_parity": "sabotage_verifier.py.par2-one",
+    "gc_parity": "sabotage_verifier.py.par2-two",
+    "algorithm": {
+        "rs": "Reed-Solomon(255,223)",
+        "gc": "GF(2^8) Galois Chunk"
+    },
+    "generated_by": "generate_split_parity()",
+    "rs_checksum": "98ba231a55debc232504a8e798216c63b60aa4d6dd22692aa142e015185069a4",
+    "gc_checksum": "cb6a1fd489039b752ad69c5bc5025bcb51ae5c23f57ecc2cec77f28b0be55ccf",
+    "version": "1.0.0"
 }

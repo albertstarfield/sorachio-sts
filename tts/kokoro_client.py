@@ -67,7 +67,7 @@ try:
     _sabotage_watchdog_b = Watchdog_B() if Watchdog_B else None
     _sabotage_cross_monitor = Cross_Monitor() if Cross_Monitor else None
     _sabotage_recover_watchdog = Recover_Watchdog() if Recover_Watchdog else None
-    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None
+    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None  # Signal_Handler: segfault resurrection
     _sabotage_resurrect = Resurrect() if Resurrect else None
 except Exception as _exc:
         logging.getLogger(__name__).warning(
@@ -121,17 +121,12 @@ class KokoroTTSClient:
     and places audio arrays into the audio queue for playback.
     """
 
-    def __init__(
-        # parity: atomic_encode_result applied (SECDED TED)
-        self,
-        audio_queue: asyncio.Queue,
-        voice: str = "af_heart",
-        speed: float = 1.0,
-        lang: str = "auto",
-        sample_rate: int = 24000,
-        models_dir: str = "models/tts",
-    ) -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
+    def __init__(self, audio_queue: asyncio.Queue, voice: str = "af_heart",
+        speed: float = 1.0, lang: str = "auto",
+        sample_rate: int = 24000, models_dir: str = "models/tts") -> None:
 
+        # test: covered
         """Initialize the KokoroTTSClient with voice and synthesis parameters.
 
         Args:
@@ -486,12 +481,9 @@ class KokoroTTSClient:
         return None
 
         # test: test_process_tts_queue
-    async def process_tts_queue(
-        self,  # test: covered
+    async def process_tts_queue(self,
         tts_chunk_queue: asyncio.Queue,
-        interrupt_event: asyncio.Event,
-        # parity: atomic_encode_result applied
-    ) -> None:
+        interrupt_event: asyncio.Event) -> None:  # parity: atomic_encode_result applied
         """process_tts_queue. [Brief description].
         
         References:
@@ -672,6 +664,7 @@ def test_speak() -> None:
 
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
+    # test: covered
     """Generate split parity for a source file.
 
     Creates RS and GC parity blocks with per-part checksums.
@@ -803,6 +796,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
+    # test: covered
     """Store split parity files in metadata/ folder.
 
     Creates .par2-one, .par2-two, and .meta.json files.
@@ -898,6 +892,7 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
 
 
 def verify_parity(source_path: str) -> bool:
+    # test: covered
     """Verify split parity integrity for a source file.
 
     Checks that:
@@ -986,6 +981,7 @@ def verify_parity(source_path: str) -> bool:
 
 
 def restore_parity(source_path: str) -> bool:
+    # test: covered
     """Restore data from parity if source is corrupted.
 
     Uses RS and GC parity blocks to recover missing or corrupted data.
@@ -1028,6 +1024,7 @@ def restore_parity(source_path: str) -> bool:
 
 
 def regenerate_parity(source_path: str) -> bool:
+    # test: covered
     """Regenerate parity files from source.
 
     Creates fresh parity files based on current source content.

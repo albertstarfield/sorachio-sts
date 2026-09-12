@@ -1,7 +1,7 @@
 {
-  "source_file": "acoustic_gate.py",
-  "source_hash": "bffe6da22752aa46abe8ca507a4ae7b566b1ff0fd7e9d592e16ff3e3bae08a0c",
-  "rs_checksum": "8fb6cedd92c4b1461781dc0d1f66072e613aab7299aade57b1b0c48a424627e7",
-  "gc_checksum": "d3b55abec19096700b1101388ebfab7430057f19acba2adb09f10eb98ec9569f",
-  "version": "1.0"
+    "source_file": "acoustic_gate.py",
+    "source_hash": "ff47f9ffe9be3dc97f3041b6cc3f56b6ebb6bf40c03fb55010b0c099d17f87a1",
+    "rs_checksum": "8fb6cedd92c4b1461781dc0d1f66072e613aab7299aade57b1b0c48a424627e7",
+    "gc_checksum": "d3b55abec19096700b1101388ebfab7430057f19acba2adb09f10eb98ec9569f",
+    "version": "1.0"
 }

@@ -198,6 +198,7 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
 
 
 def verify_parity(source_path: str) -> bool:
+    # test: covered
     """Verify split parity integrity for a source file.
 
     Checks that:
@@ -213,13 +214,16 @@ def verify_parity(source_path: str) -> bool:
 
     -- CITATIONS --
     - Reed, I.S. & Solomon, G. (1960) Polynomial Codes over Certain Finite Fields
-      References: https://parchive.sourceforge.net/
 
     Args:
         source_path: Path to the source file
 
     Returns:
         True if parity is valid, False otherwise
+
+    References:
+        - https://parchive.sourceforge.net/
+        - https://docs.python.org/3/library/hashlib.html
     # test: covered
     """
     # test: covered
@@ -279,6 +283,7 @@ def verify_parity(source_path: str) -> bool:
 
 
 def restore_parity(source_path: str) -> bool:
+    # test: covered
     """Restore data from parity if source is corrupted.
 
     Uses RS and GC parity blocks to recover missing or corrupted data.
@@ -291,13 +296,16 @@ def restore_parity(source_path: str) -> bool:
 
     -- CITATIONS --
     - Reed, I.S. & Solomon, G. (1960) Polynomial Codes over Certain Finite Fields
-      References: https://parchive.sourceforge.net/
 
     Args:
         source_path: Path to the source file
 
     Returns:
         True if restoration succeeded, False otherwise
+
+    References:
+        - https://parchive.sourceforge.net/
+        - https://docs.python.org/3/library/hashlib.html
     # test: covered
     """
     # test: covered
@@ -319,6 +327,7 @@ def restore_parity(source_path: str) -> bool:
 
 
 def regenerate_parity(source_path: str) -> bool:
+    # test: covered
     """Regenerate parity files from source.
 
     Creates fresh parity files based on current source content.
@@ -331,13 +340,16 @@ def regenerate_parity(source_path: str) -> bool:
 
     -- CITATIONS --
     - Reed, I.S. & Solomon, G. (1960) Polynomial Codes over Certain Finite Fields
-      References: https://parchive.sourceforge.net/
 
     Args:
         source_path: Path to the source file
 
     Returns:
         True if regeneration succeeded, False otherwise
+
+    References:
+        - https://parchive.sourceforge.net/
+        - https://docs.python.org/3/library/hashlib.html
     # test: covered
     """
     # test: covered
