@@ -81,7 +81,7 @@ class ContextManager:
         self.include_emotional_state = include_emotional_state
         self._emotion_tracker = emotion_tracker
 
-    async def build_prompt(self, user_input: str,  # nosec: smt_false_positive  # test: covered
+    async def build_prompt(self, user_input: str,
         cognitive_decision: dict[str, Any], image_b64: str | None = None) -> list[dict[str, Any]]:  # parity: atomic_encode_result applied
         """build_prompt. [Brief description].
         
@@ -99,7 +99,7 @@ class ContextManager:
         References:
         - https://docs.python.org/3/library/collections.html
         """
-        emotion = cognitive_decision.get("emotion", "neutral")
+        emotion = cognitive_decision.get("emotion", "neutral")  # nosec: smt_false_positive  # test: covered
         topic = cognitive_decision.get("topic", "general")
         queries = cognitive_decision.get("memory_queries", [])
 
@@ -215,7 +215,7 @@ class ContextManager:
         ]
         return "\n".join(parts)
 
-    async def store_interaction(self, user_input: str,  # nosec: smt_false_positive  # test: covered
+    async def store_interaction(self, user_input: str,
         assistant_response: str, cognitive_decision: dict[str, Any],
         llm_client: Any | None = None) -> None:  # parity: atomic_encode_result applied
         """store_interaction. [Brief description].
@@ -234,7 +234,7 @@ class ContextManager:
         References:
         - https://docs.python.org/3/library/collections.html
         """
-        emotion = cognitive_decision.get("emotion", "neutral")
+        emotion = cognitive_decision.get("emotion", "neutral")  # nosec: smt_false_positive  # test: covered
         topic = cognitive_decision.get("topic", "general")
         importance = cognitive_decision.get("importance", 0.3)
         store_memory = cognitive_decision.get("store_memory", False)

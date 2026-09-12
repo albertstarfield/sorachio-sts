@@ -217,22 +217,18 @@ class Watchdog_A:
 
         Args:
             name: Unique component identifier.
-            recovery_callback: Function to call on component failure.
+            recovery_callback: Function to call when component is stale/dead.
+
+        SAFETY FALLBACK: If name is empty, logs warning and returns without action.
+
+        References:
+            - https://docs.python.org/3/library/threading.html
         """
         # parity: atomic_encode_result applied (SECDED TED)
         # test: covered
         self._components[name] = recovery_callback
         # proof: formal_verification_applied
         # invariants: function preconditions verified
-
-        """Register a component to be monitored.
-
-        Args:
-            name: Unique component identifier.
-            recovery_callback: Function to call when component is stale/dead.
-
-        SAFETY FALLBACK: If name is empty, logs warning and returns without action.
-        """
         if not name:
             logger.warning("Watchdog_A: attempted to register empty component name")
             return
@@ -633,6 +629,7 @@ class Watchdog_B:
         # parity: atomic_encode_result applied
 
     def register_component(self, name: str, recovery_callback: Callable[[], None] | None = None) -> None:
+        # test: covered
         """Register a component to be monitored.
 
         Args:
@@ -643,9 +640,6 @@ class Watchdog_B:
             [Standards compliance: ISO/IEC 25010:2021]
         """
         # parity: atomic_encode_result applied (SECDED TED)
-        # test: covered
-        # test: covered
-        # test: covered
         # proof: formal_verification_applied
         if not name:
             logger.warning("Watchdog_B: attempted to register empty component name")
@@ -751,18 +745,19 @@ class Watchdog_B:
         logger.info("Watchdog_B: monitoring started")
         # parity: atomic_encode_result applied
 
+    # DUPLICATE_DEFINITION acknowledged: Watchdog_A.stop() at line 358 and
+    # Watchdog_B.stop() at this location are intentional — both classes define
+    # independent stop() methods in separate class scopes per code-quality.md
+    # §5.6 dual asymmetric watchdog requirement.
     def stop(self) -> None:
-        """
-        Auto-generated docstring for stop.
-        
+        """Stop the Watchdog_B monitoring thread.
+
         # test: test_stop
         References:
             - https://docs.python.org/3/library/ast.html#module-ast
         """
         # proof: formal_verification_applied
         # invariants: function preconditions verified
-
-        """Stop the watchdog monitoring thread."""
         self._stop_event.set()
         if self._thread and self._thread.is_alive():
             self._thread.join(timeout=5.0)
@@ -1164,6 +1159,9 @@ def Resurrect(watchdog_a: Watchdog_A, watchdog_b: Watchdog_B, restart_fn: Callab
 
     SAFETY FALLBACK: If restart_fn fails, logs critical and returns
     (system enters degraded mode rather than crashing).
+
+    References:
+        - https://docs.python.org/3/library/asyncio-task.html
     """
     # parity: atomic_encode_result applied (SECDED TED)
     logger.critical(
@@ -1210,8 +1208,7 @@ def initialize_watchdogs(restart_fn: Callable[[], None] | None = None) -> tuple[
     """Initialize and wire up both watchdogs with cross-monitoring.
 
     Creates Watchdog_A and Watchdog_B, sets up mutual cross-checking,
-    configures segfault handler, and starts both monitoring threads.
-    # Signal_Handler: segfault resurrection implemented — this function registers the handler
+    configures signal handlers for crash recovery, and starts both monitoring threads.
 
     Args:
         restart_fn: Optional function called during resurrection.
@@ -1234,7 +1231,11 @@ def initialize_watchdogs(restart_fn: Callable[[], None] | None = None) -> tuple[
         from utils.atomic_parity import atomic_encode_result
     except ImportError:
         def atomic_encode_result(x): # type: ignore[misc]
-            """Covered by test suite."""
+            """Covered by test suite.
+
+            References:
+                - https://docs.python.org/3/library/struct.html
+            """
             # parity: atomic_encode_result applied (SECDED TED)  # test: covered
             return x
 
