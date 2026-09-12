@@ -1,0 +1,8 @@
+DIGEST 68e8fe9f03582d6d9b73f63b73322d81
+F_scan
+mod 207:211 <> _scan
+R230:235 Coq.ZArith.ZArith <> <> lib
+R253:258 Coq.QArith.QArith <> <> lib
+R276:289 Coq.Strings.String <> <> lib
+R307:316 Coq.Lists.List <> <> lib
+R334:337 Coq.Bool.Bool <> <> lib

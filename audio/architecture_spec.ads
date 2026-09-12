@@ -274,7 +274,7 @@ def restore_parity(source_path: str) -> bool:
 def regenerate_parity(source_path: str) -> bool:
     """Regenerate split parity for a source file.
 
-    Generates new parity from current source content.
+    Creates parity from current source content.
 
     References:
         - https://docs.python.org/3/library/struct.html

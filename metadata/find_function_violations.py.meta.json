@@ -1,9 +1,0 @@
-{
-    "source_file": "find_function_violations.py",
-    "source_hash": "22ef088b67b8d0bf4ff34041b13469aec507d3160f5a7ea6c7b6e1e8d58bdf21",
-    "rs_checksum": "5d68b98393d734d997f4bed146f0b2c1e1913fb14e913b02fed87d1ea39f7a32",
-    "gc_checksum": "0d11360e9d752fcc87254820e00486f7eda81bcda052b99511fe11d5d21cc5ba",
-    "version": "2.0",
-    "block_size": 512,
-    "total_blocks": 10
-}

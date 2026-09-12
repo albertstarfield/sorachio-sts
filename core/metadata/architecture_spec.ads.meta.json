@@ -1,9 +1,9 @@
 {
-    "source_file": "architecture_spec.ads",
-    "source_hash": "99746a98571b4e00819c3a90e86efff3a9c25236685b31375c3ced465c6a972c",
-    "rs_checksum": "669ac0bc450d9c311df3e3260e8492751460355919b3423c850652fb90c3c3f3",
-    "gc_checksum": "fc0eca2187b391915c1ddef10829e2eae05dbe2c11e14763fb8b44c248ddd631",
-    "version": "2.0",
-    "block_size": 512,
-    "total_blocks": 14
+  "source_file": "architecture_spec.ads",
+  "source_hash": "99746a98571b4e00819c3a90e86efff3a9c25236685b31375c3ced465c6a972c",
+  "rs_checksum": "edcf6a85a9f539ac7c53a966fdc9454875c15a469b4a075ce5a301993368c9ee",
+  "gc_checksum": "fc0eca2187b391915c1ddef10829e2eae05dbe2c11e14763fb8b44c248ddd631",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 14
 }

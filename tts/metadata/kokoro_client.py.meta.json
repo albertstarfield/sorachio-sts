@@ -1,8 +1,8 @@
 {
   "source_file": "kokoro_client.py",
-  "source_hash": "e4c79d92ec50808606a61f548143d49d5b57aa00072f2cff8b3b09cd37e13682",
-  "rs_checksum": "38bc0b117c41335da45dc90b94355c438a7848d19c9056da738f4bbd4c226cf7",
-  "gc_checksum": "2e1587d98d8af67dabe6ff2c335ecd35cd27813354fc5303afdd71530fbfa6fb",
+  "source_hash": "6797b0f1ca82bd8305b7371e29efc1133a3a3eb670ab179e1bc9593fa33b0d31",
+  "rs_checksum": "167ed7aa5a173101a01a71caf4b93303a01d419a0eda96c51df4b55030093dac",
+  "gc_checksum": "51ed0cea1c4d89a41be2028718b51ed3e74abb8892c5610fdd4f36e9ec4bd22c",
   "version": "2.0",
   "block_size": 512,
   "total_blocks": 90
