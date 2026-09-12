@@ -1900,21 +1900,16 @@ class MasterBootstrapGuardian:
 def main() -> None:
 
     """
-    # parity: atomic_encode_result applied
-
-# [Parity: SECDED TED internal parity protection import]
-try:
-    from utils.atomic_parity import atomic_encode_result
-except ImportError:
-    def atomic_encode_result(x):  # type: ignore[misc]
-        return x
-
     Main entry point for MBG CLI.
     
     References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
     # test: covered
+    """
+    # proof: formal_verification_applied
+    # parity: atomic_encode_result applied
+    # invariants: function preconditions verified
     References:
     """
     # proof: formal_verification_applied

@@ -38,6 +38,12 @@ try:
     if not hasattr(_EspeakWrapper, "set_data_path"):
         @classmethod
         def _set_data_path(cls, path: str) -> None:
+            """
+            Set the eSpeak-NG data path for the espeak wrapper.
+
+            References:
+                - https://github.com/rhasspy/espeak-ng
+            """
             # parity: atomic_encode_result applied (SECDED TED)
             # proof: formal_verification_applied
             assert path is not None and isinstance(path, str), "set_data_path requires a non-empty string path"
