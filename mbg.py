@@ -406,11 +406,16 @@ class MasterBootstrapGuardian:
                 if exe_path:
                     log.info(f"Found Python {version}: {exe_path}")
                     log.info("Relaunching with compatible Python...")
+                    # [Fix: SPLIT_PARITY_STALE] Use os.execv() for process replacement
+                    # instead of subprocess.run() with timeout. The old approach killed
+                    # the child after 30s, crashing full bootstrap.
+                    # [Citation: Python os.execv — https://docs.python.org/3/library/os.html#os.execv]
                     try:
-                        subprocess.run([exe_path] + sys.argv, timeout=30)  # nosec: SOFTLOCK_RISK — process replacement, timeout is safety guard
-                    except KeyboardInterrupt:
-                        log.debug("Python relaunch interrupted by user")
-                    sys.exit(0)  # nosec: SILENT_FAILURE — intentional process replacement after Python relaunch
+                        os.execv(exe_path, [exe_path] + sys.argv)
+                    except OSError as exc:
+                        log.error(f"Failed to exec into compatible Python {exe_path}: {exc}")
+                        # Safety fallback: continue searching for another Python
+                        continue
 
         log.error("No compatible Python version found!")
         sys.exit(1)  # nosec: SILENT_FAILURE — intentional fatal exit when no compatible Python found
@@ -560,12 +565,19 @@ class MasterBootstrapGuardian:
             venv_python = VENV_DIR / "bin" / "python"
 
         log.info(f"Restarting with venv Python: {venv_python}")
+        # [Fix: SPLIT_PARITY_STALE] Use os.execv() for process replacement instead
+        # of subprocess.run() with timeout. The old approach killed the child after
+        # 30s, crashing full bootstrap before it could finish installing packages,
+        # building binaries, downloading models, and running quality checks.
+        # os.execv() replaces the current process entirely — no timeout, no kill.
+        # [Citation: Python os.execv — https://docs.python.org/3/library/os.html#os.execv]
         try:
-            subprocess.run([str(venv_python)] + sys.argv, timeout=30)  # nosec: SOFTLOCK_RISK — process replacement, timeout is safety guard
-        except KeyboardInterrupt:
-            log.debug("Python relaunch interrupted by user")
-        # test: covered
-        sys.exit(0)  # nosec: SILENT_FAILURE — intentional process replacement after venv relaunch
+            os.execv(str(venv_python), [str(venv_python)] + sys.argv)
+        except OSError as exc:
+            # Safety fallback: if execv fails (e.g. venv python missing),
+            # log the error and exit cleanly instead of crashing.
+            log.error(f"Failed to exec into venv Python: {exc}")
+            sys.exit(1)  # nosec: SILENT_FAILURE — intentional fatal exit on exec failure
 
     def _is_in_venv(self) -> bool:
         """
