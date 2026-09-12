@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 Sorachio-STS Long-Term Memory (LTM)
 JSON-backed persistent memory with vector similarity search and importance scoring.

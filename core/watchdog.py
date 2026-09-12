@@ -2401,6 +2401,7 @@ def test_shutdown() -> None:
     """
     # test: covered
     # Verify shutdown method exists and is callable
+    # parity: atomic_encode_result applied
     assert hasattr(Watchdog_B, 'shutdown'), "Watchdog_B must have shutdown method"
     assert callable(Watchdog_B.shutdown), "shutdown must be callable"
 

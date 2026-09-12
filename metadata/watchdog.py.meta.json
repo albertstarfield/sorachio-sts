@@ -4,5 +4,6 @@
   "lines": 2378,
   "size_bytes": 87593,
   "parity_encoding": "SECDED TED",
-  "regenerated": true
+  "regenerated": true,
+  "source_hash": "b4ced1dfc17bc5b80f551df60838801555fb98da46b876370b2ec7943823f189"
 }

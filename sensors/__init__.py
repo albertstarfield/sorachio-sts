@@ -3,6 +3,12 @@
 # metadata: source parity tracked in metadata/ directory
 # proof: formal_verification_applied
 
+import hashlib
+import json
+import logging
+
+log = logging.getLogger(__name__)
+
 # ── Split Parity Functions (auto-generated) ──────────────────────
 # [metadata: references metadata/ folder — split parity protection]
 # Reed-Solomon(255,223), GF(2^8) Galois Chunk parity protection
