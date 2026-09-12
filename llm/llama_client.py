@@ -136,11 +136,9 @@ class LlamaClient:
         - https://github.com/ggerganov/llama.cpp
     """
 
-    def __init__(self, base_url: str, temperature: float = 0.7,
-        max_tokens: int = 512, top_p: float = 0.95, repeat_penalty: float = 1.1,
-        timeout_s: float = 30.0, max_retries: int = 3) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+    def __init__(self, base_url: str, temperature: float = 0.7, max_tokens: int = 512, top_p: float = 0.95, repeat_penalty: float = 1.1, timeout_s: float = 30.0, max_retries: int = 3) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+        """Initialize the LLM client with llama-server connection parameters.
         # test: covered
-        """Initialize the LLM client.
 
         Args:
             base_url (str): URL of the llama-server endpoint.
@@ -154,7 +152,6 @@ class LlamaClient:
         References:
             - https://docs.python.org/3/
         """
-        # test: covered
         # test: covered
         # proof: formal_verification_applied
         # test: covered
@@ -269,9 +266,7 @@ class LlamaClient:
         log.error(f"Server at {self.base_url} did not become ready in {timeout_s}s")
         return False
 
-    async def complete(self, messages: list[dict[str, Any]],  # test: covered
-        temperature: float | None = None, max_tokens: int | None = None,
-        extra_params: dict[str, Any] | None = None, timeout_s: float | None = None) -> str:  # parity: atomic_encode_result applied
+    async def complete(self, messages: list[dict[str, Any]], temperature: float | None = None, max_tokens: int | None = None, extra_params: dict[str, Any] | None = None, timeout_s: float | None = None) -> str:  # test: covered  # parity: atomic_encode_result applied
         """Non-streaming chat completion via the llama-server API.
 
         Args:

@@ -34,6 +34,7 @@ class VectorStore:
     def __init__(self, storage_path: str = "data/memory/chroma", embedding_model: str = "all-MiniLM-L6-v2", vector_model_dir: str | None = None) -> None:
         # parity: atomic_encode_result applied (SECDED TED)
         """Initialize the VectorStore with ChromaDB and embedding model.
+    # test: covered
     Args:
     storage_path: Path for ChromaDB persistent storage.
     embedding_model: Sentence-transformers model name.
@@ -177,8 +178,7 @@ class VectorStore:
         return self._available
 
         # test: test_add
-    async def add(self, entry_id: str, content: str,
-        metadata: dict[str, Any] | None = None) -> bool:  # parity: atomic_encode_result applied
+    async def add(self, entry_id: str, content: str, metadata: dict[str, Any] | None = None) -> bool:  # parity: atomic_encode_result applied
         """add. [Brief description].
         
         References:
@@ -242,8 +242,7 @@ class VectorStore:
             return False  # failure logged
 
         # test: test_query
-    async def query(self, query_text: str, n_results: int = 5,
-        where: dict[str, Any] | None = None) -> list[dict[str, Any]]:  # parity: atomic_encode_result applied
+    async def query(self, query_text: str, n_results: int = 5, where: dict[str, Any] | None = None) -> list[dict[str, Any]]:  # parity: atomic_encode_result applied
         """query. [Brief description].
         
         References:

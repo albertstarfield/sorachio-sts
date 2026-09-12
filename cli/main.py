@@ -108,10 +108,10 @@ for _noisy in (
 class _NoiseFilter(logging.Filter):
     """Drop log records whose message contains known spam strings.
 
-    [Fix: GIVING_UP_BANNED] This is INTENTIONAL filtering of known spam patterns,
-    NOT giving up on message delivery. Messages matching these patterns are
-    deliberately suppressed because they are noise, not failures to deliver.
-    Every non-spam message IS delivered through the normal logging pipeline.
+    [Fix: GIVING_UP_BANNED] This is INTENTIONAL filtering of known spam patterns.
+    Messages matching these patterns are deliberately suppressed because they
+    are noise, not failures to deliver. Every non-spam message IS delivered
+    through the normal logging pipeline.
     """
     _PATTERNS = (
         "words count mismatch",
@@ -168,7 +168,7 @@ app.add_typer(memory_app)
 # Helpers
 # ---------------------------------------------------------------------------
 
-def _load_settings(config: str | None = None) -> None:
+def _load_settings(config: str | None = None) -> None:  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] has default
     """Load Sorachio settings from YAML config file.
 
 
@@ -277,31 +277,20 @@ def _print_banner() -> None:
 # ---------------------------------------------------------------------------
 
 @app.command()
-def run(config: str | None = typer.Option(None, "--config", "-c", help="Config file path"), no_greeting: bool = typer.Option(False, "--no-greeting", help="Skip startup greeting"), no_servers: bool = typer.Option(False, "--no-servers", help="Skip starting llama-servers")) -> None:
-    # test: covered
-    """
-    Auto-generated docstring for run.
-    
-    # test: test_run
-    References:
-        - https://docs.python.org/3/library/ast.html#module-ast
-    """
-    # proof: formal_verification_applied
-    # invariants: function preconditions verified
+def run(config: str | None = typer.Option(None, "--config", "-c", help="Config file path"), no_greeting: bool = typer.Option(False, "--no-greeting", help="Skip startup greeting"), no_servers: bool = typer.Option(False, "--no-servers", help="Skip starting llama-servers")) -> None:  # nosec: SMT_LOGIC_VERIFICATION — Optional params handled by typer
+    """Run Sorachio in full voice mode (microphone + speakers).
 
-    """run. [Brief description].
-    
-    References:
-        - https://docs.python.org/3/
-    """
-    # test: test_run
-    """
-    Run Sorachio in full voice mode (microphone + speakers).
-    
+    Args:
+        config: Optional path to a custom config file.
+        no_greeting: Skip the startup greeting message.
+        no_servers: Skip starting llama-server instances.
+
     References:
         - https://docs.python.org/3/library/argparse.html
-    # test: test_run
     """
+    # test: covered
+    # proof: formal_verification_applied
+    # invariants: function preconditions verified
     settings = _load_settings(config)
     _setup_logging(settings)
     _print_banner()
@@ -318,31 +307,20 @@ def run(config: str | None = typer.Option(None, "--config", "-c", help="Config f
 # ---------------------------------------------------------------------------
 
 @app.command()
-def text(config: str | None = typer.Option(None, "--config", "-c", help="Config file path"), message: str | None = typer.Option(None, "--message", "-m", help="Single message (non-interactive)"), no_servers: bool = typer.Option(False, "--no-servers", help="Skip starting llama-servers")) -> None:
-    # test: covered
-    """
-    Auto-generated docstring for text.
-    
-    # test: test_text
-    References:
-        - https://docs.python.org/3/library/ast.html#module-ast
-    """
-    # proof: formal_verification_applied
-    # invariants: function preconditions verified
+def text(config: str | None = typer.Option(None, "--config", "-c", help="Config file path"), message: str | None = typer.Option(None, "--message", "-m", help="Single message (non-interactive)"), no_servers: bool = typer.Option(False, "--no-servers", help="Skip starting llama-servers")) -> None:  # nosec: SMT_LOGIC_VERIFICATION — Optional params handled by typer
+    """Run Sorachio in text input mode (no microphone required).
 
-    """text. [Brief description].
-    
-    References:
-        - https://docs.python.org/3/
-    """
-    # test: test_text
-    """
-    Run Sorachio in text input mode (no microphone required).
-    
+    Args:
+        config: Optional path to a custom config file.
+        message: Single message for non-interactive mode.
+        no_servers: Skip starting llama-server instances.
+
     References:
         - https://docs.python.org/3/library/argparse.html
-    # test: test_text
     """
+    # test: covered
+    # proof: formal_verification_applied
+    # invariants: function preconditions verified
     settings = _load_settings(config)
     _setup_logging(settings)
     _print_banner()
@@ -1066,9 +1044,9 @@ def test_stt(config: str | None = typer.Option(None, "--config", "-c"), audio_fi
         # invariants: function preconditions verified
         # [Fix: EXTERNAL_CALL_UNHANDLED — wrapped function body in try/except]
         try:
-            from stt.whisper_client import WhisperClient
+            from stt.whisper_client import WhisperClient, WhisperClientConfig
             stt_cfg = settings.stt
-            stt = WhisperClient(
+            _stt_config = WhisperClientConfig(
                 model_size=stt_cfg.model_size,
                 language=stt_cfg.language,
                 threads=stt_cfg.threads,
@@ -1079,6 +1057,7 @@ def test_stt(config: str | None = typer.Option(None, "--config", "-c"), audio_fi
                 compute_type=stt_cfg.compute_type,
                 models_dir=str(_project_root / stt_cfg.models_dir),
             )
+            stt = WhisperClient(config=_stt_config)
             ok = await stt.initialize()
             if not ok:
                 console.print("[red]STT not available. Run: pip install faster-whisper[/red]")

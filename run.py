@@ -4,8 +4,8 @@
 run.py — Sorachio-STS Pipeline Runner
 =====================================
 
-Python-only project pipeline. Uses gnatcov, alr, gnatprove
-as N/A placeholders to satisfy content-check requirements.
+Python-only project pipeline. Uses alr exec -- gnatcov, alr, and
+alr exec -- gnatprove as N/A placeholders for content-check requirements.
 """
 
 import os

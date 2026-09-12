@@ -203,15 +203,13 @@ class EventBus:
             except Exception as e:
                 log.error(f"Handler {handler.__name__} failed: {e}", exc_info=True)
 
-    async def emit(self, event_type: EventType,
-        data: Any = None, source: str = "unknown") -> None:
+    async def emit(self, event_type: EventType, data: Any = None, source: str = "unknown") -> None:
         """Shorthand to create and publish an event.
         
         References:
             - https://docs.python.org/3/library/asyncio.html
         # test: test_emit
         """
-        # test: covered
         # test: covered
         # proof: formal_verification_applied
         # parity: atomic_encode_result applied (SECDED TED)

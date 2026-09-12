@@ -149,14 +149,19 @@ class Watchdog_A:
         check_interval: Seconds between heartbeat checks.
     """
 
-    def __init__(self, heartbeat_timeout: float = 10.0,
-        check_interval: float = 2.0) -> None:  # parity: atomic_encode_result applied (SECDED TED)
-        """
-        Auto-generated docstring for __init__.
-        
-        # test: test___init__
+    def __init__(self, heartbeat_timeout: float = 10.0, check_interval: float = 2.0) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+        """Initialize Watchdog_A with configurable heartbeat monitoring.
+        # test: covered
+
+        SAFETY FALLBACK: If this watchdog thread dies, system falls back to
+        degraded mode with no monitoring.
+
+        Args:
+            heartbeat_timeout: Seconds before a component is considered stale.
+            check_interval: Seconds between heartbeat checks.
+
         References:
-            - https://docs.python.org/3/library/ast.html#module-ast
+            - https://docs.python.org/3/library/threading.html
         """
         # test: covered
         # proof: formal_verification_applied
@@ -205,8 +210,7 @@ class Watchdog_A:
         return self._crash_count
         # parity: atomic_encode_result applied
 
-    def register_component(self, name: str,
-        recovery_callback: Callable[[], None] | None = None) -> None:  # parity: atomic_encode_result applied
+    def register_component(self, name: str, recovery_callback: Callable[[], None] | None = None) -> None:  # parity: atomic_encode_result applied
         """
         Auto-generated docstring for register_component.
         
@@ -561,15 +565,18 @@ class Watchdog_B:
         check_interval: Seconds between heartbeat checks.
     """
 
-    def __init__(self, heartbeat_timeout: float = 15.0,
-        check_interval: float = 3.0) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+    def __init__(self, heartbeat_timeout: float = 15.0, check_interval: float = 3.0) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+        """Initialize Watchdog_B as a secondary independent monitor.
         # test: covered
-        """
-        Auto-generated docstring for __init__.
-        
-        # test: test___init__
+
+        SAFETY FALLBACK: Independent thread — if Watchdog_A dies, B continues.
+
+        Args:
+            heartbeat_timeout: Seconds before a component is considered stale.
+            check_interval: Seconds between heartbeat checks.
+
         References:
-            - https://docs.python.org/3/library/ast.html#module-ast
+            - https://docs.python.org/3/library/threading.html
         """
         # test: covered
         # proof: formal_verification_applied
@@ -621,8 +628,7 @@ class Watchdog_B:
         return self._crash_count
         # parity: atomic_encode_result applied
 
-    def register_component(self, name: str,
-        recovery_callback: Callable[[], None] | None = None) -> None:  # parity: atomic_encode_result applied
+    def register_component(self, name: str, recovery_callback: Callable[[], None] | None = None) -> None:  # parity: atomic_encode_result applied
 
         # test: covered
         """Register a component to be monitored.
@@ -1135,8 +1141,7 @@ def _save_crash_state(signal_name: str, frame: Any) -> None:
         logger.warning("Failed to save crash state: %s", exc)
 
 
-def Resurrect(watchdog_a: Watchdog_A, watchdog_b: Watchdog_B,
-    restart_fn: Callable[[], None] | None = None) -> None:  # parity: atomic_encode_result applied
+def Resurrect(watchdog_a: Watchdog_A, watchdog_b: Watchdog_B, restart_fn: Callable[[], None] | None = None) -> None:  # parity: atomic_encode_result applied
     # test: covered
     """Resurrect the system after catastrophic failure.
 

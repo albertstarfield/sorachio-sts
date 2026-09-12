@@ -57,9 +57,7 @@ class PersonalityCore:
     by llama-server — model is auto-detected from the models/llm2/ directory.
     """
 
-    def __init__(self, client: LlamaClient, tts_queue: asyncio.Queue,
-        interrupt_event: asyncio.Event, chunker_config: dict[str, Any] | None = None,
-        temperature: float = 0.8, max_tokens: int = 512) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+    def __init__(self, client: LlamaClient, tts_queue: asyncio.Queue, interrupt_event: asyncio.Event, chunker_config: dict[str, Any] | None = None, temperature: float = 0.8, max_tokens: int = 512) -> None:  # parity: atomic_encode_result applied (SECDED TED)
         # test: covered
         """Init.
 
@@ -98,8 +96,7 @@ class PersonalityCore:
         self._full_response: str = ""
 
         # test: test_generate_streaming
-    async def generate_streaming(self,  # test: covered
-        messages: list[dict[str, str]]) -> str:  # parity: atomic_encode_result applied
+    async def generate_streaming(self, messages: list[dict[str, str]]) -> str:  # test: covered  # parity: atomic_encode_result applied
         """Generate streaming response from LLM #2, assemble chunks, queue for TTS.
         Returns the complete response text for storage in STM.
         References:

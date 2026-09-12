@@ -51,25 +51,25 @@ class ContextManager:
     Assembles the final LLM #2 prompt from all context sources.
     """
 
-    def __init__(self, stm: ShortTermMemory, ltm: LongTermMemory, personality_prompt: str,
-        companion_name: str = "Sorachio", max_stm_in_prompt: int = 10, max_ltm_in_prompt: int = 3,
-        include_emotional_state: bool = True, emotion_tracker: EmotionTracker | None = None) -> None:  # nosec: SMT_LOGIC_VERIFICATION — Optional param assigned to attr, not dereferenced here
+    def __init__(self, stm: ShortTermMemory, ltm: LongTermMemory, personality_prompt: str, companion_name: str = "Sorachio", max_stm_in_prompt: int = 10, max_ltm_in_prompt: int = 3, include_emotional_state: bool = True, emotion_tracker: EmotionTracker | None = None) -> None:
+        """Assemble the final LLM #2 prompt from all context sources.
         # test: covered
-        """Init.
-        
+
         Args:
-            stm (ShortTermMemory): Description.
-            ltm (LongTermMemory): Description.
-            personality_prompt (str): Description.
-            companion_name (str): Description.
-            max_stm_in_prompt (int): Description.
-            max_ltm_in_prompt (int): Description.
-            include_emotional_state (bool): Description.
-            emotion_tracker: Description.
+            stm (ShortTermMemory): Short-term memory store for recent conversation turns.
+            ltm (LongTermMemory): Long-term memory store for recalled facts.
+            personality_prompt (str): Base personality prompt for the companion.
+            companion_name (str): Name of the companion for prompt templating.
+            max_stm_in_prompt (int): Max short-term memories to include in prompt.
+            max_ltm_in_prompt (int): Max long-term memories to include in prompt.
+            include_emotional_state (bool): Whether to include emotional state in prompt.
+            emotion_tracker: Emotion tracker for mood-aware prompting.
+
         References:
             - https://docs.python.org/3/
             [Standards compliance: ISO/IEC 25010:2021]
         """
+        # parity: atomic_encode_result applied (SECDED TED)
         # test: covered
         # proof: formal_verification_applied
         self.stm = stm

@@ -165,9 +165,9 @@ class SorachioPipeline:
         )
 
         # ---- STT ----
-        from stt.whisper_client import WhisperClient
+        from stt.whisper_client import WhisperClient, WhisperClientConfig
         stt_cfg = cfg.stt
-        self._stt = WhisperClient(
+        _stt_config = WhisperClientConfig(
             model_size=stt_cfg.model_size,
             language=stt_cfg.language,
             threads=stt_cfg.threads,
@@ -180,6 +180,7 @@ class SorachioPipeline:
             chunk_length_s=stt_cfg.chunk_length_s,
             models_dir=str(root / stt_cfg.models_dir),
         )
+        self._stt = WhisperClient(config=_stt_config)
         stt_ok = await self._stt.initialize()
         if not stt_ok:
             log.warning("[Pipeline] STT unavailable — speech input disabled")
@@ -302,9 +303,8 @@ class SorachioPipeline:
             aec_provider = create_aec("null")
 
         try:
-            self._capture = AudioCapture(
-                stt_queue=self._stt_queue,
-                interrupt_callback=self._on_interrupt if cfg.pipeline.enable_interruption else None,
+            from audio.capture import AudioCapture, AudioCaptureConfig
+            _ac_config = AudioCaptureConfig(
                 sample_rate=audio_cfg.capture.sample_rate,
                 channels=audio_cfg.capture.channels,
                 chunk_duration_ms=audio_cfg.capture.chunk_duration_ms,
@@ -313,10 +313,15 @@ class SorachioPipeline:
                 vad_aggressiveness=audio_cfg.capture.vad_aggressiveness,
                 min_speech_duration_ms=audio_cfg.capture.min_speech_duration_ms,
                 max_speech_duration_s=audio_cfg.capture.max_speech_duration_s,
-                playback_active_event=self._playback_active_event,
-                interrupt_event=self._interrupt_event if cfg.pipeline.enable_interruption else None,
                 interruption_debounce_frames=cfg.pipeline.interruption_debounce_frames,
                 acoustic_gate_config=audio_cfg.capture.acoustic_gate,
+            )
+            self._capture = AudioCapture(
+                config=_ac_config,
+                stt_queue=self._stt_queue,
+                interrupt_callback=self._on_interrupt if cfg.pipeline.enable_interruption else None,
+                playback_active_event=self._playback_active_event,
+                interrupt_event=self._interrupt_event if cfg.pipeline.enable_interruption else None,
                 aec=aec_provider,
             )
         except Exception as e:

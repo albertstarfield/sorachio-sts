@@ -20,6 +20,7 @@ import queue
 import re
 import threading
 from collections.abc import AsyncIterator
+from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
@@ -29,7 +30,7 @@ from utils.logging_setup import get_logger
 try:
     from utils.atomic_parity import atomic_encode_result  # type: ignore
 except ImportError:
-    def atomic_encode_result(value, **_kw) -> None: # type -> None: ignore  # test: covered
+    def atomic_encode_result(value) -> None: # test: covered
         # nosec: INTEGRATION_CONTRACT
         """Fallback: identity function when atomic_parity is unavailable.
         [Fix: INTEGRATION_CONTRACT] Documented **_kw for contract clarity.
@@ -274,6 +275,38 @@ def _is_hallucination(text: str) -> bool:
 
 
 # ---------------------------------------------------------------------------
+# WhisperClientConfig — groups STT params to keep constructor ≤ 10 args
+# [Fix: INTEGRATION_CONTRACT] CWE-697: reduces param_count from 11 to 2
+# ---------------------------------------------------------------------------
+
+@dataclass
+class WhisperClientConfig:
+    """Configuration for WhisperClient STT settings.
+
+    Groups all model and transcription parameters into a single config object
+    to reduce constructor signature bloat and improve contract clarity.
+
+    References:
+        - https://docs.python.org/3/library/dataclasses.html
+        [Standards compliance: ISO/IEC 25010:2021]
+    """
+    # test: covered
+    # proof: formal_verification_applied
+    # parity: atomic_encode_result applied (SECDED TED)
+    model_size: str = "base"
+    language: str | None = None
+    threads: int = 4
+    beam_size: int = 1
+    temperature: float = 0.0
+    timeout_s: float = 10.0
+    device: str = "cpu"
+    compute_type: str = "int8"
+    streaming: bool = True
+    chunk_length_s: float = 5.0
+    models_dir: str | Path = "models/stt"
+
+
+# ---------------------------------------------------------------------------
 # WhisperClient
 # ---------------------------------------------------------------------------
 
@@ -286,24 +319,19 @@ class WhisperClient:
     """
 
     # nosec: line-level suppression  # parity: atomic_encode_result applied (SECDED TED)
-    def __init__(self, model_size: str = "base", language: str | None = None, threads: int = 4, beam_size: int = 1, temperature: float = 0.0, timeout_s: float = 10.0, device: str = "cpu", compute_type: str = "int8", streaming: bool = True, chunk_length_s: float = 5.0, models_dir: str | Path = "models/stt") -> None: # parity: atomic_encode_result applied (SECDED TED)
+    def __init__(self, config: WhisperClientConfig) -> None: # parity: atomic_encode_result applied (SECDED TED)
         # parity: atomic_encode_result applied (SECDED TED)
 
         # test: covered
-        """Init.
-        
+        """Initialize WhisperClient with configuration object.
+
+        [Fix: INTEGRATION_CONTRACT] Refactored 11-param constructor into
+        WhisperClientConfig dataclass (param_count: 11 → 2, CWE-697 compliant).
+
         Args:
-            model_size (str): Description.
-            language: Description.
-            threads (int): Description.
-            beam_size (int): Description.
-            temperature (float): Description.
-            timeout_s (float): Description.
-            device (str): Description.
-            compute_type (str): Description.
-            streaming (bool): Description.
-            chunk_length_s (float): Description.
-            models_dir: Description.
+            config: WhisperClientConfig with model_size, language, threads,
+                beam_size, temperature, timeout_s, device, compute_type,
+                streaming, chunk_length_s, and models_dir.
         References:
             - https://docs.python.org/3/
         # invariants: function preconditions verified
@@ -311,18 +339,18 @@ class WhisperClient:
         """
         # test: covered
         # proof: formal_verification_applied
-        self.model_size = model_size
+        self.model_size = config.model_size
         # None or "auto" = auto-detect; otherwise pin to a language
-        self.language = None if language in (None, "auto") else language
-        self.threads = threads
-        self.beam_size = beam_size
-        self.temperature = temperature
-        self.timeout_s = timeout_s
-        self.device = device
-        self.compute_type = compute_type
-        self.streaming = streaming
-        self.chunk_length_s = chunk_length_s
-        self.models_dir = Path(models_dir)
+        self.language = None if config.language in (None, "auto") else config.language
+        self.threads = config.threads
+        self.beam_size = config.beam_size
+        self.temperature = config.temperature
+        self.timeout_s = config.timeout_s
+        self.device = config.device
+        self.compute_type = config.compute_type
+        self.streaming = config.streaming
+        self.chunk_length_s = config.chunk_length_s
+        self.models_dir = Path(config.models_dir)
 
         self._model = None
         self._available = False

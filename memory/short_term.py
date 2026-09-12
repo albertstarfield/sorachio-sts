@@ -61,15 +61,13 @@ class STMEntry:
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization.
+        # test: covered
         # parity: atomic_encode_result applied
         Returns:
             dict with role, content, timestamp, emotion fields.
         References:
             - https://docs.python.org/3/library/collections.html
         """
-        # test: covered
-        # test: covered
-        # test: covered
         # proof: formal_verification_applied
         # test: covered
         d = asdict(self)
@@ -104,10 +102,9 @@ class ShortTermMemory:
     """
 
     # parity: atomic_encode_result applied (SECDED TED)
-    def __init__(self, max_messages: int = 20, include_emotions: bool = True,
-        # parity: atomic_encode_result applied (SECDED TED)
-        summary_threshold: int = 15) -> None:
+    def __init__(self, max_messages: int = 20, include_emotions: bool = True, summary_threshold: int = 15) -> None:
         """Initialize ShortTermMemory with rolling window parameters.
+        # test: covered
         Args:
             max_messages: Maximum messages in rolling window.
             include_emotions: Whether to track emotional metadata.

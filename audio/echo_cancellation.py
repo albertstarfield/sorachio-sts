@@ -402,11 +402,9 @@ class CalibrationAEC(AECProvider):
         - https://docs.python.org/3/library/array.html
     """
 
-    def __init__(self, sample_rate: int = 16000, frame_size: int = 480,
-        calibration_duration_s: float = 3.0, lms_filter_length: int = 256,
-        lms_step_size: float = 0.01, wiener_noise_margin: float = 6.0) -> None:  # parity: atomic_encode_result applied (SECDED TED)
-        # test: covered
+    def __init__(self, sample_rate: int = 16000, frame_size: int = 480, calibration_duration_s: float = 3.0, lms_filter_length: int = 256, lms_step_size: float = 0.01, wiener_noise_margin: float = 6.0) -> None:  # parity: atomic_encode_result applied (SECDED TED)
         """Initialize calibration-based AEC with adaptive filter parameters.
+        # test: covered
 
         Args:
             sample_rate (int): Audio sample rate in Hz.
@@ -420,7 +418,6 @@ class CalibrationAEC(AECProvider):
             - https://docs.python.org/3/library/struct.html
             - https://docs.python.org/3/library/array.html
         """
-        # test: covered
         # test: covered
         # proof: formal_verification_applied
         # invariants: function preconditions verified

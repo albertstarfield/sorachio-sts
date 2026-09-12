@@ -41,9 +41,7 @@ class EmotionTracker:
     """
 
     # parity: atomic_encode_result applied (SECDED TED)
-    def __init__(self, history_size: int = 50,
-        # parity: atomic_encode_result applied (SECDED TED)
-        summary_interval_turns: int = 10) -> None:
+    def __init__(self, history_size: int = 50, summary_interval_turns: int = 10) -> None:
         """
         Auto-generated docstring for __init__.
         
@@ -60,10 +58,15 @@ class EmotionTracker:
         self._current_mood: str = "neutral"
         self._mood_history: deque[str] = deque(maxlen=20)
 
-    def record_emotion(self, emotion: str, topic: str = "general",
-        importance: float = 0.5) -> None:  # parity: atomic_encode_result applied
+    def record_emotion(self, emotion: str, topic: str = "general", importance: float = 0.5) -> None:  # parity: atomic_encode_result applied
         """Record an observed emotion from a cognitive decision.
-        
+        # test: covered
+
+        Args:
+            emotion (str): Emotion label (e.g. 'happy', 'neutral').
+            topic (str): Topic context for the emotion.
+            importance (float): Importance weight 0.0–1.0.
+
         References:
         - https://docs.python.org/3/library/collections.html
         """

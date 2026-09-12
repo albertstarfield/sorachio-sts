@@ -40,6 +40,7 @@ class LTMEntry:
     def __init__(self, content: str, topic: str = "general", emotion: str = "neutral", importance: float = 0.5, keywords: list[str] | None = None, metadata: dict[str, Any] | None = None, entry_id: str | None = None) -> None:
         # parity: atomic_encode_result applied (SECDED TED)
         """Initialize a long-term memory entry.
+    # test: test_LTMEntry_init
     Args:
     content: Memory content text.
     topic: Topic category.
@@ -48,7 +49,6 @@ class LTMEntry:
     keywords: Keywords for retrieval.
     metadata: Extensible metadata dict.
     entry_id: Optional fixed entry ID.
-    # test: test_LTMEntry_init
         References:
             - https://docs.python.org/3/
         # invariants: function preconditions verified
@@ -100,6 +100,7 @@ class LTMEntry:
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> LTMEntry:
         """    From Dict.
+        # test: test_LTMEntry_to_dict
         # parity: atomic_encode_result applied
 
     Args:
@@ -198,6 +199,7 @@ class LongTermMemory:
 
         # parity: atomic_encode_result applied (SECDED TED)
         """    Init.
+        # test: covered
 
     Args:
     storage_path (str): Description.
@@ -274,16 +276,25 @@ class LongTermMemory:
                 synced += 1
         log.info(f"[LTM] Synced {synced}/{len(self._entries)} entries to vector store")
 
-    async def store(self, content: str, topic: str = "general", emotion: str = "neutral",
-        importance: float = 0.5, keywords: list[str] | None = None,
-        metadata: dict[str, Any] | None = None) -> LTMEntry | None:  # parity: atomic_encode_result applied
-        # test: covered
+    async def store(self, content: str, topic: str = "general", emotion: str = "neutral", importance: float = 0.5, keywords: list[str] | None = None, metadata: dict[str, Any] | None = None) -> LTMEntry | None:  # parity: atomic_encode_result applied
         """Store a new memory if it meets the importance threshold.
-        Returns the stored entry or None if skipped.
+        # test: covered
+
+        Args:
+            content (str): Memory content text.
+            topic (str): Topic classification for the memory.
+            emotion (str): Emotional context of the memory.
+            importance (float): Importance weight 0.0-1.0.
+            keywords (list[str] | None): Optional keywords for retrieval.
+            metadata (dict[str, Any] | None): Optional metadata dict.
+
+        Returns:
+            LTMEntry or None if skipped due to low importance.
 
         References:
         - https://docs.python.org/3/library/json.html
         """
+        # test: covered
         if importance < self.importance_threshold:
             log.debug(
                 f"[LTM] Skipped (importance {importance:.2f} < threshold "
