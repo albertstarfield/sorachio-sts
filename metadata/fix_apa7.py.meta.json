@@ -1,0 +1,9 @@
+{
+  "source_file": "fix_apa7.py",
+  "source_hash": "aa54a1270b7e01b3735bf30dd52dcd7036cdd52a02961544e16cc22ab64b0069",
+  "rs_checksum": "60fd3ebcebbd28e6a8d95674a60247fdb3178f09bb9b79f24dcc0d7eb0f65144",
+  "gc_checksum": "f770c0a5f1ccb8510465c3dc9fa8a3885d0bcd959cea71e3031ede6ef9d8932c",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 1
+}

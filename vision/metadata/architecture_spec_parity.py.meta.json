@@ -1,0 +1,9 @@
+{
+  "source_file": "architecture_spec_parity.py",
+  "source_hash": "d9b0525135c8024216ab1af45edff0b72979e81feb2907ffa10bfee23f72fccc",
+  "rs_checksum": "48c9fb3553ad23ea3d2f07cf9fd8c5e4f5e8babafdd486878b25b7f548783ce9",
+  "gc_checksum": "741fc99404c576367dcc952425ff656b36522843ecd7f8d3e97c0bcd1ba3ea47",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 15
+}
