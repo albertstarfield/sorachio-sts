@@ -11,7 +11,11 @@ log = logging.getLogger(__name__)
 
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
-    """Generate split parity for a source file with RS and GC parity blocks."""
+    """Generate split parity for a source file with RS and GC parity blocks.
+
+    References:
+        - https://docs.python.org/3/library/hashlib.html
+        """
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     try:
@@ -58,7 +62,11 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
-    """Store split parity files (.par2-one, .par2-two, .meta.json) in metadata/."""
+    """Store split parity files (.par2-one, .par2-two, .meta.json) in metadata/.
+
+    References:
+        - https://docs.python.org/3/library/json.html
+        """
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     try:
@@ -87,7 +95,11 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
 
 
 def verify_parity(source_path: str) -> bool:
-    """Verify split parity integrity by checking parity files and checksums."""
+    """Verify split parity integrity by checking parity files and checksums.
+
+    References:
+        - https://docs.python.org/3/library/hashlib.html
+        """
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     try:
