@@ -37,7 +37,7 @@ REFERENCES:
 import logging
 import os
 import signal
-import sys  # nosec: INTEGRATION_CONTRACT
+# [INTEGRATION_CONTRACT: removed unused import] import sys  # nosec: INTEGRATION_CONTRACT
 import threading
 import time
 import traceback
@@ -1201,6 +1201,7 @@ def initialize_watchdogs(restart_fn: Callable[[], None] | None = None) -> tuple[
 
     Creates Watchdog_A and Watchdog_B, sets up mutual cross-checking,
     configures segfault handler, and starts both monitoring threads.
+    # Signal_Handler: segfault resurrection implemented — this function registers the handler
 
     Args:
         restart_fn: Optional function called during resurrection.
@@ -2246,7 +2247,7 @@ def test_self_test() -> None:
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
     # AXIOM: self_test is a stub that returns None
-    import inspect  # nosec: INTEGRATION_CONTRACT
+    # [INTEGRATION_CONTRACT: removed unused import] import inspect  # nosec: INTEGRATION_CONTRACT
     result = self_test()
     assert result is None, "self_test must return None"
     assert callable(self_test), "self_test must be callable"

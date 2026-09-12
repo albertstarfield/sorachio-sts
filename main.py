@@ -23,37 +23,21 @@ if __name__ == "__main__":
     mbg.run()
 
     from cli.main import app
+    app()
 
 # [Parity: SECDED TED internal parity protection import]
 try:
     from utils.atomic_parity import atomic_encode_result
 except ImportError:
-    def atomic_encode_result(x) -> None: # type -> None: ignore[misc]
-
-        # test: covered
+    def atomic_encode_result(x): # type: ignore[misc]
         """Fallback passthrough when atomic_parity is unavailable.
 
-        Args:
-            x: The value to pass through unchanged.
-
-        Returns:
-            The input value unchanged (identity function).
-    References:
-    - https://docs.python.org/3/
-    References:
-    - https://docs.python.org/3/
+        References:
+            - https://docs.python.org/3/library/struct.html
         """
-        # test: covered
         # parity: atomic_encode_result applied (SECDED TED)
         # test: covered
-        # proof: formal_verification_applied
-        # invariants: function preconditions verified
-        # test: covered
-        # test: covered
-        # test: covered
-        return x  # test: covered
-
-    app()
+        return x
 
 
 def test_atomic_encode_result() -> None:
@@ -340,7 +324,8 @@ def verify_parity(source_path: str) -> bool:
             return False
 
         # Verify source hash
-        source_data = open(source_path, "rb").read()
+        # [Fix: EXCEPTION_MISSING] Use Path.read_bytes() to avoid unclosed file handle
+        source_data = Path(source_path).read_bytes()
         if hashlib.sha256(source_data).hexdigest() != meta.get("source_hash"):
             return False
 

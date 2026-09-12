@@ -192,4 +192,42 @@ package ucore_Architecture_Spec is
       -- Test package for parity_framebuffer
    end Test_parity_framebuffer;
 
+-- === Split Parity Protection (code-quality.md §14.10) ===
+   procedure Generate_Parity (Source_Path : String; Block_Size : Integer);
+   -- Generate_Parity: Generate split parity for a source file
+   -- Pre => Source_Path'Length > 0,
+   -- Post => True,
+   procedure Store_Parity (Source_Path : String; Parity_Data : String);
+   -- Store_Parity: Store parity data for a source file
+   -- Pre => Source_Path'Length > 0,
+   -- Post => True,
+   function Verify_Parity (Source_Path : String) return Boolean;
+   -- Verify_Parity: Verify parity for a source file
+   -- Pre => Source_Path'Length > 0,
+   -- Post => True,
+   procedure Restore_Parity (Source_Path : String);
+   -- Restore_Parity: Restore parity for a source file
+   -- Pre => Source_Path'Length > 0,
+   -- Post => True,
+   function Regenerate_Parity (Source_Path : String) return Boolean;
+   -- Regenerate_Parity: Regenerate parity for a source file
+   -- Pre => Source_Path'Length > 0,
+   -- Post => True,
+
+   package Test_Generate_Parity is
+      -- Test package for Generate_Parity
+   end Test_Generate_Parity;
+   package Test_Store_Parity is
+      -- Test package for Store_Parity
+   end Test_Store_Parity;
+   package Test_Verify_Parity is
+      -- Test package for Verify_Parity
+   end Test_Verify_Parity;
+   package Test_Restore_Parity is
+      -- Test package for Restore_Parity
+   end Test_Restore_Parity;
+   package Test_Regenerate_Parity is
+      -- Test package for Regenerate_Parity
+   end Test_Regenerate_Parity;
+
 end ucore_Architecture_Spec;

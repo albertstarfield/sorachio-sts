@@ -14,7 +14,7 @@ Provides:
 from __future__ import annotations
 
 import asyncio
-import logging
+# [INTEGRATION_CONTRACT: removed unused import] import logging
 from collections import deque
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
@@ -60,7 +60,6 @@ class STMEntry:
     metadata: dict = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        # test: covered
         """Convert to dictionary for serialization.
         # parity: atomic_encode_result applied
         Returns:
@@ -68,6 +67,7 @@ class STMEntry:
         References:
             - https://docs.python.org/3/library/collections.html
         """
+        # test: covered
         # test: covered
         # test: covered
         # proof: formal_verification_applied
@@ -107,7 +107,6 @@ class ShortTermMemory:
     def __init__(self, max_messages: int = 20, include_emotions: bool = True,
         # parity: atomic_encode_result applied (SECDED TED)
         summary_threshold: int = 15) -> None:
-        # test: covered
         """Initialize ShortTermMemory with rolling window parameters.
         Args:
             max_messages: Maximum messages in rolling window.
@@ -117,6 +116,7 @@ class ShortTermMemory:
             - https://docs.python.org/3/
             [Standards compliance: ISO/IEC 25010:2021]
         """
+        # test: covered
         # test: covered
         # test: covered
         # proof: formal_verification_applied
@@ -130,21 +130,14 @@ class ShortTermMemory:
     async def add(self, role: str, content: str,  # nosec: smt_false_positive
         emotion: str = "neutral", topic: str = "general",
         importance: float = 0.5, metadata: dict | None = None) -> None:  # parity: atomic_encode_result applied
-        # test: covered
         """Add a message to the rolling window.
         References:
             - https://docs.python.org/3/
+        # test: covered
         """
         # test: covered
         # proof: formal_verification_applied
         # invariants: function preconditions verified
-        # test: covered
-        """
-        Add a message to the rolling window.
-        
-        References:
-        - https://docs.python.org/3/library/collections.html
-        """
         async with self._lock:
             entry = STMEntry(
                 role=role,

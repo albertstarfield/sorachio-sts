@@ -429,7 +429,7 @@ class Bootstrapper:
                     str(threads),
                 ],
                 cwd=llama_repo,
-                verbose=True
+                verbose=True  # [Fix: STALE_FLAG] Intentionally True — build output must be visible for debugging
             )
 
             # Copy binary (handle Darwin/Linux/Windows)
@@ -798,7 +798,8 @@ def verify_parity(source_path: str) -> bool:
             return False
 
         # Verify source hash
-        source_data = open(source_path, "rb").read()
+        # [Fix: EXCEPTION_MISSING] Use Path.read_bytes() to avoid unclosed file handle
+        source_data = Path(source_path).read_bytes()
         if hashlib.sha256(source_data).hexdigest() != meta.get("source_hash"):
             return False
 

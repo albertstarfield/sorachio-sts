@@ -272,7 +272,8 @@ def verify_parity(source_path: str) -> bool:
             return False
 
         # Verify source hash
-        source_data = open(source_path, "rb").read()
+        # [Fix: EXCEPTION_MISSING] Use Path.read_bytes() to avoid unclosed file handle
+        source_data = Path(source_path).read_bytes()
         if hashlib.sha256(source_data).hexdigest() != meta.get("source_hash"):
             return False
 

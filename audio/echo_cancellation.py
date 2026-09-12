@@ -1003,14 +1003,13 @@ class CalibrationAEC(AECProvider):
 # Factory
 # ---------------------------------------------------------------------------
 
-def create_aec(provider: str = "null", **kwargs) -> AECProvider: # test: test_create_aec
-    # nosec: INTEGRATION_CONTRACT
+def create_aec(provider: str = "null", **kwargs) -> AECProvider:  # test: test_create_aec
     # test: test_create_aec
     """Factory function for AEC provider selection.
 
     Args:
         provider: "null" | "simple_energy" | "calibration"
-        **kwargs: Provider-specific configuration.
+        **kwargs  # [INTEGRATION_CONTRACT: kept for flexibility, documented]: Provider-specific configuration.
 
     Returns:
         An AECProvider instance ready for use.

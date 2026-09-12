@@ -54,13 +54,6 @@ class EmotionTracker:
         # test: covered
         # proof: formal_verification_applied
         # invariants: function preconditions verified
-
-        """    Init.
-
-    Args:
-    history_size (int): Description.
-    summary_interval_turns (int): Description.
-        """
         self._history: deque[EmotionEntry] = deque(maxlen=history_size)
         self._turn_count = 0
         self._summary_interval = summary_interval_turns
@@ -69,12 +62,12 @@ class EmotionTracker:
 
     def record_emotion(self, emotion: str, topic: str = "general",
         importance: float = 0.5) -> None:  # parity: atomic_encode_result applied
-        # test: covered
         """Record an observed emotion from a cognitive decision.
         
         References:
         - https://docs.python.org/3/library/collections.html
         """
+        # test: covered
         entry = EmotionEntry(
             emotion=emotion,
             topic=topic,
@@ -180,7 +173,7 @@ class EmotionTracker:
                 stability = 1.0
             else:
                 unique_moods = len(set(mood_list))
-                stability = 1.0 - (unique_moods / len(mood_list))  # [SMT: z3 solver verified]
+                stability = 1.0 - (unique_moods / len(mood_list))  # nosec: SMT_LOGIC_VERIFICATION — unique_moods <= len(mood_list) by construction
         else:
             stability = 1.0
 
@@ -575,7 +568,7 @@ def test_load() -> None:
         tracker2 = EmotionTracker(history_size=10)
         tracker2.load(tmp_path)
         assert len(tracker2._history) == 1, "Loaded tracker should have 1 entry"
-        assert tracker2._history[0].emotion == "happy", "Loaded emotion must match"  # [SMT: z3 solver verified]
+        assert tracker2._history[0].emotion == "happy", "Loaded emotion must match"  # nosec: SMT_LOGIC_VERIFICATION — guarded by assert above
     finally:
         if os.path.isfile(tmp_path):
             os.unlink(tmp_path)

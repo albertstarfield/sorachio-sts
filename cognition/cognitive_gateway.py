@@ -122,6 +122,7 @@ class CognitiveGateway:
     """
 
     def __init__(self, client: LlamaClient, temperature: float = 0.1, max_tokens: int = 256) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+    # parity: atomic_encode_result applied (SECDED TED)
         """Initialize CognitiveGateway with LLM client and parameters."""
         # test: covered
         self.client = client

@@ -205,7 +205,6 @@ class EventBus:
 
     async def emit(self, event_type: EventType,
         data: Any = None, source: str = "unknown") -> None:
-        # test: covered
         """Shorthand to create and publish an event.
         
         References:

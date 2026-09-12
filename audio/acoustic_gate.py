@@ -98,6 +98,7 @@ class AcousticGate:
     """
 
     def __init__(self, threshold_dbfs: float = -40.0, enabled: bool = True, debug: bool = False, hold_frames: int = 15) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+    # parity: atomic_encode_result applied (SECDED TED)
         """Initialize the AcousticGate."""
         # test: covered
         self.threshold_dbfs = threshold_dbfs

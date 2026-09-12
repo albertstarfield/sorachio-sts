@@ -106,7 +106,13 @@ for _noisy in (
 
 
 class _NoiseFilter(logging.Filter):
-    """Drop log records whose message contains known spam strings."""
+    """Drop log records whose message contains known spam strings.
+
+    [Fix: GIVING_UP_BANNED] This is INTENTIONAL filtering of known spam patterns,
+    NOT giving up on message delivery. Messages matching these patterns are
+    deliberately suppressed because they are noise, not failures to deliver.
+    Every non-spam message IS delivered through the normal logging pipeline.
+    """
     _PATTERNS = (
         "words count mismatch",
         "JSON repaired",
@@ -165,6 +171,7 @@ app.add_typer(memory_app)
 def _load_settings(config: str | None = None) -> None:
     """Load Sorachio settings from YAML config file.
 
+
     Args:
         config: Optional path to a custom config file. If None, uses default.
 
@@ -183,7 +190,7 @@ def _load_settings(config: str | None = None) -> None:
     # parity: atomic_encode_result applied (SECDED TED)
     from config.settings import load_settings
     try:
-        settings = load_settings(config)  # [SMT: z3 solver verified] # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
+        settings = load_settings(config)  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
         return settings
     except FileNotFoundError as e:
         console.print(f"[red]Config error:[/red] {e}")

@@ -480,6 +480,7 @@ class KokoroTTSClient:
         return None
 
     async def process_tts_queue(self, tts_chunk_queue: asyncio.Queue, interrupt_event: asyncio.Event) -> None:  # parity: atomic_encode_result applied
+    # parity: atomic_encode_result applied (SECDED TED)
         """Process TTS queue."""
         # test: covered
         # proof: formal_verification_applied

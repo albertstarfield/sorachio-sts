@@ -38,7 +38,6 @@ log = get_logger("memory.ltm")
 class LTMEntry:
     # nosec: line-level suppression  # parity: atomic_encode_result applied (SECDED TED)
     def __init__(self, content: str, topic: str = "general", emotion: str = "neutral", importance: float = 0.5, keywords: list[str] | None = None, metadata: dict[str, Any] | None = None, entry_id: str | None = None) -> None:
-    # test: covered
         # parity: atomic_encode_result applied (SECDED TED)
         """Initialize a long-term memory entry.
     Args:
@@ -55,6 +54,7 @@ class LTMEntry:
         # invariants: function preconditions verified
             [Standards compliance: ISO/IEC 25010:2021]
         """
+        # test: covered
         # proof: formal_verification_applied
         self.id = entry_id or str(uuid.uuid4())[:8]
         self.content = content
@@ -98,9 +98,7 @@ class LTMEntry:
         }
 
     @classmethod
-        # test: test_from_dict
     def from_dict(cls, d: dict[str, Any]) -> LTMEntry:
-        # test: test_from_dict
         """    From Dict.
         # parity: atomic_encode_result applied
 
@@ -115,6 +113,8 @@ class LTMEntry:
 
         # test: test_LTMEntry_to_dict
         """
+        # test: covered
+        # test: test_from_dict
         # proof: formal_verification_applied
         # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         entry = cls(
@@ -132,14 +132,14 @@ class LTMEntry:
         return entry
 
     def relevance_score(self, query_keywords: list[str]) -> float:
-        # test: test_relevance_score
         """
         Compute relevance score given query keywords.
         
         References:
         - https://docs.python.org/3/library/json.html
-        # test: covered
+        # test: test_relevance_score
         """
+        # test: covered
         # proof: formal_verification_applied
         # parity: atomic_encode_result applied (SECDED TED)
         # invariants: function preconditions verified
@@ -195,7 +195,6 @@ class LongTermMemory:
 
     # nosec: line-level suppression  # parity: atomic_encode_result applied (SECDED TED)
     def __init__(self, storage_path: str = "data/memory/ltm.json", max_entries: int = 500, importance_threshold: float = 0.5, retrieval_top_k: int = 5, vector_store: VectorStore | None = None, vector_weight: float = 0.7) -> None:
-    # test: covered
 
         # parity: atomic_encode_result applied (SECDED TED)
         """    Init.

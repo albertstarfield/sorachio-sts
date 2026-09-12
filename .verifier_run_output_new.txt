@@ -1,0 +1,1714 @@
+  Scanning 72 file(s) in ....
+  Verifying [|░░░░░░░░░░░░░░░░░░░░|] 1% — 1/72 files — ETA: 0s  [K  Verifying [|░░░░░░░░░░░░░░░░░░░░|] 2% — 2/72 files — ETA: 9s  [K  Verifying [|░░░░░░░░░░░░░░░░░░░░|] 4% — 3/72 files — ETA: 26s  [K  Verifying [|█░░░░░░░░░░░░░░░░░░░|] 5% — 4/72 files — ETA: 22s  [K  Verifying [|█░░░░░░░░░░░░░░░░░░░|] 6% — 5/72 files — ETA: 18s  [K  Verifying [|█░░░░░░░░░░░░░░░░░░░|] 8% — 6/72 files — ETA: 16s  [K  Verifying [|█░░░░░░░░░░░░░░░░░░░|] 9% — 7/72 files — ETA: 30s  [K  Verifying [|██░░░░░░░░░░░░░░░░░░|] 11% — 8/72 files — ETA: 26s  [K  Verifying [|██░░░░░░░░░░░░░░░░░░|] 12% — 9/72 files — ETA: 23s  [K  Verifying [|██░░░░░░░░░░░░░░░░░░|] 13% — 10/72 files — ETA: 23s  [K  Verifying [|███░░░░░░░░░░░░░░░░░|] 15% — 11/72 files — ETA: 21s  [K  Verifying [|███░░░░░░░░░░░░░░░░░|] 16% — 12/72 files — ETA: 19s  [K  Verifying [|███░░░░░░░░░░░░░░░░░|] 18% — 13/72 files — ETA: 18s  [K  Verifying [|███░░░░░░░░░░░░░░░░░|] 19% — 14/72 files — ETA: 16s  [K  Verifying [|████░░░░░░░░░░░░░░░░|] 20% — 15/72 files — ETA: 15s  [K  Verifying [|████░░░░░░░░░░░░░░░░|] 22% — 16/72 files — ETA: 14s  [K  Verifying [|████░░░░░░░░░░░░░░░░|] 23% — 17/72 files — ETA: 14s  [K  Verifying [|█████░░░░░░░░░░░░░░░|] 25% — 18/72 files — ETA: 13s  [K  Verifying [|█████░░░░░░░░░░░░░░░|] 26% — 19/72 files — ETA: 13s  [K  Verifying [|█████░░░░░░░░░░░░░░░|] 27% — 20/72 files — ETA: 12s  [K  Verifying [|█████░░░░░░░░░░░░░░░|] 29% — 21/72 files — ETA: 12s  [K  Verifying [|██████░░░░░░░░░░░░░░|] 30% — 22/72 files — ETA: 11s  [K  Verifying [|██████░░░░░░░░░░░░░░|] 31% — 23/72 files — ETA: 10s  [K  Verifying [|██████░░░░░░░░░░░░░░|] 33% — 24/72 files — ETA: 10s  [K  Verifying [|██████░░░░░░░░░░░░░░|] 34% — 25/72 files — ETA: 10s  [K  Verifying [|███████░░░░░░░░░░░░░|] 36% — 26/72 files — ETA: 9s  [K  Verifying [|███████░░░░░░░░░░░░░|] 37% — 27/72 files — ETA: 9s  [K  Verifying [|███████░░░░░░░░░░░░░|] 38% — 28/72 files — ETA: 8s  [K  Verifying [|████████░░░░░░░░░░░░|] 40% — 29/72 files — ETA: 8s  [K  Verifying [|████████░░░░░░░░░░░░|] 41% — 30/72 files — ETA: 8s  [K  Verifying [|████████░░░░░░░░░░░░|] 43% — 31/72 files — ETA: 7s  [K  Verifying [|████████░░░░░░░░░░░░|] 44% — 32/72 files — ETA: 7s  [K  Verifying [|█████████░░░░░░░░░░░|] 45% — 33/72 files — ETA: 7s  [K  Verifying [|█████████░░░░░░░░░░░|] 47% — 34/72 files — ETA: 6s  [K  Verifying [|█████████░░░░░░░░░░░|] 48% — 35/72 files — ETA: 6s  [K  Verifying [|██████████░░░░░░░░░░|] 50% — 36/72 files — ETA: 6s  [K  Verifying [|██████████░░░░░░░░░░|] 51% — 37/72 files — ETA: 6s  [K  Verifying [|██████████░░░░░░░░░░|] 52% — 38/72 files — ETA: 5s  [K  Verifying [|██████████░░░░░░░░░░|] 54% — 39/72 files — ETA: 5s  [K  Verifying [|███████████░░░░░░░░░|] 55% — 40/72 files — ETA: 5s  [K  Verifying [|███████████░░░░░░░░░|] 56% — 41/72 files — ETA: 5s  [K  Verifying [|███████████░░░░░░░░░|] 58% — 42/72 files — ETA: 4s  [K  Verifying [|███████████░░░░░░░░░|] 59% — 43/72 files — ETA: 4s  [K  Verifying [|████████████░░░░░░░░|] 61% — 44/72 files — ETA: 4s  [K  Verifying [|████████████░░░░░░░░|] 62% — 45/72 files — ETA: 4s  [K  Verifying [|████████████░░░░░░░░|] 63% — 46/72 files — ETA: 4s  [K  Verifying [|█████████████░░░░░░░|] 65% — 47/72 files — ETA: 3s  [K  Verifying [|█████████████░░░░░░░|] 66% — 48/72 files — ETA: 3s  [K  Verifying [|█████████████░░░░░░░|] 68% — 49/72 files — ETA: 3s  [K  Verifying [|█████████████░░░░░░░|] 69% — 50/72 files — ETA: 3s  [K  Verifying [|██████████████░░░░░░|] 70% — 51/72 files — ETA: 3s  [K  Verifying [|██████████████░░░░░░|] 72% — 52/72 files — ETA: 2s  [K  Verifying [|██████████████░░░░░░|] 73% — 53/72 files — ETA: 2s  [K  Verifying [|███████████████░░░░░|] 75% — 54/72 files — ETA: 2s  [K  Verifying [|███████████████░░░░░|] 76% — 55/72 files — ETA: 2s  [K  Verifying [|███████████████░░░░░|] 77% — 56/72 files — ETA: 2s  [K  Verifying [|███████████████░░░░░|] 79% — 57/72 files — ETA: 2s  [K  Verifying [|████████████████░░░░|] 80% — 58/72 files — ETA: 2s  [K  Verifying [|████████████████░░░░|] 81% — 59/72 files — ETA: 2s  [K  Verifying [|████████████████░░░░|] 83% — 60/72 files — ETA: 1s  [K  Verifying [|████████████████░░░░|] 84% — 61/72 files — ETA: 1s  [K  Verifying [|█████████████████░░░|] 86% — 62/72 files — ETA: 1s  [K  Verifying [|█████████████████░░░|] 87% — 63/72 files — ETA: 1s  [K  Verifying [|█████████████████░░░|] 88% — 64/72 files — ETA: 1s  [K  Verifying [|██████████████████░░|] 90% — 65/72 files — ETA: 1s  [K  Verifying [|██████████████████░░|] 91% — 66/72 files — ETA: 0s  [K  Verifying [|██████████████████░░|] 93% — 67/72 files — ETA: 0s  [K  Verifying [|██████████████████░░|] 94% — 68/72 files — ETA: 0s  [K  Verifying [|███████████████████░|] 95% — 69/72 files — ETA: 0s  [K  Verifying [|███████████████████░|] 97% — 70/72 files — ETA: 0s  [K  Verifying [|███████████████████░|] 98% — 71/72 files — ETA: 0s  [K  Verifying [|████████████████████|] 100% — 72/72 files — ETA: 0s  [K
+
+[1m──────────────────────────────────────────────────────────────────────[0m
+[1m  Package Manager Availability Check[0m
+[1m──────────────────────────────────────────────────────────────────────[0m
+  [92m[OK] pip (Python package manager)[0m
+  [92m[OK] brew (macOS package manager)[0m
+  [92m[OK] opam (OCaml package manager (for alt-ergo))[0m
+  [92m[OK] alr (Alire Ada package manager)[0m
+
+  [92m[1m✅ All required package managers available[0m
+
+[1m──────────────────────────────────────────────────────────────────────[0m
+[1m  Dependency Enforcement Check[0m
+[1m──────────────────────────────────────────────────────────────────────[0m
+
+[1m  [1/4] Python Dependencies[0m
+
+[1m  [2/4] Ada/SPARK Dependencies[0m
+  [93m[INSTALL] Checking gnatprove via alr toolchain...[0m
+  [93m[INSTALL] Getting gnatprove via alr toolchain...[0m
+  [93m[INSTALL] Checking gnatcov via alr toolchain...[0m
+  [93m[INSTALL] Getting gnatcov via alr toolchain...[0m
+
+[1m  [3/4] SMT Solvers (for gnatprove)[0m
+
+[1m  [4/5] sabotage_verifier.py[0m
+  [92m[OK] sabotage_verifier.py found at src/utils/sabotage_verifier.py[0m
+
+[1m  [5/5] run.py Pipeline Enforcement[0m
+  [92m[OK] run.py contains Build step: alr build[0m
+  [92m[OK] run.py contains Formal verification step: gnatprove[0m
+  [92m[OK] run.py contains Coverage step: gnatcov[0m
+  [92m[OK] run.py contains Sabotage audit step: sabotage_verifier.py[0m
+  [92m[OK] Pipeline order: gnatcov BEFORE sabotage_verifier.py[0m
+
+[1m──────────────────────────────────────────────────────────────────────[0m
+  [92m[1m✅ ALL DEPENDENCIES SATISFIED — PROCEEDING WITH AUDIT[0m
+[1m──────────────────────────────────────────────────────────────────────[0m
+
+
+[1m══════════════════════════════════════════════════════════════════════[0m
+[1m  PARITY DETECTION & VERIFICATION (ALWAYS ENFORCED)[0m
+[1m══════════════════════════════════════════════════════════════════════[0m
+  Files scanned:     77171
+  Files OK:          77161
+  Parity generated:  3
+  Parity stale:      1
+  Files recovered:   0
+  Recovery failed:   6
+    [92m.verifier_run_output_new.txt: generated_new_parity[0m
+    [93m.repos/llama.cpp/tools/ui/node_modules/highlight.js: error: [Errno 21] Is a directory: '.repos/llama.cpp/tools/ui/node_modules/highlight.js'[0m
+    [93m.repos/llama.cpp/tools/ui/node_modules/ipaddr.js: error: [Errno 21] Is a directory: '.repos/llama.cpp/tools/ui/node_modules/ipaddr.js'[0m
+    [93m.repos/llama.cpp/tools/ui/src/lib/vendors/decimal.js: error: [Errno 21] Is a directory: '.repos/llama.cpp/tools/ui/src/lib/vendors/decimal.js'[0m
+    [93m.repos/llama.cpp/tools/ui/node_modules/@upsetjs/venn.js: error: [Errno 21] Is a directory: '.repos/llama.cpp/tools/ui/node_modules/@upsetjs/venn.js'[0m
+    [92maudio/.verifier_cache/audit_9c54e58a1f6df0e0.json: generated_new_parity[0m
+    [93m.opencode/goals/3f72c753fe840892b2c61072e213968f.json: stale_parity_updated[0m
+    [92mmemory/.verifier_cache/audit_4db0e48c575e5d79.json: generated_new_parity[0m
+    [93m.repos/llama.cpp: error: [Errno 21] Is a directory: '.repos/llama.cpp'[0m
+    [93m.repos/whisper.cpp: error: [Errno 21] Is a directory: '.repos/whisper.cpp'[0m
+
+=======================================================================================================
+ SABOTAGE AUDIT: .
+=======================================================================================================
+ CRITICAL: 68  HIGH: 38  MEDIUM: 207  LOW: 15
+=======================================================================================================
+
+-------------------------------------------------------------------------------------------------------
+Analysis Results                     Total Proved Unproved                                 Provers   Files
+-------------------------------------------------------------------------------------------------------
+  APA7_DOCUMENTATION                  1143  1108 (96%)       35                       (apa7-check 100%)      58
+  DIVISION_BY_ZERO                    1322  1304 (98%)       18(alt-ergo 24%, cvc5 25%, why3 24%, z3 25%)      59
+  ELECTRIC_SEIZURE_RECOVERY           1172  1172 (100%)        0   (esr-engine 50%, parity-recovery 50%)      59
+  FFI_LIBRARY_VERIFICATION            1172  1172 (100%)        0(import-checker 50%, symbol-resolver 50%)      59
+  INDEX_OUT_OF_BOUNDS                 1445  1409 (97%)       36(alt-ergo 25%, cvc5 25%, why3 24%, z3 25%)      59
+  LOOP_INVARIANT                       351   351 (100%)        0                              (ast 100%)      58
+  METAMORPHIC_FUZZING                 1172  1172 (100%)        0(ast-mutator 50%, metamorphic-fuzzer 50%)      59
+  NODE_MODULES_INTEGRITY                 4     4 (100%)        0(alt-ergo 25%, cvc5 25%, why3 25%, z3 25%)       4
+  NONE_DEREFERENCE                    1202  1173 (97%)       29(alt-ergo 24%, cvc5 25%, why3 24%, z3 25%)      59
+  OPAM_ENV_INTEGRITY                     1     1 (100%)        0(alt-ergo 25%, cvc5 25%, why3 25%, z3 25%)       1
+  PRE_POST_CONTRACT                   1172  1172 (100%)        0                              (ast 100%)      59
+  SECDED_TED_BITFLIP_RESILIENCE       1172  1172 (100%)        0(fault-injector 50%, secded-ted-engine 50%)      59
+  TYPE_CONTRADICTION                  1352  1352 (100%)        0(alt-ergo 25%, cvc5 25%, why3 25%, z3 25%)      59
+  VIRTUAL_ENV_INTEGRITY                  3     0 ( 0%)        3(alt-ergo 25%, cvc5 25%, why3 25%, z3 25%)       3
+-------------------------------------------------------------------------------------------------------
+  Total                              12683 12562 (99%)      121(alt-ergo 15%, apa7-check 3%, ast 4%, ast-mutator 3%, cvc5 16%, esr-engine 3%, fault-injector 3%, import-checker 3%, metamorphic-fuzzer 3%, parity-recovery 3%, secded-ted-engine 3%, symbol-resolver 3%, why3 15%, z3 16%)        
+-------------------------------------------------------------------------------------------------------
+
+  Code Checked:
+    APA7_DOCUMENTATION                 1143 checks in audio/__init__.py, audio/acoustic_gate.py, audio/architecture_spec_parity.py (+55 more)
+    DIVISION_BY_ZERO                   1322 checks in audio/__init__.py, audio/acoustic_gate.py, audio/architecture_spec_parity.py (+56 more)
+    ELECTRIC_SEIZURE_RECOVERY          1172 checks in audio/__init__.py, audio/acoustic_gate.py, audio/architecture_spec_parity.py (+56 more)
+    FFI_LIBRARY_VERIFICATION           1172 checks in audio/__init__.py, audio/acoustic_gate.py, audio/architecture_spec_parity.py (+56 more)
+    INDEX_OUT_OF_BOUNDS                1445 checks in audio/__init__.py, audio/acoustic_gate.py, audio/architecture_spec_parity.py (+56 more)
+    LOOP_INVARIANT                      351 checks in audio/__init__.py, audio/acoustic_gate.py, audio/architecture_spec_parity.py (+55 more)
+    METAMORPHIC_FUZZING                1172 checks in audio/__init__.py, audio/acoustic_gate.py, audio/architecture_spec_parity.py (+56 more)
+    NODE_MODULES_INTEGRITY                4 checks in /Users/albertstarfield/Documents/misc/AdaptiveSystem/sorachio-sts/.opencode/package.json, /Users/albertstarfield/Documents/misc/AdaptiveSystem/sorachio-sts/.repos/llama.cpp/tools/ui/package.json, /Users/albertstarfield/Documents/misc/AdaptiveSystem/sorachio-sts/.repos/llama.cpp/tools/ui/src/lib/vendors/package.json (+1 more)
+    NONE_DEREFERENCE                   1202 checks in audio/__init__.py, audio/acoustic_gate.py, audio/architecture_spec_parity.py (+56 more)
+    OPAM_ENV_INTEGRITY                    1 checks in /Users/albertstarfield/Documents/misc/AdaptiveSystem/venv/om
+    PRE_POST_CONTRACT                  1172 checks in audio/__init__.py, audio/acoustic_gate.py, audio/architecture_spec_parity.py (+56 more)
+    SECDED_TED_BITFLIP_RESILIENCE      1172 checks in audio/__init__.py, audio/acoustic_gate.py, audio/architecture_spec_parity.py (+56 more)
+    TYPE_CONTRADICTION                 1352 checks in audio/__init__.py, audio/acoustic_gate.py, audio/architecture_spec_parity.py (+56 more)
+    VIRTUAL_ENV_INTEGRITY                 3 checks in /Users/albertstarfield/Documents/misc/AdaptiveSystem/vendor/tts_kokoro_component/venv, /Users/albertstarfield/Documents/misc/AdaptiveSystem/venv/om, /Users/albertstarfield/Documents/misc/AdaptiveSystem/venv/python
+
+-------------------------------------------------------------------------------------------------------
+  Static Pattern Analysis Summary
+-------------------------------------------------------------------------------------------------------
+  Category                            Severity      Violations  Files Affected           Gate Status
+-------------------------------------------------------------------------------------------------------
+  ADA_FUNCTION_COVERAGE               HIGH                   0               0          CLEAN [PASS]
+  ADA_NOT_DOMINANT                    CRITICAL               0               0          CLEAN [PASS]
+  ADA_TYPE_SAFETY                     HIGH                   0               0          CLEAN [PASS]
+  APA7_DOCUMENTATION                  CRITICAL               0               0          CLEAN [PASS]
+  APA7_NO_REFERENCES                  CRITICAL               4               3   GATE BLOCKED [FAIL]
+  APA7_URL_BROKEN                     CRITICAL              31               6   GATE BLOCKED [FAIL]
+  ASSERTION_SCANNER                   MEDIUM                 0               0          CLEAN [PASS]
+  BEHAVIORAL_CHANGE                   HIGH                   0               0          CLEAN [PASS]
+  COPY_PASTE_DIVERGENCE               CRITICAL               0               0          CLEAN [PASS]
+  COQ_TRANSLATION                     MEDIUM                 0               0          CLEAN [PASS]
+  COUNTEREXAMPLE                      LOW                    0               0          CLEAN [PASS]
+  C_BUFFER_OVERFLOW                   HIGH                   0               0          CLEAN [PASS]
+  C_FORMAT_STRING                     MEDIUM                 0               0          CLEAN [PASS]
+  C_MAINTAINABILITY                   LOW                    0               0          CLEAN [PASS]
+  C_MEMORY_LEAK                       MEDIUM                 0               0          CLEAN [PASS]
+  C_NULL_DEREFERENCE                  HIGH                   0               0          CLEAN [PASS]
+  C_TYPE_SAFETY                       MEDIUM                 0               0          CLEAN [PASS]
+  DEAD_CODE                           MEDIUM                 0               0          CLEAN [PASS]
+  EMPTY_TEST_STUB                     CRITICAL               5               1   GATE BLOCKED [FAIL]
+  ENVIRONMENT_INTEGRITY               CRITICAL               0               0          CLEAN [PASS]
+  EXCEPTION_MISSING                   MEDIUM                11              11   GATE BLOCKED [FAIL]
+  FLOW_CONTROL                        HIGH                   0               0          CLEAN [PASS]
+  FUNCTION_INTERNAL_PARITY            HIGH                   0               0          CLEAN [PASS]
+  FUNCTION_NO_DOCUMENTATION           MEDIUM                22              20   GATE BLOCKED [FAIL]
+  FUNCTION_STABILITY                  HIGH                   0               0          CLEAN [PASS]
+  GIVING_UP_BANNED                    HIGH                   1               1   GATE BLOCKED [FAIL]
+  GNAT_NO_ALR_PREFIX                  MEDIUM                 1               1   GATE BLOCKED [FAIL]
+  GPU_VENDOR_LOCKIN                   CRITICAL               0               0          CLEAN [PASS]
+  HARDCODED_USER_PATH                 CRITICAL               0               0          CLEAN [PASS]
+  INTEGRATION_CONTRACT                HIGH                   9               6   GATE BLOCKED [FAIL]
+  JS_TS_SABOTAGE                      CRITICAL               0               0          CLEAN [PASS]
+  MEMORY_SAFETY                       CRITICAL               0               0          CLEAN [PASS]
+  METAMORPHIC_FUZZING                 HIGH                   0               0          CLEAN [PASS]
+  NOSEC_SUPPRESSION_CHEAT             CRITICAL               0               0          CLEAN [PASS]
+  OBJC_SABOTAGE                       HIGH                   0               0          CLEAN [PASS]
+  PLATFORM_HARDCODING                 LOW                    9               4               WARNING
+  PROOF_MISSING                       MEDIUM                 0               0          CLEAN [PASS]
+  PYTHON_FUNCTION_COVERAGE            MEDIUM                31              13   GATE BLOCKED [FAIL]
+  RACE_CONDITION                      CRITICAL               0               0          CLEAN [PASS]
+  REDUNDANT_LOGIC                     MEDIUM                 0               0          CLEAN [PASS]
+  REGRESSION_REVERSION                HIGH                   0               0          CLEAN [PASS]
+  RESOURCE_LEAK                       MEDIUM                 0               0          CLEAN [PASS]
+  SEGFAULT_REFERENCE                  HIGH                   1               1   GATE BLOCKED [FAIL]
+  SELF_TEST_COVERAGE                  MEDIUM               140              28   GATE BLOCKED [FAIL]
+  SELF_VERIFICATION                   LOW                    0               0          CLEAN [PASS]
+  SILENT_DEGRADATION                  HIGH                   0               0          CLEAN [PASS]
+  SILENT_FAILURE                      CRITICAL               0               0          CLEAN [PASS]
+  SMT_LOGIC_VERIFICATION              CRITICAL              14               5   GATE BLOCKED [FAIL]
+  SMT_SOLVER_MISSING                  CRITICAL               0               0          CLEAN [PASS]
+  SOFTLOCK_RISK                       HIGH                   0               0          CLEAN [PASS]
+  SPARK_GPR_COVERAGE                  CRITICAL               0               0          CLEAN [PASS]
+  SPARK_MODE_OFF                      HIGH                   0               0          CLEAN [PASS]
+  SPLIT_PARITY_CODE_INCOMPLETE        CRITICAL              14              14   GATE BLOCKED [FAIL]
+  SPLIT_PARITY_ENFORCEMENT            CRITICAL               0               0          CLEAN [PASS]
+  SPLIT_PARITY_NO_METADATA_REF        HIGH                   1               1   GATE BLOCKED [FAIL]
+  SPLIT_PARITY_STALE                  HIGH                  31              31   GATE BLOCKED [FAIL]
+  STALE_FLAG                          HIGH                   0               0          CLEAN [PASS]
+  STALE_LINE_REFERENCE                MEDIUM                 0               0          CLEAN [PASS]
+  THIRD_PARTY_EXCLUSION               CRITICAL               0               0          CLEAN [PASS]
+  THREAD_SAFETY                       MEDIUM                 0               0          CLEAN [PASS]
+  TYPESCRIPT_FUNCTION_COVERAGE        HIGH                   0               0          CLEAN [PASS]
+  UNCHECKED_PREREQUISITE              HIGH                   0               0          CLEAN [PASS]
+  UNPROTECTED_PACKAGE_EXECUTION_FRAUD CRITICAL               0               0          CLEAN [PASS]
+  VIRTUAL_ENV_PREFIX_FALLACY          CRITICAL               0               0          CLEAN [PASS]
+  VIRTUAL_ENV_UNBUILT                 LOW                    3               3               WARNING
+-------------------------------------------------------------------------------------------------------
+  Total Static Violations: 328 (Critical: 68, High: 38, Medium: 207, Low: 15) — Status: 328 VIOLATION(S) DETECTED
+-------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------
+  Metamorphic Fuzzing & FFI / SECDED-TED Bit-Flip Resilience Verification
+-------------------------------------------------------------------------------------------------------
+  Verification Property / Engine              Functions Tested   Proved AccuracyUnverified / Hallucinated
+-------------------------------------------------------------------------------------------------------
+  FFI / Library Symbol Existence                          1172         1172 (100%)                      0
+  1-2 Bit Flip Auto-Correction (SECDED)                   1172         1172 (100%)                      0
+  3 Bit Flip Detection & Safe Fallback (TED)              1172         1172 (100%)                      0
+  10 Bit Flip Recovery (Electric Seizure)                 1172         1172 (100%)                      0
+  Metamorphic Invariance Fuzzing (MR1-MR3)                1172         1172 (100%)                      0
+  APA7 Documentation & Verified URLs                      1143         1108 (96%)                     35
+    Link Cache (disk-persistent)                           113          108 cached                      5
+-------------------------------------------------------------------------------------------------------
+
+=======================================================================================================
+ MAL SCORE: MAL-F — Failed
+ 68 CRITICAL violation(s) — federal crime against software engineering
+=======================================================================================================
+
+  --- audio/architecture_spec.ads ---
+  [CRITICAL] L   1: SPLIT_PARITY_CODE_INCOMPLETE
+           Source code missing parity functions: generate parity function, store parity function, verify parity function, restore parity function, regenerate parity function. Found: none
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- cli/architecture_spec.ads ---
+  [CRITICAL] L   1: SPLIT_PARITY_CODE_INCOMPLETE
+           Source code missing parity functions: generate parity function, store parity function, verify parity function, restore parity function, regenerate parity function. Found: none
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- cli/main.py ---
+  [CRITICAL] L 171: SMT_LOGIC_VERIFICATION [z3+cvc5]
+           z3+cvc5+alt-ergo: Parameter 'config' typed str | None used without None check in '_load_settings'.  Solvers confirmed: z3, cvc5.
+           Standard: SMT-LIB 2.6, z3+cvc5+alt-ergo, CWE-682
+           ┌─── COUNTEREXAMPLE (formal proof of breakage) ───
+           │ [Counterexample] None dereference: 'config' can be None when used in _load_settings(): SAT proven but model extraction failed (model is not available)
+           │ [Counterexample-cvc5] None dereference: 'config' can be None:
+           │   config = 0
+           └─── END COUNTEREXAMPLE ───
+
+  [CRITICAL] L 283: SMT_LOGIC_VERIFICATION [z3+cvc5]
+           z3+cvc5+alt-ergo: Parameter 'config' typed str | None used without None check in 'run'.  Solvers confirmed: z3, cvc5.
+           Standard: SMT-LIB 2.6, z3+cvc5+alt-ergo, CWE-682
+           ┌─── COUNTEREXAMPLE (formal proof of breakage) ───
+           │ [Counterexample] None dereference: 'config' can be None when used in run(): SAT proven but model extraction failed (model is not available)
+           │ [Counterexample-cvc5] None dereference: 'config' can be None:
+           │   config = 0
+           └─── END COUNTEREXAMPLE ───
+
+  [CRITICAL] L 328: SMT_LOGIC_VERIFICATION [z3+cvc5]
+           z3+cvc5+alt-ergo: Parameter 'config' typed str | None used without None check in 'text'.  Solvers confirmed: z3, cvc5.
+           Standard: SMT-LIB 2.6, z3+cvc5+alt-ergo, CWE-682
+           ┌─── COUNTEREXAMPLE (formal proof of breakage) ───
+           │ [Counterexample] None dereference: 'config' can be None when used in text(): SAT proven but model extraction failed (model is not available)
+           │ [Counterexample-cvc5] None dereference: 'config' can be None:
+           │   config = 0
+           └─── END COUNTEREXAMPLE ───
+
+  [CRITICAL] L 328: SMT_LOGIC_VERIFICATION [z3+cvc5]
+           z3+cvc5+alt-ergo: Parameter 'message' typed str | None used without None check in 'text'.  Solvers confirmed: z3, cvc5.
+           Standard: SMT-LIB 2.6, z3+cvc5+alt-ergo, CWE-682
+           ┌─── COUNTEREXAMPLE (formal proof of breakage) ───
+           │ [Counterexample] None dereference: 'message' can be None when used in text(): SAT proven but model extraction failed (model is not available)
+           │ [Counterexample-cvc5] None dereference: 'message' can be None:
+           │   message = 0
+           └─── END COUNTEREXAMPLE ───
+
+  [CRITICAL] L1044: SMT_LOGIC_VERIFICATION [z3+cvc5]
+           z3+cvc5+alt-ergo: Parameter 'config' typed str | None used without None check in 'test_stt'.  Solvers confirmed: z3, cvc5.
+           Standard: SMT-LIB 2.6, z3+cvc5+alt-ergo, CWE-682
+           ┌─── COUNTEREXAMPLE (formal proof of breakage) ───
+           │ [Counterexample] None dereference: 'config' can be None when used in test_stt(): SAT proven but model extraction failed (model is not available)
+           │ [Counterexample-cvc5] None dereference: 'config' can be None:
+           │   config = 0
+           └─── END COUNTEREXAMPLE ───
+
+  [CRITICAL] L1044: SMT_LOGIC_VERIFICATION [z3+cvc5]
+           z3+cvc5+alt-ergo: Parameter 'audio_file' typed str | None used without None check in 'test_stt'.  Solvers confirmed: z3, cvc5.
+           Standard: SMT-LIB 2.6, z3+cvc5+alt-ergo, CWE-682
+           ┌─── COUNTEREXAMPLE (formal proof of breakage) ───
+           │ [Counterexample] None dereference: 'audio_file' can be None when used in test_stt(): SAT proven but model extraction failed (model is not available)
+           │ [Counterexample-cvc5] None dereference: 'audio_file' can be None:
+           │   audio_file = 0
+           └─── END COUNTEREXAMPLE ───
+
+  [CRITICAL] L1213: SMT_LOGIC_VERIFICATION [z3+cvc5]
+           z3+cvc5+alt-ergo: Parameter 'config' typed str | None used without None check in 'test_cognitive'.  Solvers confirmed: z3, cvc5.
+           Standard: SMT-LIB 2.6, z3+cvc5+alt-ergo, CWE-682
+           ┌─── COUNTEREXAMPLE (formal proof of breakage) ───
+           │ [Counterexample] None dereference: 'config' can be None when used in test_cognitive(): SAT proven but model extraction failed (model is not available)
+           │ [Counterexample-cvc5] None dereference: 'config' can be None:
+           │   config = 0
+           └─── END COUNTEREXAMPLE ───
+
+  [CRITICAL] L1475: SMT_LOGIC_VERIFICATION [z3+cvc5]
+           z3+cvc5+alt-ergo: Parameter 'config' typed str | None used without None check in 'memory_clear'.  Solvers confirmed: z3, cvc5.
+           Standard: SMT-LIB 2.6, z3+cvc5+alt-ergo, CWE-682
+           ┌─── COUNTEREXAMPLE (formal proof of breakage) ───
+           │ [Counterexample] None dereference: 'config' can be None when used in memory_clear(): SAT proven but model extraction failed (model is not available)
+           │ [Counterexample-cvc5] None dereference: 'config' can be None:
+           │   config = 0
+           └─── END COUNTEREXAMPLE ───
+
+  --- cognition/__init__.py ---
+  [CRITICAL] L 376: APA7_URL_BROKEN
+           Function 'test_generate_parity' reference URL not accessible: https://docs.python.org/3/library/tempfile.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 401: APA7_URL_BROKEN
+           Function 'test_store_parity' reference URL not accessible: https://docs.python.org/3/library/tempfile.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 428: APA7_URL_BROKEN
+           Function 'test_verify_parity' reference URL not accessible: https://docs.python.org/3/library/tempfile.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 453: APA7_URL_BROKEN
+           Function 'test_restore_parity' reference URL not accessible: https://docs.python.org/3/library/tempfile.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 478: APA7_URL_BROKEN
+           Function 'test_regenerate_parity' reference URL not accessible: https://docs.python.org/3/library/tempfile.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  --- cognition/architecture_spec.ads ---
+  [CRITICAL] L   1: SPLIT_PARITY_CODE_INCOMPLETE
+           Source code missing parity functions: generate parity function, store parity function, verify parity function, restore parity function, regenerate parity function. Found: none
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- config/architecture_spec.ads ---
+  [CRITICAL] L   1: SPLIT_PARITY_CODE_INCOMPLETE
+           Source code missing parity functions: generate parity function, store parity function, verify parity function, restore parity function, regenerate parity function. Found: none
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- context/__init__.py ---
+  [CRITICAL] L 376: APA7_URL_BROKEN
+           Function 'test_generate_parity' reference URL not accessible: https://docs.python.org/3/library/tempfile.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 401: APA7_URL_BROKEN
+           Function 'test_store_parity' reference URL not accessible: https://docs.python.org/3/library/tempfile.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 428: APA7_URL_BROKEN
+           Function 'test_verify_parity' reference URL not accessible: https://docs.python.org/3/library/tempfile.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 453: APA7_URL_BROKEN
+           Function 'test_restore_parity' reference URL not accessible: https://docs.python.org/3/library/tempfile.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 478: APA7_URL_BROKEN
+           Function 'test_regenerate_parity' reference URL not accessible: https://docs.python.org/3/library/tempfile.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  --- context/architecture_spec.ads ---
+  [CRITICAL] L   1: SPLIT_PARITY_CODE_INCOMPLETE
+           Source code missing parity functions: generate parity function, store parity function, verify parity function, restore parity function, regenerate parity function. Found: none
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- context/context_manager.py ---
+  [CRITICAL] L  54: SMT_LOGIC_VERIFICATION [z3+cvc5]
+           z3+cvc5+alt-ergo: Parameter 'emotion_tracker' typed EmotionTracker | None used without None check in '__init__'.  Solvers confirmed: z3, cvc5.
+           Standard: SMT-LIB 2.6, z3+cvc5+alt-ergo, CWE-682
+           ┌─── COUNTEREXAMPLE (formal proof of breakage) ───
+           │ [Counterexample] None dereference: 'emotion_tracker' can be None when used in __init__(): SAT proven but model extraction failed (model is not available)
+           │ [Counterexample-cvc5] None dereference: 'emotion_tracker' can be None:
+           │   emotion_tracker = 0
+           └─── END COUNTEREXAMPLE ───
+
+  [CRITICAL] L 708: APA7_URL_BROKEN
+           Function 'test_generate_parity' reference URL not accessible: https://docs.python.org/3/library/tempfile.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 733: APA7_URL_BROKEN
+           Function 'test_store_parity' reference URL not accessible: https://docs.python.org/3/library/tempfile.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 760: APA7_URL_BROKEN
+           Function 'test_verify_parity' reference URL not accessible: https://docs.python.org/3/library/tempfile.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 785: APA7_URL_BROKEN
+           Function 'test_restore_parity' reference URL not accessible: https://docs.python.org/3/library/tempfile.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 810: APA7_URL_BROKEN
+           Function 'test_regenerate_parity' reference URL not accessible: https://docs.python.org/3/library/tempfile.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  --- core/architecture_spec.ads ---
+  [CRITICAL] L   1: SPLIT_PARITY_CODE_INCOMPLETE
+           Source code missing parity functions: generate parity function, store parity function, verify parity function, restore parity function, regenerate parity function. Found: none
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- core/watchdog.py ---
+  [CRITICAL] L1138: APA7_NO_REFERENCES
+           Function 'Resurrect' has no APA7 References: section.
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L1226: APA7_NO_REFERENCES
+           Function 'atomic_encode_result' has no APA7 References: section.
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  --- find_violations.py ---
+  [CRITICAL] L  28: SMT_LOGIC_VERIFICATION [z3+cvc5]
+           z3+cvc5+alt-ergo: 'block_size - 1' can overflow in 'generate_parity'.  Solvers confirmed: z3, cvc5.
+           Standard: SMT-LIB 2.6, z3+cvc5+alt-ergo, CWE-682
+           ┌─── COUNTEREXAMPLE (formal proof of breakage) ───
+           │ [Counterexample] Integer overflow: 'block_size - 1' can overflow in generate_parity(): SAT proven but model extraction failed (model is not available)
+           │ [Counterexample-cvc5] Integer overflow: 'block_size - 1' can overflow:
+           │   block_size = 0
+           │   1 = 0
+           └─── END COUNTEREXAMPLE ───
+
+  [CRITICAL] L  32: SMT_LOGIC_VERIFICATION [z3+cvc5]
+           z3+cvc5+alt-ergo: 'start + block_size' can overflow in 'generate_parity'.  Solvers confirmed: z3, cvc5.
+           Standard: SMT-LIB 2.6, z3+cvc5+alt-ergo, CWE-682
+           ┌─── COUNTEREXAMPLE (formal proof of breakage) ───
+           │ [Counterexample] Integer overflow: 'start + block_size' can overflow in generate_parity(): SAT proven but model extraction failed (model is not available)
+           │ [Counterexample-cvc5] Integer overflow: 'start + block_size' can overflow:
+           │   start = 0
+           │   block_size = 0
+           └─── END COUNTEREXAMPLE ───
+
+  --- fix_apa7.py ---
+  [CRITICAL] L  28: SMT_LOGIC_VERIFICATION [z3+cvc5]
+           z3+cvc5+alt-ergo: 'block_size - 1' can overflow in 'generate_parity'.  Solvers confirmed: z3, cvc5.
+           Standard: SMT-LIB 2.6, z3+cvc5+alt-ergo, CWE-682
+           ┌─── COUNTEREXAMPLE (formal proof of breakage) ───
+           │ [Counterexample] Integer overflow: 'block_size - 1' can overflow in generate_parity(): SAT proven but model extraction failed (model is not available)
+           │ [Counterexample-cvc5] Integer overflow: 'block_size - 1' can overflow:
+           │   block_size = 0
+           │   1 = 0
+           └─── END COUNTEREXAMPLE ───
+
+  [CRITICAL] L  32: SMT_LOGIC_VERIFICATION [z3+cvc5]
+           z3+cvc5+alt-ergo: 'start + block_size' can overflow in 'generate_parity'.  Solvers confirmed: z3, cvc5.
+           Standard: SMT-LIB 2.6, z3+cvc5+alt-ergo, CWE-682
+           ┌─── COUNTEREXAMPLE (formal proof of breakage) ───
+           │ [Counterexample] Integer overflow: 'start + block_size' can overflow in generate_parity(): SAT proven but model extraction failed (model is not available)
+           │ [Counterexample-cvc5] Integer overflow: 'start + block_size' can overflow:
+           │   start = 0
+           │   block_size = 0
+           └─── END COUNTEREXAMPLE ───
+
+  --- llm/architecture_spec.ads ---
+  [CRITICAL] L   1: SPLIT_PARITY_CODE_INCOMPLETE
+           Source code missing parity functions: generate parity function, store parity function, verify parity function, restore parity function, regenerate parity function. Found: none
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- main.py ---
+  [CRITICAL] L  32: APA7_NO_REFERENCES
+           Function 'atomic_encode_result' has no APA7 References: section.
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  --- memory/architecture_spec.ads ---
+  [CRITICAL] L   1: SPLIT_PARITY_CODE_INCOMPLETE
+           Source code missing parity functions: generate parity function, store parity function, verify parity function, restore parity function, regenerate parity function. Found: none
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- memory/emotion_tracker.py ---
+  [CRITICAL] L 578: SMT_LOGIC_VERIFICATION [z3+cvc5+alt-ergo]
+           z3+cvc5+alt-ergo: Index '0' in '_history[0]' has no bounds check in 'test_load'.  Solvers confirmed: z3, cvc5, alt-ergo.
+           Standard: SMT-LIB 2.6, z3+cvc5+alt-ergo, CWE-682
+           ┌─── COUNTEREXAMPLE (formal proof of breakage) ───
+           │ [Counterexample-cvc5] Index out of bounds: '0' can exceed array length:
+           │   0 = 0
+           │ [Counterexample-alt-ergo] Index out of bounds: '0' can exceed array length: Invalid (no detailed model in output)
+           └─── END COUNTEREXAMPLE ───
+
+  --- personality/architecture_spec.ads ---
+  [CRITICAL] L   1: SPLIT_PARITY_CODE_INCOMPLETE
+           Source code missing parity functions: generate parity function, store parity function, verify parity function, restore parity function, regenerate parity function. Found: none
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- run.py ---
+  [CRITICAL] L 215: APA7_NO_REFERENCES
+           Function 'test_atomic_encode_result' has no APA7 References: section.
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  --- services/architecture_spec.ads ---
+  [CRITICAL] L   1: SPLIT_PARITY_CODE_INCOMPLETE
+           Source code missing parity functions: generate parity function, store parity function, verify parity function, restore parity function, regenerate parity function. Found: none
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- services/server_manager.py ---
+  [CRITICAL] L   1: SPLIT_PARITY_CODE_INCOMPLETE
+           Source code missing parity functions: generate parity function, store parity function, verify parity function, restore parity function, regenerate parity function. Found: none
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- stt/architecture_spec.ads ---
+  [CRITICAL] L   1: SPLIT_PARITY_CODE_INCOMPLETE
+           Source code missing parity functions: generate parity function, store parity function, verify parity function, restore parity function, regenerate parity function. Found: none
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- stt/whisper_client.py ---
+  [CRITICAL] L 825: APA7_URL_BROKEN
+           Function 'test_last_detected_language' reference URL not accessible: https://docs.python.org/3/library/inspect.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 845: APA7_URL_BROKEN
+           Function 'test_initialize' reference URL not accessible: https://docs.python.org/3/library/inspect.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 860: APA7_URL_BROKEN
+           Function 'test_transcribe' reference URL not accessible: https://docs.python.org/3/library/inspect.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 877: APA7_URL_BROKEN
+           Function 'test_transcribe_streaming' reference URL not accessible: https://docs.python.org/3/library/inspect.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 892: APA7_URL_BROKEN
+           Function 'test_atomic_encode_result' reference URL not accessible: https://docs.python.org/3/library/inspect.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  --- tests/test_sabotage_coverage.py ---
+  [CRITICAL] L2155: EMPTY_TEST_STUB
+           Test function 'test_generate_parity()' has empty body (only 'pass'). Empty tests provide zero coverage and create false confidence. Add assertions or remove the stub.
+           Standard: CWE-489, OWASP Testing Guide §5.1
+
+  [CRITICAL] L2166: EMPTY_TEST_STUB
+           Test function 'test_store_parity()' has empty body (only 'pass'). Empty tests provide zero coverage and create false confidence. Add assertions or remove the stub.
+           Standard: CWE-489, OWASP Testing Guide §5.1
+
+  [CRITICAL] L2177: EMPTY_TEST_STUB
+           Test function 'test_verify_parity()' has empty body (only 'pass'). Empty tests provide zero coverage and create false confidence. Add assertions or remove the stub.
+           Standard: CWE-489, OWASP Testing Guide §5.1
+
+  [CRITICAL] L2188: EMPTY_TEST_STUB
+           Test function 'test_restore_parity()' has empty body (only 'pass'). Empty tests provide zero coverage and create false confidence. Add assertions or remove the stub.
+           Standard: CWE-489, OWASP Testing Guide §5.1
+
+  [CRITICAL] L2199: EMPTY_TEST_STUB
+           Test function 'test_regenerate_parity()' has empty body (only 'pass'). Empty tests provide zero coverage and create false confidence. Add assertions or remove the stub.
+           Standard: CWE-489, OWASP Testing Guide §5.1
+
+  --- tts/architecture_spec.ads ---
+  [CRITICAL] L   1: SPLIT_PARITY_CODE_INCOMPLETE
+           Source code missing parity functions: generate parity function, store parity function, verify parity function, restore parity function, regenerate parity function. Found: none
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- tts/kokoro_client.py ---
+  [CRITICAL] L 565: APA7_URL_BROKEN
+           Function 'test_initialize' reference URL not accessible: https://docs.python.org/3/library/inspect.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 580: APA7_URL_BROKEN
+           Function 'test_set_language' reference URL not accessible: https://docs.python.org/3/library/inspect.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 596: APA7_URL_BROKEN
+           Function 'test_synthesize_chunk' reference URL not accessible: https://docs.python.org/3/library/inspect.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 613: APA7_URL_BROKEN
+           Function 'test_process_tts_queue' reference URL not accessible: https://docs.python.org/3/library/inspect.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 628: APA7_URL_BROKEN
+           Function 'test_speak' reference URL not accessible: https://docs.python.org/3/library/inspect.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  --- tts/piper_client.py ---
+  [CRITICAL] L 687: APA7_URL_BROKEN
+           Function 'test_initialize' reference URL not accessible: https://docs.python.org/3/library/inspect.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 703: APA7_URL_BROKEN
+           Function 'test_set_language' reference URL not accessible: https://docs.python.org/3/library/inspect.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 720: APA7_URL_BROKEN
+           Function 'test_synthesize_chunk' reference URL not accessible: https://docs.python.org/3/library/inspect.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 737: APA7_URL_BROKEN
+           Function 'test_process_tts_queue' reference URL not accessible: https://docs.python.org/3/library/inspect.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 752: APA7_URL_BROKEN
+           Function 'test_speak' reference URL not accessible: https://docs.python.org/3/library/inspect.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  [CRITICAL] L 769: APA7_URL_BROKEN
+           Function 'test_atomic_encode_result' reference URL not accessible: https://docs.python.org/3/library/inspect.html — Connection failed: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+           Standard: APA 7th Edition Publication Manual (2020)
+
+  --- vision/architecture_spec.ads ---
+  [CRITICAL] L   1: SPLIT_PARITY_CODE_INCOMPLETE
+           Source code missing parity functions: generate parity function, store parity function, verify parity function, restore parity function, regenerate parity function. Found: none
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- ./cli/main.py ---
+  [HIGH] L 109: GIVING_UP_BANNED
+           Giving up detected — every message MUST eventually be delivered or explicitly undeliverable
+           Standard: code-quality.md 9.1
+
+  --- ./core/watchdog.py ---
+  [HIGH] L1203: SEGFAULT_REFERENCE
+           Critical memory violation reference found outside handler
+           Standard: code-quality.md 5.9
+
+  --- audio/acoustic_gate.py ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- audio/architecture_spec.ads ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- audio/capture.py ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- audio/echo_cancellation.py ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- bootstrapper.py ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- cli/architecture_spec.ads ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- cli/main.py ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- cognition/architecture_spec.ads ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- cognition/cognitive_gateway.py ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- config/architecture_spec.ads ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- context/architecture_spec.ads ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- core/architecture_spec.ads ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- core/watchdog.py ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- find_violations.py ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  [HIGH] L  23: INTEGRATION_CONTRACT
+           '_zlib' imported but never used — possible broken implementation possibility of hidden fraud.
+           Standard: MISRA C:2012 Rule 2.5
+
+  --- fix_apa7.py ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  [HIGH] L  23: INTEGRATION_CONTRACT
+           '_zlib' imported but never used — possible broken implementation possibility of hidden fraud.
+           Standard: MISRA C:2012 Rule 2.5
+
+  --- llm/architecture_spec.ads ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- llm/llama_client.py ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- main.py ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- memory/architecture_spec.ads ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- memory/emotion_tracker.py ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- memory/short_term.py ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- personality/architecture_spec.ads ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- services/architecture_spec.ads ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- services/server_manager.py ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  [HIGH] L   1: SPLIT_PARITY_NO_METADATA_REF
+           Source code does not reference metadata/ folder or par2-one/par2-two files
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  [HIGH] L  19: INTEGRATION_CONTRACT
+           'os' imported but never used — possible broken implementation possibility of hidden fraud.
+           Standard: MISRA C:2012 Rule 2.5
+
+  [HIGH] L  20: INTEGRATION_CONTRACT
+           'signal' imported but never used — possible broken implementation possibility of hidden fraud.
+           Standard: MISRA C:2012 Rule 2.5
+
+  --- stt/architecture_spec.ads ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- stt/whisper_client.py ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- tests/__init__.py ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- tests/test_sabotage_coverage.py ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- tts/architecture_spec.ads ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- tts/kokoro_client.py ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- vision/architecture_spec.ads ---
+  [HIGH] L   1: SPLIT_PARITY_STALE
+           Source file changed since parity was generated — regenerate parity
+           Standard: Reed-Solomon(255,223), GF(2^8) Galois Chunk
+
+  --- ./run.py ---
+  [MEDIUM] L   7: GNAT_NO_ALR_PREFIX
+           GNAT tool called without `alr exec --` prefix
+           Standard: code-quality.md 11.3
+
+  --- audio/architecture_spec.ads ---
+  [MEDIUM] L 102: FUNCTION_NO_DOCUMENTATION
+           Ada procedure 'Audit_SHM' has no comment.
+           Standard: Ada RM 2.1, ISO/IEC 8652:2012
+
+  [MEDIUM] L 196: SELF_TEST_COVERAGE
+           Ada procedure/function 'Generate_Parity' has no corresponding test package (expected Test_Generate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 200: SELF_TEST_COVERAGE
+           Ada procedure/function 'Store_Parity' has no corresponding test package (expected Test_Store_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 204: SELF_TEST_COVERAGE
+           Ada procedure/function 'Verify_Parity' has no corresponding test package (expected Test_Verify_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 208: SELF_TEST_COVERAGE
+           Ada procedure/function 'Restore_Parity' has no corresponding test package (expected Test_Restore_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 212: SELF_TEST_COVERAGE
+           Ada procedure/function 'Regenerate_Parity' has no corresponding test package (expected Test_Regenerate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- audio/architecture_spec_parity.py ---
+  [MEDIUM] L  13: SELF_TEST_COVERAGE
+           Function 'generate_parity()' has no corresponding test function (expected test_generate_parity() or test referencing 'generate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L  68: SELF_TEST_COVERAGE
+           Function 'store_parity()' has no corresponding test function (expected test_store_parity() or test referencing 'store_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 105: SELF_TEST_COVERAGE
+           Function 'verify_parity()' has no corresponding test function (expected test_verify_parity() or test referencing 'verify_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 150: SELF_TEST_COVERAGE
+           Function 'restore_parity()' has no corresponding test function (expected test_restore_parity() or test referencing 'restore_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 178: SELF_TEST_COVERAGE
+           Function 'regenerate_parity()' has no corresponding test function (expected test_regenerate_parity() or test referencing 'regenerate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- audio/capture.py ---
+  [MEDIUM] L 110: INTEGRATION_CONTRACT
+           Function '__init__' has 16 parameters — consider if all are necessary. Large parameter lists indicate tight coupling or signature bloat.
+           Standard: CWE-697: Incorrect Comparison
+
+  --- audio/echo_cancellation.py ---
+  [MEDIUM] L 405: FUNCTION_NO_DOCUMENTATION
+           Python function '__init__' has no docstring or comment.
+           Standard: PEP 257, ISO/IEC 26514:2022
+
+  [MEDIUM] L 405: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: '__init__' lacks docstring (PEP 257, ECSS-Q-ST-80C §6.2)
+           Standard: PEP 257, ECSS-Q-ST-80C §6.2, ISO/IEC 25010
+
+  --- bootstrapper.py ---
+  [MEDIUM] L 801: EXCEPTION_MISSING
+           open() without try/except — will crash on file not found, permission denied, or I/O error. Wrap in try/except.
+           Standard: CERT ERR33-C, CWE-703: Improper Check or Handling of Exceptional Conditions
+
+  --- cli/__init__.py ---
+  [MEDIUM] L 275: EXCEPTION_MISSING
+           open() without try/except — will crash on file not found, permission denied, or I/O error. Wrap in try/except.
+           Standard: CERT ERR33-C, CWE-703: Improper Check or Handling of Exceptional Conditions
+
+  --- cli/architecture_spec.ads ---
+  [MEDIUM] L 102: FUNCTION_NO_DOCUMENTATION
+           Ada procedure 'Audit_SHM' has no comment.
+           Standard: Ada RM 2.1, ISO/IEC 8652:2012
+
+  [MEDIUM] L 196: SELF_TEST_COVERAGE
+           Ada procedure/function 'Generate_Parity' has no corresponding test package (expected Test_Generate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 200: SELF_TEST_COVERAGE
+           Ada procedure/function 'Store_Parity' has no corresponding test package (expected Test_Store_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 204: SELF_TEST_COVERAGE
+           Ada procedure/function 'Verify_Parity' has no corresponding test package (expected Test_Verify_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 208: SELF_TEST_COVERAGE
+           Ada procedure/function 'Restore_Parity' has no corresponding test package (expected Test_Restore_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 212: SELF_TEST_COVERAGE
+           Ada procedure/function 'Regenerate_Parity' has no corresponding test package (expected Test_Regenerate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- cli/architecture_spec_parity.py ---
+  [MEDIUM] L  13: SELF_TEST_COVERAGE
+           Function 'generate_parity()' has no corresponding test function (expected test_generate_parity() or test referencing 'generate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L  68: SELF_TEST_COVERAGE
+           Function 'store_parity()' has no corresponding test function (expected test_store_parity() or test referencing 'store_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 105: SELF_TEST_COVERAGE
+           Function 'verify_parity()' has no corresponding test function (expected test_verify_parity() or test referencing 'verify_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 150: SELF_TEST_COVERAGE
+           Function 'restore_parity()' has no corresponding test function (expected test_restore_parity() or test referencing 'restore_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 178: SELF_TEST_COVERAGE
+           Function 'regenerate_parity()' has no corresponding test function (expected test_regenerate_parity() or test referencing 'regenerate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- cli/main.py ---
+  [MEDIUM] L1044: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'test_stt' lacks test reference — add '# test:' marker in docstring or test_ref annotation
+           Standard: ISO/IEC 25010, ECSS-Q-ST-80C
+
+  [MEDIUM] L1135: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'test_tts' lacks docstring (PEP 257, ECSS-Q-ST-80C §6.2)
+           Standard: PEP 257, ECSS-Q-ST-80C §6.2, ISO/IEC 25010
+
+  [MEDIUM] L1213: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'test_cognitive' lacks test reference — add '# test:' marker in docstring or test_ref annotation
+           Standard: ISO/IEC 25010, ECSS-Q-ST-80C
+
+  --- cognition/architecture_spec.ads ---
+  [MEDIUM] L 102: FUNCTION_NO_DOCUMENTATION
+           Ada procedure 'Audit_SHM' has no comment.
+           Standard: Ada RM 2.1, ISO/IEC 8652:2012
+
+  [MEDIUM] L 196: SELF_TEST_COVERAGE
+           Ada procedure/function 'Generate_Parity' has no corresponding test package (expected Test_Generate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 200: SELF_TEST_COVERAGE
+           Ada procedure/function 'Store_Parity' has no corresponding test package (expected Test_Store_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 204: SELF_TEST_COVERAGE
+           Ada procedure/function 'Verify_Parity' has no corresponding test package (expected Test_Verify_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 208: SELF_TEST_COVERAGE
+           Ada procedure/function 'Restore_Parity' has no corresponding test package (expected Test_Restore_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 212: SELF_TEST_COVERAGE
+           Ada procedure/function 'Regenerate_Parity' has no corresponding test package (expected Test_Regenerate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- cognition/architecture_spec_parity.py ---
+  [MEDIUM] L  13: SELF_TEST_COVERAGE
+           Function 'generate_parity()' has no corresponding test function (expected test_generate_parity() or test referencing 'generate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L  68: SELF_TEST_COVERAGE
+           Function 'store_parity()' has no corresponding test function (expected test_store_parity() or test referencing 'store_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 105: SELF_TEST_COVERAGE
+           Function 'verify_parity()' has no corresponding test function (expected test_verify_parity() or test referencing 'verify_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 150: SELF_TEST_COVERAGE
+           Function 'restore_parity()' has no corresponding test function (expected test_restore_parity() or test referencing 'restore_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 178: SELF_TEST_COVERAGE
+           Function 'regenerate_parity()' has no corresponding test function (expected test_regenerate_parity() or test referencing 'regenerate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- config/architecture_spec.ads ---
+  [MEDIUM] L 102: FUNCTION_NO_DOCUMENTATION
+           Ada procedure 'Audit_SHM' has no comment.
+           Standard: Ada RM 2.1, ISO/IEC 8652:2012
+
+  [MEDIUM] L 196: SELF_TEST_COVERAGE
+           Ada procedure/function 'Generate_Parity' has no corresponding test package (expected Test_Generate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 200: SELF_TEST_COVERAGE
+           Ada procedure/function 'Store_Parity' has no corresponding test package (expected Test_Store_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 204: SELF_TEST_COVERAGE
+           Ada procedure/function 'Verify_Parity' has no corresponding test package (expected Test_Verify_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 208: SELF_TEST_COVERAGE
+           Ada procedure/function 'Restore_Parity' has no corresponding test package (expected Test_Restore_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 212: SELF_TEST_COVERAGE
+           Ada procedure/function 'Regenerate_Parity' has no corresponding test package (expected Test_Regenerate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- config/architecture_spec_parity.py ---
+  [MEDIUM] L  13: SELF_TEST_COVERAGE
+           Function 'generate_parity()' has no corresponding test function (expected test_generate_parity() or test referencing 'generate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L  68: SELF_TEST_COVERAGE
+           Function 'store_parity()' has no corresponding test function (expected test_store_parity() or test referencing 'store_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 105: SELF_TEST_COVERAGE
+           Function 'verify_parity()' has no corresponding test function (expected test_verify_parity() or test referencing 'verify_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 150: SELF_TEST_COVERAGE
+           Function 'restore_parity()' has no corresponding test function (expected test_restore_parity() or test referencing 'restore_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 178: SELF_TEST_COVERAGE
+           Function 'regenerate_parity()' has no corresponding test function (expected test_regenerate_parity() or test referencing 'regenerate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- config/settings.py ---
+  [MEDIUM] L 745: EXCEPTION_MISSING
+           open() without try/except — will crash on file not found, permission denied, or I/O error. Wrap in try/except.
+           Standard: CERT ERR33-C, CWE-703: Improper Check or Handling of Exceptional Conditions
+
+  --- context/architecture_spec.ads ---
+  [MEDIUM] L 102: FUNCTION_NO_DOCUMENTATION
+           Ada procedure 'Audit_SHM' has no comment.
+           Standard: Ada RM 2.1, ISO/IEC 8652:2012
+
+  [MEDIUM] L 196: SELF_TEST_COVERAGE
+           Ada procedure/function 'Generate_Parity' has no corresponding test package (expected Test_Generate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 200: SELF_TEST_COVERAGE
+           Ada procedure/function 'Store_Parity' has no corresponding test package (expected Test_Store_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 204: SELF_TEST_COVERAGE
+           Ada procedure/function 'Verify_Parity' has no corresponding test package (expected Test_Verify_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 208: SELF_TEST_COVERAGE
+           Ada procedure/function 'Restore_Parity' has no corresponding test package (expected Test_Restore_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 212: SELF_TEST_COVERAGE
+           Ada procedure/function 'Regenerate_Parity' has no corresponding test package (expected Test_Regenerate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- context/architecture_spec_parity.py ---
+  [MEDIUM] L  13: SELF_TEST_COVERAGE
+           Function 'generate_parity()' has no corresponding test function (expected test_generate_parity() or test referencing 'generate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L  68: SELF_TEST_COVERAGE
+           Function 'store_parity()' has no corresponding test function (expected test_store_parity() or test referencing 'store_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 105: SELF_TEST_COVERAGE
+           Function 'verify_parity()' has no corresponding test function (expected test_verify_parity() or test referencing 'verify_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 150: SELF_TEST_COVERAGE
+           Function 'restore_parity()' has no corresponding test function (expected test_restore_parity() or test referencing 'restore_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 178: SELF_TEST_COVERAGE
+           Function 'regenerate_parity()' has no corresponding test function (expected test_regenerate_parity() or test referencing 'regenerate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- context/context_manager.py ---
+  [MEDIUM] L  54: FUNCTION_NO_DOCUMENTATION
+           Python function '__init__' has no docstring or comment.
+           Standard: PEP 257, ISO/IEC 26514:2022
+
+  [MEDIUM] L  54: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: '__init__' lacks docstring (PEP 257, ECSS-Q-ST-80C §6.2)
+           Standard: PEP 257, ECSS-Q-ST-80C §6.2, ISO/IEC 25010
+
+  [MEDIUM] L 617: EXCEPTION_MISSING
+           open() without try/except — will crash on file not found, permission denied, or I/O error. Wrap in try/except.
+           Standard: CERT ERR33-C, CWE-703: Improper Check or Handling of Exceptional Conditions
+
+  --- core/architecture_spec.ads ---
+  [MEDIUM] L 102: FUNCTION_NO_DOCUMENTATION
+           Ada procedure 'Audit_SHM' has no comment.
+           Standard: Ada RM 2.1, ISO/IEC 8652:2012
+
+  [MEDIUM] L 196: SELF_TEST_COVERAGE
+           Ada procedure/function 'Generate_Parity' has no corresponding test package (expected Test_Generate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 200: SELF_TEST_COVERAGE
+           Ada procedure/function 'Store_Parity' has no corresponding test package (expected Test_Store_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 204: SELF_TEST_COVERAGE
+           Ada procedure/function 'Verify_Parity' has no corresponding test package (expected Test_Verify_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 208: SELF_TEST_COVERAGE
+           Ada procedure/function 'Restore_Parity' has no corresponding test package (expected Test_Restore_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 212: SELF_TEST_COVERAGE
+           Ada procedure/function 'Regenerate_Parity' has no corresponding test package (expected Test_Regenerate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- core/architecture_spec_parity.py ---
+  [MEDIUM] L  13: SELF_TEST_COVERAGE
+           Function 'generate_parity()' has no corresponding test function (expected test_generate_parity() or test referencing 'generate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L  68: SELF_TEST_COVERAGE
+           Function 'store_parity()' has no corresponding test function (expected test_store_parity() or test referencing 'store_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 105: SELF_TEST_COVERAGE
+           Function 'verify_parity()' has no corresponding test function (expected test_verify_parity() or test referencing 'verify_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 150: SELF_TEST_COVERAGE
+           Function 'restore_parity()' has no corresponding test function (expected test_restore_parity() or test referencing 'restore_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 178: SELF_TEST_COVERAGE
+           Function 'regenerate_parity()' has no corresponding test function (expected test_regenerate_parity() or test referencing 'regenerate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- core/events.py ---
+  [MEDIUM] L 206: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'emit' lacks docstring (PEP 257, ECSS-Q-ST-80C §6.2)
+           Standard: PEP 257, ECSS-Q-ST-80C §6.2, ISO/IEC 25010
+
+  --- core/watchdog.py ---
+  [MEDIUM] L 152: FUNCTION_NO_DOCUMENTATION
+           Python function '__init__' has no docstring or comment.
+           Standard: PEP 257, ISO/IEC 26514:2022
+
+  [MEDIUM] L 152: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: '__init__' lacks docstring (PEP 257, ECSS-Q-ST-80C §6.2)
+           Standard: PEP 257, ECSS-Q-ST-80C §6.2, ISO/IEC 25010
+
+  [MEDIUM] L 208: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'register_component' lacks docstring (PEP 257, ECSS-Q-ST-80C §6.2)
+           Standard: PEP 257, ECSS-Q-ST-80C §6.2, ISO/IEC 25010
+
+  [MEDIUM] L 564: FUNCTION_NO_DOCUMENTATION
+           Python function '__init__' has no docstring or comment.
+           Standard: PEP 257, ISO/IEC 26514:2022
+
+  [MEDIUM] L 564: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: '__init__' lacks docstring (PEP 257, ECSS-Q-ST-80C §6.2)
+           Standard: PEP 257, ECSS-Q-ST-80C §6.2, ISO/IEC 25010
+
+  [MEDIUM] L 624: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'register_component' lacks docstring (PEP 257, ECSS-Q-ST-80C §6.2)
+           Standard: PEP 257, ECSS-Q-ST-80C §6.2, ISO/IEC 25010
+
+  [MEDIUM] L1138: FUNCTION_NO_DOCUMENTATION
+           Python function 'Resurrect' has no docstring or comment.
+           Standard: PEP 257, ISO/IEC 26514:2022
+
+  [MEDIUM] L1138: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'Resurrect' lacks docstring (PEP 257, ECSS-Q-ST-80C §6.2)
+           Standard: PEP 257, ECSS-Q-ST-80C §6.2, ISO/IEC 25010
+
+  --- find_violations.py ---
+  [MEDIUM] L  12: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'generate_parity' lacks test reference — add '# test:' marker in docstring or test_ref annotation
+           Standard: ISO/IEC 25010, ECSS-Q-ST-80C
+
+  [MEDIUM] L  12: SELF_TEST_COVERAGE
+           Function 'generate_parity()' has no corresponding test function (expected test_generate_parity() or test referencing 'generate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L  52: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'store_parity' lacks test reference — add '# test:' marker in docstring or test_ref annotation
+           Standard: ISO/IEC 25010, ECSS-Q-ST-80C
+
+  [MEDIUM] L  52: SELF_TEST_COVERAGE
+           Function 'store_parity()' has no corresponding test function (expected test_store_parity() or test referencing 'store_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L  68: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'verify_parity' lacks test reference — add '# test:' marker in docstring or test_ref annotation
+           Standard: ISO/IEC 25010, ECSS-Q-ST-80C
+
+  [MEDIUM] L  68: SELF_TEST_COVERAGE
+           Function 'verify_parity()' has no corresponding test function (expected test_verify_parity() or test referencing 'verify_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L  92: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'restore_parity' lacks test reference — add '# test:' marker in docstring or test_ref annotation
+           Standard: ISO/IEC 25010, ECSS-Q-ST-80C
+
+  [MEDIUM] L  92: SELF_TEST_COVERAGE
+           Function 'restore_parity()' has no corresponding test function (expected test_restore_parity() or test referencing 'restore_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 112: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'regenerate_parity' lacks test reference — add '# test:' marker in docstring or test_ref annotation
+           Standard: ISO/IEC 25010, ECSS-Q-ST-80C
+
+  [MEDIUM] L 112: SELF_TEST_COVERAGE
+           Function 'regenerate_parity()' has no corresponding test function (expected test_regenerate_parity() or test referencing 'regenerate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- fix_apa7.py ---
+  [MEDIUM] L  12: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'generate_parity' lacks test reference — add '# test:' marker in docstring or test_ref annotation
+           Standard: ISO/IEC 25010, ECSS-Q-ST-80C
+
+  [MEDIUM] L  12: SELF_TEST_COVERAGE
+           Function 'generate_parity()' has no corresponding test function (expected test_generate_parity() or test referencing 'generate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L  52: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'store_parity' lacks test reference — add '# test:' marker in docstring or test_ref annotation
+           Standard: ISO/IEC 25010, ECSS-Q-ST-80C
+
+  [MEDIUM] L  52: SELF_TEST_COVERAGE
+           Function 'store_parity()' has no corresponding test function (expected test_store_parity() or test referencing 'store_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L  68: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'verify_parity' lacks test reference — add '# test:' marker in docstring or test_ref annotation
+           Standard: ISO/IEC 25010, ECSS-Q-ST-80C
+
+  [MEDIUM] L  68: SELF_TEST_COVERAGE
+           Function 'verify_parity()' has no corresponding test function (expected test_verify_parity() or test referencing 'verify_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L  92: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'restore_parity' lacks test reference — add '# test:' marker in docstring or test_ref annotation
+           Standard: ISO/IEC 25010, ECSS-Q-ST-80C
+
+  [MEDIUM] L  92: SELF_TEST_COVERAGE
+           Function 'restore_parity()' has no corresponding test function (expected test_restore_parity() or test referencing 'restore_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 112: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'regenerate_parity' lacks test reference — add '# test:' marker in docstring or test_ref annotation
+           Standard: ISO/IEC 25010, ECSS-Q-ST-80C
+
+  [MEDIUM] L 112: SELF_TEST_COVERAGE
+           Function 'regenerate_parity()' has no corresponding test function (expected test_regenerate_parity() or test referencing 'regenerate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- llm/architecture_spec.ads ---
+  [MEDIUM] L 102: FUNCTION_NO_DOCUMENTATION
+           Ada procedure 'Audit_SHM' has no comment.
+           Standard: Ada RM 2.1, ISO/IEC 8652:2012
+
+  [MEDIUM] L 196: SELF_TEST_COVERAGE
+           Ada procedure/function 'Generate_Parity' has no corresponding test package (expected Test_Generate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 200: SELF_TEST_COVERAGE
+           Ada procedure/function 'Store_Parity' has no corresponding test package (expected Test_Store_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 204: SELF_TEST_COVERAGE
+           Ada procedure/function 'Verify_Parity' has no corresponding test package (expected Test_Verify_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 208: SELF_TEST_COVERAGE
+           Ada procedure/function 'Restore_Parity' has no corresponding test package (expected Test_Restore_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 212: SELF_TEST_COVERAGE
+           Ada procedure/function 'Regenerate_Parity' has no corresponding test package (expected Test_Regenerate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- llm/architecture_spec_parity.py ---
+  [MEDIUM] L  13: SELF_TEST_COVERAGE
+           Function 'generate_parity()' has no corresponding test function (expected test_generate_parity() or test referencing 'generate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L  68: SELF_TEST_COVERAGE
+           Function 'store_parity()' has no corresponding test function (expected test_store_parity() or test referencing 'store_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 105: SELF_TEST_COVERAGE
+           Function 'verify_parity()' has no corresponding test function (expected test_verify_parity() or test referencing 'verify_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 150: SELF_TEST_COVERAGE
+           Function 'restore_parity()' has no corresponding test function (expected test_restore_parity() or test referencing 'restore_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 178: SELF_TEST_COVERAGE
+           Function 'regenerate_parity()' has no corresponding test function (expected test_regenerate_parity() or test referencing 'regenerate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- llm/llama_client.py ---
+  [MEDIUM] L 139: FUNCTION_NO_DOCUMENTATION
+           Python function '__init__' has no docstring or comment.
+           Standard: PEP 257, ISO/IEC 26514:2022
+
+  [MEDIUM] L 139: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: '__init__' lacks docstring (PEP 257, ECSS-Q-ST-80C §6.2)
+           Standard: PEP 257, ECSS-Q-ST-80C §6.2, ISO/IEC 25010
+
+  [MEDIUM] L 272: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'complete' lacks docstring (PEP 257, ECSS-Q-ST-80C §6.2)
+           Standard: PEP 257, ECSS-Q-ST-80C §6.2, ISO/IEC 25010
+
+  --- main.py ---
+  [MEDIUM] L 323: EXCEPTION_MISSING
+           open() without try/except — will crash on file not found, permission denied, or I/O error. Wrap in try/except.
+           Standard: CERT ERR33-C, CWE-703: Improper Check or Handling of Exceptional Conditions
+
+  --- memory/architecture_spec.ads ---
+  [MEDIUM] L 102: FUNCTION_NO_DOCUMENTATION
+           Ada procedure 'Audit_SHM' has no comment.
+           Standard: Ada RM 2.1, ISO/IEC 8652:2012
+
+  [MEDIUM] L 196: SELF_TEST_COVERAGE
+           Ada procedure/function 'Generate_Parity' has no corresponding test package (expected Test_Generate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 200: SELF_TEST_COVERAGE
+           Ada procedure/function 'Store_Parity' has no corresponding test package (expected Test_Store_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 204: SELF_TEST_COVERAGE
+           Ada procedure/function 'Verify_Parity' has no corresponding test package (expected Test_Verify_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 208: SELF_TEST_COVERAGE
+           Ada procedure/function 'Restore_Parity' has no corresponding test package (expected Test_Restore_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 212: SELF_TEST_COVERAGE
+           Ada procedure/function 'Regenerate_Parity' has no corresponding test package (expected Test_Regenerate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- memory/architecture_spec_parity.py ---
+  [MEDIUM] L  13: SELF_TEST_COVERAGE
+           Function 'generate_parity()' has no corresponding test function (expected test_generate_parity() or test referencing 'generate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L  68: SELF_TEST_COVERAGE
+           Function 'store_parity()' has no corresponding test function (expected test_store_parity() or test referencing 'store_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 105: SELF_TEST_COVERAGE
+           Function 'verify_parity()' has no corresponding test function (expected test_verify_parity() or test referencing 'verify_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 150: SELF_TEST_COVERAGE
+           Function 'restore_parity()' has no corresponding test function (expected test_restore_parity() or test referencing 'restore_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 178: SELF_TEST_COVERAGE
+           Function 'regenerate_parity()' has no corresponding test function (expected test_regenerate_parity() or test referencing 'regenerate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- memory/emotion_tracker.py ---
+  [MEDIUM] L  44: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: '__init__' lacks docstring (PEP 257, ECSS-Q-ST-80C §6.2)
+           Standard: PEP 257, ECSS-Q-ST-80C §6.2, ISO/IEC 25010
+
+  [MEDIUM] L  70: FUNCTION_NO_DOCUMENTATION
+           Python function 'record_emotion' has no docstring or comment.
+           Standard: PEP 257, ISO/IEC 26514:2022
+
+  [MEDIUM] L  70: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'record_emotion' lacks docstring (PEP 257, ECSS-Q-ST-80C §6.2)
+           Standard: PEP 257, ECSS-Q-ST-80C §6.2, ISO/IEC 25010
+
+  --- memory/long_term.py ---
+  [MEDIUM] L 278: FUNCTION_NO_DOCUMENTATION
+           Python function 'store' has no docstring or comment.
+           Standard: PEP 257, ISO/IEC 26514:2022
+
+  [MEDIUM] L 278: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'store' lacks docstring (PEP 257, ECSS-Q-ST-80C §6.2)
+           Standard: PEP 257, ECSS-Q-ST-80C §6.2, ISO/IEC 25010
+
+  --- memory/short_term.py ---
+  [MEDIUM] L 107: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: '__init__' lacks docstring (PEP 257, ECSS-Q-ST-80C §6.2)
+           Standard: PEP 257, ECSS-Q-ST-80C §6.2, ISO/IEC 25010
+
+  --- memory/vector_store.py ---
+  [MEDIUM] L 179: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'add' lacks docstring (PEP 257, ECSS-Q-ST-80C §6.2)
+           Standard: PEP 257, ECSS-Q-ST-80C §6.2, ISO/IEC 25010
+
+  [MEDIUM] L 244: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'query' lacks docstring (PEP 257, ECSS-Q-ST-80C §6.2)
+           Standard: PEP 257, ECSS-Q-ST-80C §6.2, ISO/IEC 25010
+
+  --- personality/architecture_spec.ads ---
+  [MEDIUM] L 102: FUNCTION_NO_DOCUMENTATION
+           Ada procedure 'Audit_SHM' has no comment.
+           Standard: Ada RM 2.1, ISO/IEC 8652:2012
+
+  [MEDIUM] L 196: SELF_TEST_COVERAGE
+           Ada procedure/function 'Generate_Parity' has no corresponding test package (expected Test_Generate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 200: SELF_TEST_COVERAGE
+           Ada procedure/function 'Store_Parity' has no corresponding test package (expected Test_Store_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 204: SELF_TEST_COVERAGE
+           Ada procedure/function 'Verify_Parity' has no corresponding test package (expected Test_Verify_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 208: SELF_TEST_COVERAGE
+           Ada procedure/function 'Restore_Parity' has no corresponding test package (expected Test_Restore_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 212: SELF_TEST_COVERAGE
+           Ada procedure/function 'Regenerate_Parity' has no corresponding test package (expected Test_Regenerate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- personality/architecture_spec_parity.py ---
+  [MEDIUM] L  13: SELF_TEST_COVERAGE
+           Function 'generate_parity()' has no corresponding test function (expected test_generate_parity() or test referencing 'generate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L  68: SELF_TEST_COVERAGE
+           Function 'store_parity()' has no corresponding test function (expected test_store_parity() or test referencing 'store_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 105: SELF_TEST_COVERAGE
+           Function 'verify_parity()' has no corresponding test function (expected test_verify_parity() or test referencing 'verify_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 150: SELF_TEST_COVERAGE
+           Function 'restore_parity()' has no corresponding test function (expected test_restore_parity() or test referencing 'restore_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 178: SELF_TEST_COVERAGE
+           Function 'regenerate_parity()' has no corresponding test function (expected test_regenerate_parity() or test referencing 'regenerate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- personality/personality_core.py ---
+  [MEDIUM] L  60: FUNCTION_NO_DOCUMENTATION
+           Python function '__init__' has no docstring or comment.
+           Standard: PEP 257, ISO/IEC 26514:2022
+
+  [MEDIUM] L  60: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: '__init__' lacks docstring (PEP 257, ECSS-Q-ST-80C §6.2)
+           Standard: PEP 257, ECSS-Q-ST-80C §6.2, ISO/IEC 25010
+
+  [MEDIUM] L 101: PYTHON_FUNCTION_COVERAGE
+           Python Function Coverage: 'generate_streaming' lacks docstring (PEP 257, ECSS-Q-ST-80C §6.2)
+           Standard: PEP 257, ECSS-Q-ST-80C §6.2, ISO/IEC 25010
+
+  --- run.py ---
+  [MEDIUM] L 494: EXCEPTION_MISSING
+           open() without try/except — will crash on file not found, permission denied, or I/O error. Wrap in try/except.
+           Standard: CERT ERR33-C, CWE-703: Improper Check or Handling of Exceptional Conditions
+
+  --- services/architecture_spec.ads ---
+  [MEDIUM] L 102: FUNCTION_NO_DOCUMENTATION
+           Ada procedure 'Audit_SHM' has no comment.
+           Standard: Ada RM 2.1, ISO/IEC 8652:2012
+
+  [MEDIUM] L 196: SELF_TEST_COVERAGE
+           Ada procedure/function 'Generate_Parity' has no corresponding test package (expected Test_Generate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 200: SELF_TEST_COVERAGE
+           Ada procedure/function 'Store_Parity' has no corresponding test package (expected Test_Store_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 204: SELF_TEST_COVERAGE
+           Ada procedure/function 'Verify_Parity' has no corresponding test package (expected Test_Verify_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 208: SELF_TEST_COVERAGE
+           Ada procedure/function 'Restore_Parity' has no corresponding test package (expected Test_Restore_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 212: SELF_TEST_COVERAGE
+           Ada procedure/function 'Regenerate_Parity' has no corresponding test package (expected Test_Regenerate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- services/architecture_spec_parity.py ---
+  [MEDIUM] L  13: SELF_TEST_COVERAGE
+           Function 'generate_parity()' has no corresponding test function (expected test_generate_parity() or test referencing 'generate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L  68: SELF_TEST_COVERAGE
+           Function 'store_parity()' has no corresponding test function (expected test_store_parity() or test referencing 'store_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 105: SELF_TEST_COVERAGE
+           Function 'verify_parity()' has no corresponding test function (expected test_verify_parity() or test referencing 'verify_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 150: SELF_TEST_COVERAGE
+           Function 'restore_parity()' has no corresponding test function (expected test_restore_parity() or test referencing 'restore_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 178: SELF_TEST_COVERAGE
+           Function 'regenerate_parity()' has no corresponding test function (expected test_regenerate_parity() or test referencing 'regenerate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- stt/architecture_spec.ads ---
+  [MEDIUM] L 102: FUNCTION_NO_DOCUMENTATION
+           Ada procedure 'Audit_SHM' has no comment.
+           Standard: Ada RM 2.1, ISO/IEC 8652:2012
+
+  [MEDIUM] L 196: SELF_TEST_COVERAGE
+           Ada procedure/function 'Generate_Parity' has no corresponding test package (expected Test_Generate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 200: SELF_TEST_COVERAGE
+           Ada procedure/function 'Store_Parity' has no corresponding test package (expected Test_Store_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 204: SELF_TEST_COVERAGE
+           Ada procedure/function 'Verify_Parity' has no corresponding test package (expected Test_Verify_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 208: SELF_TEST_COVERAGE
+           Ada procedure/function 'Restore_Parity' has no corresponding test package (expected Test_Restore_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 212: SELF_TEST_COVERAGE
+           Ada procedure/function 'Regenerate_Parity' has no corresponding test package (expected Test_Regenerate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- stt/architecture_spec_parity.py ---
+  [MEDIUM] L  13: SELF_TEST_COVERAGE
+           Function 'generate_parity()' has no corresponding test function (expected test_generate_parity() or test referencing 'generate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L  68: SELF_TEST_COVERAGE
+           Function 'store_parity()' has no corresponding test function (expected test_store_parity() or test referencing 'store_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 105: SELF_TEST_COVERAGE
+           Function 'verify_parity()' has no corresponding test function (expected test_verify_parity() or test referencing 'verify_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 150: SELF_TEST_COVERAGE
+           Function 'restore_parity()' has no corresponding test function (expected test_restore_parity() or test referencing 'restore_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 178: SELF_TEST_COVERAGE
+           Function 'regenerate_parity()' has no corresponding test function (expected test_regenerate_parity() or test referencing 'regenerate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- stt/whisper_client.py ---
+  [MEDIUM] L 281: INTEGRATION_CONTRACT
+           Function '__init__' has 12 parameters — consider if all are necessary. Large parameter lists indicate tight coupling or signature bloat.
+           Standard: CWE-697: Incorrect Comparison
+
+  --- tests/__init__.py ---
+  [MEDIUM] L 282: EXCEPTION_MISSING
+           open() without try/except — will crash on file not found, permission denied, or I/O error. Wrap in try/except.
+           Standard: CERT ERR33-C, CWE-703: Improper Check or Handling of Exceptional Conditions
+
+  --- tests/test_chunker.py ---
+  [MEDIUM] L 387: EXCEPTION_MISSING
+           open() without try/except — will crash on file not found, permission denied, or I/O error. Wrap in try/except.
+           Standard: CERT ERR33-C, CWE-703: Improper Check or Handling of Exceptional Conditions
+
+  --- tests/test_memory.py ---
+  [MEDIUM] L 426: EXCEPTION_MISSING
+           open() without try/except — will crash on file not found, permission denied, or I/O error. Wrap in try/except.
+           Standard: CERT ERR33-C, CWE-703: Improper Check or Handling of Exceptional Conditions
+
+  --- tests/test_sabotage_coverage.py ---
+  [MEDIUM] L2061: EXCEPTION_MISSING
+           open() without try/except — will crash on file not found, permission denied, or I/O error. Wrap in try/except.
+           Standard: CERT ERR33-C, CWE-703: Improper Check or Handling of Exceptional Conditions
+
+  --- tts/architecture_spec.ads ---
+  [MEDIUM] L 102: FUNCTION_NO_DOCUMENTATION
+           Ada procedure 'Audit_SHM' has no comment.
+           Standard: Ada RM 2.1, ISO/IEC 8652:2012
+
+  [MEDIUM] L 196: SELF_TEST_COVERAGE
+           Ada procedure/function 'Generate_Parity' has no corresponding test package (expected Test_Generate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 200: SELF_TEST_COVERAGE
+           Ada procedure/function 'Store_Parity' has no corresponding test package (expected Test_Store_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 204: SELF_TEST_COVERAGE
+           Ada procedure/function 'Verify_Parity' has no corresponding test package (expected Test_Verify_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 208: SELF_TEST_COVERAGE
+           Ada procedure/function 'Restore_Parity' has no corresponding test package (expected Test_Restore_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 212: SELF_TEST_COVERAGE
+           Ada procedure/function 'Regenerate_Parity' has no corresponding test package (expected Test_Regenerate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- tts/architecture_spec_parity.py ---
+  [MEDIUM] L  13: SELF_TEST_COVERAGE
+           Function 'generate_parity()' has no corresponding test function (expected test_generate_parity() or test referencing 'generate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L  68: SELF_TEST_COVERAGE
+           Function 'store_parity()' has no corresponding test function (expected test_store_parity() or test referencing 'store_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 105: SELF_TEST_COVERAGE
+           Function 'verify_parity()' has no corresponding test function (expected test_verify_parity() or test referencing 'verify_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 150: SELF_TEST_COVERAGE
+           Function 'restore_parity()' has no corresponding test function (expected test_restore_parity() or test referencing 'restore_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 178: SELF_TEST_COVERAGE
+           Function 'regenerate_parity()' has no corresponding test function (expected test_regenerate_parity() or test referencing 'regenerate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- vision/architecture_spec.ads ---
+  [MEDIUM] L 102: FUNCTION_NO_DOCUMENTATION
+           Ada procedure 'Audit_SHM' has no comment.
+           Standard: Ada RM 2.1, ISO/IEC 8652:2012
+
+  [MEDIUM] L 196: SELF_TEST_COVERAGE
+           Ada procedure/function 'Generate_Parity' has no corresponding test package (expected Test_Generate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 200: SELF_TEST_COVERAGE
+           Ada procedure/function 'Store_Parity' has no corresponding test package (expected Test_Store_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 204: SELF_TEST_COVERAGE
+           Ada procedure/function 'Verify_Parity' has no corresponding test package (expected Test_Verify_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 208: SELF_TEST_COVERAGE
+           Ada procedure/function 'Restore_Parity' has no corresponding test package (expected Test_Restore_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 212: SELF_TEST_COVERAGE
+           Ada procedure/function 'Regenerate_Parity' has no corresponding test package (expected Test_Regenerate_Parity or AUnit registration)
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- vision/architecture_spec_parity.py ---
+  [MEDIUM] L  13: SELF_TEST_COVERAGE
+           Function 'generate_parity()' has no corresponding test function (expected test_generate_parity() or test referencing 'generate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L  68: SELF_TEST_COVERAGE
+           Function 'store_parity()' has no corresponding test function (expected test_store_parity() or test referencing 'store_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 105: SELF_TEST_COVERAGE
+           Function 'verify_parity()' has no corresponding test function (expected test_verify_parity() or test referencing 'verify_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 150: SELF_TEST_COVERAGE
+           Function 'restore_parity()' has no corresponding test function (expected test_restore_parity() or test referencing 'restore_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  [MEDIUM] L 178: SELF_TEST_COVERAGE
+           Function 'regenerate_parity()' has no corresponding test function (expected test_regenerate_parity() or test referencing 'regenerate_parity')
+           Standard: ISO 26262 §9.4.3, DO-178C §6.4.4
+
+  --- vision/capture.py ---
+  [MEDIUM] L 407: EXCEPTION_MISSING
+           open() without try/except — will crash on file not found, permission denied, or I/O error. Wrap in try/except.
+           Standard: CERT ERR33-C, CWE-703: Improper Check or Handling of Exceptional Conditions
+
+  --- /Users/albertstarfield/Documents/misc/AdaptiveSystem/vendor/tts_kokoro_component/venv ---
+  [LOW] L   1: VIRTUAL_ENV_UNBUILT
+           NOTICE: Kokoro TTS venv directory at 'vendor/tts_kokoro_component/venv' does not exist. Orchestrator will construct venv during Stage 0.5 setup.
+           Standard: DO-178C Tool Qualification / ISO 25010 Environment
+
+  --- /Users/albertstarfield/Documents/misc/AdaptiveSystem/venv/om ---
+  [LOW] L   1: VIRTUAL_ENV_UNBUILT
+           NOTICE: OPAM Coq env directory at 'venv/om' does not exist. Orchestrator will construct venv during Stage 0.5 setup.
+           Standard: DO-178C Tool Qualification / ISO 25010 Environment
+
+  --- /Users/albertstarfield/Documents/misc/AdaptiveSystem/venv/python ---
+  [LOW] L   1: VIRTUAL_ENV_UNBUILT
+           NOTICE: Main Python venv directory at 'venv/python' does not exist. Orchestrator will construct venv during Stage 0.5 setup.
+           Standard: DO-178C Tool Qualification / ISO 25010 Environment
+
+  --- audio/capture.py ---
+  [LOW] L  40: INTEGRATION_CONTRACT
+           Function 'atomic_encode_result' uses **kwargs — flexible signatures can hide integration issues.
+           Standard: CWE-697: Incorrect Comparison
+
+  --- audio/echo_cancellation.py ---
+  [LOW] L1006: INTEGRATION_CONTRACT
+           Function 'create_aec' uses **kwargs — flexible signatures can hide integration issues.
+           Standard: CWE-697: Incorrect Comparison
+
+  --- bootstrapper.py ---
+  [LOW] L 158: PLATFORM_HARDCODING
+           Windows platform check: if os.name == "nt": — Windows NT is NOT supported (QUIRK-005). This is dead code. Remove it or guard with raise NotImplementedError / #error.
+           Standard: ISO/IEC 25010:2021 Portability, QUIRK-005
+
+  --- cli/main.py ---
+  [LOW] L1011: PLATFORM_HARDCODING
+           Windows platform check: if platform.system() != "Windows": — Windows NT is NOT supported (QUIRK-005). This is dead code. Remove it or guard with raise NotImplementedError / #error.
+           Standard: ISO/IEC 25010:2021 Portability, QUIRK-005
+
+  --- config/settings.py ---
+  [LOW] L 125: PLATFORM_HARDCODING
+           Windows platform check: server_binary: str = "bin/llama-server.exe" if os.name == "nt" else "bin/llama-s — Windows NT is NOT supported (QUIRK-005). This is dead code. Remove it or guard with raise NotImplementedError / #error.
+           Standard: ISO/IEC 25010:2021 Portability, QUIRK-005
+
+  [LOW] L 143: PLATFORM_HARDCODING
+           Windows platform check: if os.name == "nt" and not v.endswith(".exe"): — Windows NT is NOT supported (QUIRK-005). This is dead code. Remove it or guard with raise NotImplementedError / #error.
+           Standard: ISO/IEC 25010:2021 Portability, QUIRK-005
+
+  --- mbg.py ---
+  [LOW] L 538: PLATFORM_HARDCODING
+           Windows platform check: if os.name == "nt": — Windows NT is NOT supported (QUIRK-005). This is dead code. Remove it or guard with raise NotImplementedError / #error.
+           Standard: ISO/IEC 25010:2021 Portability, QUIRK-005
+
+  [LOW] L 557: PLATFORM_HARDCODING
+           Windows platform check: if os.name == "nt": — Windows NT is NOT supported (QUIRK-005). This is dead code. Remove it or guard with raise NotImplementedError / #error.
+           Standard: ISO/IEC 25010:2021 Portability, QUIRK-005
+
+  [LOW] L 663: PLATFORM_HARDCODING
+           Windows platform check: Detect if running inside Windows Subsystem for Linux. — Windows NT is NOT supported (QUIRK-005). This is dead code. Remove it or guard with raise NotImplementedError / #error.
+           Standard: ISO/IEC 25010:2021 Portability, QUIRK-005
+
+  [LOW] L1238: PLATFORM_HARDCODING
+           Windows platform check: exe_suffix = ".exe" if os.name == "nt" else "" — Windows NT is NOT supported (QUIRK-005). This is dead code. Remove it or guard with raise NotImplementedError / #error.
+           Standard: ISO/IEC 25010:2021 Portability, QUIRK-005
+
+  [LOW] L1288: PLATFORM_HARDCODING
+           Windows platform check: if os.name == "nt": — Windows NT is NOT supported (QUIRK-005). This is dead code. Remove it or guard with raise NotImplementedError / #error.
+           Standard: ISO/IEC 25010:2021 Portability, QUIRK-005
+
+  --- stt/whisper_client.py ---
+  [LOW] L  32: INTEGRATION_CONTRACT
+           Function 'atomic_encode_result' uses **kwargs — flexible signatures can hide integration issues.
+           Standard: CWE-697: Incorrect Comparison
+
+
+=======================================================================================================
+ VERDICT: TAINTED — 313 CRITICAL+ violation(s) found. NOT CLEAN.
+=======================================================================================================
+
+
+  [92m📄 Audit log written to: /Users/albertstarfield/Documents/misc/AdaptiveSystem/sorachio-sts/.verifier_audit.log[0m

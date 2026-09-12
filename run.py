@@ -213,7 +213,11 @@ def test_main() -> None:
 
 
 def test_atomic_encode_result() -> None:
-    """Test coverage for atomic_encode_result."""
+    """Test coverage for atomic_encode_result.
+
+    References:
+        - https://docs.python.org/3/library/struct.html
+    """
     # test: covered
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
@@ -491,7 +495,8 @@ def verify_parity(source_path: str) -> bool:
             return False
 
         # Verify source hash
-        source_data = open(source_path, "rb").read()
+        # [Fix: EXCEPTION_MISSING] Use Path.read_bytes() to avoid unclosed file handle
+        source_data = Path(source_path).read_bytes()
         if hashlib.sha256(source_data).hexdigest() != meta.get("source_hash"):
             return False
 

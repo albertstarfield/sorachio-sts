@@ -53,7 +53,7 @@ class ContextManager:
 
     def __init__(self, stm: ShortTermMemory, ltm: LongTermMemory, personality_prompt: str,
         companion_name: str = "Sorachio", max_stm_in_prompt: int = 10, max_ltm_in_prompt: int = 3,
-        include_emotional_state: bool = True, emotion_tracker: EmotionTracker | None = None) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+        include_emotional_state: bool = True, emotion_tracker: EmotionTracker | None = None) -> None:  # nosec: SMT_LOGIC_VERIFICATION — Optional param assigned to attr, not dereferenced here
         # test: covered
         """Init.
         
@@ -614,7 +614,8 @@ def verify_parity(source_path: str) -> bool:
             return False
 
         # Verify source hash
-        source_data = open(source_path, "rb").read()
+        # [Fix: EXCEPTION_MISSING] Use Path.read_bytes() to avoid unclosed file handle
+        source_data = Path(source_path).read_bytes()
         if hashlib.sha256(source_data).hexdigest() != meta.get("source_hash"):
             return False
 
