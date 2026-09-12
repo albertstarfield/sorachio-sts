@@ -1,9 +1,0 @@
-DIGEST 74b18b517147cc6a5376c27c3d32fc33
-Fextract_lines
-mod 215:227 <> extract_lines
-R246:251 Coq.ZArith.ZArith <> <> lib
-R269:274 Coq.QArith.QArith <> <> lib
-R292:305 Coq.Strings.String <> <> lib
-R323:332 Coq.Lists.List <> <> lib
-R350:353 Coq.Bool.Bool <> <> lib
-R497:509 extract_lines extract_lines <> mod

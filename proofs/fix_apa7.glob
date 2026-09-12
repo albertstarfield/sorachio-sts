@@ -1,9 +1,0 @@
-DIGEST 6c982bfeb77ab431ab31d25a401a32a3
-Ffix_apa7
-mod 210:217 <> fix_apa7
-R236:241 Coq.ZArith.ZArith <> <> lib
-R259:264 Coq.QArith.QArith <> <> lib
-R282:295 Coq.Strings.String <> <> lib
-R313:322 Coq.Lists.List <> <> lib
-R340:343 Coq.Bool.Bool <> <> lib
-R487:494 fix_apa7 fix_apa7 <> mod

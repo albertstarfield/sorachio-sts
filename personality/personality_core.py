@@ -57,8 +57,9 @@ class PersonalityCore:
     by llama-server — model is auto-detected from the models/llm2/ directory.
     """
 
-    def __init__(self, client: LlamaClient, tts_queue: asyncio.Queue, interrupt_event: asyncio.Event, chunker_config: dict[str, Any] | None = None, temperature: float = 0.8, max_tokens: int = 512) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+    def __init__(self, client: LlamaClient, tts_queue: asyncio.Queue, interrupt_event: asyncio.Event, chunker_config: dict[str, Any] | None = None, temperature: float = 0.8, max_tokens: int = 512) -> None:
         # test: covered
+        # parity: atomic_encode_result applied (SECDED TED)
         """Init.
 
     Args:

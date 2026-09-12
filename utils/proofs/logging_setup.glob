@@ -1,8 +1,0 @@
-DIGEST c438f222f893d987ddf6e2f8e36dcbbc
-Flogging_setup
-mod 221:233 <> logging_setup
-R252:257 Coq.ZArith.ZArith <> <> lib
-R275:280 Coq.QArith.QArith <> <> lib
-R298:311 Coq.Strings.String <> <> lib
-R329:338 Coq.Lists.List <> <> lib
-R356:359 Coq.Bool.Bool <> <> lib

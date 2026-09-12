@@ -1,8 +1,0 @@
-DIGEST 8abb0a72af5a1e7e21d1b2531afc0134
-Fpersonality_core
-mod 230:245 <> personality_core
-R264:269 Coq.ZArith.ZArith <> <> lib
-R287:292 Coq.QArith.QArith <> <> lib
-R310:323 Coq.Strings.String <> <> lib
-R341:350 Coq.Lists.List <> <> lib
-R368:371 Coq.Bool.Bool <> <> lib

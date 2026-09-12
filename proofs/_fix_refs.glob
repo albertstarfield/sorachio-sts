@@ -1,9 +1,0 @@
-DIGEST a013d74df97eebfaeb6ed58e16e489b6
-F_fix_refs
-mod 211:219 <> _fix_refs
-R238:243 Coq.ZArith.ZArith <> <> lib
-R261:266 Coq.QArith.QArith <> <> lib
-R284:297 Coq.Strings.String <> <> lib
-R315:324 Coq.Lists.List <> <> lib
-R342:345 Coq.Bool.Bool <> <> lib
-R489:497 _fix_refs _fix_refs <> mod

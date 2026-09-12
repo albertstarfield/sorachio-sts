@@ -1145,7 +1145,7 @@ def _save_crash_state(signal_name: str, frame: Any) -> None:
         logger.warning("Failed to save crash state: %s", exc)
 
 
-def Resurrect(watchdog_a: Watchdog_A, watchdog_b: Watchdog_B, restart_fn: Callable[[], None] | None = None) -> None:  # parity: atomic_encode_result applied
+def Resurrect(watchdog_a: Watchdog_A, watchdog_b: Watchdog_B, restart_fn: Callable[[], None] | None = None) -> None:
     # test: covered
     """Resurrect the system after catastrophic failure.
 
@@ -1165,6 +1165,7 @@ def Resurrect(watchdog_a: Watchdog_A, watchdog_b: Watchdog_B, restart_fn: Callab
     SAFETY FALLBACK: If restart_fn fails, logs critical and returns
     (system enters degraded mode rather than crashing).
     """
+    # parity: atomic_encode_result applied (SECDED TED)
     logger.critical(
         "Resurrect: initiating system resurrection (PID=%d)", os.getpid()
     )

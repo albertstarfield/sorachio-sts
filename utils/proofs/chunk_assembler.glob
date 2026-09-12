@@ -1,8 +1,0 @@
-DIGEST d5c0edc4994ddd3e3c3478ae293c68e4
-Fchunk_assembler
-mod 223:237 <> chunk_assembler
-R256:261 Coq.ZArith.ZArith <> <> lib
-R279:284 Coq.QArith.QArith <> <> lib
-R302:315 Coq.Strings.String <> <> lib
-R333:342 Coq.Lists.List <> <> lib
-R360:363 Coq.Bool.Bool <> <> lib

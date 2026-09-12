@@ -1,9 +1,0 @@
-DIGEST 856dc0c836ffaf1fa9805b74afc77660
-F_fix_mbg
-mod 210:217 <> _fix_mbg
-R236:241 Coq.ZArith.ZArith <> <> lib
-R259:264 Coq.QArith.QArith <> <> lib
-R282:295 Coq.Strings.String <> <> lib
-R313:322 Coq.Lists.List <> <> lib
-R340:343 Coq.Bool.Bool <> <> lib
-R487:494 _fix_mbg _fix_mbg <> mod

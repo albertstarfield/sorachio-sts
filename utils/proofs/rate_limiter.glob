@@ -1,8 +1,0 @@
-DIGEST 410c9d601fba40f05338317fc33f55ea
-Frate_limiter
-mod 220:231 <> rate_limiter
-R250:255 Coq.ZArith.ZArith <> <> lib
-R273:278 Coq.QArith.QArith <> <> lib
-R296:309 Coq.Strings.String <> <> lib
-R327:336 Coq.Lists.List <> <> lib
-R354:357 Coq.Bool.Bool <> <> lib
