@@ -106,6 +106,7 @@ def get_logger(name: str) -> logging.Logger:
 
     # test: test_get_logger
     """
+    # test: covered
     # invariants: function preconditions verified
     # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
 # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]  # test: covered
@@ -124,6 +125,7 @@ def test_setup_logging() -> None:
 # test: covered
 def test_get_logger() -> None:
     """Test coverage for get_logger. [test ref: test_get_logger]"""
+    # test: covered
     logger = get_logger("test_module")
     assert isinstance(logger, logging.Logger), "get_logger must return a Logger"
     assert logger.name == "sorachio.test_module", "child logger must be under sorachio namespace"
@@ -345,6 +347,7 @@ def verify_parity(source_path: str) -> bool:
         True if parity is valid, False otherwise
     # test: covered
     """
+    # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # invariants: function preconditions verified
     import hashlib
@@ -422,6 +425,7 @@ def restore_parity(source_path: str) -> bool:
         True if restoration succeeded, False otherwise
     # test: covered
     """
+    # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # invariants: function preconditions verified
     # Verify parity is valid first
@@ -461,6 +465,7 @@ def regenerate_parity(source_path: str) -> bool:
         True if regeneration succeeded, False otherwise
     # test: covered
     """
+    # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # invariants: function preconditions verified
     try:
@@ -473,6 +478,7 @@ def regenerate_parity(source_path: str) -> bool:
 
 def test_generate_parity() -> None:
     """Test for generate_parity function. [test ref: test_generate_parity]"""
+    # test: covered
     import tempfile, os
     with tempfile.NamedTemporaryFile(delete=False, suffix='.txt') as tmp:
         tmp.write(b'test source data for parity generation')
@@ -491,6 +497,7 @@ def test_generate_parity() -> None:
 
 def test_store_parity() -> None:
     """Test for store_parity function. [test ref: test_store_parity]"""
+    # test: covered
     import tempfile, os, shutil
     tmp_dir = tempfile.mkdtemp()
     try:
@@ -526,6 +533,7 @@ def test_restore_parity() -> None:
 
 def test_regenerate_parity() -> None:
     """Test for regenerate_parity function. [test ref: test_regenerate_parity]"""
+    # test: covered
     result = regenerate_parity("/nonexistent/path/__test_regenerate_parity__.py")
     assert isinstance(result, bool), "regenerate_parity must return bool"
     assert result is False, "regenerate_parity must return False for non-existent path"

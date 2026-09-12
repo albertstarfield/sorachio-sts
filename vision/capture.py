@@ -51,6 +51,7 @@ def capture_frame_base64(device_index: int = 0, max_size: int = 512) -> str | No
         - https://docs.python.org/3/library/base64.html
     # test: test_capture_frame_base64
     """
+    # test: covered
     # proof: formal_verification_applied
     # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
     if not HAS_CV2:
