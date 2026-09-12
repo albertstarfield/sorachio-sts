@@ -121,21 +121,9 @@ class CognitiveGateway:
     Fast cognitive filtering + routing layer.
     """
 
-        # test: test___init__
-    def __init__(self, client: LlamaClient, temperature: float = 0.1,
-        max_tokens: int = 256) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+    def __init__(self, client: LlamaClient, temperature: float = 0.1, max_tokens: int = 256) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+        """Initialize CognitiveGateway with LLM client and parameters."""
         # test: covered
-        """Initialize CognitiveGateway with LLM client and parameters.
-    Args:
-    client: LLM client for inference.
-    temperature: Sampling temperature.
-    max_tokens: Maximum tokens to generate.
-        References:
-            - https://docs.python.org/3/
-            [Standards compliance: ISO/IEC 25010:2021]
-    """
-    # test: covered
-    # proof: formal_verification_applied
         self.client = client
         self.temperature = temperature
         self.max_tokens = max_tokens

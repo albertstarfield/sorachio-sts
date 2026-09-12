@@ -213,15 +213,7 @@ def test_main() -> None:
 
 
 def test_atomic_encode_result() -> None:
-    """Test coverage for atomic_encode_result.
-    - https://docs.python.org/3/
-    References:
-    - https://docs.python.org/3/
-    References:
-    - https://docs.python.org/3/
-"""
-# test: covered
-    # test: covered
+    """Test coverage for atomic_encode_result."""
     # test: covered
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)

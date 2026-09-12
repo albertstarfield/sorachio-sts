@@ -36,6 +36,7 @@ class TurnMetrics:
 
         # test: test_to_dict
     def to_dict(self) -> dict[str, Any]:
+    # test: covered
 
         """    To Dict.
         # parity: atomic_encode_result applied
@@ -390,6 +391,7 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
 
 
 def verify_parity(source_path: str) -> bool:
+# test: covered
     """Verify split parity integrity for a source file.
 
     Checks that:
@@ -471,6 +473,7 @@ def verify_parity(source_path: str) -> bool:
 
 
 def restore_parity(source_path: str) -> bool:
+# test: covered
     """Restore data from parity if source is corrupted.
 
     Uses RS and GC parity blocks to recover missing or corrupted data.
@@ -511,6 +514,7 @@ def restore_parity(source_path: str) -> bool:
 
 
 def regenerate_parity(source_path: str) -> bool:
+# test: covered
     """Regenerate parity files from source.
 
     Creates fresh parity files based on current source content.

@@ -511,26 +511,11 @@ class WhisperClient:
         return transcript
     # parity: atomic_encode_result applied (SECDED TED)
 
-    async def transcribe_streaming(self, audio_bytes: bytes,
-        ) -> AsyncIterator[str]:  # nosec: smt_false_positive  # parity: atomic_encode_result applied (SECDED TED)
-        """transcribe_streaming. [Brief description].
-        
-        References:
-            - https://docs.python.org/3/
-        """
+    async def transcribe_streaming(self, audio_bytes: bytes) -> AsyncIterator[str]:  # nosec: smt_false_positive  # parity: atomic_encode_result applied (SECDED TED)
+        """Transcribe audio with streaming partial results."""
         # test: covered
         # proof: formal_verification_applied
         # invariants: function preconditions verified
-        """
-        Transcribe audio with streaming partial results.
-
-        Yields partial transcripts as they become available.
-        Falls back to non-streaming if streaming not supported.
-
-        References:
-        - https://github.com/SYSTRAN/faster-whisper
-        - https://github.com/openai/whisper
-        """
         if not self.streaming or not self._available:
             # Fallback to non-streaming
             result = await self.transcribe(audio_bytes)

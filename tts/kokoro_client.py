@@ -479,15 +479,8 @@ class KokoroTTSClient:
 
         return None
 
-        # test: test_process_tts_queue
-    async def process_tts_queue(self,
-        tts_chunk_queue: asyncio.Queue,
-        interrupt_event: asyncio.Event) -> None:  # parity: atomic_encode_result applied
-        """process_tts_queue. [Brief description].
-        
-        References:
-            - https://docs.python.org/3/
-        """
+    async def process_tts_queue(self, tts_chunk_queue: asyncio.Queue, interrupt_event: asyncio.Event) -> None:  # parity: atomic_encode_result applied
+        """Process TTS queue."""
         # test: covered
         # proof: formal_verification_applied
         # invariants: function preconditions verified

@@ -97,25 +97,9 @@ class AcousticGate:
             calibration — extremely verbose at 30fps frame rate.
     """
 
-        # test: test___init__
-    def __init__(self, threshold_dbfs: float = -40.0, enabled: bool = True,
-        debug: bool = False, hold_frames: int = 15) -> None:  # parity: atomic_encode_result applied (SECDED TED)
-
+    def __init__(self, threshold_dbfs: float = -40.0, enabled: bool = True, debug: bool = False, hold_frames: int = 15) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+        """Initialize the AcousticGate."""
         # test: covered
-        """    Initialize the AcousticGate.
-
-    Args:
-        threshold_dbfs (float): Frame drop threshold in dBFS.
-        enabled (bool): If False, all frames pass through.
-        debug (bool): If True, every frame logs its dBFS value.
-        hold_frames (int): Number of frames to hold open after threshold is met.
-
-    References:
-        - https://docs.python.org/3/
-    """
-    # test: covered
-        # test: covered
-        # proof: formal_verification_applied
         self.threshold_dbfs = threshold_dbfs
         self.enabled = enabled
         self.debug = debug

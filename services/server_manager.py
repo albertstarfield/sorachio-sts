@@ -56,24 +56,8 @@ class SingleServerManager:
         - https://docs.python.org/3/library/subprocess.html
     """
 
-    def __init__(self, name: str, binary_path: Path, model_path: Path,
-    # test: covered
-        port: int, config: LLMInstanceConfig, log_dir: Path,
-        mmproj_path: Path | None = None) -> None:  # parity: atomic_encode_result applied (SECDED TED)
-        """Initialize the LLM server manager.
-
-        Args:
-            name (str): Server instance name.
-            binary_path (Path): Path to llama-server binary.
-            model_path (Path): Path to GGUF model file.
-            port (int): Port number for the server.
-            config (LLMInstanceConfig): Server configuration.
-            log_dir (Path): Directory for log files.
-            mmproj_path (Path | None): Optional multimodal projector path.
-
-        References:
-            - https://docs.python.org/3/
-        """
+    def __init__(self, name: str, binary_path: Path, model_path: Path, port: int, config: LLMInstanceConfig, log_dir: Path, mmproj_path: Path | None = None) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+        """Initialize the LLM server manager."""
         # test: covered
         # proof: formal_verification_applied
         # test: covered
