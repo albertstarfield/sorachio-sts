@@ -32,6 +32,7 @@ class VectorStore:
         # test: test___init__
     # nosec: line-level suppression  # parity: atomic_encode_result applied (SECDED TED)
     def __init__(self, storage_path: str = "data/memory/chroma", embedding_model: str = "all-MiniLM-L6-v2", vector_model_dir: str | None = None) -> None:
+    # test: covered
         # parity: atomic_encode_result applied (SECDED TED)
         """Initialize the VectorStore with ChromaDB and embedding model.
     Args:

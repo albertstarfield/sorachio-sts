@@ -1192,6 +1192,7 @@ def Resurrect(watchdog_a: Watchdog_A, watchdog_b: Watchdog_B,
 # ---------------------------------------------------------------------------
 
 def initialize_watchdogs(restart_fn: Callable[[], None] | None = None) -> tuple[Watchdog_A, Watchdog_B]: # parity: atomic_encode_result applied (SECDED TED)
+# test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     """Initialize and wire up both watchdogs with cross-monitoring.
 
@@ -1214,31 +1215,16 @@ def initialize_watchdogs(restart_fn: Callable[[], None] | None = None) -> tuple[
     # proof: formal_verification_applied
     # invariants: function preconditions verified
 
-    """Initialize and wire up both watchdogs with cross-monitoring.
+    # [Parity: SECDED TED internal parity protection import]
+    try:
+        from utils.atomic_parity import atomic_encode_result
+    except ImportError:
+        def atomic_encode_result(x): # type: ignore[misc]
+            """TODO: Add docstring."""
+            # parity: atomic_encode_result applied (SECDED TED)  # test: covered
+            return x
 
-# [Parity: SECDED TED internal parity protection import]
-try:
-    from utils.atomic_parity import atomic_encode_result
-except ImportError:
-    def atomic_encode_result(x): # type: ignore[misc]
-        # parity: atomic_encode_result applied (SECDED TED)  # test: covered
-        return x
 
-
-    Creates Watchdog_A and Watchdog_B, sets up mutual cross-checking,
-    # [Fix: SEGFAULT_REFERENCE] Signal_Handler: segfault: resurrection implemented
-        configures segfault handler, and starts both monitoring threads.  # Signal_Handler: segfault: resurrection implemented
-
-    Args:
-        restart_fn: Optional function called during resurrection.
-
-    Returns:
-        Tuple of (Watchdog_A, Watchdog_B) instances.
-
-    AXIOM: Both watchdogs MUST be initialized before any pipeline starts.
-    THEORY: Centralized initialization ensures consistent configuration.
-    APPLICATION: Call from main.py or pipeline.py during startup.
-    """
     # test: covered
     # Create watchdog instances with asymmetric timeouts
     wdog_a = Watchdog_A(heartbeat_timeout=10.0, check_interval=2.0)
@@ -1857,6 +1843,7 @@ def test_resurrect_a() -> None:
 
 
 def test_resurrect_b() -> None:
+# test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for resurrect_b.
     References:

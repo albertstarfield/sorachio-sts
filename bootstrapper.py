@@ -149,7 +149,11 @@ class Bootstrapper:
         # Use subprocess to create venv to ensure we use the current sys.executable
         log.info(f"Creating venv at {self.venv_dir}...")
         # [Fix: EXTERNAL_CALL_UNHANDLED] External call wrapped in try/except
-        subprocess.run([sys.executable, "-m", "venv", str(self.venv_dir)], check=True, timeout=300)
+        try:
+            subprocess.run([sys.executable, "-m", "venv", str(self.venv_dir)], check=True, timeout=300)
+        except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired, OSError) as _e:
+            log.error("Failed to create venv: %s", _e)
+            raise
         # Determine the python executable in the venv
         if os.name == "nt":
             python_exe = self.venv_dir / "Scripts" / "python.exe"

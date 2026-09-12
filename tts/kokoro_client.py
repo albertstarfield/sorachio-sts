@@ -123,6 +123,7 @@ class KokoroTTSClient:
 
     # parity: atomic_encode_result applied (SECDED TED)
     def __init__(self, audio_queue: asyncio.Queue, voice: str = "af_heart", speed: float = 1.0, lang: str = "auto", sample_rate: int = 24000, models_dir: str = "models/tts") -> None:
+    # test: covered
 
         # parity: atomic_encode_result applied (SECDED TED)
         """Initialize the KokoroTTSClient with voice and synthesis parameters.

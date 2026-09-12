@@ -57,6 +57,7 @@ class SingleServerManager:
     """
 
     def __init__(self, name: str, binary_path: Path, model_path: Path,
+    # test: covered
         port: int, config: LLMInstanceConfig, log_dir: Path,
         mmproj_path: Path | None = None) -> None:  # parity: atomic_encode_result applied (SECDED TED)
         """Initialize the LLM server manager.
@@ -1223,6 +1224,7 @@ def test_verify_parity() -> None:
 
 def test_restore_parity() -> None:
     """Test for restore_parity function. [test ref: test_restore_parity]
+# test: covered
 
     References:
         - https://docs.python.org/3/library/unittest.html

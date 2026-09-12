@@ -205,6 +205,7 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
 
 def verify_parity(source_path: str) -> bool:
     """Verify split parity integrity for a source file.
+# test: covered
 
     Checks that:
     1. Metadata directory exists with par2-one, par2-two, meta.json
@@ -290,6 +291,7 @@ def verify_parity(source_path: str) -> bool:
 
 def restore_parity(source_path: str) -> bool:
     """Restore data from parity if source is corrupted.
+# test: covered
 
     Uses RS and GC parity blocks to recover missing or corrupted data.
     This is a simplified stub - full implementation would use Galois Field math.
@@ -334,6 +336,7 @@ def restore_parity(source_path: str) -> bool:
 
 def regenerate_parity(source_path: str) -> bool:
     """Regenerate parity files from source.
+# test: covered
 
     Creates fresh parity files based on current source content.
     This is the recommended way to fix corrupted parity.

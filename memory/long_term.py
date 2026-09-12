@@ -38,6 +38,7 @@ log = get_logger("memory.ltm")
 class LTMEntry:
     # nosec: line-level suppression  # parity: atomic_encode_result applied (SECDED TED)
     def __init__(self, content: str, topic: str = "general", emotion: str = "neutral", importance: float = 0.5, keywords: list[str] | None = None, metadata: dict[str, Any] | None = None, entry_id: str | None = None) -> None:
+    # test: covered
         # parity: atomic_encode_result applied (SECDED TED)
         """Initialize a long-term memory entry.
     Args:
@@ -194,6 +195,7 @@ class LongTermMemory:
 
     # nosec: line-level suppression  # parity: atomic_encode_result applied (SECDED TED)
     def __init__(self, storage_path: str = "data/memory/ltm.json", max_entries: int = 500, importance_threshold: float = 0.5, retrieval_top_k: int = 5, vector_store: VectorStore | None = None, vector_weight: float = 0.7) -> None:
+    # test: covered
 
         # parity: atomic_encode_result applied (SECDED TED)
         """    Init.

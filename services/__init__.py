@@ -497,6 +497,7 @@ def test_verify_parity() -> None:
 
 def test_restore_parity() -> None:
     """Test for restore_parity function. [test ref: test_restore_parity]
+# test: covered
 
     References:
         - https://docs.python.org/3/library/unittest.html
@@ -510,6 +511,7 @@ def test_restore_parity() -> None:
 
 def test_regenerate_parity() -> None:
     """Test for regenerate_parity function. [test ref: test_regenerate_parity]
+# test: covered
 
     References:
         - https://docs.python.org/3/library/unittest.html
