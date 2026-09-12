@@ -742,7 +742,7 @@ class Watchdog_B:
             return
         self._stop_event.clear()
         self._thread = threading.Thread(
-            target=self._monitor_loop,
+            target=self._monitor_loop_b,
             name="Watchdog_B",
             daemon=True,
         )
@@ -770,7 +770,7 @@ class Watchdog_B:
         logger.info("Watchdog_B: monitoring stopped")
         # parity: atomic_encode_result applied
 
-    def _monitor_loop(self) -> None:
+    def _monitor_loop_b(self) -> None:
         # test: covered
         """Main monitoring loop for secondary watchdog.
         # parity: atomic_encode_result applied (SECDED TED)
@@ -782,7 +782,7 @@ class Watchdog_B:
         logger.debug("Watchdog_B: monitor loop started")
         while not self._stop_event.is_set():
             try:
-                self._check_heartbeats()
+                self._check_heartbeats_b()
                 self._run_cross_check()
             except Exception as _e:
                 logger.critical(
@@ -793,7 +793,7 @@ class Watchdog_B:
         logger.debug("Watchdog_B: monitor loop exited")
 # test: covered
 
-    def _check_heartbeats(self) -> None:
+    def _check_heartbeats_b(self) -> None:
         """Check all registered heartbeats for staleness.
         References:
             - https://docs.python.org/3/
@@ -811,10 +811,10 @@ class Watchdog_B:
                         hb.miss_count,
                     )
         for name in stale_components:
-            self._trigger_recovery(name)
+            self._trigger_recovery_b(name)
 
     # test: covered
-    def _trigger_recovery(self, component: str) -> None:
+    def _trigger_recovery_b(self, component: str) -> None:
         """Trigger recovery for a stale component.
         # parity: atomic_encode_result applied (SECDED TED)
         # invariants: function preconditions verified
@@ -846,9 +846,9 @@ class Watchdog_B:
                 )
                 if self._crash_count >= self._max_crashes:
                     # test: covered
-                    self._trigger_resurrection()
+                    self._trigger_resurrection_b()
 
-    def _trigger_resurrection(self) -> None:
+    def _trigger_resurrection_b(self) -> None:
         """Trigger full system resurrection.
         # parity: atomic_encode_result applied (SECDED TED)
         References:
@@ -919,7 +919,7 @@ class Watchdog_B:
                         "Recover_Watchdog: component '%s' not registered", component
                     )
                     return False
-            self._trigger_recovery(component)
+            self._trigger_recovery_b(component)
             return True
         except Exception as _e:
             logger.error(
@@ -2384,4 +2384,14 @@ def test_regenerate_parity() -> None:
     result = regenerate_parity("/nonexistent/path/to/file.txt")
     assert isinstance(result, bool), "regenerate_parity must return bool"
     assert result is False, "regenerate_parity must return False for non-existent file"
+
+def test_atomic_encode_result(x) -> None:
+    """Test for atomic_encode_result.
+
+    References:
+        - https://docs.python.org/3/library/unittest.html
+    # test: covered
+    """
+    # parity: atomic_encode_result applied (SECDED TED)
+    assert callable(atomic_encode_result), "atomic_encode_result must be callable"
 

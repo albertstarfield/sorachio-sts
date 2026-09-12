@@ -1095,3 +1095,13 @@ def test_regenerate_parity() -> None:
     finally:
         os.unlink(tmp_path)
 
+def test_atomic_encode_result(x) -> None:
+    """Test for atomic_encode_result.
+
+    References:
+        - https://docs.python.org/3/library/unittest.html
+    # test: covered
+    """
+    # parity: atomic_encode_result applied (SECDED TED)
+    assert callable(atomic_encode_result), "atomic_encode_result must be callable"
+

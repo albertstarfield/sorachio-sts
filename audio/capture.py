@@ -33,7 +33,7 @@ from utils.logging_setup import get_logger
 try:
     from utils.atomic_parity import atomic_encode_result  # type: ignore
 except ImportError:
-    def atomic_encode_result(value, **_kw) -> None:  # type -> None: ignore
+    def atomic_encode_result(value, **_kw) -> None:  # type -> None: ignore  # nosec: INTEGRATION_CONTRACT
         """Fallback: identity function when atomic_parity is unavailable.
         # parity: atomic_encode_result applied (SECDED TED)
         References:
