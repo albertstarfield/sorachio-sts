@@ -1,0 +1,8 @@
+{
+  "file": "utils/rate_limiter.py",
+  "sha256": "015dfd40862d7211b5175491afc80e10a93cf7ffedc1b0721f8e49ca4c8c442d",
+  "lines": 658,
+  "size_bytes": 24146,
+  "parity_encoding": "SECDED TED",
+  "regenerated": true
+}

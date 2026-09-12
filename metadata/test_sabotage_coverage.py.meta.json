@@ -1,0 +1,8 @@
+{
+  "file": "tests/test_sabotage_coverage.py",
+  "sha256": "870f9ab7f110a609bb3a50eb0121339fcb7fc29c1ae359ee6e70e1f6d3c8f8dc",
+  "lines": 2209,
+  "size_bytes": 86578,
+  "parity_encoding": "SECDED TED",
+  "regenerated": true
+}

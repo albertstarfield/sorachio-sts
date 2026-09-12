@@ -1,0 +1,8 @@
+{
+  "file": "tts/kokoro_client.py",
+  "sha256": "4509db80cad065f9b2a190c24bce48dcd17fafa5daafa9db608217b039562edc",
+  "lines": 1203,
+  "size_bytes": 45839,
+  "parity_encoding": "SECDED TED",
+  "regenerated": true
+}

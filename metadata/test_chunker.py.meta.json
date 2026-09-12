@@ -1,0 +1,8 @@
+{
+  "file": "tests/test_chunker.py",
+  "sha256": "e634b4b6a3afbc7db7c0a0debc9251876e855be0683da3c8b0a392a7090517ab",
+  "lines": 594,
+  "size_bytes": 19930,
+  "parity_encoding": "SECDED TED",
+  "regenerated": true
+}

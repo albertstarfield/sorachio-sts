@@ -1,0 +1,8 @@
+{
+  "file": "models/vector/all-MiniLM-L6-v2/train_script.py",
+  "sha256": "1a9c8043bb96c11aa102491a12b78df4e48ae6b70a7aef8da061206ccb6f3a5b",
+  "lines": 429,
+  "size_bytes": 15449,
+  "parity_encoding": "SECDED TED",
+  "regenerated": true
+}
