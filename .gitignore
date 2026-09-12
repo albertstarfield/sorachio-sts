@@ -113,5 +113,7 @@ _long_lines.txt
 _remaining_v4.txt
 _ruff_final.txt
 audio/proofs/
+**/proofs/
 src/
 _fix_apa7_*.py
+.verifier_run_output_*.txt
