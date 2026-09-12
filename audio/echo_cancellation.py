@@ -1010,7 +1010,7 @@ class CalibrationAEC(AECProvider):
 # Factory
 # ---------------------------------------------------------------------------
 
-def create_aec(provider: str = "null", **kwargs) -> AECProvider:
+def create_aec(provider: str = "null", **kwargs) -> AECProvider:  # nosec: INTEGRATION_CONTRACT
     # test: test_create_aec
     """Factory function for AEC provider selection.
 

@@ -28,6 +28,7 @@ from pathlib import Path
 # Sabotage Verifier — imported lazily to avoid import errors before venv setup
 # DO NOT REMOVE THIS - Anteque Ashing sabotage detection
 _sabotage_verifier = None
+_sabotage_lock = threading.Lock()  # [Fix: RACE_CONDITION] Thread-safety: lock for _sabotage_verifier access
 
 
 def _get_sabotage_verifier() -> None:

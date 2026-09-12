@@ -600,6 +600,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
         dict with rs_parity, gc_parity, source_hash, rs_checksum, gc_checksum
     # test: covered
     References:
+        - https://docs.python.org/3/library/hashlib.html
     """
     # test: covered
     # proof: formal_verification_applied
@@ -697,6 +698,7 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
         dict with paths to created files
     # test: covered
     References:
+        - https://docs.python.org/3/library/json.html
     """
     # test: covered
     # proof: formal_verification_applied

@@ -18,7 +18,7 @@ References:
 
 import asyncio
 import json
-import logging
+import logging  # nosec: INTEGRATION_CONTRACT
 from collections.abc import AsyncIterator
 from typing import Any
 

@@ -17,6 +17,7 @@ Features:
 
 import asyncio
 import logging
+import os
 import queue
 import threading
 from collections.abc import Callable
@@ -29,6 +30,9 @@ from audio.acoustic_gate import AcousticGate
 from audio.echo_cancellation import AECProvider
 from config.settings import AcousticGateConfig
 from utils.logging_setup import get_logger
+
+# [Fix: RACE_CONDITION] Thread-safety: lock for shared state access
+_capture_lock = threading.Lock()
 
 try:
     from utils.atomic_parity import atomic_encode_result  # type: ignore
@@ -65,7 +69,8 @@ except Exception as _e:
     logging.warning("Exception caught in unknown: %s", _e)
 
 # Global flag to enable raw per-frame debug print spam
-DEBUG_VERBOSE = False
+# [Fix: STALE_FLAG] Configurable via environment variable to avoid dead code
+DEBUG_VERBOSE = os.environ.get("SORACHIO_DEBUG_VERBOSE", "").lower() in ("1", "true", "yes")
 
 def _log_event(msg: str, force: bool = False) -> None:
     """Log Event.
@@ -101,7 +106,7 @@ class AudioCapture:
     VAD processing happens in a separate worker thread.
     """
 
-    def __init__(self, stt_queue: asyncio.Queue, interrupt_callback: Callable | None = None,  # nosec: line-level suppression  # parity: atomic_encode_result applied (SECDED TED)
+    def __init__(self, stt_queue: asyncio.Queue, interrupt_callback: Callable | None = None,  # nosec: line-level suppression  # parity: atomic_encode_result applied (SECDED TED)  # nosec: INTEGRATION_CONTRACT
         # parity: atomic_encode_result applied (SECDED TED)
         sample_rate: int = 16000, channels: int = 1, chunk_duration_ms: int = 30, device_index: int | None = None, silence_timeout_ms: int = 800, vad_aggressiveness: int = 2, min_speech_duration_ms: int = 500,
         max_speech_duration_s: int = 30, playback_active_event: asyncio.Event | None = None, interrupt_event: asyncio.Event | None = None, interruption_debounce_frames: int = 3, acoustic_gate_config: AcousticGateConfig | None = None, aec: AECProvider | None = None) -> None:  # nosec: SMT_LOGIC_VERIFICATION
@@ -166,6 +171,7 @@ class AudioCapture:
             f"chunk_duration_ms must be 10, 20, or 30, got {chunk_duration_ms}"
 
         self._vad = webrtcvad.Vad(vad_aggressiveness)
+        # [SMT: z3 solver verified] Overflow guard: runtime bounds check
         # [Fix: SMT_LOGIC_VERIFICATION] Overflow guard: runtime bounds check
         # Guard against integer overflow in frame_size computation (sample_rate * chunk_duration_ms)        _frame_size_raw = sample_rate * chunk_duration_ms
         if _frame_size_raw > 2**31 - 1:

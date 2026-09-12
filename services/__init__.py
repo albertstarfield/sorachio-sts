@@ -433,6 +433,7 @@ def test_generate_parity() -> None:
     """Test for generate_parity function. [test ref: test_generate_parity]
 
     References:
+        - https://docs.python.org/3/library/hashlib.html
     """
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
@@ -456,6 +457,7 @@ def test_store_parity() -> None:
     """Test for store_parity function. [test ref: test_store_parity]
 
     References:
+        - https://docs.python.org/3/library/json.html
     """
     # parity: atomic_encode_result applied (SECDED TED)
     # test: covered
@@ -483,6 +485,7 @@ def test_verify_parity() -> None:
     """Test for verify_parity function. [test ref: test_verify_parity]
 
     References:
+        - https://docs.python.org/3/library/unittest.html
     """
     # parity: atomic_encode_result applied (SECDED TED)
     # test: covered
@@ -496,6 +499,7 @@ def test_restore_parity() -> None:
     """Test for restore_parity function. [test ref: test_restore_parity]
 
     References:
+        - https://docs.python.org/3/library/unittest.html
     """
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
@@ -508,6 +512,7 @@ def test_regenerate_parity() -> None:
     """Test for regenerate_parity function. [test ref: test_regenerate_parity]
 
     References:
+        - https://docs.python.org/3/library/unittest.html
     """
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied

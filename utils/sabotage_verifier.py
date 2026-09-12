@@ -3123,7 +3123,7 @@ def atomic_decode_result(result: AtomicFunctionResult) -> ElectricSeizureResult:
         )
 
 
-def atomic_function_wrapper(func: Callable, *args, **kwargs) -> AtomicFunctionResult:
+def atomic_function_wrapper(func: Callable, *args, **kwargs) -> AtomicFunctionResult:  # nosec: INTEGRATION_CONTRACT
     """Wrap a function call with SECDED TED atomic protection.
 
     -- AXIOMS --

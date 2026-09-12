@@ -384,6 +384,7 @@ class ServerManager:
             ),
         }
         self._watchdog_task: asyncio.Task | None = None
+        self._watchdog_stop = False  # [Fix: FLOW_CONTROL] Flag for watchdog loop exit
         self._restart_counts: dict[str, int] = {k: 0 for k in self._servers}
         self.max_restart_attempts = 3
 
@@ -438,15 +439,16 @@ class ServerManager:
             # invariants: function preconditions verified
             # parity: atomic_encode_result applied
             log.info(f"[ServerManager] Watchdog started (interval={check_interval_s}s)")
-            while True:
-                await asyncio.sleep(check_interval_s)
-                for name, srv in self._servers.items():
-                    if not srv.is_running():
-                        count = self._restart_counts[name]  # nosec: smt_false_positive
-                        if count < self.max_restart_attempts:
-                            log.warning(
-                                f"[ServerManager] Server {name} is down "
-                                f"(attempt {count + 1}/{self.max_restart_attempts}). Restarting..."
+            try:
+                while not self._watchdog_stop:
+                    await asyncio.sleep(check_interval_s)
+                    for name, srv in self._servers.items():
+                        if not srv.is_running():
+                            count = self._restart_counts[name]  # nosec: smt_false_positive
+                            if count < self.max_restart_attempts:
+                                log.warning(
+                                    f"[ServerManager] Server {name} is down "
+                                    f"(attempt {count + 1}/{self.max_restart_attempts}). Restarting..."
                             )
                             self._restart_counts[name] += 1  # nosec: smt_false_positive
                             srv.stop()
@@ -456,6 +458,8 @@ class ServerManager:
                                 f"[ServerManager] Server {name} reached max restart attempts "
                                 f"({self.max_restart_attempts}). Giving up."
                             )
+            except asyncio.CancelledError:
+                log.info("[ServerManager] Watchdog loop cancelled")
 
         self._watchdog_task = asyncio.create_task(_watchdog_loop())
 
@@ -469,6 +473,7 @@ class ServerManager:
         # proof: formal_verification_applied
         # parity: atomic_encode_result applied
         # test: covered
+        self._watchdog_stop = True  # Signal watchdog loop to exit
         if self._watchdog_task and not self._watchdog_task.done():  # test: covered
             self._watchdog_task.cancel()
             self._watchdog_task = None
@@ -1171,6 +1176,7 @@ def test_generate_parity() -> None:
     """Test for generate_parity function. [test ref: test_generate_parity]
 
     References:
+        - https://docs.python.org/3/library/hashlib.html
     """
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
@@ -1194,6 +1200,7 @@ def test_store_parity() -> None:
     """Test for store_parity function. [test ref: test_store_parity]
 
     References:
+        - https://docs.python.org/3/library/json.html
     """
     # parity: atomic_encode_result applied (SECDED TED)
     # test: covered
@@ -1221,6 +1228,7 @@ def test_verify_parity() -> None:
     """Test for verify_parity function. [test ref: test_verify_parity]
 
     References:
+        - https://docs.python.org/3/library/unittest.html
     """
     # parity: atomic_encode_result applied (SECDED TED)
     # test: covered
@@ -1234,6 +1242,7 @@ def test_restore_parity() -> None:
     """Test for restore_parity function. [test ref: test_restore_parity]
 
     References:
+        - https://docs.python.org/3/library/unittest.html
     """
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied

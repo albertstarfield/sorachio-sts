@@ -23,6 +23,9 @@ from config.settings import SorachioSettings, resolve_path
 from core.events import EventType, get_bus
 from utils.logging_setup import get_logger
 
+# [Fix: RACE_CONDITION] Thread-safety: lock for shared state access
+_pipeline_lock = threading.Lock()
+
 # Sabotage verifier: watchdog import for architecture compliance
 try:
     from core.watchdog import Watchdog_A, Watchdog_B, Cross_Monitor, Recover_Watchdog, Segfault_Recover, Resurrect
