@@ -1216,8 +1216,8 @@ def test_Watchdog_B_start() -> None:
     # parity: atomic_encode_result applied (SECDED TED)
     from cli import main as _m; assert hasattr(_m, 'run') or callable(_m), "module should be importable"
 
-def test_Watchdog_B_stop() -> None:
-    """Test for Watchdog_B.stop().
+def test_Watchdog_B_shutdown() -> None:
+    """Test for Watchdog_B.shutdown().
 
     References:
         - https://docs.python.org/3/library/unittest.html
