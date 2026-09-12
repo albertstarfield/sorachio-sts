@@ -1,4 +1,3 @@
-from __future__ import annotations
 """
 Sorachio-STS Long-Term Memory (LTM)
 JSON-backed persistent memory with vector similarity search and importance scoring.
@@ -99,7 +98,7 @@ class LTMEntry:
         }
 
     @classmethod
-    def from_dict(cls, d: dict[str, Any]) -> LTMEntry:
+    def from_dict(cls, d: dict[str, Any]) -> "LTMEntry":
         """    From Dict.
         # test: test_LTMEntry_to_dict
         # parity: atomic_encode_result applied
