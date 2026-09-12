@@ -1,15 +1,9 @@
 {
-    "source": "sabotage_verifier.py",
-    "source_hash": "a1ad79ef62530a34e1e789cc71fdf3099eeeeee0bb117a6b4594d03f88a9eb2e",
-    "parity_type": "split",
-    "rs_parity": "sabotage_verifier.py.par2-one",
-    "gc_parity": "sabotage_verifier.py.par2-two",
-    "algorithm": {
-        "rs": "Reed-Solomon(255,223)",
-        "gc": "GF(2^8) Galois Chunk"
-    },
-    "generated_by": "generate_split_parity()",
-    "rs_checksum": "98ba231a55debc232504a8e798216c63b60aa4d6dd22692aa142e015185069a4",
-    "gc_checksum": "cb6a1fd489039b752ad69c5bc5025bcb51ae5c23f57ecc2cec77f28b0be55ccf",
-    "version": "1.0.0"
+  "source_file": "sabotage_verifier.py",
+  "source_hash": "2b2a0904aa391ac584302c602f3dd50f2022d0c6b64d6b01ce9a9e114c5d886e",
+  "rs_checksum": "5965f31e1197212c8d1be3b85b6bc72bbaba5ba5bc0d1d9890af3771a0c2ef93",
+  "gc_checksum": "59538fc49466d94205e971cb67bdf9d2d801bc5496fb6e15cbf98f37f58c3e51",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 2449
 }

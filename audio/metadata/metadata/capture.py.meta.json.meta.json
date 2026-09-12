@@ -1,0 +1,9 @@
+{
+  "source_file": "capture.py.meta.json",
+  "source_hash": "4a38f97c1a01c81ef4f46c44e6086d06dedffee9d3744fb3ed561c174266aa3c",
+  "rs_checksum": "a80870b104e952ff33c3d652ac18537dcf45e21e741f7afbbec3be1b35d37d6f",
+  "gc_checksum": "a1e02b3b44f179926faed43a8c343b729ca46575594233890aa9fc87bee03ef5",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 1
+}

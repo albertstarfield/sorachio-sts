@@ -1,0 +1,9 @@
+{
+  "source_file": "playback.py.meta.json",
+  "source_hash": "22aff5ab8ea6b4a7cac2e7c2905587776bcb1b8d2326537eaf768effb49958c3",
+  "rs_checksum": "3a9dbc29617d26ed65a97e33290f059a0afabe739686a07145f3eea5ceeb33ed",
+  "gc_checksum": "de956d965adbc7fd8b1526d556c9f373bad1ec88eb3e93d874082bc24d767b12",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 1
+}

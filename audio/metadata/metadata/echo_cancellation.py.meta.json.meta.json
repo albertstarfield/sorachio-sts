@@ -1,0 +1,9 @@
+{
+  "source_file": "echo_cancellation.py.meta.json",
+  "source_hash": "cbd79cdde830d5c911a01f4088e1a08887ca9f1cab002c17c1bce3c745300d46",
+  "rs_checksum": "2b9dff6d8fca9927129667ce39ea2b5299ebea38e58388958854cb8b1bfe81e0",
+  "gc_checksum": "2fe56837da74166b2407a4b9f78fa7131614efbcf48a38df855e02ed1760a1fc",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 1
+}

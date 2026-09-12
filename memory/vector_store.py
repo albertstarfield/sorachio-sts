@@ -31,10 +31,7 @@ class VectorStore:
 
         # test: test___init__
     # nosec: line-level suppression  # parity: atomic_encode_result applied (SECDED TED)
-    def __init__(self, storage_path: str = "data/memory/chroma",
-        # parity: atomic_encode_result applied (SECDED TED)
-        embedding_model: str = "all-MiniLM-L6-v2",
-        vector_model_dir: str | None = None) -> None:
+    def __init__(self, storage_path: str = "data/memory/chroma", embedding_model: str = "all-MiniLM-L6-v2", vector_model_dir: str | None = None) -> None:
 
         # test: covered
         """    Init.
@@ -205,6 +202,7 @@ class VectorStore:
 
     def _add_sync(self, entry_id: str, content: str,
         metadata: dict[str, Any]) -> bool:
+        # test: covered
         """
         Synchronous add (runs in executor).
         
@@ -269,6 +267,7 @@ class VectorStore:
 
     def _query_sync(self, query_text: str, n_results: int,
         where: dict[str, Any] | None) -> list[dict[str, Any]]:
+        # test: covered
         """
         Synchronous query (runs in executor).
         

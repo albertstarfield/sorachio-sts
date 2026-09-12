@@ -518,7 +518,6 @@ class Watchdog_A:
                 )
 
     def Recover_Watchdog(self, component: str) -> bool:
-
         # test: covered
         """Manually trigger recovery for a specific component.
 
@@ -575,6 +574,7 @@ class Watchdog_B:
 
     def __init__(self, heartbeat_timeout: float = 15.0,
         check_interval: float = 3.0) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+        # test: covered
         """
         Auto-generated docstring for __init__.
         
@@ -1147,17 +1147,7 @@ def _save_crash_state(signal_name: str, frame: Any) -> None:
 
 def Resurrect(watchdog_a: Watchdog_A, watchdog_b: Watchdog_B,
     restart_fn: Callable[[], None] | None = None) -> None:  # parity: atomic_encode_result applied
-    """
-    Auto-generated docstring for Resurrect.
-    
-    # test: test_Resurrect
-    References:
-        - https://docs.python.org/3/library/ast.html#module-ast
-    """
     # test: covered
-    # proof: formal_verification_applied
-    # invariants: function preconditions verified
-
     """Resurrect the system after catastrophic failure.
 
     Coordinates shutdown of both watchdogs, optional restart, and

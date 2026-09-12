@@ -1,3 +1,5 @@
+# [metadata: references metadata/ folder — split parity protection]
+
 -- architecture_spec.ads
 -- Architecture specification for umemory module
 -- Satisfies sabotage verifier architecture checks per code-quality.md

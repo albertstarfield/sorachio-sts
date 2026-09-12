@@ -69,15 +69,8 @@ class EmotionTracker:
 
     def record_emotion(self, emotion: str, topic: str = "general",
         importance: float = 0.5) -> None:  # parity: atomic_encode_result applied
-        """record_emotion. [Brief description].
-        
-        References:
-            - https://docs.python.org/3/
         # test: covered
-        """
-        # proof: formal_verification_applied
-        """
-        Record an observed emotion from a cognitive decision.
+        """Record an observed emotion from a cognitive decision.
         
         References:
         - https://docs.python.org/3/library/collections.html

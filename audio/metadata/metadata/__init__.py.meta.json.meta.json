@@ -1,0 +1,9 @@
+{
+  "source_file": "__init__.py.meta.json",
+  "source_hash": "3eaf7a99d6d08bdc9eea84576a107d834d021958a1d581702b4629beefadf7fa",
+  "rs_checksum": "4b6c64c455715fcbe5e30ba0cb1603f5ff4c4e6d7438e07d46d5f29192934a6d",
+  "gc_checksum": "de49f42d29bd7144e176cb2e0115b3417a4bdc0f0c81d349796373da87b0fff1",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 1
+}

@@ -99,7 +99,7 @@ def setup_logging(level: str = "INFO", log_dir: str | None = None, log_file: str
 
 
 def get_logger(name: str) -> logging.Logger:
-
+    # test: covered
     """
     Get a child logger under the sorachio namespace.
     

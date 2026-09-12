@@ -1,7 +1,9 @@
 {
-    "source_file": "main.py",
-    "source_hash": "66bce4cfbcf31b9794cdd00f14a34409ad6c16f4a08019860bb99ed369467367",
-    "rs_checksum": "1fca2081c42853f8e45277a56b86bcbbef7a47aae9ee8145a791300fb0c2f11b",
-    "gc_checksum": "10b87748c02ef446ca9b53474ab144a9f48f095f59d942e2610450418bf496bb",
-    "version": "1.0"
+  "source_file": "main.py",
+  "source_hash": "09c96d35604aec2876549904ceb5717577a047840be35833db0b5ed8e55b823e",
+  "rs_checksum": "c5b5de0926d30d48ba189ab22ebd95fdf1870ea96432c877bb293b9ae209f951",
+  "gc_checksum": "4fada366cc49acd3c10df35e1621d99f3f5bed0f25be7120d9b99b5c6205640a",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 37
 }

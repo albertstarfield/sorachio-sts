@@ -1,0 +1,9 @@
+{
+  "source_file": "README.md",
+  "source_hash": "4de383ce8101e19fcbef88bad5e848c846d60d807612efd364bf1116df2797ee",
+  "rs_checksum": "1e3cd10215d2aab87c3d2744b922dffa565c66eae38001c16c115add4dc75248",
+  "gc_checksum": "5443e775489630c01d31887c6c3581fbb91212ad39656dfb8ddc6436c61d1d01",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 6
+}

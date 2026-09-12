@@ -1,0 +1,9 @@
+{
+  "source_file": "architecture_spec.ads.meta.json",
+  "source_hash": "35f18b3ba424a2a639c16208017d36435ca5c9296a7d35bfcc39626d6e2f48a6",
+  "rs_checksum": "da322d96e4ef654b1352d82955040503b12f63a5618192aecbe2f7e3a8c361f6",
+  "gc_checksum": "be913541501239a71b95acc757251d45216f4823c41cf6cf2765a79adbb9dc87",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 1
+}

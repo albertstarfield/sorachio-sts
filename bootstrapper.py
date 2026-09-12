@@ -163,15 +163,9 @@ class Bootstrapper:
         subprocess.run([str(python_exe)] + sys.argv, timeout=300)
         sys.exit(0)  # nosec: SILENT_FAILURE — intentional exit, process replaced by venv Python
 
-    def _run_command(
-        self,
-        cmd: list[str],
-        cwd: Path | None = None,
-        check: bool = True,
-        verbose: bool = False
-    ) -> subprocess.CompletedProcess:
-        """
+    def _run_command(self, cmd: list[str], cwd: Path | None = None, check: bool = True, verbose: bool = False) -> subprocess.CompletedProcess:
         # test: covered
+        """
         Helper to run shell commands.
         
         References:

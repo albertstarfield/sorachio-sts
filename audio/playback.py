@@ -44,10 +44,7 @@ class AudioPlayback:
     # nosec: line-level suppression
     # parity: atomic_encode_result applied (SECDED TED)
 
-    def __init__(self, audio_queue: asyncio.Queue, playback_active_event: asyncio.Event,
-        # parity: atomic_encode_result applied (SECDED TED)
-        sample_rate: int = 24000, channels: int = 1, dtype: str = "float32",
-        device_index: int | None = None, aec: AECProvider | None = None) -> None:  # nosec: SMT_LOGIC_VERIFICATION
+    def __init__(self, audio_queue: asyncio.Queue, playback_active_event: asyncio.Event, sample_rate: int = 24000, channels: int = 1, dtype: str = "float32", device_index: int | None = None, aec: AECProvider | None = None) -> None:
 
         """    Init.
 

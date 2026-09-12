@@ -1,15 +1,9 @@
 {
-    "source": "architecture_spec.ads",
-    "source_hash": "3c49f9bd8d783af4d3dd07cd23a353802c69fe34eb44b76b6c4650523fa8cfa6",
-    "parity_type": "split",
-    "rs_parity": "architecture_spec.ads.par2-one",
-    "gc_parity": "architecture_spec.ads.par2-two",
-    "algorithm": {
-        "rs": "Reed-Solomon(255,223)",
-        "gc": "GF(2^8) Galois Chunk"
-    },
-    "generated_by": "generate_split_parity()",
-    "rs_checksum": "a7a453b1accc5920b2bec56db32aaac8fc808aebe593e12069e3bf38d433f9b3",
-    "gc_checksum": "e41b074918cbac80eadaa87083358b21a307b740ca3f39e6c148b73cee5c9000",
-    "version": "1.0.0"
+    "source_file": "architecture_spec.ads",
+    "source_hash": "cbffe1996a4a799f65af766a362bb27c34b4724ec1aab482c23b550f4d9b8ecd",
+    "rs_checksum": "faf8bc419a7c3c20c16afdc5245f486611e76e686a4ec87f1a5d257f1b471277",
+    "gc_checksum": "0d502adff6cf86890aac532fd69ccdda5dbc890747fc120a9f777effa6d6b995",
+    "version": "2.0",
+    "block_size": 512,
+    "total_blocks": 14
 }

@@ -331,7 +331,6 @@ def _auto_scan_models(settings: SorachioSettings) -> None:
 
 
 def load_settings(config_path: str | None = None) -> SorachioSettings:
-
     # test: covered
     """Load settings from YAML file, then auto-scan model directories.
 

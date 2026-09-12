@@ -1,7 +1,9 @@
 {
-    "source_file": "playback.py",
-    "source_hash": "9e305784caac50ba4dbfa0268bec4bb42c1c7b0c2906c6e6682b87cfc69c7a57",
-    "rs_checksum": "71780d66bc40cd4fe5c1bfe4fe8a8bf50e198c6a3c2971311c41052419ac6625",
-    "gc_checksum": "8ef447e574af6c1300923e6de7962177854aecb2a5c52f8c568a36dc6cf4faa9",
-    "version": "1.0"
+  "source_file": "playback.py",
+  "source_hash": "11cba5fe2414a42a544a9c85057f690c3a6cfc2d2be5b8a48d66cc560cab03d9",
+  "rs_checksum": "48dcd7130bc98f3700f280a90867674efb1b5a0c304bea16582633eda3798573",
+  "gc_checksum": "1c56c3557d739602d07c8966b6bde40979d0ea3245c0c1c5fdece68e30f2e384",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 57
 }

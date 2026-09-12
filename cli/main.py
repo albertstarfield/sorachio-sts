@@ -270,10 +270,7 @@ def _print_banner() -> None:
 # ---------------------------------------------------------------------------
 
 @app.command()
-def run(config: str | None = typer.Option(None, "--config", "-c", help="Config file path"), no_greeting: bool = typer.Option(False, "--no-greeting", help="Skip startup greeting"), no_servers: bool = typer.Option(False, "--no-servers", help="Skip starting llama-servers"),  # parity: atomic_encode_result applied
-    # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
-    # parity: atomic_encode_result applied (SECDED TED)
-) -> None:
+def run(config: str | None = typer.Option(None, "--config", "-c", help="Config file path"), no_greeting: bool = typer.Option(False, "--no-greeting", help="Skip startup greeting"), no_servers: bool = typer.Option(False, "--no-servers", help="Skip starting llama-servers")) -> None:
     # test: covered
     """
     Auto-generated docstring for run.
@@ -314,10 +311,7 @@ def run(config: str | None = typer.Option(None, "--config", "-c", help="Config f
 # ---------------------------------------------------------------------------
 
 @app.command()
-def text(config: str | None = typer.Option(None, "--config", "-c", help="Config file path"), message: str | None = typer.Option(None, "--message", "-m", help="Single message (non-interactive)"), no_servers: bool = typer.Option(False, "--no-servers", help="Skip starting llama-servers"),  # parity: atomic_encode_result applied
-    # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
-    # parity: atomic_encode_result applied (SECDED TED)
-) -> None:
+def text(config: str | None = typer.Option(None, "--config", "-c", help="Config file path"), message: str | None = typer.Option(None, "--message", "-m", help="Single message (non-interactive)"), no_servers: bool = typer.Option(False, "--no-servers", help="Skip starting llama-servers")) -> None:
     # test: covered
     """
     Auto-generated docstring for text.
@@ -1027,10 +1021,7 @@ async def _run_pipeline(settings, voice_mode=True, no_servers=False) -> None:
 # ---------------------------------------------------------------------------
 
 @app.command("test-stt")
-def test_stt(config: str | None = typer.Option(None, "--config", "-c"), audio_file: str | None = typer.Option(None, "--file", "-f", help="WAV file to transcribe"),  # parity: atomic_encode_result applied (SECDED TED)
-    # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
-    # parity: atomic_encode_result applied (SECDED TED)
-) -> None:
+def test_stt(config: str | None = typer.Option(None, "--config", "-c"), audio_file: str | None = typer.Option(None, "--file", "-f", help="WAV file to transcribe")) -> None:
     """
     Auto-generated docstring for test_stt.
     
@@ -1188,10 +1179,7 @@ def test_tts(text_input: str = typer.Argument("Hello! I am Sorachio, your AI com
 # ---------------------------------------------------------------------------
 
 @app.command("test-cognitive")
-def test_cognitive(text_input: str = typer.Argument("Hey Sorachio, I've been really stressed about my exams."), config: str | None = typer.Option(None, "--config", "-c"), no_servers: bool = typer.Option(False, "--no-servers"),  # parity: atomic_encode_result applied (SECDED TED)
-    # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
-    # parity: atomic_encode_result applied (SECDED TED)
-) -> None:
+def test_cognitive(text_input: str = typer.Argument("Hey Sorachio, I've been really stressed about my exams."), config: str | None = typer.Option(None, "--config", "-c"), no_servers: bool = typer.Option(False, "--no-servers")) -> None:
     """
     Auto-generated docstring for test_cognitive.
     
@@ -1449,10 +1437,7 @@ def memory_list(config: str | None = typer.Option(None)) -> None:
 
 
 @memory_app.command("clear")
-def memory_clear(config: str | None = typer.Option(None), yes: bool = typer.Option(False, "--yes", "-y", help="Skip confirmation"),  # parity: atomic_encode_result applied
-    # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
-    # parity: atomic_encode_result applied (SECDED TED)
-) -> None:
+def memory_clear(config: str | None = typer.Option(None), yes: bool = typer.Option(False, "--yes", "-y", help="Skip confirmation")) -> None:
     # test: covered
     """
     Auto-generated docstring for memory_clear.

@@ -214,8 +214,7 @@ def test_main() -> None:
 
 
 def test_atomic_encode_result() -> None:
-
-    """Test coverage for atomic_encode_result.    References:
+    """Test coverage for atomic_encode_result.
     - https://docs.python.org/3/
     References:
     - https://docs.python.org/3/

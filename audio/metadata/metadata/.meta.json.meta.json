@@ -1,0 +1,9 @@
+{
+  "source_file": ".meta.json",
+  "source_hash": "756c524feda17094b99f15cfd565400987a0823401abaff28a69d48c4a1affbd",
+  "rs_checksum": "415ad34ce21e8813c929cdb3c9fab5b1594fe102fa2189dd81c80df188972cab",
+  "gc_checksum": "e35a8ef5a00a70d850eba5851a62a11c1d18f453464d5a353b5e715b95662f68",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 1
+}

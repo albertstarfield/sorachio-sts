@@ -1,0 +1,9 @@
+{
+  "source_file": ".verifier_run_output.txt",
+  "source_hash": "9b7e540f4239283b06f4b867c117d53211dc96eb289afc6239317a1b91cf14e8",
+  "rs_checksum": "64895e7ab1ef8ff1e3ceccf8db4e17c320386d035fee4db2bfca26d87085d385",
+  "gc_checksum": "bb5bdd3c7d5d2b9777c4d7e41204bd5eeafe62f8dc18a2116b65f1bbea2218ed",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 509
+}

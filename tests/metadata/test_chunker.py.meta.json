@@ -1,7 +1,9 @@
 {
-    "source_file": "test_chunker.py",
-    "source_hash": "00786ed2d58674e21d94f9cb7f60fa9d788f86e0a27d50222d028d7c19b5fbaf",
-    "rs_checksum": "7a94107c5087925ef3f06a064ef180335cb05f50f0e2448766e3c0f5480bec98",
-    "gc_checksum": "33fc32daf3fd930b0606b668be3854edf7d9ced4bf7b05c06c5f21d2029c39c4",
-    "version": "1.0"
+  "source_file": "test_chunker.py",
+  "source_hash": "e634b4b6a3afbc7db7c0a0debc9251876e855be0683da3c8b0a392a7090517ab",
+  "rs_checksum": "0a6bdf91835c95c50ab4adc683b3a21f98fc0a46c728de29ac1193aee64876a5",
+  "gc_checksum": "26a0867ea553a8a75f1e7957d92244f717bf805e573cd421f59af96811843fac",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 39
 }

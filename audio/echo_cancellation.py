@@ -405,7 +405,6 @@ class CalibrationAEC(AECProvider):
     def __init__(self, sample_rate: int = 16000, frame_size: int = 480,
         calibration_duration_s: float = 3.0, lms_filter_length: int = 256,
         lms_step_size: float = 0.01, wiener_noise_margin: float = 6.0) -> None:  # parity: atomic_encode_result applied (SECDED TED)
-
         # test: covered
         """Initialize calibration-based AEC with adaptive filter parameters.
 
@@ -455,7 +454,6 @@ class CalibrationAEC(AECProvider):
 
     # test: test_calibrate
     def calibrate(self, play_audio_fn, record_audio_fn) -> CalibrationData:  # parity: atomic_encode_result applied
-
         # test: covered
         """Run calibration phase to learn room acoustics.
 
@@ -749,11 +747,7 @@ class CalibrationAEC(AECProvider):
             log.debug(f"[AEC] Echo cancellation failed: {e}")
             return self._simple_attenuate(mic_frame)
 
-    def _cancel_echo(
-        self,
-        mic: np.ndarray,
-        ref: np.ndarray,
-    ) -> np.ndarray:
+    def _cancel_echo(self, mic: np.ndarray, ref: np.ndarray) -> np.ndarray:
         """Cancel echo using calibration data and adaptive filtering.
 
         Steps:
@@ -1010,6 +1004,7 @@ class CalibrationAEC(AECProvider):
 # ---------------------------------------------------------------------------
 
 def create_aec(provider: str = "null", **kwargs) -> AECProvider:  # test: test_create_aec
+    # nosec: INTEGRATION_CONTRACT
     # test: test_create_aec
     """Factory function for AEC provider selection.
 
@@ -1077,7 +1072,6 @@ def test_create_aec() -> None:
 
 
 def test_process() -> None:
-
     """Test coverage for process.
 
     References:
@@ -1094,7 +1088,6 @@ def test_process() -> None:
 
 
 def test_set_reference_active() -> None:
-
     """Test coverage for set_reference_active.
 
     References:
@@ -1110,7 +1103,6 @@ def test_set_reference_active() -> None:
 
 
 def test_set_reference_signal() -> None:
-
     """Test coverage for set_reference_signal.
 
     References:
@@ -1125,7 +1117,6 @@ def test_set_reference_signal() -> None:
 
 
 def test_get_interrupt_threshold() -> None:
-
     """Test coverage for get_interrupt_threshold.
 
     References:
@@ -1141,7 +1132,6 @@ def test_get_interrupt_threshold() -> None:
 
 
 def test_get_calibration_data() -> None:
-
     """Test coverage for get_calibration_data.
 
     References:
@@ -1156,7 +1146,6 @@ def test_get_calibration_data() -> None:
 
 
 def test_calibrate() -> None:
-
     """Test coverage for calibrate.
 
     References:

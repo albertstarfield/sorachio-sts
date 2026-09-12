@@ -37,10 +37,7 @@ log = get_logger("memory.ltm")
 
 class LTMEntry:
     # nosec: line-level suppression  # parity: atomic_encode_result applied (SECDED TED)
-    def __init__(self, content: str, topic: str = "general", emotion: str = "neutral",
-        # parity: atomic_encode_result applied (SECDED TED)
-        importance: float = 0.5, keywords: list[str] | None = None,
-        metadata: dict[str, Any] | None = None, entry_id: str | None = None) -> None:
+    def __init__(self, content: str, topic: str = "general", emotion: str = "neutral", importance: float = 0.5, keywords: list[str] | None = None, metadata: dict[str, Any] | None = None, entry_id: str | None = None) -> None:
 
         # test: covered
         """    Init.
@@ -203,10 +200,7 @@ class LongTermMemory:
     """
 
     # nosec: line-level suppression  # parity: atomic_encode_result applied (SECDED TED)
-    def __init__(self, storage_path: str = "data/memory/ltm.json", max_entries: int = 500,
-        # parity: atomic_encode_result applied (SECDED TED)
-        importance_threshold: float = 0.5, retrieval_top_k: int = 5,
-        vector_store: VectorStore | None = None, vector_weight: float = 0.7) -> None:
+    def __init__(self, storage_path: str = "data/memory/ltm.json", max_entries: int = 500, importance_threshold: float = 0.5, retrieval_top_k: int = 5, vector_store: VectorStore | None = None, vector_weight: float = 0.7) -> None:
 
         # test: covered
         """    Init.
@@ -290,16 +284,7 @@ class LongTermMemory:
         importance: float = 0.5, keywords: list[str] | None = None,
         metadata: dict[str, Any] | None = None) -> LTMEntry | None:  # parity: atomic_encode_result applied
         # test: covered
-        """store. [Brief description].
-        
-        References:
-            - https://docs.python.org/3/
-        # test: covered
-        """
-        # proof: formal_verification_applied
-        # invariants: function preconditions verified
-        """
-        Store a new memory if it meets the importance threshold.
+        """Store a new memory if it meets the importance threshold.
         Returns the stored entry or None if skipped.
 
         References:

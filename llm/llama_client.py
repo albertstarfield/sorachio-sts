@@ -89,7 +89,6 @@ class Message:
         self.image_b64 = image_b64
 
     def to_dict(self) -> dict[str, Any]:
-
         # test: covered
         """Convert message to OpenAI-compatible dictionary format.
 
@@ -140,7 +139,6 @@ class LlamaClient:
     def __init__(self, base_url: str, temperature: float = 0.7,
         max_tokens: int = 512, top_p: float = 0.95, repeat_penalty: float = 1.1,
         timeout_s: float = 30.0, max_retries: int = 3) -> None:  # parity: atomic_encode_result applied (SECDED TED)
-
         # test: covered
         """Initialize the LLM client.
 
@@ -200,7 +198,6 @@ class LlamaClient:
         return self._client
 
     async def close(self) -> None:
-
         """Close the underlying HTTP client and release resources.
 
         References:
@@ -216,7 +213,6 @@ class LlamaClient:
             self._client = None
 
     async def health_check(self) -> bool:
-
         # test: covered
         """Check if the llama-server endpoint is healthy and responding.
 
@@ -241,7 +237,6 @@ class LlamaClient:
             return False  # failure logged
 
     async def wait_for_ready(self, timeout_s: float = 60.0) -> bool:
-
         # test: covered
         """Poll until server is ready or timeout expires.
 
@@ -425,7 +420,6 @@ class LlamaClient:
         return payload
 
     async def warm_up(self, system_prompt: str | None = None) -> None:  # nosec: smt_false_positive
-
         # test: covered
         """Trigger a dummy inference request to warm up the model.
 
@@ -465,7 +459,6 @@ class LlamaClient:
 # ---------------------------------------------------------------------------
 
 def test_to_dict() -> None:
-
     """Test coverage for to_dict.
 
     References:
@@ -482,7 +475,6 @@ def test_to_dict() -> None:
 
 
 def test_close() -> None:
-
     """Test coverage for close.
 
     References:
@@ -499,7 +491,6 @@ def test_close() -> None:
 
 
 def test_health_check() -> None:
-
     """Test coverage for health_check.
 
     References:
@@ -515,7 +506,6 @@ def test_health_check() -> None:
 
 
 def test_wait_for_ready() -> None:
-
     """Test coverage for wait_for_ready.
 
     References:
@@ -533,7 +523,6 @@ def test_wait_for_ready() -> None:
 
 
 def test_complete() -> None:
-
     """Test coverage for complete.
 
     References:
@@ -547,7 +536,6 @@ def test_complete() -> None:
 
 
 def test_stream() -> None:
-
     """Test coverage for stream.
 
     References:
@@ -562,7 +550,6 @@ def test_stream() -> None:
 
 
 def test_warm_up() -> None:
-
     """Test coverage for warm_up.
 
     References:
@@ -576,7 +563,6 @@ def test_warm_up() -> None:
 
 
 def test_atomic_encode_result() -> None:
-
     """Test coverage for atomic_encode_result.
 
     References:

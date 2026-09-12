@@ -239,7 +239,6 @@ class MasterBootstrapGuardian:
         self.current_platform = sys.platform
 
     def run(self) -> None:
-
         # test: covered
         """
         Main entry point for MBG.
@@ -724,10 +723,7 @@ class MasterBootstrapGuardian:
     # ── Spinner helper (no external deps needed) ──────────────────
 
     @staticmethod
-    def _spinner_loop(
-        stop_event: threading.Event,
-        message_func,
-    ) -> None:
+    def _spinner_loop(stop_event: threading.Event, message_func) -> None:
         """
         Background thread: render a braille-dot spinner on the same line.
         
@@ -751,12 +747,7 @@ class MasterBootstrapGuardian:
         # test: covered
         sys.stdout.flush()
 
-    def _pip_install_one(
-        self,
-        pkg: str,
-        idx: int,
-        total: int,
-    ) -> bool:
+    def _pip_install_one(self, pkg: str, idx: int, total: int) -> bool:
         """
         Install a single pip package with a live spinner.
         

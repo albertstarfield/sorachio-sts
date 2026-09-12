@@ -1,0 +1,9 @@
+{
+  "source_file": "acoustic_gate.py.meta.json",
+  "source_hash": "e3157c4bc72a05f261e836ad0edfab84193c3409ac20f77d4a21d4045c056631",
+  "rs_checksum": "74c529ee3318a35326dbdb013d389476a8abebe85afbe493d1fb28e30fa2d275",
+  "gc_checksum": "88201e8b8ea8bb79f0c0d1a90674538098957c734168c1e0e890f6160cb50856",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 1
+}

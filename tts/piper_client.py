@@ -135,7 +135,6 @@ class PiperTTSClient:
         self._response_lang_locked: bool = False  # True once lang is resolved
 
     async def initialize(self, offline_only: bool = True) -> bool:
-
         # test: covered
         """
         Load Piper voices (blocking, run once at startup).
@@ -327,7 +326,6 @@ class PiperTTSClient:
         return onnx_path
 
     def set_language(self, lang: str, from_stt: bool = False) -> None:
-
         # test: covered
         """
         Set the active language for voice routing.
@@ -469,7 +467,6 @@ class PiperTTSClient:
         return text
 
     async def synthesize_chunk(self, text: str) -> np.ndarray | None:
-
         # test: covered
         """
         Synthesize a single text chunk to audio.
@@ -643,7 +640,6 @@ class PiperTTSClient:
                 tts_chunk_queue.task_done()
 
     async def speak(self, text: str) -> None:
-
         # test: covered
         """
         Convenience: synthesize full text and queue all audio directly.
@@ -771,7 +767,6 @@ def test_speak() -> None:
 
 
 def test_atomic_encode_result() -> None:
-
     """Test coverage for atomic_encode_result.
     Verifies the fallback identity function returns its input unchanged.
 

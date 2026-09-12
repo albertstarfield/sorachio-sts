@@ -1,7 +1,9 @@
 {
-    "source_file": "settings.py",
-    "source_hash": "6b4978dff0a23aba69e9a3da908da13bd7d2a650c69e1f96070ee573211cd757",
-    "rs_checksum": "274610ac71003939c3b79c6d71f87d0659290accabe87f2e86d4a6ef28218b7b",
-    "gc_checksum": "eb9ddda7f155b2f0e5875d62a390324b7da36560ed184e11489cd75cdf415c7d",
-    "version": "1.0"
+  "source_file": "settings.py",
+  "source_hash": "9d285dda16ab5f0101d862958ab321de90b6255b65daf5d931c428f138f61f88",
+  "rs_checksum": "c0128667df9b5400d1363b6bcea940a33bfc22addf0c98cf3a2ef6695504ac45",
+  "gc_checksum": "2aa2f181c77219bb6f97929f7912141a236316c997aa6d73a64c777149943d80",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 64
 }

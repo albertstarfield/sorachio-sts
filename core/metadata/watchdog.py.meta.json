@@ -1,7 +1,9 @@
 {
     "source_file": "watchdog.py",
-    "source_hash": "21ebe7caeeae6968085e42cb734f1e3a0a0bde96d8c0b80979205e28fd3c9dfa",
-    "rs_checksum": "c1a1ad808a6366d198fcda6aeac1361e79259b370b2d253eb2adeb89438db1a9",
-    "gc_checksum": "15eae7299ec3a5213aa88f04c083f28d0a988c6e91d6ce651dca00c0d790aaf4",
-    "version": "1.0"
+    "source_hash": "973bb12e89b8dc66dcf8de0f2916960c37d7a6adbbe4ef917437c132ccf34073",
+    "rs_checksum": "254caabc36a4fe6aea9b180427209fb0a8e00727f1c39fb254480ccfc7dbff5a",
+    "gc_checksum": "b0f0cfe36b74007e0246ae847968f2cce9b13ace370f4ef9fda2601d26aa32d6",
+    "version": "2.0",
+    "block_size": 512,
+    "total_blocks": 172
 }

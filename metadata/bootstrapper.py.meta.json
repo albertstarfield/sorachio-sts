@@ -1,7 +1,9 @@
 {
-    "source_file": "bootstrapper.py",
-    "source_hash": "20ee5250a9a15add51a4f857c26e5ab1e93bbf0ac977ba95f3e7b5f5be96d374",
-    "rs_checksum": "3b32e24e07669093a4355be0e87a4be956f90d612052dbf85cef2f9f677ee805",
-    "gc_checksum": "b1b1dd9a9ddc414784f4d246f8faa03b1e6414c9efbd802b76c439aac0f09577",
-    "version": "1.0"
+  "source_file": "bootstrapper.py",
+  "source_hash": "7a1341ebc985123efc7fbc15ed4c8a9572fe9085dc3c04c0bd4e59e4a1aacb30",
+  "rs_checksum": "b52149aa68ff80eab43b41bf94aa418e082d1d423f0e6e53b453a1c63baaebdc",
+  "gc_checksum": "a9ecd784f6d8ed84d7569bb5741ae27fee185b2cecdf7a5c3e1bf5966e866646",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 74
 }

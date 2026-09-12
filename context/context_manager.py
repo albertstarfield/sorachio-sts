@@ -54,7 +54,6 @@ class ContextManager:
     def __init__(self, stm: ShortTermMemory, ltm: LongTermMemory, personality_prompt: str,
         companion_name: str = "Sorachio", max_stm_in_prompt: int = 10, max_ltm_in_prompt: int = 3,
         include_emotional_state: bool = True, emotion_tracker: EmotionTracker | None = None) -> None:  # parity: atomic_encode_result applied (SECDED TED)
-
         # test: covered
         """Init.
         

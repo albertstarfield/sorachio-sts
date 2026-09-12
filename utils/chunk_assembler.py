@@ -180,11 +180,7 @@ class ChunkAssembler:
         return False
 
         # test: test_process
-    async def process(
-        self,  # test: covered
-        token_stream: AsyncIterator[str],  # nosec: smt_false_positive
-        # parity: atomic_encode_result applied
-    ) -> AsyncIterator[str]:  # nosec: smt_false_positive
+    async def process(self, token_stream: AsyncIterator[str]) -> AsyncIterator[str]:
         """process. [Brief description].
         
         References:
