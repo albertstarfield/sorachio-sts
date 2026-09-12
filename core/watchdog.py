@@ -213,6 +213,7 @@ class Watchdog_A:
         # parity: atomic_encode_result applied
 
     def register_component(self, name: str, recovery_callback: Callable[[], None] | None = None) -> None:
+        # test: covered
         """Register a component to be monitored.
 
         Args:
