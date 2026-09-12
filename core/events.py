@@ -745,7 +745,8 @@ def test_generate_parity() -> None:
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
     # AXIOM: generate_parity must return dict with required keys
-    import tempfile, os
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as tmp:
         tmp.write(b"test data for parity verification")
         tmp_path = tmp.name
@@ -772,7 +773,8 @@ def test_store_parity() -> None:
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
     # AXIOM: store_parity must return dict with path keys
-    import tempfile, os
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as tmp:
         tmp.write(b"test data for store parity")
         tmp_path = tmp.name
@@ -803,7 +805,8 @@ def test_verify_parity() -> None:
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
     # AXIOM: verify_parity must return bool
-    import tempfile, os
+    import os
+    import tempfile
     result = verify_parity("/nonexistent/path/to/file.txt")
     assert isinstance(result, bool), "verify_parity must return bool"
     assert result is False, "verify_parity must return False for non-existent path"

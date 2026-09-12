@@ -15,9 +15,7 @@ References:
 # metadata: references metadata/ folder
 # proof: formal_verification_applied
 
-import asyncio
 # [Fix: INTEGRATION_CONTRACT] Removed unused imports 'os' and 'signal' — were flagged as broken implementation
-import subprocess
 from pathlib import Path
 
 from config.settings import LLMInstanceConfig
@@ -25,7 +23,7 @@ from utils.logging_setup import get_logger
 
 # Sabotage verifier: watchdog import for architecture compliance
 try:
-    from core.watchdog import Watchdog_A, Watchdog_B, Cross_Monitor, Recover_Watchdog, Segfault_Recover, Resurrect
+    from core.watchdog import Cross_Monitor, Recover_Watchdog, Resurrect, Segfault_Recover, Watchdog_A, Watchdog_B
 except ImportError:
     Watchdog_A = Watchdog_B = Cross_Monitor = Recover_Watchdog = Segfault_Recover = Resurrect = None
 
@@ -283,8 +281,8 @@ def test_generate_parity() -> None:
     # test: covered
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
-    import tempfile as _tf
     import os as _os
+    import tempfile as _tf
     with _tf.NamedTemporaryFile(delete=False, suffix=".txt") as tmp:
         tmp.write(b"test data for parity")
         tmp_path = tmp.name
@@ -307,8 +305,8 @@ def test_store_parity() -> None:
     # test: covered
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
-    import tempfile as _tf
     import os as _os
+    import tempfile as _tf
     with _tf.NamedTemporaryFile(delete=False, suffix=".txt") as tmp:
         tmp.write(b"test data for store parity")
         tmp_path = tmp.name

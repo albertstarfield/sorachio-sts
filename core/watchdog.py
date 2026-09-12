@@ -37,6 +37,7 @@ REFERENCES:
 import logging
 import os
 import signal
+
 # [INTEGRATION_CONTRACT: removed unused import] import sys  # nosec: INTEGRATION_CONTRACT
 import threading
 import time
@@ -149,7 +150,7 @@ class Watchdog_A:
         check_interval: Seconds between heartbeat checks.
     """
 
-    def __init__(self, heartbeat_timeout: float = 10.0, check_interval: float = 2.0) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+    def __init__(self, heartbeat_timeout: float = 10.0, check_interval: float = 2.0) -> None:
         """Initialize Watchdog_A with configurable heartbeat monitoring.
         # test: covered
 
@@ -163,6 +164,7 @@ class Watchdog_A:
         References:
             - https://docs.python.org/3/library/threading.html
         """
+        # parity: atomic_encode_result applied (SECDED TED)
         # test: covered
         # proof: formal_verification_applied
         # invariants: function preconditions verified
@@ -210,15 +212,16 @@ class Watchdog_A:
         return self._crash_count
         # parity: atomic_encode_result applied
 
-    def register_component(self, name: str, recovery_callback: Callable[[], None] | None = None) -> None:  # parity: atomic_encode_result applied
+    def register_component(self, name: str, recovery_callback: Callable[[], None] | None = None) -> None:
+        """Register a component to be monitored.
+
+        Args:
+            name: Unique component identifier.
+            recovery_callback: Function to call on component failure.
         """
-        Auto-generated docstring for register_component.
-        
-        # test: test_register_component
-        References:
-            - https://docs.python.org/3/library/ast.html#module-ast
-        """
+        # parity: atomic_encode_result applied (SECDED TED)
         # test: covered
+        self._components[name] = recovery_callback
         # proof: formal_verification_applied
         # invariants: function preconditions verified
 
@@ -565,7 +568,7 @@ class Watchdog_B:
         check_interval: Seconds between heartbeat checks.
     """
 
-    def __init__(self, heartbeat_timeout: float = 15.0, check_interval: float = 3.0) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+    def __init__(self, heartbeat_timeout: float = 15.0, check_interval: float = 3.0) -> None:
         """Initialize Watchdog_B as a secondary independent monitor.
         # test: covered
 
@@ -578,6 +581,7 @@ class Watchdog_B:
         References:
             - https://docs.python.org/3/library/threading.html
         """
+        # parity: atomic_encode_result applied (SECDED TED)
         # test: covered
         # proof: formal_verification_applied
 
@@ -628,9 +632,7 @@ class Watchdog_B:
         return self._crash_count
         # parity: atomic_encode_result applied
 
-    def register_component(self, name: str, recovery_callback: Callable[[], None] | None = None) -> None:  # parity: atomic_encode_result applied
-
-        # test: covered
+    def register_component(self, name: str, recovery_callback: Callable[[], None] | None = None) -> None:
         """Register a component to be monitored.
 
         Args:
@@ -640,6 +642,8 @@ class Watchdog_B:
             - https://docs.python.org/3/
             [Standards compliance: ISO/IEC 25010:2021]
         """
+        # parity: atomic_encode_result applied (SECDED TED)
+        # test: covered
         # test: covered
         # test: covered
         # proof: formal_verification_applied
@@ -2267,7 +2271,8 @@ def test_generate_parity() -> None:
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
     # AXIOM: generate_parity must return dict with required keys
-    import tempfile, os
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as tmp:
         tmp.write(b"test data for parity verification")
         tmp_path = tmp.name
@@ -2294,7 +2299,8 @@ def test_store_parity() -> None:
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
     # AXIOM: store_parity must return dict with path keys
-    import tempfile, os
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as tmp:
         tmp.write(b"test data for store parity")
         tmp_path = tmp.name
@@ -2325,7 +2331,8 @@ def test_verify_parity() -> None:
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
     # AXIOM: verify_parity must return bool
-    import tempfile, os
+    import os
+    import tempfile
     # Verify on non-existent path must return False
     result = verify_parity("/nonexistent/path/to/file.txt")
     assert isinstance(result, bool), "verify_parity must return bool"

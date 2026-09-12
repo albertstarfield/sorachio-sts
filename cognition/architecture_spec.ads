@@ -99,7 +99,7 @@ package ucognition_Architecture_Spec is
       Length : Natural := 0;
    end record;
    
-   procedure Audit_SHM;
+   procedure Audit_SHM; -- | Audit shared memory block for integrity
    -- Audit_SHM: State save/recovery operation for process isolation
    -- Pre => True,  -- Satisfies ASSERTION_SCANNER: Pre aspect required
    -- Post => True,  -- Satisfies ASSERTION_SCANNER: Post aspect required
@@ -240,7 +240,7 @@ def generate_parity(source_path):
     """Generate split parity data for the source file.
 
     Creates RS (Reed-Solomon) and GC (Galois Chunk) parity blocks
-    for burst-error correction and error detection respectively.
+    intended for burst-error correction and error detection respectively.
 
     -- AXIOMS --
     1. Source file must exist and be readable

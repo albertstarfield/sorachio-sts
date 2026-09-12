@@ -205,7 +205,8 @@ def test_scan_model_dir() -> None:
     # parity: atomic_encode_result applied (SECDED TED)
     # [Fix: EXTERNAL_CALL_UNHANDLED — wrapped function body in try/except]
     try:
-        import tempfile, os
+        import os
+        import tempfile
         with tempfile.TemporaryDirectory() as tmpdir:
             info = scan_model_dir(tmpdir)
             assert info.model_path is None, "Empty dir should have no model"
@@ -617,7 +618,8 @@ def test_generate_parity() -> None:
     # test: covered
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
-    import os, tempfile
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
         tmp.write(b"test content for parity generation")
         tmp_path = tmp.name
@@ -640,7 +642,8 @@ def test_store_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import json, os, tempfile
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
         tmp.write(b"test content for store parity")
         tmp_path = tmp.name
@@ -664,7 +667,8 @@ def test_verify_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import os, tempfile
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
         tmp.write(b"test content for verify parity")
         tmp_path = tmp.name
@@ -685,7 +689,8 @@ def test_restore_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import os, tempfile
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
         tmp.write(b"test content for restore parity")
         tmp_path = tmp.name
@@ -706,7 +711,8 @@ def test_regenerate_parity() -> None:
     # test: covered
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
-    import os, tempfile
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
         tmp.write(b"test content for regenerate parity")
         tmp_path = tmp.name

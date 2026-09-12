@@ -2367,7 +2367,8 @@ def test_generate_parity() -> None:
     # test: covered
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
-    import tempfile, os
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as tmp:
         tmp.write(b"test content for parity verification")
         tmp_path = tmp.name
@@ -2390,7 +2391,8 @@ def test_store_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import tempfile, os
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as tmp:
         tmp.write(b"test content for parity storage")
         tmp_path = tmp.name
@@ -2413,7 +2415,8 @@ def test_verify_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import tempfile, os
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as tmp:
         tmp.write(b"test content for parity verification")
         tmp_path = tmp.name
@@ -2436,12 +2439,13 @@ def test_restore_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import tempfile, os
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as tmp:
         tmp.write(b"test content for parity restore")
         tmp_path = tmp.name
     try:
-        from tests import generate_parity, store_parity, restore_parity
+        from tests import generate_parity, restore_parity, store_parity
         parity_data = generate_parity(tmp_path, block_size=256)
         store_parity(tmp_path, parity_data)
         result = restore_parity(tmp_path)
@@ -2458,7 +2462,8 @@ def test_regenerate_parity() -> None:
     # test: covered
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
-    import tempfile, os
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as tmp:
         tmp.write(b"test content for parity regeneration")
         tmp_path = tmp.name

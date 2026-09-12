@@ -483,7 +483,8 @@ def regenerate_parity(source_path: str) -> bool:
 def test_generate_parity() -> None:
     """Test for generate_parity function. [test ref: test_generate_parity]"""
     # test: covered
-    import tempfile, os
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(delete=False, suffix='.txt') as tmp:
         tmp.write(b'test source data for parity generation')
         tmp_path = tmp.name
@@ -502,7 +503,9 @@ def test_generate_parity() -> None:
 def test_store_parity() -> None:
     """Test for store_parity function. [test ref: test_store_parity]"""
     # test: covered
-    import tempfile, os, shutil
+    import os
+    import shutil
+    import tempfile
     tmp_dir = tempfile.mkdtemp()
     try:
         tmp_path = os.path.join(tmp_dir, "test_src.py")

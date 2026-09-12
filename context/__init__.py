@@ -2,8 +2,9 @@
 """Sorachio-STS context package."""
 # proof: formal_verification_applied
 
-from .context_manager import ContextManager
 from utils.logging_setup import get_logger
+
+from .context_manager import ContextManager
 
 log = get_logger("context")
 
@@ -383,7 +384,8 @@ def test_generate_parity() -> None:
     # test: covered
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
-    import tempfile, os
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
         f.write("# test content\n")
         source_path = f.name
@@ -408,7 +410,9 @@ def test_store_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import tempfile, os, shutil
+    import os
+    import shutil
+    import tempfile
     with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
         f.write("# test content\n")
         source_path = f.name
@@ -435,7 +439,9 @@ def test_verify_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import tempfile, os, shutil
+    import os
+    import shutil
+    import tempfile
     with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
         f.write("# test content\n")
         source_path = f.name
@@ -460,7 +466,9 @@ def test_restore_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import tempfile, os, shutil
+    import os
+    import shutil
+    import tempfile
     with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
         f.write("# test content\n")
         source_path = f.name
@@ -485,7 +493,9 @@ def test_regenerate_parity() -> None:
     # test: covered
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
-    import tempfile, os, shutil
+    import os
+    import shutil
+    import tempfile
     with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
         f.write("# test content\n")
         source_path = f.name

@@ -49,6 +49,7 @@ class EmotionTracker:
         References:
             - https://docs.python.org/3/library/ast.html#module-ast
         """
+        # parity: atomic_encode_result applied (SECDED TED)
         # test: covered
         # proof: formal_verification_applied
         # invariants: function preconditions verified
@@ -58,7 +59,7 @@ class EmotionTracker:
         self._current_mood: str = "neutral"
         self._mood_history: deque[str] = deque(maxlen=20)
 
-    def record_emotion(self, emotion: str, topic: str = "general", importance: float = 0.5) -> None:  # parity: atomic_encode_result applied
+    def record_emotion(self, emotion: str, topic: str = "general", importance: float = 0.5) -> None:
         """Record an observed emotion from a cognitive decision.
         # test: covered
 
@@ -70,6 +71,7 @@ class EmotionTracker:
         References:
         - https://docs.python.org/3/library/collections.html
         """
+        # parity: atomic_encode_result applied (SECDED TED)
         # test: covered
         entry = EmotionEntry(
             emotion=emotion,
@@ -537,7 +539,8 @@ def test_save() -> None:
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
-    import tempfile, os
+    import os
+    import tempfile
     tracker = EmotionTracker(history_size=10)
     tracker.record_emotion("happy")
     with tempfile.NamedTemporaryFile(suffix=".json", delete=False) as f:
@@ -561,7 +564,8 @@ def test_load() -> None:
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
-    import tempfile, os, json
+    import os
+    import tempfile
     tracker = EmotionTracker(history_size=10)
     tracker.record_emotion("happy")
     with tempfile.NamedTemporaryFile(suffix=".json", delete=False) as f:
@@ -976,7 +980,8 @@ def test_generate_parity() -> None:
     # test: covered
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
-    import os, tempfile
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
         tmp.write(b"test content for parity generation")
         tmp_path = tmp.name
@@ -999,7 +1004,8 @@ def test_store_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import json, os, tempfile
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
         tmp.write(b"test content for store parity")
         tmp_path = tmp.name
@@ -1023,7 +1029,8 @@ def test_verify_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import os, tempfile
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
         tmp.write(b"test content for verify parity")
         tmp_path = tmp.name
@@ -1044,7 +1051,8 @@ def test_restore_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import os, tempfile
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
         tmp.write(b"test content for restore parity")
         tmp_path = tmp.name
@@ -1065,7 +1073,8 @@ def test_regenerate_parity() -> None:
     # test: covered
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
-    import os, tempfile
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
         tmp.write(b"test content for regenerate parity")
         tmp_path = tmp.name

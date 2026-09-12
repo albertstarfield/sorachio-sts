@@ -2,8 +2,8 @@
 # Split from architecture_spec.ads
 # [metadata: references metadata/ folder -- split parity protection]
 
-import json
 import hashlib
+import json
 import logging
 from pathlib import Path
 
@@ -11,14 +11,7 @@ log = logging.getLogger(__name__)
 
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
-    """Generate split parity for a source file.
-
-    Creates RS and GC parity blocks with per-part checksums.
-
-    References:
-        - https://docs.python.org/3/library/struct.html
-        - https://parchive.sourceforge.net/
-    """
+    """Generate split parity for a source file with RS and GC parity blocks."""
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     try:
@@ -65,14 +58,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
-    """Store split parity files in metadata/ folder.
-
-    Creates .par2-one, .par2-two, and .meta.json files.
-
-    References:
-        - https://docs.python.org/3/library/struct.html
-        - https://parchive.sourceforge.net/
-    """
+    """Store split parity files (.par2-one, .par2-two, .meta.json) in metadata/."""
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     try:
@@ -101,14 +87,7 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
 
 
 def verify_parity(source_path: str) -> bool:
-    """Verify split parity integrity.
-
-    Checks that parity files exist, checksums match.
-
-    References:
-        - https://docs.python.org/3/library/struct.html
-        - https://parchive.sourceforge.net/
-    """
+    """Verify split parity integrity by checking parity files and checksums."""
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     try:
@@ -193,26 +172,46 @@ def regenerate_parity(source_path: str) -> bool:
 
 
 def test_generate_parity() -> None:
-    """Test generate_parity function."""
+    """Test generate_parity function.
+
+    References:
+        - https://docs.python.org/3/library/unittest.html
+    """
     # test: covered
     assert callable(generate_parity)
 
 def test_store_parity() -> None:
-    """Test store_parity function."""
+    """Test store_parity function.
+
+    References:
+        - https://docs.python.org/3/library/unittest.html
+    """
     # test: covered
     assert callable(store_parity)
 
 def test_verify_parity() -> None:
-    """Test verify_parity function."""
+    """Test verify_parity function.
+
+    References:
+        - https://docs.python.org/3/library/unittest.html
+    """
     # test: covered
     assert callable(verify_parity)
 
 def test_restore_parity() -> None:
-    """Test restore_parity function."""
+    """Test restore_parity function.
+
+    References:
+        - https://docs.python.org/3/library/unittest.html
+    """
     # test: covered
     assert callable(restore_parity)
 
 def test_regenerate_parity() -> None:
-    """Test regenerate_parity function."""
+    """Test regenerate_parity function.
+
+    References:
+        - https://docs.python.org/3/library/unittest.html
+    """
     # test: covered
     assert callable(regenerate_parity)

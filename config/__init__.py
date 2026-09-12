@@ -3,6 +3,7 @@
 # proof: formal_verification_applied
 
 import logging
+
 from .settings import SorachioSettings, get_settings, load_settings, resolve_path
 
 _log = logging.getLogger(__name__)
@@ -381,7 +382,8 @@ def test_generate_parity() -> None:
     """
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
-    import tempfile, os
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(delete=False, suffix='.txt') as tmp:
         tmp.write(b'test source data for parity generation')
         tmp_path = tmp.name
@@ -404,7 +406,9 @@ def test_store_parity() -> None:
     """
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
-    import tempfile, os, shutil
+    import os
+    import shutil
+    import tempfile
     tmp_dir = tempfile.mkdtemp()
     try:
         tmp_path = os.path.join(tmp_dir, "test_src.py")

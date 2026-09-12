@@ -99,7 +99,7 @@ package uutils_Architecture_Spec is
       Length : Natural := 0;
    end record;
    
-   procedure Audit_SHM;
+   procedure Audit_SHM; -- | Audit shared memory block for integrity
    -- Audit_SHM: State save/recovery operation for process isolation
    -- Pre => True,  -- Satisfies ASSERTION_SCANNER: Pre aspect required
    -- Post => True,  -- Satisfies ASSERTION_SCANNER: Post aspect required

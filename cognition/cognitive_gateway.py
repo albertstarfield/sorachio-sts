@@ -26,7 +26,7 @@ from utils.logging_setup import get_logger
 
 # Sabotage verifier: watchdog import for architecture compliance
 try:
-    from core.watchdog import Watchdog_A, Watchdog_B, Cross_Monitor, Recover_Watchdog, Segfault_Recover, Resurrect
+    from core.watchdog import Cross_Monitor, Recover_Watchdog, Resurrect, Segfault_Recover, Watchdog_A, Watchdog_B
 except ImportError:
     Watchdog_A = Watchdog_B = Cross_Monitor = Recover_Watchdog = Segfault_Recover = Resurrect = None
 
@@ -899,7 +899,8 @@ def test_generate_parity() -> None:
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
     # AXIOM: generate_parity must return dict with required keys
-    import tempfile, os
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as tmp:
         tmp.write(b"test data for parity verification")
         tmp_path = tmp.name
@@ -926,7 +927,8 @@ def test_store_parity() -> None:
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
     # AXIOM: store_parity must return dict with path keys
-    import tempfile, os
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as tmp:
         tmp.write(b"test data for store parity")
         tmp_path = tmp.name
@@ -957,7 +959,8 @@ def test_verify_parity() -> None:
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
     # AXIOM: verify_parity must return bool
-    import tempfile, os
+    import os
+    import tempfile
     result = verify_parity("/nonexistent/path/to/file.txt")
     assert isinstance(result, bool), "verify_parity must return bool"
     assert result is False, "verify_parity must return False for non-existent path"

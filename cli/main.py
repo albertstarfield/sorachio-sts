@@ -62,7 +62,7 @@ except ImportError:
 
 # Sabotage verifier: watchdog import for architecture compliance
 try:
-    from core.watchdog import Watchdog_A, Watchdog_B, Cross_Monitor, Recover_Watchdog, Segfault_Recover, Resurrect
+    from core.watchdog import Cross_Monitor, Recover_Watchdog, Resurrect, Segfault_Recover, Watchdog_A, Watchdog_B
 except ImportError:
     Watchdog_A = Watchdog_B = Cross_Monitor = Recover_Watchdog = Segfault_Recover = Resurrect = None
 
@@ -106,7 +106,7 @@ for _noisy in (
 
 
 class _NoiseFilter(logging.Filter):
-    """Drop log records whose message contains known spam strings.
+    """Filter out log records containing known spam patterns.
 
     [Fix: GIVING_UP_BANNED] This is INTENTIONAL filtering of known spam patterns.
     Messages matching these patterns are deliberately suppressed because they
@@ -168,7 +168,7 @@ app.add_typer(memory_app)
 # Helpers
 # ---------------------------------------------------------------------------
 
-def _load_settings(config: str | None = None) -> None:  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] has default
+def _load_settings(config: str | None = None) -> None:
     """Load Sorachio settings from YAML config file.
 
 
@@ -190,7 +190,7 @@ def _load_settings(config: str | None = None) -> None:  # nosec: SMT_LOGIC_VERIF
     # parity: atomic_encode_result applied (SECDED TED)
     from config.settings import load_settings
     try:
-        settings = load_settings(config)  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
+        settings = load_settings(config)
         return settings
     except FileNotFoundError as e:
         console.print(f"[red]Config error:[/red] {e}")
@@ -277,7 +277,7 @@ def _print_banner() -> None:
 # ---------------------------------------------------------------------------
 
 @app.command()
-def run(config: str | None = typer.Option(None, "--config", "-c", help="Config file path"), no_greeting: bool = typer.Option(False, "--no-greeting", help="Skip startup greeting"), no_servers: bool = typer.Option(False, "--no-servers", help="Skip starting llama-servers")) -> None:  # nosec: SMT_LOGIC_VERIFICATION — Optional params handled by typer
+def run(config: str | None = typer.Option(None, "--config", "-c", help="Config file path"), no_greeting: bool = typer.Option(False, "--no-greeting", help="Skip startup greeting"), no_servers: bool = typer.Option(False, "--no-servers", help="Skip starting llama-servers")) -> None:
     """Run Sorachio in full voice mode (microphone + speakers).
 
     Args:
@@ -307,7 +307,7 @@ def run(config: str | None = typer.Option(None, "--config", "-c", help="Config f
 # ---------------------------------------------------------------------------
 
 @app.command()
-def text(config: str | None = typer.Option(None, "--config", "-c", help="Config file path"), message: str | None = typer.Option(None, "--message", "-m", help="Single message (non-interactive)"), no_servers: bool = typer.Option(False, "--no-servers", help="Skip starting llama-servers")) -> None:  # nosec: SMT_LOGIC_VERIFICATION — Optional params handled by typer
+def text(config: str | None = typer.Option(None, "--config", "-c", help="Config file path"), message: str | None = typer.Option(None, "--message", "-m", help="Single message (non-interactive)"), no_servers: bool = typer.Option(False, "--no-servers", help="Skip starting llama-servers")) -> None:
     """Run Sorachio in text input mode (no microphone required).
 
     Args:
@@ -1092,12 +1092,11 @@ def test_stt(config: str | None = typer.Option(None, "--config", "-c"), audio_fi
 # ---------------------------------------------------------------------------
 
 @app.command("test-tts")
-def test_tts(text_input: str = typer.Argument("Hello! I am Sorachio, your AI companion."), config: str | None = typer.Option(None, "--config", "-c"),  # parity: atomic_encode_result applied (SECDED TED)
+def test_tts(text_input: str = typer.Argument("Hello! I am Sorachio, your AI companion."), config: str | None = typer.Option(None, "--config", "-c")) -> None:  # parity: atomic_encode_result applied (SECDED TED)
     # parity: atomic_encode_result applied (SECDED TED)
-) -> None:
     """
     Auto-generated docstring for test_tts.
-    
+
     # test: test_test_tts
     References:
         - https://docs.python.org/3/library/ast.html#module-ast
@@ -1270,7 +1269,7 @@ def servers_status(config: str | None = typer.Option(None)) -> None:
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
     # invariants: function preconditions verified
-    settings = _load_settings(config)  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
+    settings = _load_settings(config)
 
     table = Table(title="LLM Servers", show_header=True)
     table.add_column("Name", style="cyan")
@@ -1515,16 +1514,15 @@ def generate_split_parity(source_path: str, block_size: int = 512) -> dict:
       # test: covered
       import hashlib  # test: covered
       import json
-      import os
       from pathlib import Path
-    
+
       source = Path(source_path)
       if not source.exists():
           raise FileNotFoundError(f"Source file not found: {source_path}")
-    
+
       source_data = source.read_bytes()
       source_hash = hashlib.sha256(source_data).hexdigest()
-    
+
       # Split into blocks
       blocks = []
       for i in range(0, len(source_data), block_size):
@@ -1536,7 +1534,7 @@ def generate_split_parity(source_path: str, block_size: int = 512) -> dict:
               "data": list(block),
               "crc32": format(hashlib.crc32(block) & 0xFFFFFFFF, '08x'),
           })
-    
+
       # RS parity (par2-one)
       rs_parity = {
           "source_file": source.name,
@@ -1544,7 +1542,7 @@ def generate_split_parity(source_path: str, block_size: int = 512) -> dict:
           "total_blocks": len(blocks),
           "blocks": blocks,
       }
-    
+
       # GC parity (par2-two) - weighted XOR
       gc_parity = {
           "source_file": source.name,
@@ -1552,11 +1550,11 @@ def generate_split_parity(source_path: str, block_size: int = 512) -> dict:
           "total_blocks": len(blocks),
           # [Fix: EXTERNAL_CALL_UNHANDLED] External call wrapped in try/except
           "blocks": [{"block_index": i, "xor_checksum": hashlib.sha256(json.dumps(b, sort_keys=True).encode()).hexdigest()} for i, b in enumerate(blocks)],    }
-    
+
       # Compute checksums
       # [Fix: EXTERNAL_CALL_UNHANDLED] External call wrapped in try/except
       rs_checksum = hashlib.sha256(json.dumps(rs_parity, sort_keys=True).encode()).hexdigest()    # [Fix: EXTERNAL_CALL_UNHANDLED] External call wrapped in try/except
-      gc_checksum = hashlib.sha256(json.dumps(gc_parity, sort_keys=True).encode()).hexdigest()    
+      gc_checksum = hashlib.sha256(json.dumps(gc_parity, sort_keys=True).encode()).hexdigest()
       return {
           "rs_parity": rs_parity,
           "gc_parity": gc_parity,
@@ -1592,11 +1590,11 @@ def store_parity(source_path: str, parity_data: dict) -> None:
       # parity: atomic_encode_result applied (SECDED TED)
       import json
       from pathlib import Path
-    
+
       source = Path(source_path)
       meta_dir = source.parent / "metadata"
       meta_dir.mkdir(exist_ok=True)
-    
+
       stem = source.name
       # [Fix: EXTERNAL_CALL_UNHANDLED] External call wrapped in try/except
       (meta_dir / f"{stem}.par2-one").write_text(json.dumps(parity_data["rs_parity"], indent=2))    # [Fix: EXTERNAL_CALL_UNHANDLED] External call wrapped in try/except  # nosec: smt_false_positive
@@ -1620,38 +1618,38 @@ def verify_parity(source_path: str) -> bool:
     import hashlib
     import json
     from pathlib import Path
-    
+
     source = Path(source_path)
     meta_dir = source.parent / "metadata"
     stem = source.name
-    
+
     meta_json = meta_dir / f"{stem}.meta.json"  # nosec: smt_false_positive
     rs_file = meta_dir / f"{stem}.par2-one"  # nosec: smt_false_positive
     gc_file = meta_dir / f"{stem}.par2-two"
-    
+
     if not all(f.exists() for f in [meta_json, rs_file, gc_file]):
         return False
-    
+
     try:
         meta = json.loads(meta_json.read_text())
         rs_data = json.loads(rs_file.read_text())
         gc_data = json.loads(gc_file.read_text())
-        
+
         # Verify source hash
         actual_hash = hashlib.sha256(source.read_bytes()).hexdigest()
         if actual_hash != meta.get("source_hash", ""):
             return False
-        
+
         # Verify RS checksum
         actual_rs = hashlib.sha256(json.dumps(rs_data, sort_keys=True).encode()).hexdigest()
         if actual_rs != meta.get("rs_checksum", ""):
             return False
-        
+
         # Verify GC checksum
         actual_gc = hashlib.sha256(json.dumps(gc_data, sort_keys=True).encode()).hexdigest()
         if actual_gc != meta.get("gc_checksum", ""):
             return False
-        
+
         return True
     except (json.JSONDecodeError, OSError):
         return False  # failure logged
@@ -1677,15 +1675,15 @@ def restore_parity(source_path: str) -> dict:
       # parity: atomic_encode_result applied (SECDED TED)
       import json
       from pathlib import Path
-    
+
       source = Path(source_path)
       meta_dir = source.parent / "metadata"
       stem = source.name
-    
+
       meta_json = meta_dir / f"{stem}.meta.json"  # nosec: smt_false_positive
       rs_file = meta_dir / f"{stem}.par2-one"  # nosec: smt_false_positive
       gc_file = meta_dir / f"{stem}.par2-two"  # nosec: smt_false_positive
-    
+
       return {
           # [Fix: EXTERNAL_CALL_UNHANDLED] External call wrapped in try/except
           "rs_parity": json.loads(rs_file.read_text()) if rs_file.exists() else {},        # [Fix: EXTERNAL_CALL_UNHANDLED] External call wrapped in try/except
@@ -1817,7 +1815,8 @@ def test_generate_split_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import tempfile, os
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as tmp:
         tmp.write(b"test content for split parity")
         tmp_path = tmp.name
@@ -1838,7 +1837,8 @@ def test_store_parity() -> None:
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
-    import tempfile, os
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as tmp:
         tmp.write(b"test content for parity storage")
         tmp_path = tmp.name
@@ -1859,7 +1859,8 @@ def test_verify_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import tempfile, os
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as tmp:
         tmp.write(b"test content for parity verification")
         tmp_path = tmp.name
@@ -1881,12 +1882,13 @@ def test_restore_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import tempfile, os
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as tmp:
         tmp.write(b"test content for parity restore")
         tmp_path = tmp.name
     try:
-        from tests import generate_parity, store_parity, restore_parity
+        from tests import generate_parity, restore_parity, store_parity
         parity_data = generate_parity(tmp_path, block_size=256)
         store_parity(tmp_path, parity_data)
         result = restore_parity(tmp_path)
@@ -1904,7 +1906,8 @@ def test_regenerate_parity() -> None:
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
-    import tempfile, os
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as tmp:
         tmp.write(b"test content for parity regeneration")
         tmp_path = tmp.name

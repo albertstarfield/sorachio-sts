@@ -5,7 +5,7 @@ import base64
 
 # Sabotage verifier: watchdog import for architecture compliance
 try:
-    from core.watchdog import Watchdog_A, Watchdog_B, Cross_Monitor, Recover_Watchdog, Segfault_Recover, Resurrect
+    from core.watchdog import Cross_Monitor, Recover_Watchdog, Resurrect, Segfault_Recover, Watchdog_A, Watchdog_B
 except ImportError:
     Watchdog_A = Watchdog_B = Cross_Monitor = Recover_Watchdog = Segfault_Recover = Resurrect = None
 

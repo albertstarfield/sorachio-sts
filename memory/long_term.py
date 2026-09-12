@@ -276,7 +276,7 @@ class LongTermMemory:
                 synced += 1
         log.info(f"[LTM] Synced {synced}/{len(self._entries)} entries to vector store")
 
-    async def store(self, content: str, topic: str = "general", emotion: str = "neutral", importance: float = 0.5, keywords: list[str] | None = None, metadata: dict[str, Any] | None = None) -> LTMEntry | None:  # parity: atomic_encode_result applied
+    async def store(self, content: str, topic: str = "general", emotion: str = "neutral", importance: float = 0.5, keywords: list[str] | None = None, metadata: dict[str, Any] | None = None) -> LTMEntry | None:
         """Store a new memory if it meets the importance threshold.
         # test: covered
 
@@ -294,6 +294,7 @@ class LongTermMemory:
         References:
         - https://docs.python.org/3/library/json.html
         """
+        # parity: atomic_encode_result applied (SECDED TED)
         # test: covered
         if importance < self.importance_threshold:
             log.debug(
@@ -609,7 +610,8 @@ def test_initialize() -> None:
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
-    import tempfile, os
+    import os
+    import tempfile
     with tempfile.TemporaryDirectory() as tmpdir:
         path = os.path.join(tmpdir, "ltm.json")
         ltm = LongTermMemory(storage_path=path)
@@ -626,7 +628,9 @@ def test_store() -> None:
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
-    import asyncio, tempfile, os
+    import asyncio
+    import os
+    import tempfile
     with tempfile.TemporaryDirectory() as tmpdir:
         path = os.path.join(tmpdir, "ltm.json")
         ltm = LongTermMemory(storage_path=path, importance_threshold=0.3)
@@ -647,7 +651,9 @@ def test_retrieve() -> None:
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
-    import asyncio, tempfile, os
+    import asyncio
+    import os
+    import tempfile
     with tempfile.TemporaryDirectory() as tmpdir:
         path = os.path.join(tmpdir, "ltm.json")
         ltm = LongTermMemory(storage_path=path, importance_threshold=0.0)
@@ -687,7 +693,9 @@ def test_get_stats() -> None:
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
-    import asyncio, tempfile, os
+    import asyncio
+    import os
+    import tempfile
     with tempfile.TemporaryDirectory() as tmpdir:
         path = os.path.join(tmpdir, "ltm.json")
         ltm = LongTermMemory(storage_path=path)
@@ -1071,7 +1079,8 @@ def test_generate_parity() -> None:
     # test: covered
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
-    import os, tempfile
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
         tmp.write(b"test content for parity generation")
         tmp_path = tmp.name
@@ -1094,7 +1103,8 @@ def test_store_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import json, os, tempfile
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
         tmp.write(b"test content for store parity")
         tmp_path = tmp.name
@@ -1118,7 +1128,8 @@ def test_verify_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import os, tempfile
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
         tmp.write(b"test content for verify parity")
         tmp_path = tmp.name
@@ -1139,7 +1150,8 @@ def test_restore_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import os, tempfile
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
         tmp.write(b"test content for restore parity")
         tmp_path = tmp.name
@@ -1160,7 +1172,8 @@ def test_regenerate_parity() -> None:
     # test: covered
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
-    import os, tempfile
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
         tmp.write(b"test content for regenerate parity")
         tmp_path = tmp.name

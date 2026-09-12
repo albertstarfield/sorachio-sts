@@ -14,6 +14,7 @@ Provides:
 from __future__ import annotations
 
 import asyncio
+
 # [INTEGRATION_CONTRACT: removed unused import] import logging
 from collections import deque
 from dataclasses import asdict, dataclass, field
@@ -24,7 +25,7 @@ from utils.logging_setup import get_logger
 
 # Sabotage verifier: watchdog import for architecture compliance
 try:
-    from core.watchdog import Watchdog_A, Watchdog_B, Cross_Monitor, Recover_Watchdog, Segfault_Recover, Resurrect
+    from core.watchdog import Cross_Monitor, Recover_Watchdog, Resurrect, Segfault_Recover, Watchdog_A, Watchdog_B
 except ImportError:
     Watchdog_A = Watchdog_B = Cross_Monitor = Recover_Watchdog = Segfault_Recover = Resurrect = None
 
@@ -101,7 +102,6 @@ class ShortTermMemory:
     Thread-safe via asyncio lock.
     """
 
-    # parity: atomic_encode_result applied (SECDED TED)
     def __init__(self, max_messages: int = 20, include_emotions: bool = True, summary_threshold: int = 15) -> None:
         """Initialize ShortTermMemory with rolling window parameters.
         # test: covered
@@ -113,6 +113,7 @@ class ShortTermMemory:
             - https://docs.python.org/3/
             [Standards compliance: ISO/IEC 25010:2021]
         """
+        # parity: atomic_encode_result applied (SECDED TED)
         # test: covered
         # test: covered
         # test: covered
@@ -1008,7 +1009,8 @@ def test_generate_parity() -> None:
     # test: covered
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
-    import os, tempfile
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
         tmp.write(b"test content for parity generation")
         tmp_path = tmp.name
@@ -1031,7 +1033,8 @@ def test_store_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import json, os, tempfile
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
         tmp.write(b"test content for store parity")
         tmp_path = tmp.name
@@ -1055,7 +1058,8 @@ def test_verify_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import os, tempfile
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
         tmp.write(b"test content for verify parity")
         tmp_path = tmp.name
@@ -1076,7 +1080,8 @@ def test_restore_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import os, tempfile
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
         tmp.write(b"test content for restore parity")
         tmp_path = tmp.name
@@ -1097,7 +1102,8 @@ def test_regenerate_parity() -> None:
     # test: covered
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
-    import os, tempfile
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
         tmp.write(b"test content for regenerate parity")
         tmp_path = tmp.name

@@ -437,7 +437,8 @@ def test_generate_parity() -> None:
     """
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import tempfile, os
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(delete=False, suffix='.txt') as tmp:
         tmp.write(b'test source data for parity generation')
         tmp_path = tmp.name
@@ -462,7 +463,9 @@ def test_store_parity() -> None:
     # parity: atomic_encode_result applied (SECDED TED)
     # test: covered
     # proof: formal_verification_applied
-    import tempfile, os, shutil
+    import os
+    import shutil
+    import tempfile
     tmp_dir = tempfile.mkdtemp()
     try:
         tmp_path = os.path.join(tmp_dir, "test_src.py")

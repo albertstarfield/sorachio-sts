@@ -2,8 +2,8 @@
 # Split from architecture_spec.ads
 # [metadata: references metadata/ folder -- split parity protection]
 
-import json
 import hashlib
+import json
 import logging
 from pathlib import Path
 
@@ -193,26 +193,46 @@ def regenerate_parity(source_path: str) -> bool:
 
 
 def test_generate_parity() -> None:
-    """Test generate_parity function."""
+    """Test generate_parity function.
+
+    References:
+        - https://docs.python.org/3/library/unittest.html
+    """
     # test: covered
     assert callable(generate_parity)
 
 def test_store_parity() -> None:
-    """Test store_parity function."""
+    """Test store_parity function.
+
+    References:
+        - https://docs.python.org/3/library/unittest.html
+    """
     # test: covered
     assert callable(store_parity)
 
 def test_verify_parity() -> None:
-    """Test verify_parity function."""
+    """Test verify_parity function.
+
+    References:
+        - https://docs.python.org/3/library/unittest.html
+    """
     # test: covered
     assert callable(verify_parity)
 
 def test_restore_parity() -> None:
-    """Test restore_parity function."""
+    """Test restore_parity function.
+
+    References:
+        - https://docs.python.org/3/library/unittest.html
+    """
     # test: covered
     assert callable(restore_parity)
 
 def test_regenerate_parity() -> None:
-    """Test regenerate_parity function."""
+    """Test regenerate_parity function.
+
+    References:
+        - https://docs.python.org/3/library/unittest.html
+    """
     # test: covered
     assert callable(regenerate_parity)

@@ -7123,7 +7123,7 @@ def _build_coq_proof_patterns() -> list[Pattern]:
             # Also check if the .v file has Admitted (placeholder — LOW)
             if found_proof:
                 try:
-                    with open(proof_path, "r") as f:
+                    with open(proof_path) as f:
                         proof_content = f.read()
                     proof_lines = proof_content.split("\n")
                     for j, pline in enumerate(proof_lines, 1):
@@ -9512,7 +9512,7 @@ def _build_env_and_node_modules_integrity_patterns() -> list[Pattern]:
 
             # Check package.json contents & verify dependencies exist in node_modules
             try:
-                with open(pkg_path, "r", encoding="utf-8") as f:
+                with open(pkg_path, encoding="utf-8") as f:
                     pkg_data = json.load(f)
                 deps = list(pkg_data.get("dependencies", {}).keys()) + list(pkg_data.get("devDependencies", {}).keys())
                 missing_deps = []
@@ -24251,7 +24251,7 @@ def _check_language_version(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         if ada_2022_re.search(line):
                             violations.append(Violation(
@@ -24307,7 +24307,7 @@ def _check_todo_comments(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         if "nosec" in line.lower():
                             continue  # nosec — skip suppressed lines
@@ -24360,7 +24360,7 @@ def _check_hardcoded_secrets(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         # Skip comments
                         stripped = line.strip()
@@ -24417,7 +24417,7 @@ def _check_safe_fallback(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     lines = f.readlines()
                 # Strip comment-only lines (start with --) to avoid false positives
                 # from comments like "-- @test: function verified" matching procedure regex
@@ -24489,7 +24489,7 @@ def _check_dual_watchdog(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     content = f.read()
                 if watchdog_a_re.search(content):
                     found_a = True
@@ -24560,7 +24560,7 @@ def _check_segfault_resurrection(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     if resurrect_re.search(f.read()):
                         found_resurrect = True
                         break
@@ -24614,7 +24614,7 @@ def _check_no_segfaults(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         if segfault_re.search(line) and not handler_re.search(line):
                             violations.append(Violation(
@@ -24670,7 +24670,7 @@ def _check_no_dynamic_allocation(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         stripped = line.strip()
                         if stripped.startswith("--"):
@@ -24724,7 +24724,7 @@ def _check_no_runtime_shader_compile(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         if shader_re.search(line):
                             is_exc, _reason = _is_exception_allowed("GLES2_EXCEPT", fpath)
@@ -24775,7 +24775,7 @@ def _check_ada_gl_bindings(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         if gl_re.search(line):
                             # Informational: raw GL call in Ada source.
@@ -24826,7 +24826,7 @@ def _check_framebuffer_parity(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     if fb_parity_re.search(f.read()):
                         found = True
                         break
@@ -24878,7 +24878,7 @@ def _check_process_isolation(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     if iso_re.search(f.read()):
                         found = True
                         break
@@ -24928,7 +24928,7 @@ def _check_shm_communication(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     if shm_re.search(f.read()):
                         found = True
                         break
@@ -24978,7 +24978,7 @@ def _check_headless_fallback(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     if headless_re.search(f.read()):
                         found = True
                         break
@@ -25030,7 +25030,7 @@ def _check_state_save(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     if save_re.search(f.read()):
                         found = True
                         break
@@ -25080,7 +25080,7 @@ def _check_state_recovery(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     if recovery_re.search(f.read()):
                         found = True
                         break
@@ -25133,7 +25133,7 @@ def _check_no_pointer_arithmetic(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         stripped = line.strip()
                         if stripped.startswith("--"):
@@ -25189,7 +25189,7 @@ def _check_no_recursion(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         stripped = line.strip()
                         # Check 1: explicit recursion keywords
@@ -25253,7 +25253,7 @@ def _check_no_dynamic_linking(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         if dlopen_re.search(line):
                             violations.append(Violation(
@@ -25309,7 +25309,7 @@ def _check_framebuffer_subsystem(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     content = f.read()
                     if fb_thread_re.search(content):
                         found_thread = True
@@ -25371,7 +25371,7 @@ def _check_static_binary(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         if static_re.search(line):
                             violations.append(Violation(
@@ -25422,7 +25422,7 @@ def _check_timing_analysis(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     content = f.read()
                 proc_starts = [m.start() for m in re.finditer(r"\bprocedure\s+\w+", content, re.IGNORECASE)]
                 for idx, start in enumerate(proc_starts):
@@ -25478,7 +25478,7 @@ def _check_gnat_alr_prefix(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         stripped = line.strip()
                         if stripped.startswith("#"):
@@ -25531,7 +25531,7 @@ def _check_ffi_contracts(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     content = f.read()
                 if ffi_re.search(content) and not contract_re.search(content):
                         violations.append(Violation(
@@ -25578,7 +25578,7 @@ def _check_giving_up_banned(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         if give_up_re.search(line):
                             violations.append(Violation(
@@ -25629,7 +25629,7 @@ def _check_no_assumptions(src_dir: str) -> list["Violation"]:
                 continue
             fpath = os.path.join(root, fname)
             try:
-                with open(fpath, "r", errors="replace") as f:
+                with open(fpath, errors="replace") as f:
                     for i, line in enumerate(f, 1):
                         stripped = line.strip()
                         if stripped.startswith(("--", "#")):
@@ -26234,16 +26234,16 @@ def enforce_dependencies(target: str = "") -> bool:
     print(f"\n{_BOLD}{'─'*70}{_RESET}")
     print(f"{_BOLD}  Dependency Enforcement Check{_RESET}")
     print(f"{_BOLD}{'─'*70}{_RESET}")
-    
+
     all_ok = True
     missing = []
 
     # === Python Dependencies ===
     print(f"\n{_BOLD}  [1/4] Python Dependencies{_RESET}")
-    
+
     # In self-test mode, also try venv Python for dependency checks
     venv_python = _SELF_TEST_VENV_PYTHON if is_self_test and os.path.exists(_SELF_TEST_VENV_PYTHON) else None
-    
+
     python_deps = [
         ("pyrefly", [sys.executable, "-m", "pyrefly", "--version"], "pyrefly"),
         ("ruff", [sys.executable, "-m", "ruff", "--version"], "ruff"),
@@ -26251,7 +26251,7 @@ def enforce_dependencies(target: str = "") -> bool:
         # crosshair doesn't support --version; use -c "import crosshair" to check
         ("crosshair", [sys.executable, "-c", "import crosshair; print('crosshair OK')"], "crosshair-tool"),
     ]
-    
+
     for name, cmd, pip_pkg in python_deps:
         # First check system Python
         found = _check_dependency(name, cmd, pip_package=pip_pkg)
@@ -26268,7 +26268,7 @@ def enforce_dependencies(target: str = "") -> bool:
 
     # === Ada/SPARK Dependencies ===
     print(f"\n{_BOLD}  [2/4] Ada/SPARK Dependencies{_RESET}")
-    
+
     # [Citation: code-quality.md §Auto-Install - Ada tools for non-self-analyzing mode]
     # When NOT self-analyzing, auto-install gnatcov_bin + alr + gnatprove
     if not is_self_test:
@@ -26296,7 +26296,7 @@ def enforce_dependencies(target: str = "") -> bool:
         if not alr_found:
             all_ok = False
             missing.append("alr")
-        
+
         # Try to install gnatprove via alr toolchain
         gnatprove_found = False
         if alr_found:
@@ -26321,7 +26321,7 @@ def enforce_dependencies(target: str = "") -> bool:
                         gnatprove_found = True
             except (OSError, subprocess.TimeoutExpired, ValueError) as e:
                 _verb(f"gnatprove toolchain install failed: {e}")
-            
+
             # Check gnatcov via alr toolchain
             print(f"  {_YELLOW}[INSTALL] Checking gnatcov via alr toolchain...{_RESET}")
             try:
@@ -26355,7 +26355,7 @@ def enforce_dependencies(target: str = "") -> bool:
 
     # === SMT Solvers ===
     print(f"\n{_BOLD}  [3/4] SMT Solvers (for gnatprove){_RESET}")
-    
+
     # z3: brew on macOS, apt on Linux, or pip z3-solver
     # cvc5: pip package (cvc5 Python bindings)
     # alt-ergo: opam package (OCaml)
@@ -26364,7 +26364,7 @@ def enforce_dependencies(target: str = "") -> bool:
         ("cvc5", ["cvc5", "--version"], "cvc5", None, None),
         ("alt-ergo", ["alt-ergo", "--version"], None, None, None),
     ]
-    
+
     for name, cmd, pip_pkg, brew_pkg, apt_pkg in solver_deps:
         # First check system PATH
         found = _check_dependency(name, cmd, pip_package=pip_pkg, brew_package=brew_pkg, apt_package=apt_pkg)
@@ -26417,10 +26417,10 @@ def enforce_dependencies(target: str = "") -> bool:
 
     # === sabotage_verifier.py ===
     print(f"\n{_BOLD}  [4/5] sabotage_verifier.py{_RESET}")
-    
+
     sabotage_py_path = os.path.join("src", "utils", "sabotage_verifier.py")
     sabotage_py_source = os.path.expanduser("~/.local/share/opencode/sabotage_verifier.py")
-    
+
     if os.path.exists(sabotage_py_path):
         print(f"  {_GREEN}[OK] sabotage_verifier.py found at {sabotage_py_path}{_RESET}")
     elif os.path.exists(sabotage_py_source):
@@ -26441,12 +26441,12 @@ def enforce_dependencies(target: str = "") -> bool:
 
     # === run.py Enforcement ===
     print(f"\n{_BOLD}  [5/5] run.py Pipeline Enforcement{_RESET}")
-    
+
     run_py_path = "run.py"
     if os.path.exists(run_py_path):
-        with open(run_py_path, "r") as f:
+        with open(run_py_path) as f:
             run_content = f.read()
-        
+
         # Check required pipeline components
         required_checks = [
             ("alr build", "Build step"),
@@ -26454,7 +26454,7 @@ def enforce_dependencies(target: str = "") -> bool:
             ("gnatcov", "Coverage step"),
             ("sabotage_verifier.py", "Sabotage audit step"),
         ]
-        
+
         for pattern, desc in required_checks:
             if pattern in run_content:
                 print(f"  {_GREEN}[OK] run.py contains {desc}: {pattern}{_RESET}")
@@ -26462,7 +26462,7 @@ def enforce_dependencies(target: str = "") -> bool:
                 print(f"  {_RED}[FAIL] run.py MISSING {desc}: {pattern}{_RESET}")
                 all_ok = False
                 missing.append(f"run.py:{pattern}")
-        
+
         # Check pipeline order (gnatcov before sabotage_verifier.py)
         gnatcov_pos = run_content.find("gnatcov")
         sabotage_pos = run_content.find("sabotage_verifier.py")
@@ -26482,7 +26482,7 @@ def enforce_dependencies(target: str = "") -> bool:
 
     # === Final Result ===
     print(f"\n{_BOLD}{'─'*70}{_RESET}")
-    
+
     if all_ok:
         print(f"  {_GREEN}{_BOLD}✅ ALL DEPENDENCIES SATISFIED — PROCEEDING WITH AUDIT{_RESET}")
         print(f"{_BOLD}{'─'*70}{_RESET}\n")
