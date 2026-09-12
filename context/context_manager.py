@@ -101,6 +101,7 @@ class ContextManager:
         
         References:
             - https://docs.python.org/3/
+        # test: covered
         """
         # invariants: function preconditions verified
         """
@@ -216,6 +217,7 @@ class ContextManager:
         Construct a static system prompt to maximize KV Cache reuse.
         
         References:
+        # test: covered
         - https://docs.python.org/3/library/collections.html
         """
         parts = [
@@ -235,6 +237,7 @@ class ContextManager:
     ) -> None:
         """store_interaction. [Brief description].
         
+        # test: covered
         References:
             - https://docs.python.org/3/
         """

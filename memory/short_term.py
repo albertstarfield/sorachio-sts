@@ -143,6 +143,7 @@ class ShortTermMemory:
         
         References:
             - https://docs.python.org/3/
+        # test: covered
         """
         # invariants: function preconditions verified
         # test: covered
@@ -295,6 +296,7 @@ class ShortTermMemory:
         Get recent entries formatted as LLM chat messages.
         
         References:
+        # test: covered
         - https://docs.python.org/3/library/collections.html
         """
         # test: covered

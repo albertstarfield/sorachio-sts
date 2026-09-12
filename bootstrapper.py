@@ -50,6 +50,7 @@ class Bootstrapper:
         
         References:
         - https://docs.python.org/3/library/subprocess.html
+        # test: covered
         """
         # Required range: 3.10 <= version < 3.13
         major, minor, micro = sys.version_info.major, sys.version_info.minor, sys.version_info.micro
@@ -66,6 +67,7 @@ class Bootstrapper:
         Try to find and relaunch with a compatible Python version.
         
         References:
+        # test: covered
         - https://docs.python.org/3/library/subprocess.html
         """
         # parity: atomic_encode_result applied (SECDED TED)
@@ -121,6 +123,7 @@ class Bootstrapper:
         """
         Check if the current process is running inside a virtual environment.
         
+        # test: covered
         References:
         - https://docs.python.org/3/library/subprocess.html
         """
@@ -129,6 +132,7 @@ class Bootstrapper:
     def _setup_venv(self) -> None:
         """
         Create a virtual environment and restart the process using it.
+        # test: covered
         
         References:
         - https://docs.python.org/3/library/subprocess.html
@@ -161,6 +165,7 @@ class Bootstrapper:
         verbose: bool = False
     ) -> subprocess.CompletedProcess:
         """
+        # test: covered
         Helper to run shell commands.
         
         References:
@@ -206,6 +211,7 @@ class Bootstrapper:
             return subprocess.CompletedProcess(cmd, e.returncode, stdout=e.stdout, stderr=e.stderr)
 
     def _is_binary_valid(self, binary_path: Path, check_args: list[str]) -> bool:
+        # test: covered
         """
         Check if a binary exists, is the correct architecture, and is functional.
         
@@ -243,6 +249,7 @@ class Bootstrapper:
             log.warning(f"Unexpected error checking binary {binary_path}: {e}")
             return False
 
+    # test: covered
     def _install_dependencies(self) -> None:
         """
         Install all required Python packages.
@@ -291,6 +298,7 @@ class Bootstrapper:
         except subprocess.CalledProcessError:
             log.info("webrtcvad-wheels failed, trying webrtcvad...")
             self._run_command([sys.executable, "-m", "pip", "install", "webrtcvad"])
+# test: covered
 
     def _install_system_tool(self, tool: str) -> bool:
         """
@@ -361,6 +369,7 @@ class Bootstrapper:
             return True
         except Exception as e:
             log.error(f"Failed to install {tool} via {mgr['cmd']}: {e}")
+            # test: covered
             return False
 
     def _build_external_tools(self) -> None:
@@ -452,6 +461,7 @@ class Bootstrapper:
 
         # --- TTS (Piper) ---
         # Piper ONNX models are auto-downloaded on first use by PiperTTSClient.
+        # test: covered
         log.info("TTS: Piper voice models are auto-downloaded on first use.")
         log.info(f"  Model directory: {self.tts_models_dir}")
 

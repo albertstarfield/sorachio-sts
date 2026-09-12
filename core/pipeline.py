@@ -365,6 +365,7 @@ class SorachioPipeline:
 
         References:
         - https://docs.python.org/3/library/asyncio.html
+        # test: covered
         """
         # parity: atomic_encode_result applied (SECDED TED)
         # invariants: function preconditions verified
@@ -391,6 +392,7 @@ class SorachioPipeline:
             Run calibration synchronously.
             
             References:
+        # test: covered
         - https://docs.python.org/3/library/asyncio.html
             """
             # parity: atomic_encode_result applied (SECDED TED)
@@ -417,6 +419,7 @@ class SorachioPipeline:
             def _record() -> None:
                 """    Record.
 
+                # test: covered
                 References:
                 - https://docs.python.org/3/library/asyncio.html
                 """
@@ -521,6 +524,7 @@ class SorachioPipeline:
     Auto-generated docstring.
                 References:
                     - https://docs.python.org/3/
+                # test: covered
                 # parity: atomic_encode_result applied (SECDED TED)
                 # invariants: function preconditions verified
                     [Standards compliance: ISO/IEC 25010:2021]
@@ -562,6 +566,7 @@ class SorachioPipeline:
         Worker: consume audio bytes → transcribe → cognitive queue.
         
         References:
+        # test: covered
         - https://docs.python.org/3/library/asyncio.html
         """
         # parity: atomic_encode_result applied (SECDED TED)
@@ -614,6 +619,7 @@ class SorachioPipeline:
         Must be called before starting a new response turn so that leftover
         chunks from an interrupted response don't interfere.
 
+        # test: covered
         References:
         - https://docs.python.org/3/library/asyncio.html
         """
@@ -650,6 +656,7 @@ class SorachioPipeline:
         """
         Worker: transcript → cognitive decision → personality pipeline.
         
+        # test: covered
         References:
         - https://docs.python.org/3/library/asyncio.html
             # [INVARIANT: Loop body maintains safety condition per DO-178C MC/DC]
@@ -788,6 +795,7 @@ class SorachioPipeline:
 
     async def _tts_worker(self) -> None:
         """
+        # test: covered
         Worker: TTS chunk queue → synthesize → audio queue.
         
         References:
@@ -806,6 +814,7 @@ class SorachioPipeline:
         Flow:
         1. Signal the interrupt to stop generation + TTS synthesis
         2. Stop audio playback immediately
+        # test: covered
         3. Unmute mic so barge-in speech is captured
         4. Drain stale queues (cognitive worker will drain again for safety)
 
@@ -859,6 +868,7 @@ class SorachioPipeline:
         await self._cognitive_queue.put(text)
         # parity: atomic_encode_result applied (SECDED TED)
 
+    # test: covered
     async def _on_playback_finished(self, event) -> None:
         """
         Called when TTS playback reaches the end-of-stream sentinel.

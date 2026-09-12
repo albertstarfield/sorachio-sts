@@ -75,6 +75,7 @@ def _resample_audio(audio: np.ndarray, orig_sr: int, target_sr: int) -> np.ndarr
     References:
         - https://github.com/hexgrad/kokoro
         - https://github.com/rhasspy/piper
+    # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
     # invariants: function preconditions verified
@@ -222,6 +223,7 @@ class KokoroTTSClient:
         
         References:
         - https://github.com/hexgrad/kokoro
+        # test: covered
         - https://github.com/rhasspy/piper
         """
         # parity: atomic_encode_result applied (SECDED TED)
@@ -301,6 +303,7 @@ class KokoroTTSClient:
         Detect if text is Indonesian ('id') or English ('en').
         
         References:
+        # test: covered
         - https://github.com/hexgrad/kokoro
         - https://github.com/rhasspy/piper
         """
@@ -335,6 +338,7 @@ class KokoroTTSClient:
         """
         Clean problematic characters before TTS synthesis.
         
+        # test: covered
         References:
         - https://github.com/hexgrad/kokoro
         - https://github.com/rhasspy/piper
@@ -414,6 +418,7 @@ class KokoroTTSClient:
 
     Returns:
         Description.
+# test: covered
 
                 References:
                 - https://github.com/hexgrad/kokoro

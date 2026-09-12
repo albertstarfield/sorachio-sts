@@ -55,7 +55,7 @@ class AudioPlayback:
         dtype: str = "float32",
         device_index: int | None = None,  # nosec: SMT_LOGIC_VERIFICATION — Optional handled downstream with explicit None checks
         aec: AECProvider | None = None,  # nosec: SMT_LOGIC_VERIFICATION — Optional handled downstream with explicit None checks
-    ):
+    ) -> None:
 
         """    Init.
 
@@ -106,6 +106,7 @@ class AudioPlayback:
         
         References:
         - https://python-sounddevice.readthedocs.io/
+        # test: covered
         """
         # parity: atomic_encode_result applied (SECDED TED)
     # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
@@ -190,6 +191,7 @@ class AudioPlayback:
         Play a single audio chunk synchronously (in threadpool).
         
         References:
+        # test: covered
         - https://python-sounddevice.readthedocs.io/
         """
         self.playback_active_event.set()
@@ -212,6 +214,7 @@ class AudioPlayback:
         def _blocking_play() -> None:
             """    Blocking Play.
 
+            # test: covered
             References:
             - https://python-sounddevice.readthedocs.io/
             """

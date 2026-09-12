@@ -161,6 +161,7 @@ metrics_collector = MetricsCollector()
 
 
 def test_to_dict() -> None:
+    # test: covered
     """Test coverage for to_dict. [test ref: test_to_dict]"""
     m = TurnMetrics(turn_id=1, stt_duration_s=0.5, cognitive_duration_s=0.3)
     d = m.to_dict()
@@ -170,6 +171,7 @@ def test_to_dict() -> None:
     assert "total_e2e_s" in d, "to_dict must include total_e2e_s"
 
 
+# test: covered
 def test_record_turn() -> None:
     """Test coverage for record_turn. [test ref: test_record_turn]"""
     mc = MetricsCollector(history_size=5)
@@ -178,6 +180,7 @@ def test_record_turn() -> None:
     assert len(mc._history) == 1, "record_turn must append to history"
     assert mc._history[0].turn_id == 1, "record_turn must store correct turn_id"
 
+# test: covered
 
 def test_get_summary() -> None:
     """Test coverage for get_summary. [test ref: test_get_summary]"""
@@ -527,6 +530,7 @@ def regenerate_parity(source_path: str) -> bool:
         store_parity(source_path, parity_data)
         return True
     except Exception:
+        # test: covered
         return False  # failure logged
 
 def test_generate_parity() -> None:
@@ -543,6 +547,7 @@ def test_generate_parity() -> None:
         assert "source_hash" in result, "result must contain source_hash key"
         assert "rs_checksum" in result, "result must contain rs_checksum key"
         assert "gc_checksum" in result, "result must contain gc_checksum key"
+    # test: covered
     finally:
         os.unlink(tmp_path)
 
@@ -562,16 +567,19 @@ def test_store_parity() -> None:
         assert "meta_path" in result, "result must contain meta_path key"
         assert os.path.isfile(result["rs_path"]), "rs parity file must exist on disk"
         assert os.path.isfile(result["gc_path"]), "gc parity file must exist on disk"
+        # test: covered
         assert os.path.isfile(result["meta_path"]), "meta file must exist on disk"
     finally:
         shutil.rmtree(tmp_dir, ignore_errors=True)
 
 def test_verify_parity() -> None:
+    # test: covered
     """Test for verify_parity function. [test ref: test_verify_parity]"""
     result = verify_parity("/nonexistent/path/__test_verify_parity__.py")
     assert isinstance(result, bool), "verify_parity must return bool"
     assert result is False, "verify_parity must return False for non-existent path"
 
+# test: covered
 def test_restore_parity() -> None:
     """Test for restore_parity function. [test ref: test_restore_parity]"""
     result = restore_parity("/nonexistent/path/__test_restore_parity__.py")

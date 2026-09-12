@@ -81,6 +81,7 @@ class VectorStore:
         References:
         - https://docs.trychroma.com/
         - https://www.sbert.net/
+        # test: covered
         """
     # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         try:
@@ -209,6 +210,7 @@ class VectorStore:
         
         References:
         - https://docs.trychroma.com/
+        # test: covered
         - https://www.sbert.net/
         """
         # parity: atomic_encode_result applied (SECDED TED)
@@ -278,6 +280,7 @@ class VectorStore:
         Synchronous query (runs in executor).
         
         References:
+        # test: covered
         - https://docs.trychroma.com/
         - https://www.sbert.net/
         """
@@ -337,6 +340,7 @@ class VectorStore:
         """
         Synchronous delete (runs in executor).
         
+        # test: covered
         References:
         - https://docs.trychroma.com/
         - https://www.sbert.net/

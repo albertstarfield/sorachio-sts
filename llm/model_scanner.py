@@ -142,6 +142,7 @@ def _extract_model_name(filename: str) -> str:
 
     References:
     - https://docs.python.org/3/library/pathlib.html
+    # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
 # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]

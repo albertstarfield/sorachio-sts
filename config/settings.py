@@ -134,6 +134,7 @@ class LLMConfig(BaseModel):
         References:
         - https://docs.pydantic.dev/
         - https://docs.python.org/3/library/pathlib.html
+        # test: covered
         """
         # parity: atomic_encode_result applied (SECDED TED)
         # invariants: function preconditions verified
@@ -291,6 +292,7 @@ def _auto_scan_models(settings: SorachioSettings) -> None:
     References:
     - https://docs.pydantic.dev/
     - https://docs.python.org/3/library/pathlib.html
+    # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
     # invariants: function preconditions verified

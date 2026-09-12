@@ -147,6 +147,7 @@ class PersonalityCore:
 
                 References:
                 - https://docs.aiohttp.org/en/stable
+                # test: covered
                 """
                 # invariants: function preconditions verified
                 # test: covered

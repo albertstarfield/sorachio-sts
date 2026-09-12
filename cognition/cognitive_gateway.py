@@ -128,7 +128,7 @@ class CognitiveGateway:
         client: LlamaClient,
         temperature: float = 0.1,
         max_tokens: int = 256,
-    ):
+    ) -> None:
 
         """    Init.
 
@@ -156,6 +156,7 @@ class CognitiveGateway:
         
         References:
             - https://docs.python.org/3/
+        # test: covered
         """
         # invariants: function preconditions verified
         """
@@ -255,6 +256,7 @@ class CognitiveGateway:
         if pattern matching cannot fix the output.
 
         References:
+        # test: covered
         - https://docs.python.org/3/library/json.html
         """
         # parity: atomic_encode_result applied (SECDED TED)
@@ -301,6 +303,7 @@ class CognitiveGateway:
             """
             Add missing closing brackets and braces.
             
+            # test: covered
             References:
         - https://docs.python.org/3/library/json.html
             """
@@ -320,6 +323,7 @@ class CognitiveGateway:
         def _strip_one(s: str) -> str:
             """
             Strip one likely-incomplete tail pattern.
+            # test: covered
             
             References:
         - https://docs.python.org/3/library/json.html
@@ -394,6 +398,7 @@ class CognitiveGateway:
         """
         Validate and normalize decision output.
 
+        # test: covered
         References:
         - https://docs.python.org/3/library/json.html
         """

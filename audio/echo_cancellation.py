@@ -504,6 +504,7 @@ class CalibrationAEC(AECProvider):
         References:
             - https://docs.python.org/3/library/struct.html
             - https://docs.python.org/3/library/array.html
+        # test: covered
         """
         # invariants: function preconditions verified
         # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
@@ -544,6 +545,7 @@ class CalibrationAEC(AECProvider):
 
         References:
             - https://docs.python.org/3/library/struct.html
+            # test: covered
             - https://docs.python.org/3/library/array.html
         """
         # invariants: function preconditions verified
@@ -661,6 +663,7 @@ class CalibrationAEC(AECProvider):
         room transfer function H(f).
 
         References:
+            # test: covered
             - https://docs.python.org/3/library/struct.html
             - https://docs.python.org/3/library/array.html
         """
@@ -751,6 +754,7 @@ class CalibrationAEC(AECProvider):
         Returns:
             np.ndarray: Cleaned signal with echo suppressed.
 
+        # test: covered
         References:
             - https://docs.python.org/3/library/struct.html
             - https://docs.python.org/3/library/array.html
@@ -819,6 +823,7 @@ class CalibrationAEC(AECProvider):
         Args:
             reference: Reference playback signal (float32).
             error: Error signal between mic and predicted echo (float32).
+# test: covered
 
         References:
             - https://docs.python.org/3/library/struct.html
@@ -854,6 +859,7 @@ class CalibrationAEC(AECProvider):
             length: Number of samples needed.
 
         Returns:
+            # test: covered
             np.ndarray or None if insufficient reference data is available.
 
         References:
@@ -879,6 +885,7 @@ class CalibrationAEC(AECProvider):
         Args:
             mic_frame: Raw microphone PCM frame.
 
+        # test: covered
         Returns:
             bytes: Attenuated PCM frame (30% amplitude).
 

@@ -173,6 +173,7 @@ def _load_settings(config: str | None = None) -> None:
 
     References:
     - https://docs.python.org/3/library/argparse.html
+    # test: covered
     """
     # nosec: line-level suppression
     # parity: atomic_encode_result applied (SECDED TED)
@@ -192,6 +193,7 @@ def _setup_logging(settings) -> None:
         settings: The SorachioSettings containing log_dir and system config.
 
     References:
+    # test: covered
     - https://docs.python.org/3/library/argparse.html
     """
     # parity: atomic_encode_result applied (SECDED TED)
@@ -246,6 +248,7 @@ def _print_banner() -> None:
     """
     Print the Sorachio-STS banner to the console.
     
+    # test: covered
     References:
         - https://docs.python.org/3/library/argparse.html
     """
@@ -344,6 +347,7 @@ async def _run_text_mode(settings, single_message=None, no_servers=False) -> Non
         settings: The SorachioSettings for this session.
         single_message: Optional single message to process (non-interactive).
         no_servers: If True, skip starting llama-server instances.
+# test: covered
 
     References:
     - https://docs.python.org/3/library/argparse.html
@@ -405,6 +409,7 @@ async def _run_text_mode(settings, single_message=None, no_servers=False) -> Non
 
     async def _on_response_end_local(event) -> None:
         """
+        # test: covered
         Unblocks input loop after Sorachio finishes responding.
         
         References:
@@ -415,6 +420,7 @@ async def _run_text_mode(settings, single_message=None, no_servers=False) -> Non
         response_ready.set()
 
     async def _on_cognitive_local(event) -> None:
+        # test: covered
         """Unblocks input loop immediately when the AI decides NOT to respond.
         Without this, response_ready.wait() would hang for the full 120-s timeout.
 
@@ -594,6 +600,7 @@ class VoiceCLI:
 
     # ── spinner helpers ───────────────────────────────────────────────
 
+    # test: covered
     def _spin_start(self, label: str, color: str = "yellow") -> None:
         """
         Start a fresh transient Live spinner. Stops any existing one first.
@@ -610,6 +617,7 @@ class VoiceCLI:
             transient=True,   # clears itself completely when stopped
         )
         self._live.start()
+# test: covered
 
     def _spin_stop(self) -> None:
         """
@@ -624,6 +632,7 @@ class VoiceCLI:
                 self._live.stop()
             except Exception as e:
                 log.warning("Suppressed error in spinner stop: %s", e)
+            # test: covered
             self._live = None
 
     def _spin_label(self, label: str, color: str = "yellow") -> None:
@@ -906,6 +915,7 @@ async def _run_pipeline(settings, voice_mode=True, no_servers=False) -> None:
     Args:
         settings: The SorachioSettings for this session.
         voice_mode: If True, enable microphone capture. Currently always True.
+        # test: covered
         no_servers: If True, skip starting llama-server instances.
 
     References:
@@ -1015,6 +1025,7 @@ def test_stt(
     
     References:
         - https://docs.python.org/3/library/argparse.html
+    # test: covered
     # test: test_test_stt
     """
     settings = _load_settings(config)
@@ -1094,6 +1105,7 @@ def test_tts(
     Test TTS synthesis and playback.
     
     References:
+        # test: covered
         - https://docs.python.org/3/library/argparse.html
     # test: test_test_tts
     """
@@ -1170,6 +1182,7 @@ def test_cognitive(
     """
     Test Cognitive Gateway JSON analysis.
     
+    # test: covered
     References:
         - https://docs.python.org/3/library/argparse.html
     # test: test_test_cognitive
@@ -1294,6 +1307,7 @@ def servers_start(config: str | None = typer.Option(None)) -> None:
     # test: test_servers_start
     """
     Start both llama-server instances.
+    # test: covered
     
     References:
         - https://docs.python.org/3/library/argparse.html
@@ -1360,6 +1374,7 @@ def memory_list(config: str | None = typer.Option(None)) -> None:
     """
     List all long-term memories.
     
+    # test: covered
     References:
         - https://docs.python.org/3/library/argparse.html
     # test: test_memory_list

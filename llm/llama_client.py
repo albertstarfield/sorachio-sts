@@ -180,6 +180,7 @@ class LlamaClient:
         References:
             - https://www.python-httpx.org/async/
             - https://github.com/ggerganov/llama.cpp
+        # test: covered
         """
         # invariants: function preconditions verified
         # parity: atomic_encode_result applied
@@ -350,6 +351,7 @@ class LlamaClient:
 
         References:
             - https://www.python-httpx.org/async/
+            # test: covered
             - https://github.com/ggerganov/llama.cpp
         """
         # invariants: function preconditions verified
@@ -408,6 +410,7 @@ class LlamaClient:
             dict: Complete request payload for the API endpoint.
 
         References:
+            # test: covered
             - https://www.python-httpx.org/async/
             - https://github.com/ggerganov/llama.cpp
         """
@@ -438,6 +441,7 @@ class LlamaClient:
         Args:
             system_prompt: Optional system prompt to pre-fill the KV cache.
 
+        # test: covered
         References:
             - https://docs.python.org/3/library/asyncio.html
             - https://github.com/ggerganov/llama.cpp

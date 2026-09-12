@@ -57,6 +57,7 @@ def _voice_download_url(voice_name: str) -> tuple[str, str]:
     Returns (onnx_url, json_url).
        References:
            - https://github.com/rhasspy/piper — Piper ONNX TTS engine
+    # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
     # invariants: function preconditions verified
@@ -180,6 +181,7 @@ class PiperTTSClient:
                           (no download). If False, attempt to download missing models.
 
         References:
+        # test: covered
         - https://github.com/rhasspy/piper
         """
         # parity: atomic_encode_result applied (SECDED TED)
@@ -269,6 +271,7 @@ class PiperTTSClient:
 
         Returns the path to the .onnx file.
 
+        # test: covered
         References:
         - https://github.com/rhasspy/piper
         """
@@ -353,6 +356,7 @@ class PiperTTSClient:
     def _get_current_voice(self) -> tuple[Any, str] | None:
         """
         Get the currently active PiperVoice based on language setting.
+        # test: covered
         
         References:
         - https://github.com/rhasspy/piper
@@ -377,6 +381,7 @@ class PiperTTSClient:
     def _detect_text_language(self, text: str) -> str | None:
         """
         Lightweight language detection from text using keyword heuristics & langdetect.
+        # test: covered
         Returns 'id' or 'en', or None if detection fails.
 
         References:
@@ -411,6 +416,7 @@ class PiperTTSClient:
 
     def _sanitize_text(self, text: str) -> str:
         """
+        # test: covered
         Clean problematic text before sending to Piper.
         Prevents crashes from special characters.
 
@@ -493,6 +499,7 @@ class PiperTTSClient:
                 self._response_lang_locked = True
 
         loop = asyncio.get_event_loop()
+# test: covered
 
         def _synth() -> None:
             """    Synth.

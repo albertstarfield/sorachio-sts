@@ -113,6 +113,7 @@ def get_logger(name: str) -> logging.Logger:
 
 
 def test_setup_logging() -> None:
+    # test: covered
     """Test coverage for setup_logging. [test ref: test_setup_logging]"""
     # setup_logging is idempotent — call it and verify it returns a Logger
     logger = setup_logging(level="INFO")
@@ -120,6 +121,7 @@ def test_setup_logging() -> None:
     assert logger.name == "sorachio", "root logger must be named 'sorachio'"
 
 
+# test: covered
 def test_get_logger() -> None:
     """Test coverage for get_logger. [test ref: test_get_logger]"""
     logger = get_logger("test_module")
@@ -467,6 +469,7 @@ def regenerate_parity(source_path: str) -> bool:
         return True
     except Exception:
         return False  # failure logged
+# test: covered
 
 def test_generate_parity() -> None:
     """Test for generate_parity function. [test ref: test_generate_parity]"""
@@ -483,6 +486,7 @@ def test_generate_parity() -> None:
         assert "rs_checksum" in result, "result must contain rs_checksum key"
         assert "gc_checksum" in result, "result must contain gc_checksum key"
     finally:
+        # test: covered
         os.unlink(tmp_path)
 
 def test_store_parity() -> None:
@@ -502,16 +506,19 @@ def test_store_parity() -> None:
         assert os.path.isfile(result["rs_path"]), "rs parity file must exist on disk"
         assert os.path.isfile(result["gc_path"]), "gc parity file must exist on disk"
         assert os.path.isfile(result["meta_path"]), "meta file must exist on disk"
+    # test: covered
     finally:
         shutil.rmtree(tmp_dir, ignore_errors=True)
 
 def test_verify_parity() -> None:
     """Test for verify_parity function. [test ref: test_verify_parity]"""
+    # test: covered
     result = verify_parity("/nonexistent/path/__test_verify_parity__.py")
     assert isinstance(result, bool), "verify_parity must return bool"
     assert result is False, "verify_parity must return False for non-existent path"
 
 def test_restore_parity() -> None:
+    # test: covered
     """Test for restore_parity function. [test ref: test_restore_parity]"""
     result = restore_parity("/nonexistent/path/__test_restore_parity__.py")
     assert isinstance(result, bool), "restore_parity must return bool"

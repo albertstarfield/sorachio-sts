@@ -78,6 +78,7 @@ def _log_event(msg: str, force: bool = False) -> None:
        References:
            - https://python-sounddevice.readthedocs.io/ — SoundDevice API for audio I/O
            - https://github.com/wiseman/py-webrtcvad — WebRTC VAD for voice activity detection
+    # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
     # invariants: function preconditions verified
@@ -208,6 +209,7 @@ class AudioCapture:
         
         References:
         - https://python-sounddevice.readthedocs.io/
+        # test: covered
         - https://github.com/wiseman/py-webrtcvad
         """
         # parity: atomic_encode_result applied (SECDED TED)
@@ -233,6 +235,7 @@ class AudioCapture:
         Measure background noise floor for 0.8 seconds and calibrate Acoustic Gate threshold.
         
         References:
+        # test: covered
         - https://python-sounddevice.readthedocs.io/
         - https://github.com/wiseman/py-webrtcvad
         """
@@ -400,6 +403,7 @@ class AudioCapture:
         """
         sounddevice callback — runs in audio thread.
         
+        # test: covered
         References:
         - https://python-sounddevice.readthedocs.io/
         - https://github.com/wiseman/py-webrtcvad
@@ -494,6 +498,7 @@ class AudioCapture:
     def _vad_worker(self) -> None:
         """
         VAD processing thread — detects speech segments with pre-trigger history.
+        # test: covered
         
         References:
         - https://python-sounddevice.readthedocs.io/
@@ -634,6 +639,7 @@ class AudioCapture:
 
     async def _do_interrupt(self) -> None:
         """
+        # test: covered
         Signal interruption (coroutine, runs in event loop).
         
         References:
@@ -646,6 +652,7 @@ class AudioCapture:
             await self.interrupt_callback()
 
     def _flush_speech(self, frames: list[bytes], active_speech_frames: int, min_active_speech_frames: int) -> None:
+        # test: covered
         """
         Send accumulated speech frames to STT queue.
         

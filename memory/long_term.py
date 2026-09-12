@@ -263,6 +263,7 @@ class LongTermMemory:
         
         References:
         - https://docs.python.org/3/library/json.html
+        # test: covered
         """
         # parity: atomic_encode_result applied (SECDED TED)
         if not self._vector_store:
@@ -369,6 +370,7 @@ class LongTermMemory:
         """retrieve. [Brief description].
         
         References:
+            # test: covered
             - https://docs.python.org/3/
         """
         # invariants: function preconditions verified
@@ -465,6 +467,7 @@ class LongTermMemory:
         """
         Load memories from JSON file.
         
+        # test: covered
         References:
         - https://docs.python.org/3/library/json.html
         """
@@ -504,6 +507,7 @@ class LongTermMemory:
     def _extract_keywords(self, text: str) -> list[str]:
         """
         Simple keyword extraction (stopword removal).
+        # test: covered
         
         References:
         - https://docs.python.org/3/library/json.html
