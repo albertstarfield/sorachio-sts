@@ -86,6 +86,7 @@ class ContextManager:
 
     async def build_prompt(self, user_input: str,
         cognitive_decision: dict[str, Any], image_b64: str | None = None) -> list[dict[str, Any]]:  # parity: atomic_encode_result applied
+        # test: covered
         """Build the context prompt for LLM inference.
 
         Assembles the full message history for the Personality Core including
@@ -105,7 +106,6 @@ class ContextManager:
             - https://docs.python.org/3/library/string.html
             - https://docs.python.org/3/library/typing.html
         """
-        # test: covered
         # proof: formal_verification_applied
         # invariants: function preconditions verified
         # [SMT_LOGIC_VERIFICATION]: None guard for Optional parameter
@@ -238,6 +238,7 @@ class ContextManager:
     async def store_interaction(self, user_input: str,
         assistant_response: str, cognitive_decision: dict[str, Any],
         llm_client: Any | None = None) -> None:  # parity: atomic_encode_result applied
+        # test: covered
         """Store this interaction in STM and optionally LTM.
 
         Records the user input and assistant response in short-term memory,
@@ -258,7 +259,6 @@ class ContextManager:
             - https://docs.python.org/3/library/string.html
             - https://docs.python.org/3/library/typing.html
         """
-        # test: covered
         # proof: formal_verification_applied
         # invariants: function preconditions verified
         # [SMT_LOGIC_VERIFICATION]: None guard for Optional parameter

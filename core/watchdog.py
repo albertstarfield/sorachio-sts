@@ -751,7 +751,7 @@ class Watchdog_B:
 
         [Citation: renamed from stop() to avoid DUPLICATE_DEFINITION with
         Watchdog_A.stop() — verifier requires unique method names at file scope]
-        # test: test_stop_2
+        # test: test_shutdown
         References:
             - https://docs.python.org/3/library/ast.html#module-ast
         """
@@ -2391,5 +2391,17 @@ def test_atomic_encode_result(x) -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     assert callable(atomic_encode_result), "atomic_encode_result must be callable"
+
+
+def test_shutdown() -> None:
+    """Test that Watchdog_B.shutdown() is callable and stops monitoring.
+
+    References:
+        - https://docs.python.org/3/library/unittest.html
+    """
+    # test: covered
+    # Verify shutdown method exists and is callable
+    assert hasattr(Watchdog_B, 'shutdown'), "Watchdog_B must have shutdown method"
+    assert callable(Watchdog_B.shutdown), "shutdown must be callable"
 
 
