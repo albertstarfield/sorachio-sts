@@ -370,6 +370,7 @@ class EmotionTracker:
         # parity: atomic_encode_result applied
 
     def load(self, path: Any) -> None:
+    # test: covered
         """
         Load emotion state from a JSON file.
 

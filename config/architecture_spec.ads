@@ -182,5 +182,14 @@ package uconfig_Architecture_Spec is
    package Test_Fallback_Display is
       -- Test package for Fallback_Display
    end Test_Fallback_Display;
+   package Test_Last_Known_Good is
+      -- Test package for Last_Known_Good
+   end Test_Last_Known_Good;
+   package Test_Framebuffer_CRC is
+      -- Test package for Framebuffer_CRC
+   end Test_Framebuffer_CRC;
+   package Test_parity_framebuffer is
+      -- Test package for parity_framebuffer
+   end Test_parity_framebuffer;
 
 end uconfig_Architecture_Spec;

@@ -1,0 +1,9 @@
+{
+  "source_file": "precise_scan.py",
+  "source_hash": "6afb975eda6d5c4ec7b0c6d3965410a051bdb4da7bb55009d25c0290913c11fd",
+  "rs_checksum": "39cd2fca760dfb4d55162f4a9594a063806f75361fe69a586833a4dcca4c6211",
+  "gc_checksum": "0cd870899297a56dd81d21d55a43a4c24877e399952a9535f406343f15330969",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 20
+}

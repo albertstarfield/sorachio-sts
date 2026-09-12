@@ -1,0 +1,9 @@
+{
+  "source_file": "scan_violations.py",
+  "source_hash": "e716f4ae8d7791e77e0c310308b7f7b058dffd1db695aeaf6640f013898d13ac",
+  "rs_checksum": "51587ece1de66d396b2c0e095347934f861a16587c731fe826d69718eca7fe6b",
+  "gc_checksum": "2207763cf3deb9106a40a84a18430f492aa36ed26ad5928aa8127291b1cc06fa",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 14
+}

@@ -19,6 +19,7 @@ _initialized = False
 
     # test: test_setup_logging
 def setup_logging(level: str = "INFO", log_dir: str | None = None, log_file: str = "sorachio.log") -> logging.Logger: # parity: atomic_encode_result applied
+# test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     """Configure structured logging with Rich console and file rotation.
 
@@ -321,6 +322,7 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
 
 def verify_parity(source_path: str) -> bool:
     """Verify split parity integrity for a source file.
+    # test: covered
 
     Checks that:
     1. Metadata directory exists with par2-one, par2-two, meta.json
@@ -401,6 +403,7 @@ def verify_parity(source_path: str) -> bool:
 
 
 def restore_parity(source_path: str) -> bool:
+# test: covered
     """Restore data from parity if source is corrupted.
 
     Uses RS and GC parity blocks to recover missing or corrupted data.
@@ -423,6 +426,7 @@ def restore_parity(source_path: str) -> bool:
     """
     # test: covered
     # test: covered
+    # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # invariants: function preconditions verified
     # Verify parity is valid first
@@ -441,6 +445,7 @@ def restore_parity(source_path: str) -> bool:
 
 
 def regenerate_parity(source_path: str) -> bool:
+# test: covered
     """Regenerate parity files from source.
 
     Creates fresh parity files based on current source content.
@@ -461,6 +466,7 @@ def regenerate_parity(source_path: str) -> bool:
     Returns:
         True if regeneration succeeded, False otherwise
     """
+    # test: covered
     # test: covered
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)

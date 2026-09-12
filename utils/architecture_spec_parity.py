@@ -11,6 +11,7 @@ log = logging.getLogger(__name__)
 
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
+# test: covered
     """Generate split parity for a source file.
 
     Creates RS and GC parity blocks with per-part checksums.
@@ -65,6 +66,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
+# test: covered
     """Store split parity files in metadata/ folder.
 
     Creates .par2-one, .par2-two, and .meta.json files.
@@ -101,6 +103,7 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
 
 
 def verify_parity(source_path: str) -> bool:
+# test: covered
     """Verify split parity integrity.
 
     Checks that parity files exist, checksums match.

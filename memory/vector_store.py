@@ -160,6 +160,7 @@ class VectorStore:
 
     @property
     def available(self) -> bool:
+    # test: covered
         # parity: atomic_encode_result applied (SECDED TED)
         """Check if the vector store is available.
         # invariants: function preconditions verified

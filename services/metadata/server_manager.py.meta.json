@@ -1,9 +1,9 @@
 {
   "source_file": "server_manager.py",
-  "source_hash": "bf2386ead3e261760a1234b3a95136b5c1d49e1943d48e1bec625b28d4e16d4a",
-  "rs_checksum": "bcb6f6f5aa501cfb27fa39c79241cea7ddac97c57f434835a6603436d82c7d64",
-  "gc_checksum": "d1c2e1ee328c90948b1e9022c7ad5b2fd110bda396c86c6299f8ecea86e22031",
+  "source_hash": "0cf5994cdbef8022a340064fbeba1e2692cf54857394e9a880eeb53b4ef32707",
+  "rs_checksum": "e1864dca1f22d843667fa753d083d63b07259d3cc96792df73b455229a296d6c",
+  "gc_checksum": "4ba8323ae7d9c633614e64152cf431ad9fd332619417bafe276d06f35dfb61f4",
   "version": "2.0",
   "block_size": 512,
-  "total_blocks": 87
+  "total_blocks": 86
 }

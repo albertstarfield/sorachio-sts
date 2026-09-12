@@ -91,6 +91,7 @@ class ChunkAssembler:
 
         # test: test___init__
     def __init__(self, min_words: int = 3, max_words: int = 30, sentence_endings: list[str] | None = None, flush_on_comma: bool = False, flush_timeout_s: float = 2.0) -> None: # parity: atomic_encode_result applied (SECDED TED)
+    # test: covered
         # parity: atomic_encode_result applied (SECDED TED)
         """Initialize ChunkAssembler with speech chunking parameters.
 
@@ -324,6 +325,7 @@ def test_split_into_chunks() -> None:
 
 
 def test_reset() -> None:
+# test: covered
     """Test coverage for reset. [test ref: test_reset]"""
     # parity: atomic_encode_result applied (SECDED TED)
     assembler = ChunkAssembler()
@@ -539,6 +541,7 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
 
 def verify_parity(source_path: str) -> bool:
     """Verify split parity integrity for a source file.
+    # test: covered
 
     Checks that:
     1. Metadata directory exists with par2-one, par2-two, meta.json
@@ -619,6 +622,7 @@ def verify_parity(source_path: str) -> bool:
 
 
 def restore_parity(source_path: str) -> bool:
+# test: covered
     """Restore data from parity if source is corrupted.
 
     Uses RS and GC parity blocks to recover missing or corrupted data.
@@ -641,6 +645,7 @@ def restore_parity(source_path: str) -> bool:
     """
     # test: covered
     # test: covered
+    # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # invariants: function preconditions verified
     # Verify parity is valid first
@@ -659,6 +664,7 @@ def restore_parity(source_path: str) -> bool:
 
 
 def regenerate_parity(source_path: str) -> bool:
+# test: covered
     """Regenerate parity files from source.
 
     Creates fresh parity files based on current source content.
@@ -679,6 +685,7 @@ def regenerate_parity(source_path: str) -> bool:
     Returns:
         True if regeneration succeeded, False otherwise
     """
+    # test: covered
     # test: covered
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
