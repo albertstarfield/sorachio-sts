@@ -1,9 +1,0 @@
-DIGEST c32907c02fc493c0bc2c19ab0207b33d
-Ffind_ic
-mod 209:215 <> find_ic
-R234:239 Coq.ZArith.ZArith <> <> lib
-R257:262 Coq.QArith.QArith <> <> lib
-R280:293 Coq.Strings.String <> <> lib
-R311:320 Coq.Lists.List <> <> lib
-R338:341 Coq.Bool.Bool <> <> lib
-R485:491 find_ic find_ic <> mod
