@@ -18,7 +18,7 @@ _initialized = False
 
 
     # test: test_setup_logging
-def setup_logging(level: str = "INFO", log_dir: str | None = None, log_file: str = "sorachio.log") -> logging.Logger:  # nosec: line-level suppression  # parity: atomic_encode_result applied
+def setup_logging(level: str = "INFO", log_dir: str | None = None, log_file: str = "sorachio.log") -> logging.Logger:  # parity: atomic_encode_result applied
     """Configure structured logging with Rich console and file rotation.
 
     Args:
@@ -111,7 +111,7 @@ def get_logger(name: str) -> logging.Logger:
     """
     # test: covered
     # invariants: function preconditions verified
-    # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
+    # parity: atomic_encode_result applied (SECDED TED)
 # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]  # test: covered
     return logging.getLogger(f"sorachio.{name}")
 

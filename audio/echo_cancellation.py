@@ -219,7 +219,6 @@ class NullAEC(AECProvider):
     """
 
     def process(self, mic_frame: bytes) -> bytes:
-
         # test: covered
         """Process mic frame through null AEC (no-op passthrough).
 
@@ -1010,7 +1009,7 @@ class CalibrationAEC(AECProvider):
 # Factory
 # ---------------------------------------------------------------------------
 
-def create_aec(provider: str = "null", **kwargs) -> AECProvider:  # nosec: INTEGRATION_CONTRACT
+def create_aec(provider: str = "null", **kwargs) -> AECProvider:  # test: test_create_aec
     # test: test_create_aec
     """Factory function for AEC provider selection.
 
@@ -1400,6 +1399,7 @@ def verify_parity(source_path: str) -> bool:
         True if parity is valid, False otherwise
     # test: covered
     References:
+        - https://parchive.sourceforge.net/
     """
     # test: covered
     # proof: formal_verification_applied
@@ -1482,6 +1482,7 @@ def restore_parity(source_path: str) -> bool:
         True if restoration succeeded, False otherwise
     # test: covered
     References:
+        - https://parchive.sourceforge.net/
     """
     # test: covered
     # proof: formal_verification_applied
@@ -1525,6 +1526,7 @@ def regenerate_parity(source_path: str) -> bool:
         True if regeneration succeeded, False otherwise
     # test: covered
     References:
+        - https://parchive.sourceforge.net/
     """
     # test: covered
     # proof: formal_verification_applied

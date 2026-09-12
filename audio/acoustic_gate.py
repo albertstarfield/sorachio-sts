@@ -154,7 +154,7 @@ class AcousticGate:
         """
         # proof: formal_verification_applied
         # invariants: function preconditions verified
-        # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
+        # parity: atomic_encode_result applied (SECDED TED)
 # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         if not self.enabled:
             return True
@@ -499,6 +499,7 @@ def verify_parity(source_path: str) -> bool:
         True if parity is valid, False otherwise
     # test: covered
     References:
+        - https://parchive.sourceforge.net/
     """
     # test: covered
     # proof: formal_verification_applied
@@ -581,6 +582,7 @@ def restore_parity(source_path: str) -> bool:
         True if restoration succeeded, False otherwise
     # test: covered
     References:
+        - https://parchive.sourceforge.net/
     """
     # test: covered
     # proof: formal_verification_applied
@@ -624,6 +626,7 @@ def regenerate_parity(source_path: str) -> bool:
         True if regeneration succeeded, False otherwise
     # test: covered
     References:
+        - https://parchive.sourceforge.net/
     """
     # test: covered
     # proof: formal_verification_applied

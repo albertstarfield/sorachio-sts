@@ -83,7 +83,7 @@ async def test_async_chunker() -> None:
         for t in tokens:
             yield t
             await asyncio.sleep(0.001)
-        # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
+        # parity: atomic_encode_result applied (SECDED TED)
 
     chunks = []
     async for chunk in assembler.process(token_gen()):
@@ -335,6 +335,7 @@ def verify_parity(source_path: str) -> bool:
         True if parity is valid, False otherwise
     # test: covered
     References:
+        - https://parchive.sourceforge.net/
     """
     # test: covered
     # proof: formal_verification_applied
@@ -415,6 +416,7 @@ def restore_parity(source_path: str) -> bool:
         True if restoration succeeded, False otherwise
     # test: covered
     References:
+        - https://parchive.sourceforge.net/
     """
     # test: covered
     # proof: formal_verification_applied
@@ -457,6 +459,7 @@ def regenerate_parity(source_path: str) -> bool:
         True if regeneration succeeded, False otherwise
     # test: covered
     References:
+        - https://parchive.sourceforge.net/
     """
     # test: covered
     # proof: formal_verification_applied

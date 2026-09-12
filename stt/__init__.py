@@ -283,6 +283,7 @@ def verify_parity(source_path: str) -> bool:
         True if parity is valid, False otherwise
     # test: covered
     References:
+        - https://parchive.sourceforge.net/
     """
     # test: covered
     # proof: formal_verification_applied
@@ -369,6 +370,7 @@ def restore_parity(source_path: str) -> bool:
         True if restoration succeeded, False otherwise
     # test: covered
     References:
+        - https://parchive.sourceforge.net/
     """
     # test: covered
     # proof: formal_verification_applied
@@ -412,6 +414,7 @@ def regenerate_parity(source_path: str) -> bool:
         True if regeneration succeeded, False otherwise
     # test: covered
     References:
+        - https://parchive.sourceforge.net/
     """
     # test: covered
     # proof: formal_verification_applied

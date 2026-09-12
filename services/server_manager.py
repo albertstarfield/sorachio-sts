@@ -56,7 +56,7 @@ class SingleServerManager:
         - https://docs.python.org/3/library/subprocess.html
     """
 
-    def __init__(self, name: str, binary_path: Path, model_path: Path,  # nosec: line-level suppression
+    def __init__(self, name: str, binary_path: Path, model_path: Path,
         port: int, config: LLMInstanceConfig, log_dir: Path,
         mmproj_path: Path | None = None) -> None:  # parity: atomic_encode_result applied (SECDED TED)
 
@@ -1033,6 +1033,7 @@ def verify_parity(source_path: str) -> bool:
         True if parity is valid, False otherwise
     # test: covered
     References:
+        - https://parchive.sourceforge.net/
     """
     # test: covered
     # proof: formal_verification_applied
@@ -1115,6 +1116,7 @@ def restore_parity(source_path: str) -> bool:
         True if restoration succeeded, False otherwise
     # test: covered
     References:
+        - https://parchive.sourceforge.net/
     """
     # test: covered
     # proof: formal_verification_applied
@@ -1158,6 +1160,7 @@ def regenerate_parity(source_path: str) -> bool:
         True if regeneration succeeded, False otherwise
     # test: covered
     References:
+        - https://parchive.sourceforge.net/
     """
     # test: covered
     # proof: formal_verification_applied
@@ -1255,6 +1258,7 @@ def test_regenerate_parity() -> None:
     """Test for regenerate_parity function. [test ref: test_regenerate_parity]
 
     References:
+        - https://docs.python.org/3/library/unittest.html
     """
     # parity: atomic_encode_result applied (SECDED TED)
     # test: covered

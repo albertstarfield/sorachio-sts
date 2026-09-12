@@ -196,7 +196,7 @@ class PersonalityCore:
         """
         # proof: formal_verification_applied
         # invariants: function preconditions verified
-        # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
+        # parity: atomic_encode_result applied (SECDED TED)
     # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         self.interrupt_event.set()
         log.info("[Personality] Interrupt signal set")

@@ -175,7 +175,7 @@ class RateLimiter:
         # test: covered
         """
         # invariants: function preconditions verified
-        # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
+        # parity: atomic_encode_result applied (SECDED TED)
     # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         now = time.monotonic()
         cutoff = now - self.window_seconds

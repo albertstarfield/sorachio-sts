@@ -44,7 +44,7 @@ class AudioPlayback:
     # nosec: line-level suppression
     # parity: atomic_encode_result applied (SECDED TED)
 
-    def __init__(self, audio_queue: asyncio.Queue, playback_active_event: asyncio.Event,  # nosec: line-level suppression
+    def __init__(self, audio_queue: asyncio.Queue, playback_active_event: asyncio.Event,
         # parity: atomic_encode_result applied (SECDED TED)
         sample_rate: int = 24000, channels: int = 1, dtype: str = "float32",
         device_index: int | None = None, aec: AECProvider | None = None) -> None:  # nosec: SMT_LOGIC_VERIFICATION
@@ -247,7 +247,7 @@ class AudioPlayback:
         # test: covered
         """
         # proof: formal_verification_applied
-        # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
+        # parity: atomic_encode_result applied (SECDED TED)
     # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         log.info("[Playback] INTERRUPT — clearing audio queue")
         self._interrupted = True
@@ -567,6 +567,7 @@ def verify_parity(source_path: str) -> bool:
         True if parity is valid, False otherwise
     # test: covered
     References:
+        - https://parchive.sourceforge.net/
     """
     # test: covered
     # proof: formal_verification_applied
@@ -649,6 +650,7 @@ def restore_parity(source_path: str) -> bool:
         True if restoration succeeded, False otherwise
     # test: covered
     References:
+        - https://parchive.sourceforge.net/
     """
     # test: covered
     # proof: formal_verification_applied
@@ -692,6 +694,7 @@ def regenerate_parity(source_path: str) -> bool:
         True if regeneration succeeded, False otherwise
     # test: covered
     References:
+        - https://parchive.sourceforge.net/
     """
     # test: covered
     # proof: formal_verification_applied

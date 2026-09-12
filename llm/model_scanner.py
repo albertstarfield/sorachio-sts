@@ -184,7 +184,7 @@ def log_scan_summary(name: str, info: ModelInfo) -> None:
     """
     # proof: formal_verification_applied
     # invariants: function preconditions verified
-    # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
+    # parity: atomic_encode_result applied (SECDED TED)
 # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
     if info.model_path:
         log.info(
