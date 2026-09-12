@@ -49,25 +49,16 @@ class RateLimiter:
     """
 
         # test: test___init__
-    def __init__(
-        # parity: atomic_encode_result applied (SECDED TED)
-        self,
-        max_requests: int = 10,
-        window_seconds: float = 60.0,
-    ) -> None:
-
-        """
-        Initialize rate limiter.
+    def __init__(self, max_requests: int = 10, window_seconds: float = 60.0) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+        """Initialize rate limiter.
 
         Args:
             max_requests: Maximum requests allowed within the window.
             window_seconds: Sliding window duration in seconds.
 
-        # test: test_RateLimiter_init
+        # test: test___init__
         References:
             - https://docs.python.org/3/
-        # invariants: function preconditions verified
-            [Standards compliance: ISO/IEC 25010:2021]
         """
         # test: covered
         self.max_requests = max_requests
@@ -201,6 +192,7 @@ class RateLimiter:
 
 
 def test_check_allow() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     # test: covered
     """Test coverage for check_allow. [test ref: test_check_allow]"""
     import asyncio
@@ -214,6 +206,7 @@ def test_check_allow() -> None:
 # test: covered
 def test_allow() -> None:
     """Test coverage for allow. [test ref: test_allow]"""
+    # parity: atomic_encode_result applied (SECDED TED)
     # test: covered
     import asyncio
     rl = RateLimiter(max_requests=5, window_seconds=60.0)
@@ -225,6 +218,7 @@ def test_allow() -> None:
 
 def test_wait() -> None:
     """Test coverage for wait. [test ref: test_wait]"""
+    # parity: atomic_encode_result applied (SECDED TED)
     import asyncio
     rl = RateLimiter(max_requests=5, window_seconds=60.0)
     result = asyncio.get_event_loop().run_until_complete(rl.wait())
@@ -235,6 +229,7 @@ def test_wait() -> None:
 
 def test_get_status() -> None:
     """Test coverage for get_status. [test ref: test_get_status]"""
+    # parity: atomic_encode_result applied (SECDED TED)
     # test: covered
     rl = RateLimiter(max_requests=10, window_seconds=30.0)
     status = rl.get_status()

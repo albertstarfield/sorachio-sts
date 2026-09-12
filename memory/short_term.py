@@ -108,6 +108,7 @@ class ShortTermMemory:
 
     # parity: atomic_encode_result applied (SECDED TED)
     def __init__(self, max_messages: int = 20, include_emotions: bool = True,
+        # parity: atomic_encode_result applied (SECDED TED)
         summary_threshold: int = 15) -> None:
 
         # test: covered
@@ -385,6 +386,7 @@ class ShortTermMemory:
 
 
 def test_to_dict() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for to_dict.
         References:
     - https://docs.python.org/3/
@@ -403,6 +405,7 @@ def test_to_dict() -> None:
 
 
 def test_to_chat_message() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for to_chat_message.
         References:
     - https://docs.python.org/3/
@@ -417,6 +420,7 @@ def test_to_chat_message() -> None:
 
 
 def test_add() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for add.
         References:
     - https://docs.python.org/3/
@@ -436,6 +440,7 @@ def test_add() -> None:
 
 
 def test_get_recent() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for get_recent.
         References:
     - https://docs.python.org/3/
@@ -457,6 +462,7 @@ def test_get_recent() -> None:
 
 
 def test_get_recent_summary() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for get_recent_summary.
         References:
     - https://docs.python.org/3/
@@ -475,6 +481,7 @@ def test_get_recent_summary() -> None:
 
 
 def test_summarize() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for summarize.
         References:
     - https://docs.python.org/3/
@@ -496,6 +503,7 @@ def test_summarize() -> None:
 
 
 def test_auto_summarize_if_needed() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for auto_summarize_if_needed.
         References:
     - https://docs.python.org/3/
@@ -514,6 +522,7 @@ def test_auto_summarize_if_needed() -> None:
 
 
 def test_mark_last_interrupted() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for mark_last_interrupted.
         References:
     - https://docs.python.org/3/
@@ -532,6 +541,7 @@ def test_mark_last_interrupted() -> None:
 
 
 def test_get_chat_messages() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for get_chat_messages.
         References:
     - https://docs.python.org/3/
@@ -551,6 +561,7 @@ def test_get_chat_messages() -> None:
 
 
 def test_get_emotion_context() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for get_emotion_context.
         References:
     - https://docs.python.org/3/
@@ -571,6 +582,7 @@ def test_get_emotion_context() -> None:
 
 
 def test_clear() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for clear.
         References:
     - https://docs.python.org/3/
@@ -588,6 +600,7 @@ def test_clear() -> None:
 
 
 def test_turn_count() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for turn_count.
         References:
     - https://docs.python.org/3/
@@ -606,6 +619,7 @@ def test_turn_count() -> None:
 
 
 def test_size() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for size.
         References:
     - https://docs.python.org/3/

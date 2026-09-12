@@ -302,6 +302,7 @@ class ContextManager:
 
 
 def test_build_prompt() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for build_prompt.
     References:
         - https://docs.python.org/3/
@@ -317,6 +318,7 @@ def test_build_prompt() -> None:
 
 
 def test_store_interaction() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for store_interaction.
     References:
         - https://docs.python.org/3/

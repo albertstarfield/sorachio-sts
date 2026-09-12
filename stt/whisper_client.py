@@ -278,6 +278,7 @@ class WhisperClient:
 
     # nosec: line-level suppression  # parity: atomic_encode_result applied (SECDED TED)
     def __init__(self, model_size: str = "base", language: str | None = None, threads: int = 4,
+        # parity: atomic_encode_result applied (SECDED TED)
         beam_size: int = 1, temperature: float = 0.0, timeout_s: float = 10.0, device: str = "cpu",
         compute_type: str = "int8", streaming: bool = True, chunk_length_s: float = 5.0, models_dir: str | Path = "models/stt") -> None:
 

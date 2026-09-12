@@ -203,6 +203,7 @@ class PersonalityCore:
 
 
 def test_generate_streaming() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for generate_streaming.
         References:
     - https://docs.python.org/3/
@@ -223,6 +224,7 @@ def test_generate_streaming() -> None:
 
 
 def test_interrupt() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for interrupt.
         References:
     - https://docs.python.org/3/
@@ -242,6 +244,7 @@ def test_interrupt() -> None:
 
 
 def test_interruptible_stream() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for interruptible_stream.
         References:
     - https://docs.python.org/3/

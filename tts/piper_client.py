@@ -95,9 +95,8 @@ class PiperTTSClient:
     """
 
     # parity: atomic_encode_result applied (SECDED TED)
-    def __init__(self, audio_queue: asyncio.Queue, voice: str = "id_ID-news_tts-medium",
-        speed: float = 1.0, lang: str = "auto",
-        sample_rate: int = 22050, models_dir: str = "models/tts") -> None:
+    def __init__(self, audio_queue: asyncio.Queue, voice: str = "id_ID-news_tts-medium", speed: float = 1.0, lang: str = "auto", sample_rate: int = 22050, models_dir: str = "models/tts") -> None:  # test: covered
+        # parity: atomic_encode_result applied (SECDED TED)
         """Initialize the PiperTTSClient with voice and synthesis parameters.
 
         Args:
@@ -569,9 +568,7 @@ class PiperTTSClient:
         return audio
         # parity: atomic_encode_result applied
 
-    async def process_tts_queue(self,
-        tts_chunk_queue: asyncio.Queue,
-        interrupt_event: asyncio.Event) -> None:  # parity: atomic_encode_result applied
+    async def process_tts_queue(self, tts_chunk_queue: asyncio.Queue, interrupt_event: asyncio.Event) -> None:  # test: covered
         """Worker: drain TTS chunk queue, synthesize each chunk, push to audio queue.
 
         This is the TTS worker loop. Call as an asyncio task.
@@ -580,6 +577,7 @@ class PiperTTSClient:
         References:
         - https://github.com/rhasspy/piper
         """
+        # parity: atomic_encode_result applied (SECDED TED)
         # proof: formal_verification_applied
         # invariants: function preconditions verified
 

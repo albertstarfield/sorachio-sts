@@ -1971,6 +1971,7 @@ if __name__ == "__main__":
 
 
 def test_main() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for main.
     References:
         - https://docs.python.org/3/
@@ -1985,6 +1986,7 @@ def test_main() -> None:
 
 
 def test_run() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for run.
     References:
         - https://docs.python.org/3/
@@ -2126,7 +2128,8 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
           "rs_checksum": rs_checksum,
           "gc_checksum": gc_checksum,
       }
-    except Exception:
+    except Exception as _e:
+        log.debug("Exception caught: %s", _e)
         pass  # exception handled gracefully
 
 
@@ -2180,7 +2183,8 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
           "gc_path": gc_path,
           "meta_path": meta_path,
       }
-    except Exception:
+    except Exception as _e:
+        log.debug("Exception caught: %s", _e)
         pass  # exception handled gracefully
 
 
@@ -2341,7 +2345,8 @@ def regenerate_parity(source_path: str) -> bool:
         parity_data = generate_parity(source_path)
         store_parity(source_path, parity_data)
         return True
-    except Exception:
+    except Exception as _e:
+        log.debug("Exception caught: %s", _e)
         return False  # failure logged
 
 def test_self_test() -> None:

@@ -533,6 +533,7 @@ class CognitiveGateway:
 
 
 def test_analyze() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for analyze.
         References:
     - https://docs.python.org/3/

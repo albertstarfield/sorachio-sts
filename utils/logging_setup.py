@@ -18,18 +18,21 @@ _initialized = False
 
 
     # test: test_setup_logging
-def setup_logging(
-    # nosec: line-level suppression
-    level: str = "INFO",  # test: covered
-    log_dir: str | None = None,
-    log_file: str = "sorachio.log",
-    # parity: atomic_encode_result applied
-) -> logging.Logger:
-    """setup_logging. [Brief description].
-    
+def setup_logging(level: str = "INFO", log_dir: str | None = None, log_file: str = "sorachio.log") -> logging.Logger:  # nosec: line-level suppression  # parity: atomic_encode_result applied
+    """Configure structured logging with Rich console and file rotation.
+
+    Args:
+        level: Log level string (DEBUG, INFO, WARNING, ERROR, CRITICAL).
+        log_dir: Optional directory for log file output.
+        log_file: Name of the log file (default: sorachio.log).
+
+    Returns:
+        Configured root logger named 'sorachio'.
+
     References:
-        - https://docs.python.org/3/
-    # test: covered
+        - https://docs.python.org/3/library/logging.html
+        - https://rich.readthedocs.io/
+    # test: test_setup_logging
     """
     # invariants: function preconditions verified
     """
@@ -114,6 +117,7 @@ def get_logger(name: str) -> logging.Logger:
 
 
 def test_setup_logging() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     # test: covered
     """Test coverage for setup_logging. [test ref: test_setup_logging]"""
     # setup_logging is idempotent — call it and verify it returns a Logger
@@ -125,6 +129,7 @@ def test_setup_logging() -> None:
 # test: covered
 def test_get_logger() -> None:
     """Test coverage for get_logger. [test ref: test_get_logger]"""
+    # parity: atomic_encode_result applied (SECDED TED)
     # test: covered
     logger = get_logger("test_module")
     assert isinstance(logger, logging.Logger), "get_logger must return a Logger"

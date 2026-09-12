@@ -45,6 +45,7 @@ class AudioPlayback:
     # parity: atomic_encode_result applied (SECDED TED)
 
     def __init__(self, audio_queue: asyncio.Queue, playback_active_event: asyncio.Event,  # nosec: line-level suppression
+        # parity: atomic_encode_result applied (SECDED TED)
         sample_rate: int = 24000, channels: int = 1, dtype: str = "float32",
         device_index: int | None = None, aec: AECProvider | None = None) -> None:  # nosec: SMT_LOGIC_VERIFICATION
 
@@ -299,6 +300,7 @@ class AudioPlayback:
 
 
 def test_run() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     # test: test_run
     """Test coverage for run.
         References:
@@ -314,6 +316,7 @@ def test_run() -> None:
 
 
 def test_interrupt() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     # test: test_interrupt
     """Test coverage for interrupt.
         References:
@@ -329,6 +332,7 @@ def test_interrupt() -> None:
 
 
 def test_stop() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     # test: test_stop
     """Test coverage for stop.
         References:

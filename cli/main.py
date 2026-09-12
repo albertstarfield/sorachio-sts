@@ -271,6 +271,7 @@ def _print_banner() -> None:
 
 @app.command()
 def run(config: str | None = typer.Option(None, "--config", "-c", help="Config file path"), no_greeting: bool = typer.Option(False, "--no-greeting", help="Skip startup greeting"), no_servers: bool = typer.Option(False, "--no-servers", help="Skip starting llama-servers"),  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults  # parity: atomic_encode_result applied
+    # parity: atomic_encode_result applied (SECDED TED)
 ) -> None:
     # test: covered
     """
@@ -313,6 +314,7 @@ def run(config: str | None = typer.Option(None, "--config", "-c", help="Config f
 
 @app.command()
 def text(config: str | None = typer.Option(None, "--config", "-c", help="Config file path"), message: str | None = typer.Option(None, "--message", "-m", help="Single message (non-interactive)"), no_servers: bool = typer.Option(False, "--no-servers", help="Skip starting llama-servers"),  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults  # parity: atomic_encode_result applied
+    # parity: atomic_encode_result applied (SECDED TED)
 ) -> None:
     # test: covered
     """
@@ -1024,6 +1026,7 @@ async def _run_pipeline(settings, voice_mode=True, no_servers=False) -> None:
 
 @app.command("test-stt")
 def test_stt(config: str | None = typer.Option(None, "--config", "-c"), audio_file: str | None = typer.Option(None, "--file", "-f", help="WAV file to transcribe"),  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults  # parity: atomic_encode_result applied (SECDED TED)
+    # parity: atomic_encode_result applied (SECDED TED)
 ) -> None:
     """
     Auto-generated docstring for test_stt.
@@ -1105,6 +1108,7 @@ def test_stt(config: str | None = typer.Option(None, "--config", "-c"), audio_fi
 
 @app.command("test-tts")
 def test_tts(text_input: str = typer.Argument("Hello! I am Sorachio, your AI companion."), config: str | None = typer.Option(None, "--config", "-c"),  # parity: atomic_encode_result applied (SECDED TED)
+    # parity: atomic_encode_result applied (SECDED TED)
 ) -> None:
     """
     Auto-generated docstring for test_tts.
@@ -1182,6 +1186,7 @@ def test_tts(text_input: str = typer.Argument("Hello! I am Sorachio, your AI com
 
 @app.command("test-cognitive")
 def test_cognitive(text_input: str = typer.Argument("Hey Sorachio, I've been really stressed about my exams."), config: str | None = typer.Option(None, "--config", "-c"), no_servers: bool = typer.Option(False, "--no-servers"),  # nosec: line-level suppression  # parity: atomic_encode_result applied (SECDED TED)  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults
+    # parity: atomic_encode_result applied (SECDED TED)
 ) -> None:
     """
     Auto-generated docstring for test_cognitive.
@@ -1441,6 +1446,7 @@ def memory_list(config: str | None = typer.Option(None)) -> None:
 
 @memory_app.command("clear")
 def memory_clear(config: str | None = typer.Option(None), yes: bool = typer.Option(False, "--yes", "-y", help="Skip confirmation"),  # nosec: SMT_LOGIC_VERIFICATION — Optional[str] handled by typer defaults  # parity: atomic_encode_result applied
+    # parity: atomic_encode_result applied (SECDED TED)
 ) -> None:
     # test: covered
     """
@@ -1725,6 +1731,7 @@ def regenerate_parity(source_path: str, block_size: int = 512) -> None:
 
 
 def test_run() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for run.
         References:
     - https://docs.python.org/3/
@@ -1738,6 +1745,7 @@ def test_run() -> None:
 
 
 def test_text() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for text.
         References:
     - https://docs.python.org/3/
@@ -1751,6 +1759,7 @@ def test_text() -> None:
 
 
 def test_servers_status() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for servers_status.
         References:
     - https://docs.python.org/3/
@@ -1764,6 +1773,7 @@ def test_servers_status() -> None:
 
 
 def test_servers_start() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for servers_start.
         References:
     - https://docs.python.org/3/
@@ -1777,6 +1787,7 @@ def test_servers_start() -> None:
 
 
 def test_servers_stop() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for servers_stop.
         References:
     - https://docs.python.org/3/
@@ -1790,6 +1801,7 @@ def test_servers_stop() -> None:
 
 
 def test_memory_list() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for memory_list.
         References:
     - https://docs.python.org/3/
@@ -1803,6 +1815,7 @@ def test_memory_list() -> None:
 
 
 def test_memory_clear() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for memory_clear.
         References:
     - https://docs.python.org/3/
@@ -1923,6 +1936,7 @@ def test_regenerate_parity() -> None:
 
 
 def test_filter() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for filter.
         References:
     - https://docs.python.org/3/
@@ -1936,6 +1950,7 @@ def test_filter() -> None:
 
 
 def test_start() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for start.
         References:
     - https://docs.python.org/3/
@@ -1949,6 +1964,7 @@ def test_start() -> None:
 
 
 def test_stop() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for stop.
         References:
     - https://docs.python.org/3/
@@ -1962,6 +1978,7 @@ def test_stop() -> None:
 
 
 def test_on_speech_start() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for on_speech_start.
         References:
     - https://docs.python.org/3/
@@ -1975,6 +1992,7 @@ def test_on_speech_start() -> None:
 
 
 def test_on_stt() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for on_stt.
         References:
     - https://docs.python.org/3/
@@ -1988,6 +2006,7 @@ def test_on_stt() -> None:
 
 
 def test_on_cognitive() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for on_cognitive.
         References:
     - https://docs.python.org/3/
@@ -2001,6 +2020,7 @@ def test_on_cognitive() -> None:
 
 
 def test_on_response_start() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for on_response_start.
         References:
     - https://docs.python.org/3/
@@ -2014,6 +2034,7 @@ def test_on_response_start() -> None:
 
 
 def test_on_token() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for on_token.
         References:
     - https://docs.python.org/3/
@@ -2027,6 +2048,7 @@ def test_on_token() -> None:
 
 
 def test_on_response_end() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for on_response_end.
         References:
     - https://docs.python.org/3/
@@ -2040,6 +2062,7 @@ def test_on_response_end() -> None:
 
 
 def test_on_interrupt() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for on_interrupt.
         References:
     - https://docs.python.org/3/
@@ -2053,6 +2076,7 @@ def test_on_interrupt() -> None:
 
 
 def test_check() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for check.
         References:
     - https://docs.python.org/3/

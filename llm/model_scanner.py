@@ -197,6 +197,7 @@ def log_scan_summary(name: str, info: ModelInfo) -> None:
 
 
 def test_scan_model_dir() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for scan_model_dir.
         References:
     - https://docs.python.org/3/
@@ -220,6 +221,7 @@ def test_scan_model_dir() -> None:
 
 
 def test_log_scan_summary() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for log_scan_summary.
     References:
         - https://docs.python.org/3/

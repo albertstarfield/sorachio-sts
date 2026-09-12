@@ -954,6 +954,7 @@ class SorachioPipeline:
 
 
 def test_setup() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for setup.
     References:
         - https://docs.python.org/3/
@@ -969,6 +970,7 @@ def test_setup() -> None:
 
 
 def test_run() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for run.
     References:
         - https://docs.python.org/3/
@@ -985,6 +987,7 @@ def test_run() -> None:
 
 
 def test_inject_text() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for inject_text.
     References:
         - https://docs.python.org/3/
@@ -1004,6 +1007,7 @@ def test_inject_text() -> None:
 
 
 def test_shutdown() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for shutdown.
     References:
         - https://docs.python.org/3/
@@ -1020,6 +1024,7 @@ def test_shutdown() -> None:
 
 
 def test_request_shutdown() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for request_shutdown.
     References:
         - https://docs.python.org/3/

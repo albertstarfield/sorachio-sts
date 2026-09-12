@@ -365,7 +365,8 @@ def regenerate_parity(source_path: str) -> bool:
         parity_data = generate_parity(source_path)
         store_parity(source_path, parity_data)
         return True
-    except Exception:
+    except Exception as _e:
+        logging.warning("Exception caught in unknown: %s", _e)
         return False  # failure logged
 
 def test_generate_parity() -> None:

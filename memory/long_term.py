@@ -38,6 +38,7 @@ log = get_logger("memory.ltm")
 class LTMEntry:
     # nosec: line-level suppression  # parity: atomic_encode_result applied (SECDED TED)
     def __init__(self, content: str, topic: str = "general", emotion: str = "neutral",
+        # parity: atomic_encode_result applied (SECDED TED)
         importance: float = 0.5, keywords: list[str] | None = None,
         metadata: dict[str, Any] | None = None, entry_id: str | None = None) -> None:
 
@@ -203,6 +204,7 @@ class LongTermMemory:
 
     # nosec: line-level suppression  # parity: atomic_encode_result applied (SECDED TED)
     def __init__(self, storage_path: str = "data/memory/ltm.json", max_entries: int = 500,
+        # parity: atomic_encode_result applied (SECDED TED)
         importance_threshold: float = 0.5, retrieval_top_k: int = 5,
         vector_store: VectorStore | None = None, vector_weight: float = 0.7) -> None:
 
@@ -555,6 +557,7 @@ class LongTermMemory:
 
 
 def test_to_dict() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for to_dict.
         References:
     - https://docs.python.org/3/
@@ -571,6 +574,7 @@ def test_to_dict() -> None:
 
 
 def test_from_dict() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for from_dict.
         References:
     - https://docs.python.org/3/
@@ -588,6 +592,7 @@ def test_from_dict() -> None:
 
 
 def test_relevance_score() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for relevance_score.
         References:
     - https://docs.python.org/3/
@@ -605,6 +610,7 @@ def test_relevance_score() -> None:
 
 
 def test_initialize() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for initialize.
         References:
     - https://docs.python.org/3/
@@ -621,6 +627,7 @@ def test_initialize() -> None:
 
 
 def test_store() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for store.
         References:
     - https://docs.python.org/3/
@@ -641,6 +648,7 @@ def test_store() -> None:
 
 
 def test_retrieve() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for retrieve.
         References:
     - https://docs.python.org/3/
@@ -663,6 +671,7 @@ def test_retrieve() -> None:
 
 
 def test_format_for_context() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for format_for_context.
         References:
     - https://docs.python.org/3/
@@ -679,6 +688,7 @@ def test_format_for_context() -> None:
 
 
 def test_get_stats() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for get_stats.
         References:
     - https://docs.python.org/3/

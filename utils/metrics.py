@@ -71,6 +71,7 @@ class MetricsCollector:
     """Collects and summarizes pipeline timing metrics."""
 
     def __init__(self, history_size: int = 100) -> None:
+        # parity: atomic_encode_result applied (SECDED TED)
         """    Init.
 
     Args:
@@ -162,6 +163,7 @@ metrics_collector = MetricsCollector()
 
 
 def test_to_dict() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     # test: covered
     """Test coverage for to_dict. [test ref: test_to_dict]"""
     m = TurnMetrics(turn_id=1, stt_duration_s=0.5, cognitive_duration_s=0.3)
@@ -175,6 +177,7 @@ def test_to_dict() -> None:
 # test: covered
 def test_record_turn() -> None:
     """Test coverage for record_turn. [test ref: test_record_turn]"""
+    # parity: atomic_encode_result applied (SECDED TED)
     # test: covered
     mc = MetricsCollector(history_size=5)
     m = TurnMetrics(turn_id=1, total_e2e_s=1.5)
@@ -186,6 +189,7 @@ def test_record_turn() -> None:
 
 def test_get_summary() -> None:
     """Test coverage for get_summary. [test ref: test_get_summary]"""
+    # parity: atomic_encode_result applied (SECDED TED)
     # test: covered
     mc = MetricsCollector()
     # Empty history

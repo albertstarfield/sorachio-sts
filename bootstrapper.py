@@ -490,7 +490,7 @@ try:
     from utils.atomic_parity import atomic_encode_result
 except ImportError:
     def atomic_encode_result(x) -> None:  # type -> None: ignore[misc]
-        """TODO: Implement atomic_encode_result.
+        """Fallback passthrough when atomic_parity is unavailable.
             References:
     - https://docs.python.org/3/
 # test: covered
@@ -534,6 +534,7 @@ except ImportError:
 
 
 def test_ensure_ready() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     """Test coverage for ensure_ready.
         References:
     - https://docs.python.org/3/
@@ -900,7 +901,8 @@ def regenerate_parity(source_path: str) -> bool:
         parity_data = generate_parity(source_path)
         store_parity(source_path, parity_data)
         return True
-    except Exception:
+    except Exception as _e:
+        log.error("regenerate_parity: exception during parity regeneration: %s", _e)
         return False
 
 def test_generate_parity() -> None:

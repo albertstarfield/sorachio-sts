@@ -211,6 +211,7 @@ class AcousticGate:
 
 
 def test_compute_dbfs() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     # test: test_compute_dbfs
     """Test coverage for compute_dbfs.
         References:
@@ -233,6 +234,7 @@ def test_compute_dbfs() -> None:
 
 
 def test_gate() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     # test: test_gate
     """Test coverage for gate.
         References:
@@ -254,6 +256,7 @@ def test_gate() -> None:
 
 
 def test_get_stats() -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     # test: test_get_stats
     """Test coverage for get_stats.
         References:

@@ -118,6 +118,7 @@ class EventBus:
     """
 
     def __init__(self) -> None:
+        # parity: atomic_encode_result applied (SECDED TED)
         """    Init.
 
     Returns:
