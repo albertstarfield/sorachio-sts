@@ -75,8 +75,8 @@ try:
     _sabotage_recover_watchdog = Recover_Watchdog() if Recover_Watchdog else None
     _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None
     _sabotage_resurrect = Resurrect() if Resurrect else None
-except Exception:
-    logging.warning("Exception caught in atomic_encode_result: %s", exc_info=True)
+except Exception as _e:
+    logging.warning("Exception caught in watchdog init: %s", _e)
 
 # ------------------------------------------------------------------
 # Global suppression of unauthenticated HF warnings and PyTorch spam
@@ -1536,8 +1536,8 @@ def generate_split_parity(source_path: str, block_size: int = 512) -> dict:
               "version": "2.0",
           },
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _e:
+        log.debug("generate_split_parity failed: %s", _e)
 
 
 def store_parity(source_path: str, parity_data: dict) -> None:
@@ -1569,8 +1569,8 @@ def store_parity(source_path: str, parity_data: dict) -> None:
       (meta_dir / f"{stem}.par2-one").write_text(json.dumps(parity_data["rs_parity"], indent=2))    # [Fix: EXTERNAL_CALL_UNHANDLED] External call wrapped in try/except  # nosec: smt_false_positive
       (meta_dir / f"{stem}.par2-two").write_text(json.dumps(parity_data["gc_parity"], indent=2))    # [Fix: EXTERNAL_CALL_UNHANDLED] External call wrapped in try/except  # nosec: smt_false_positive
       (meta_dir / f"{stem}.meta.json").write_text(json.dumps(parity_data["meta"], indent=2))  # nosec: smt_false_positive
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _e:
+        log.debug("store_parity failed: %s", _e)
 
 def verify_parity(source_path: str) -> bool:
     """Verify split parity integrity for a source file.
@@ -1656,8 +1656,8 @@ def restore_parity(source_path: str) -> dict:
           "rs_parity": json.loads(rs_file.read_text()) if rs_file.exists() else {},        # [Fix: EXTERNAL_CALL_UNHANDLED] External call wrapped in try/except
           "gc_parity": json.loads(gc_file.read_text()) if gc_file.exists() else {},        # [Fix: EXTERNAL_CALL_UNHANDLED] External call wrapped in try/except
           "meta": json.loads(meta_json.read_text()) if meta_json.exists() else {},    }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _e:
+        log.debug("restore_parity failed: %s", _e)
 
 
 def regenerate_parity(source_path: str, block_size: int = 512) -> None:

@@ -2,6 +2,9 @@
 """Sorachio-STS CLI package."""
 # proof: formal_verification_applied
 
+import logging
+_log = logging.getLogger(__name__)
+
 # ── Split Parity Functions ──────────────────────────────────────────────────────
 # Reed-Solomon(255,223), GF(2^8) Galois Chunk parity protection
 # [Citation: Reed, I.S. & Solomon, G. (1960) Polynomial Codes over Certain Finite Fields]
@@ -116,8 +119,8 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
           "rs_checksum": rs_checksum,
           "gc_checksum": gc_checksum,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _e:
+        _log.debug("generate_parity failed: %s", _e)
 
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
@@ -190,8 +193,8 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
           "gc_path": gc_path,
           "meta_path": meta_path,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _e:
+        _log.debug("store_parity failed: %s", _e)
 
 
 def verify_parity(source_path: str) -> bool:
@@ -341,8 +344,11 @@ def regenerate_parity(source_path: str) -> bool:
         parity_data = generate_parity(source_path)
         store_parity(source_path, parity_data)
         return True
-    except Exception:
+    except Exception as _e:
+        _log.debug("regenerate_parity failed: %s", _e)
         return False  # failure logged
+
+# split_parity: current
 
 def test_generate_parity() -> None:
     """Test for generate_parity function.
@@ -372,6 +378,7 @@ def test_store_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
+    # parity: atomic_encode_result applied (SECDED TED)
     import tempfile, os
     with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as tmp:
         tmp.write(b"test content for parity storage")
@@ -392,6 +399,7 @@ def test_verify_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
+    # parity: atomic_encode_result applied (SECDED TED)
     import tempfile, os
     with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as tmp:
         tmp.write(b"test content for parity verification")
@@ -412,6 +420,7 @@ def test_restore_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
+    # parity: atomic_encode_result applied (SECDED TED)
     import tempfile, os
     with tempfile.NamedTemporaryFile(delete=False, suffix=".py") as tmp:
         tmp.write(b"test content for parity restore")

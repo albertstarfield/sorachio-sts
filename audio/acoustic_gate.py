@@ -106,22 +106,18 @@ class AcousticGate:
         hold_frames: int = 15,
     ) -> None:
 
-        """    Init.
+        """    Initialize the AcousticGate.
 
     Args:
-    threshold_dbfs (float): Description.
-    enabled (bool): Description.
-    debug (bool): Description.
-    hold_frames (int): Description.
+        threshold_dbfs (float): Frame drop threshold in dBFS.
+        enabled (bool): If False, all frames pass through.
+        debug (bool): If True, every frame logs its dBFS value.
+        hold_frames (int): Number of frames to hold open after threshold is met.
 
-    Returns:
-        None: Description.
-        References:
-            - https://docs.python.org/3/
-        # invariants: function preconditions verified
-            [Standards compliance: ISO/IEC 25010:2021]
-        # test: covered
-        """
+    References:
+        - https://docs.python.org/3/
+    # test: covered
+    """
         self.threshold_dbfs = threshold_dbfs
         self.enabled = enabled
         self.debug = debug

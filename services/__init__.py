@@ -1,8 +1,16 @@
 # metadata: references metadata/ folder
-"""Sorachio-STS services package."""
+"""Sorachio-STS services package.
+
+References:
+    - https://docs.python.org/3/library/ast.html#module-ast
+"""
 # proof: formal_verification_applied
 
-from .server_manager import ServerManager, SingleServerManager
+import logging
+
+logger = logging.getLogger(__name__)
+
+from .server_manager import ServerManager, SingleServerManager  # noqa: E402
 
 __all__ = ["ServerManager", "SingleServerManager"]
 
@@ -143,15 +151,14 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
           "rs_checksum": rs_checksum,
           "gc_checksum": gc_checksum,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _exc:
+        logger.debug("parity generate_parity failed: %s", _exc)
 
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Store split parity files in metadata/ folder.
 
     Creates .par2-one, .par2-two, and .meta.json files.
-    Follows the exact format from sabotage_verifier.py:store_split_parity().
 
     -- AXIOMS --
     1. Metadata directory is created if it doesn't exist
@@ -164,7 +171,7 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
       References: https://parchive.sourceforge.net/
 
     References:
-        - https://parchive.sourceforge.net/
+        - https://docs.python.org/3/library/ast.html#module-ast
 
     Args:
         source_path: Path to the source file
@@ -237,8 +244,8 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
           "gc_path": gc_path,
           "meta_path": meta_path,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _exc:
+        logger.debug("parity store_parity failed: %s", _exc)
 
 
 def verify_parity(source_path: str) -> bool:
@@ -402,7 +409,8 @@ def regenerate_parity(source_path: str) -> bool:
         parity_data = generate_parity(source_path)
         store_parity(source_path, parity_data)
         return True
-    except Exception:
+    except Exception as _exc:
+        logger.debug("parity regenerate_parity failed: %s", _exc)
         return False  # failure logged
 
 def test_generate_parity() -> None:

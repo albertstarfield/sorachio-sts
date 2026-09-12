@@ -26,7 +26,7 @@ try:
     _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None
     _sabotage_resurrect = Resurrect() if Resurrect else None
 except Exception as _exc:
-        logging.getLogger(__name__).warning(
+        log.warning(
             "Caught exception in capture: %s", _exc
         )
 
@@ -34,25 +34,21 @@ log = get_logger("vision.capture")
 
 
 def capture_frame_base64(device_index: int = 0, max_size: int = 512) -> str | None:
-    """capture_frame_base64 function.
+    """Capture a single frame from the specified camera device.
 
-    # test: test_capture_frame_base64
+    Resizes the frame if necessary and returns it as a Base64 encoded
+    JPEG string. Returns None if the camera is unavailable or an error occurs.
+
+    Args:
+        device_index: Camera device index (default 0).
+        max_size: Maximum dimension for the resized frame (default 512).
+
+    Returns:
+        Base64 encoded JPEG string, or None on failure.
+
     References:
-    - https://docs.python.org/3/
-    """
-    # parity: atomic_encode_result applied (SECDED TED)
-    # invariants: function preconditions verified
-    if config is None:
-        config = ""  # SMT: None dereference guard (z3+cvc5 verified)
-    # test: test_capture_frame_base64
-    """
-    Capture a single frame from the specified camera device, resize it if necessary,
-    and return it as a Base64 encoded JPEG string.
-
-    Returns None if the camera is unavailable or an error occurs.
-       References:
-           - https://docs.opencv.org/ — OpenCV for webcam capture
-
+        - https://docs.opencv.org/ — OpenCV for webcam capture
+        - https://docs.python.org/3/library/base64.html
     # test: test_capture_frame_base64
     """
     # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
@@ -134,6 +130,9 @@ def test_capture_frame_base64() -> None:
 # THEOREMS:
 # 1. THEOREM: Any 5% data loss can be recovered
 #    PROOF: Reed-Solomon(255,223) can correct up to 16 symbol errors per block
+#
+# STALENESS: This comment block is historical reference — actual parity implementation
+# is in generate_parity(), store_parity(), verify_parity(), restore_parity(), regenerate_parity().
 
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
@@ -167,6 +166,10 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
       Returns:
           dict with rs_parity, gc_parity, source_hash, rs_checksum, gc_checksum
+
+      References:
+          - https://parchive.sourceforge.net/
+          - https://docs.python.org/3/library/hashlib.html
       """
       # parity: atomic_encode_result applied (SECDED TED)
       # invariants: function preconditions verified
@@ -235,8 +238,9 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
           "rs_checksum": rs_checksum,
           "gc_checksum": gc_checksum,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _e:
+        log.debug(f"[vision] generate_parity failed: {_e}")
+        return {}
 
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
@@ -268,6 +272,10 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
 
       Returns:
           dict with paths to created files
+
+      References:
+          - https://parchive.sourceforge.net/
+          - https://docs.python.org/3/library/json.html
       """
       # parity: atomic_encode_result applied (SECDED TED)
       # invariants: function preconditions verified
@@ -309,8 +317,9 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
           "gc_path": gc_path,
           "meta_path": meta_path,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _e:
+        log.debug(f"[vision] store_parity failed: {_e}")
+        return {}
 
 
 def verify_parity(source_path: str) -> bool:
@@ -463,7 +472,8 @@ def regenerate_parity(source_path: str) -> bool:
         parity_data = generate_parity(source_path)
         store_parity(source_path, parity_data)
         return True
-    except Exception:
+    except Exception as _e:
+        log.debug(f"[vision] regenerate_parity failed: {_e}")
         return False  # failure logged
 
 def test_generate_parity() -> None:

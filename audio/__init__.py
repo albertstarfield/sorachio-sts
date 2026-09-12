@@ -9,6 +9,10 @@ from .playback import AudioPlayback
 
 __all__ = ["AudioCapture", "AudioPlayback", "AcousticGate", "AECProvider", "create_aec"]
 
+from utils.logging_setup import get_logger
+
+log = get_logger("audio")
+
 # ── Split Parity Functions ──────────────────────────────────────────────────────
 # Reed-Solomon(255,223), GF(2^8) Galois Chunk parity protection
 # [Citation: Reed, I.S. & Solomon, G. (1960) Polynomial Codes over Certain Finite Fields]
@@ -22,6 +26,9 @@ __all__ = ["AudioCapture", "AudioPlayback", "AcousticGate", "AECProvider", "crea
 # THEOREMS:
 # 1. THEOREM: Any 5% data loss can be recovered
 #    PROOF: Reed-Solomon(255,223) can correct up to 16 symbol errors per block
+#
+# STALENESS: This comment block is historical reference — actual parity implementation
+# is in generate_parity(), store_parity(), verify_parity(), restore_parity(), regenerate_parity().
 
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
@@ -55,6 +62,10 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
       Returns:
           dict with rs_parity, gc_parity, source_hash, rs_checksum, gc_checksum
+
+      References:
+          - https://parchive.sourceforge.net/
+          - https://docs.python.org/3/library/hashlib.html
       """
       # parity: atomic_encode_result applied (SECDED TED)
       # invariants: function preconditions verified
@@ -124,8 +135,9 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
           "rs_checksum": rs_checksum,
           "gc_checksum": gc_checksum,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _e:
+        log.debug(f"[audio] generate_parity failed: {_e}")
+        return {}
 
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
@@ -157,6 +169,10 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
 
       Returns:
           dict with paths to created files
+
+      References:
+          - https://parchive.sourceforge.net/
+          - https://docs.python.org/3/library/json.html
       """
       # parity: atomic_encode_result applied (SECDED TED)
       # invariants: function preconditions verified
@@ -198,8 +214,9 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
           "gc_path": gc_path,
           "meta_path": meta_path,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _e:
+        log.debug(f"[audio] store_parity failed: {_e}")
+        return {}
 
 
 def verify_parity(source_path: str) -> bool:
@@ -353,7 +370,8 @@ def regenerate_parity(source_path: str) -> bool:
         parity_data = generate_parity(source_path)
         store_parity(source_path, parity_data)
         return True
-    except Exception:
+    except Exception as _e:
+        log.debug(f"[audio] regenerate_parity failed: {_e}")
         return False  # failure logged
 
 def test_generate_parity() -> None:

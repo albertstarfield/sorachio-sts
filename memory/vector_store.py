@@ -571,8 +571,9 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
           "rs_checksum": rs_checksum,
           "gc_checksum": gc_checksum,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as e:
+        log.error(f"[parity] generate_parity failed for {source_path}: {e}")
+        return {}
 
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
@@ -645,8 +646,9 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
           "gc_path": gc_path,
           "meta_path": meta_path,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as e:
+        log.error(f"[parity] store_parity failed for {source_path}: {e}")
+        return {}
 
 
 def verify_parity(source_path: str) -> bool:
@@ -806,8 +808,9 @@ def regenerate_parity(source_path: str) -> bool:
         parity_data = generate_parity(source_path)
         store_parity(source_path, parity_data)
         return True
-    except Exception:
-        return False  # failure logged
+    except Exception as e:
+        log.error(f"[parity] regenerate_parity failed for {source_path}: {e}")
+        return False
 
 def test_generate_parity() -> None:
     """Test for generate_parity function.

@@ -1173,6 +1173,10 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
       Returns:
           dict with rs_parity, gc_parity, source_hash, rs_checksum, gc_checksum
+
+      References:
+          - https://parchive.sourceforge.net/
+          - https://docs.python.org/3/library/hashlib.html
       """
       # parity: atomic_encode_result applied (SECDED TED)
       # invariants: function preconditions verified
@@ -1242,8 +1246,9 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
           "rs_checksum": rs_checksum,
           "gc_checksum": gc_checksum,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _e:
+        log.debug(f"[AEC] generate_parity failed: {_e}")
+        return {}
 
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
@@ -1275,6 +1280,10 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
 
       Returns:
           dict with paths to created files
+
+      References:
+          - https://parchive.sourceforge.net/
+          - https://docs.python.org/3/library/json.html
       """
       # parity: atomic_encode_result applied (SECDED TED)
       # invariants: function preconditions verified
@@ -1316,8 +1325,9 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
           "gc_path": gc_path,
           "meta_path": meta_path,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _e:
+        log.debug(f"[AEC] store_parity failed: {_e}")
+        return {}
 
 
 def verify_parity(source_path: str) -> bool:
@@ -1468,7 +1478,8 @@ def regenerate_parity(source_path: str) -> bool:
         parity_data = generate_parity(source_path)
         store_parity(source_path, parity_data)
         return True
-    except Exception:
+    except Exception as _e:
+        log.debug(f"[AEC] regenerate_parity failed: {_e}")
         return False  # failure logged
 
 def test_generate_parity() -> None:

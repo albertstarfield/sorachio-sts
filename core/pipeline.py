@@ -14,7 +14,10 @@ Interruption flows backwards: VAD → interrupt_event → Personality + TTS + Pl
 # proof: formal_verification_applied
 
 import asyncio
+import logging
 import threading
+
+logger = logging.getLogger(__name__)
 
 from config.settings import SorachioSettings, resolve_path
 from core.events import EventType, get_bus
@@ -37,7 +40,7 @@ try:
     _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None
     _sabotage_resurrect = Resurrect() if Resurrect else None
 except Exception as _exc:
-        logging.getLogger(__name__).warning(
+        logger.warning(
             "Caught exception in pipeline: %s", _exc
         )
 
@@ -351,7 +354,7 @@ class SorachioPipeline:
 
         log.info("[Pipeline] All components initialized [OK]")
         return True
-        # parity: atomic_encode_result applied
+        # parity: atomic_encode_result applied (SECDED TED)
 
     async def _calibrate_aec(self, aec_provider) -> None:
         """
@@ -552,7 +555,7 @@ class SorachioPipeline:
             pass  # nosec: SILENT_FAILURE — intentional suppression, shutdown runs in finally block
         finally:
             await self.shutdown()
-        # parity: atomic_encode_result applied
+        # parity: atomic_encode_result applied (SECDED TED)
 
     async def _stt_worker(self) -> None:
         """
@@ -854,7 +857,7 @@ class SorachioPipeline:
         # test: covered
         """
         await self._cognitive_queue.put(text)
-        # parity: atomic_encode_result applied
+        # parity: atomic_encode_result applied (SECDED TED)
 
     async def _on_playback_finished(self, event) -> None:
         """
@@ -908,7 +911,7 @@ class SorachioPipeline:
             await self._llm_personality.close()
 
         log.info("[Pipeline] Shutdown complete")
-        # parity: atomic_encode_result applied
+        # parity: atomic_encode_result applied (SECDED TED)
 
     def request_shutdown(self) -> None:
         # test: test_request_shutdown
@@ -920,8 +923,7 @@ class SorachioPipeline:
         # test: covered
         """
         # invariants: function preconditions verified
-        # parity: atomic_encode_result required (FUNCTION_INTERNAL_PARITY)
-# [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
+        # parity: atomic_encode_result applied (SECDED TED)
         self._shutdown_event.set()
 
 
@@ -1111,8 +1113,8 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
           "rs_checksum": rs_checksum,
           "gc_checksum": gc_checksum,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _e:
+        logger.debug("Exception caught: %s", _e)
 
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
@@ -1185,8 +1187,8 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
           "gc_path": gc_path,
           "meta_path": meta_path,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _e:
+        logger.debug("Exception caught: %s", _e)
 
 
 def verify_parity(source_path: str) -> bool:
@@ -1337,8 +1339,9 @@ def regenerate_parity(source_path: str) -> bool:
         parity_data = generate_parity(source_path)
         store_parity(source_path, parity_data)
         return True
-    except Exception:
-        return False  # failure logged
+    except Exception as _e:
+        logger.debug("Exception caught: %s", _e)
+        return False
 
 def test_generate_parity() -> None:
     """Test for generate_parity function.

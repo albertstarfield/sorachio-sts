@@ -2,10 +2,16 @@
 """
 Sorachio-STS — Main Entry Point
 Delegates all logic to cli/main.py (Typer app).
+
+References:
+    - https://docs.python.org/3/library/ast.html#module-ast
 """
 
+import logging
 import sys
 from pathlib import Path
+
+_log = logging.getLogger(__name__)
 
 # Ensure project root is on path
 sys.path.insert(0, str(Path(__file__).parent))
@@ -174,8 +180,8 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
           "rs_checksum": rs_checksum,
           "gc_checksum": gc_checksum,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _e:
+        _log.debug("generate_parity failed: %s", _e)
 
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
@@ -248,8 +254,8 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
           "gc_path": gc_path,
           "meta_path": meta_path,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _e:
+        _log.debug("store_parity failed: %s", _e)
 
 
 def verify_parity(source_path: str) -> bool:
@@ -399,7 +405,8 @@ def regenerate_parity(source_path: str) -> bool:
         parity_data = generate_parity(source_path)
         store_parity(source_path, parity_data)
         return True
-    except Exception:
+    except Exception as _e:
+        _log.debug("regenerate_parity failed: %s", _e)
         return False  # failure logged
 
 def test_generate_parity() -> None:

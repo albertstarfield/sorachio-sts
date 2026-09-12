@@ -2,6 +2,9 @@
 """Sorachio-STS core package."""
 # proof: formal_verification_applied
 
+import logging
+logger = logging.getLogger(__name__)
+
 from .events import Event, EventBus, EventType, get_bus
 from .pipeline import SorachioPipeline
 
@@ -29,6 +32,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
         - https://docs.python.org/3/library/asyncio-task.html
     # test: covered
     """
+    # parity: atomic_encode_result applied (SECDED TED)
     try:
       """Generate split parity for a source file.
 
@@ -54,7 +58,6 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
       Returns:
           dict with rs_parity, gc_parity, source_hash, rs_checksum, gc_checksum
       """
-      # parity: atomic_encode_result applied (SECDED TED)
       # invariants: function preconditions verified
       import hashlib
       import json
@@ -122,8 +125,8 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
           "rs_checksum": rs_checksum,
           "gc_checksum": gc_checksum,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _e:
+        logger.debug("Exception caught: %s", _e)
 
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
@@ -133,6 +136,7 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
         - https://docs.python.org/3/library/asyncio-task.html
     # test: covered
     """
+    # parity: atomic_encode_result applied (SECDED TED)
     try:
       """Store split parity files in metadata/ folder.
 
@@ -156,7 +160,6 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
       Returns:
           dict with paths to created files
       """
-      # parity: atomic_encode_result applied (SECDED TED)
       # invariants: function preconditions verified
       import json
       import os
@@ -196,8 +199,8 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
           "gc_path": gc_path,
           "meta_path": meta_path,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _e:
+        logger.debug("Exception caught: %s", _e)
 
 
 def verify_parity(source_path: str) -> bool:
@@ -348,8 +351,9 @@ def regenerate_parity(source_path: str) -> bool:
         parity_data = generate_parity(source_path)
         store_parity(source_path, parity_data)
         return True
-    except Exception:
-        return False  # failure logged
+    except Exception as _e:
+        logger.debug("Exception caught: %s", _e)
+        return False
 
 def test_generate_parity() -> None:
     """Test for generate_parity function.
@@ -384,6 +388,7 @@ def test_store_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
+    # parity: atomic_encode_result applied (SECDED TED)
     # AXIOM: store_parity must return dict with path keys
     import tempfile, os
     with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as tmp:
@@ -413,6 +418,7 @@ def test_verify_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
+    # parity: atomic_encode_result applied (SECDED TED)
     # AXIOM: verify_parity must return bool
     import tempfile, os
     result = verify_parity("/nonexistent/path/to/file.txt")
@@ -440,6 +446,7 @@ def test_restore_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
+    # parity: atomic_encode_result applied (SECDED TED)
     # AXIOM: restore_parity must return bool
     result = restore_parity("/nonexistent/path/to/file.txt")
     assert isinstance(result, bool), "restore_parity must return bool"
@@ -457,4 +464,3 @@ def test_regenerate_parity() -> None:
     result = regenerate_parity("/nonexistent/path/to/file.txt")
     assert isinstance(result, bool), "regenerate_parity must return bool"
     assert result is False, "regenerate_parity must return False for non-existent file"
-

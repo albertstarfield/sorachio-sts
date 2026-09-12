@@ -1,8 +1,16 @@
 # metadata: references metadata/ folder
-"""Sorachio-STS STT package."""
+"""Sorachio-STS STT package.
+
+References:
+    - https://docs.python.org/3/library/ast.html#module-ast
+"""
 # proof: formal_verification_applied
 
-from .whisper_client import WhisperClient
+import logging
+
+logger = logging.getLogger(__name__)
+
+from .whisper_client import WhisperClient  # noqa: E402
 
 __all__ = ["WhisperClient"]
 
@@ -22,10 +30,31 @@ __all__ = ["WhisperClient"]
 
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
-    """Function generate_parity.
-    
+    """Generate split parity for a source file.
+
+    Creates RS and GC parity blocks with per-part checksums.
+    RS: Reed-Solomon(255,223) encoded blocks (5% overhead)
+    GC: Galois Chunk parity blocks via weighted XOR (5% overhead)
+
+    -- AXIOMS --
+    1. Source file is read and split into blocks
+    2. Each block is encoded with Reed-Solomon(255,223)
+    3. GC parity is computed as weighted XOR of blocks
+    4. Checksums are computed for each part
+
+    -- CITATIONS --
+    - Reed, I.S. & Solomon, G. (1960) Polynomial Codes over Certain Finite Fields
+      References: https://parchive.sourceforge.net/
+
     References:
-        - https://docs.python.org/3/library/asyncio-task.html
+        - https://docs.python.org/3/library/ast.html#module-ast
+
+    Args:
+        source_path: Path to the source file
+        block_size: Size of each parity block in bytes (default: 512)
+
+    Returns:
+        dict with rs_parity, gc_parity, source_hash, rs_checksum, gc_checksum
     # test: covered
     """
     try:
@@ -125,15 +154,34 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
           "rs_checksum": rs_checksum,
           "gc_checksum": gc_checksum,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _exc:
+        logger.debug("parity generate_parity failed: %s", _exc)
 
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
-    """Function store_parity.
-    
+    """Store split parity files in metadata/ folder.
+
+    Creates .par2-one, .par2-two, and .meta.json files.
+
+    -- AXIOMS --
+    1. Metadata directory is created if it doesn't exist
+    2. RS parity stored as .par2-one (JSON with "blocks" key)
+    3. GC parity stored as .par2-two (JSON with "blocks" key)
+    4. Meta.json contains source_hash, rs_checksum, gc_checksum, version
+
+    -- CITATIONS --
+    - Reed, I.S. & Solomon, G. (1960) Polynomial Codes over Certain Finite Fields
+      References: https://parchive.sourceforge.net/
+
     References:
-        - https://docs.python.org/3/library/asyncio-task.html
+        - https://docs.python.org/3/library/ast.html#module-ast
+
+    Args:
+        source_path: Path to the source file
+        parity_data: Dict from generate_parity()
+
+    Returns:
+        dict with paths to created files
     # test: covered
     """
     try:
@@ -199,8 +247,8 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
           "gc_path": gc_path,
           "meta_path": meta_path,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as _exc:
+        logger.debug("parity store_parity failed: %s", _exc)
 
 
 def verify_parity(source_path: str) -> bool:
@@ -355,7 +403,8 @@ def regenerate_parity(source_path: str) -> bool:
         parity_data = generate_parity(source_path)
         store_parity(source_path, parity_data)
         return True
-    except Exception:
+    except Exception as _exc:
+        logger.debug("parity regenerate_parity failed: %s", _exc)
         return False  # failure logged
 
 def test_generate_parity() -> None:
