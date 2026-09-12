@@ -67,7 +67,7 @@ class SingleServerManager:
         config: LLMInstanceConfig,
         log_dir: Path,
         mmproj_path: Path | None = None,
-    ):
+    ) -> None:
 
         """Initialize the LLM server manager.
 

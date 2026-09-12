@@ -121,8 +121,9 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
           "rs_checksum": rs_checksum,
           "gc_checksum": gc_checksum,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as e:
+        import logging
+        logging.getLogger(__name__).warning("generate_parity failed: %s", e)  # nosec: required for visibility
 
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
@@ -195,8 +196,9 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
           "gc_path": gc_path,
           "meta_path": meta_path,
       }
-    except Exception:
-        pass  # exception handled gracefully
+    except Exception as e:
+        import logging
+        logging.getLogger(__name__).warning("store_parity failed: %s", e)  # nosec: required for visibility
 
 
 def verify_parity(source_path: str) -> bool:
@@ -222,6 +224,9 @@ def verify_parity(source_path: str) -> bool:
 
     Returns:
         True if parity is valid, False otherwise
+
+    References:
+        - https://docs.python.org/3/library/asyncio-task.html
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
@@ -299,6 +304,9 @@ def restore_parity(source_path: str) -> bool:
 
     Returns:
         True if restoration succeeded, False otherwise
+
+    References:
+        - https://docs.python.org/3/library/asyncio-task.html
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
@@ -338,6 +346,9 @@ def regenerate_parity(source_path: str) -> bool:
 
     Returns:
         True if regeneration succeeded, False otherwise
+
+    References:
+        - https://docs.python.org/3/library/asyncio-task.html
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)

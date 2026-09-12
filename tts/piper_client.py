@@ -101,7 +101,7 @@ class PiperTTSClient:
         lang: str = "auto",
         sample_rate: int = 22050,
         models_dir: str = "models/tts",
-    ):
+    ) -> None:
 
         """Initialize the PiperTTSClient with voice and synthesis parameters.
 

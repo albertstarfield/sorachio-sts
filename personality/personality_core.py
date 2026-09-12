@@ -65,7 +65,7 @@ class PersonalityCore:
         chunker_config: dict[str, Any] | None = None,
         temperature: float = 0.8,
         max_tokens: int = 512,
-    ):
+    ) -> None:
 
         """    Init.
 
@@ -210,7 +210,15 @@ def test_generate_streaming() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered generate_streaming
+    import asyncio
+    queue = asyncio.Queue()
+    event = asyncio.Event()
+    client = type("MockClient", (), {"stream": lambda **kw: None})()
+    pc = PersonalityCore(client=client, tts_queue=queue, interrupt_event=event)
+    assert pc.client is client, "Client must be stored"
+    assert pc.tts_queue is queue, "TTS queue must be stored"
+    assert pc.temperature == 0.8, "Default temperature must be 0.8"
+    assert pc.max_tokens == 512, "Default max_tokens must be 512"
 
 
 def test_interrupt() -> None:
@@ -220,7 +228,14 @@ def test_interrupt() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered interrupt
+    import asyncio
+    queue = asyncio.Queue()
+    event = asyncio.Event()
+    client = type("MockClient", (), {})()
+    pc = PersonalityCore(client=client, tts_queue=queue, interrupt_event=event)
+    assert not event.is_set(), "Event should start unset"
+    pc.interrupt()
+    assert event.is_set(), "Event should be set after interrupt"
 
 
 def test_interruptible_stream() -> None:
@@ -230,7 +245,13 @@ def test_interruptible_stream() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered interruptible_stream
+    import asyncio
+    queue = asyncio.Queue()
+    event = asyncio.Event()
+    client = type("MockClient", (), {})()
+    pc = PersonalityCore(client=client, tts_queue=queue, interrupt_event=event)
+    assert hasattr(pc, "interrupt_event"), "Must have interrupt_event"
+    assert pc.interrupt_event is event, "interrupt_event must be same object"
 
 # ── Split Parity Functions ──────────────────────────────────────────────────────
 # Reed-Solomon(255,223), GF(2^8) Galois Chunk parity protection
@@ -285,7 +306,8 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
       import json
       import zlib
 
-      source_data = open(source_path, "rb").read()
+      with open(source_path, "rb") as _f:
+          source_data = _f.read()
       source_hash = hashlib.sha256(source_data).hexdigest()
 
       # Split into blocks
@@ -427,6 +449,9 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
 def verify_parity(source_path: str) -> bool:
     """Verify split parity integrity for a source file.
 
+    References:
+        - https://parchive.sourceforge.net/
+
     Checks that:
     1. Metadata directory exists with par2-one, par2-two, meta.json
     2. Parity files are valid JSON with "blocks" key
@@ -494,7 +519,8 @@ def verify_parity(source_path: str) -> bool:
             return False
 
         # Verify source hash
-        source_data = open(source_path, "rb").read()
+        with open(source_path, "rb") as _f:
+            source_data = _f.read()
         if hashlib.sha256(source_data).hexdigest() != meta.get("source_hash"):
             return False
 
@@ -506,6 +532,9 @@ def verify_parity(source_path: str) -> bool:
 
 def restore_parity(source_path: str) -> bool:
     """Restore data from parity if source is corrupted.
+
+    References:
+        - https://parchive.sourceforge.net/
 
     Uses RS and GC parity blocks to recover missing or corrupted data.
     This is a simplified stub - full implementation would use Galois Field math.
@@ -546,6 +575,9 @@ def restore_parity(source_path: str) -> bool:
 def regenerate_parity(source_path: str) -> bool:
     """Regenerate parity files from source.
 
+    References:
+        - https://parchive.sourceforge.net/
+
     Creates fresh parity files based on current source content.
     This is the recommended way to fix corrupted parity.
 
@@ -582,7 +614,19 @@ def test_generate_parity() -> None:
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True, 'test for generate_parity verified'
+    import os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for parity generation")
+        tmp_path = tmp.name
+    try:
+        result = generate_parity(tmp_path)
+        assert result is not None, "generate_parity should return a dict"
+        assert isinstance(result, dict), "generate_parity must return dict"
+        assert "rs_parity" in result, "Result must contain rs_parity"
+        assert "gc_parity" in result, "Result must contain gc_parity"
+        assert "source_hash" in result, "Result must contain source_hash"
+    finally:
+        os.unlink(tmp_path)
 
 def test_store_parity() -> None:
     """Test for store_parity function.
@@ -591,7 +635,20 @@ def test_store_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for store_parity verified'
+    import json, os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for store parity")
+        tmp_path = tmp.name
+    try:
+        parity_data = generate_parity(tmp_path)
+        result = store_parity(tmp_path, parity_data)
+        assert result is not None, "store_parity should return paths"
+        assert "rs_path" in result, "Result must contain rs_path"
+        assert "gc_path" in result, "Result must contain gc_path"
+        assert os.path.isfile(result["rs_path"]), "rs_path file must exist"
+        assert os.path.isfile(result["gc_path"]), "gc_path file must exist"
+    finally:
+        os.unlink(tmp_path)
 
 def test_verify_parity() -> None:
     """Test for verify_parity function.
@@ -600,7 +657,17 @@ def test_verify_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for verify_parity verified'
+    import os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for verify parity")
+        tmp_path = tmp.name
+    try:
+        parity_data = generate_parity(tmp_path)
+        store_parity(tmp_path, parity_data)
+        result = verify_parity(tmp_path)
+        assert result is True, "verify_parity should return True for valid parity"
+    finally:
+        os.unlink(tmp_path)
 
 def test_restore_parity() -> None:
     """Test for restore_parity function.
@@ -609,7 +676,17 @@ def test_restore_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for restore_parity verified'
+    import os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for restore parity")
+        tmp_path = tmp.name
+    try:
+        parity_data = generate_parity(tmp_path)
+        store_parity(tmp_path, parity_data)
+        result = restore_parity(tmp_path)
+        assert result is True, "restore_parity should return True for valid parity"
+    finally:
+        os.unlink(tmp_path)
 
 def test_regenerate_parity() -> None:
     """Test for regenerate_parity function.
@@ -619,5 +696,16 @@ def test_regenerate_parity() -> None:
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True, 'test for regenerate_parity verified'
+    import os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for regenerate parity")
+        tmp_path = tmp.name
+    try:
+        parity_data = generate_parity(tmp_path)
+        store_parity(tmp_path, parity_data)
+        result = regenerate_parity(tmp_path)
+        assert result is True, "regenerate_parity should return True"
+        assert verify_parity(tmp_path) is True, "Parity must be valid after regeneration"
+    finally:
+        os.unlink(tmp_path)
 

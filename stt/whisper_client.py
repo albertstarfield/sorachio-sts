@@ -283,7 +283,7 @@ class WhisperClient:
         streaming: bool = True,
         chunk_length_s: float = 5.0,
         models_dir: str | Path = "models/stt",
-    ):
+    ) -> None:
 
         """Init.
         
@@ -321,6 +321,8 @@ class WhisperClient:
         self._model = None
         self._available = False
         self._last_detected_language: str | None = None
+        # [Citation: Python docs - threading.Lock for thread-safe shared state: https://docs.python.org/3/library/threading.html]
+        self._lock = threading.Lock()
 
     @property
     def last_detected_language(self) -> str | None:

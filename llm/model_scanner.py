@@ -199,7 +199,18 @@ def test_scan_model_dir() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered scan_model_dir
+    import tempfile, os
+    with tempfile.TemporaryDirectory() as tmpdir:
+        info = scan_model_dir(tmpdir)
+        assert info.model_path is None, "Empty dir should have no model"
+        assert info.mmproj_path is None, "Empty dir should have no mmproj"
+        assert info.has_vision is False, "Empty dir should have no vision"
+        gguf_path = os.path.join(tmpdir, "test-model-Q8_0.gguf")
+        with open(gguf_path, "wb") as f:
+            f.write(b"\\x00" * 1024)
+        info2 = scan_model_dir(tmpdir)
+        assert info2.model_path is not None, "Should detect model file"
+        assert info2.model_name == "test-model", "Model name should be extracted"
 
 
 def test_log_scan_summary() -> None:
@@ -210,7 +221,13 @@ def test_log_scan_summary() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered log_scan_summary
+    from pathlib import Path
+    info = ModelInfo(model_path=Path("test.gguf"), model_name="TestModel",
+                    file_size_mb=100.0, has_vision=False)
+    log_scan_summary("test", info)
+    info_empty = ModelInfo()
+    log_scan_summary("test_empty", info_empty)
+    assert isinstance(info.model_path, Path), "model_path must be Path"
 
 # ── Split Parity Functions ──────────────────────────────────────────────────────
 # Reed-Solomon(255,223), GF(2^8) Galois Chunk parity protection
@@ -265,7 +282,8 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
       import json
       import zlib
 
-      source_data = open(source_path, "rb").read()
+      with open(source_path, "rb") as _f:
+          source_data = _f.read()
       source_hash = hashlib.sha256(source_data).hexdigest()
 
       # Split into blocks
@@ -407,6 +425,9 @@ def store_parity(source_path: str, parity_data: dict) -> dict:
 def verify_parity(source_path: str) -> bool:
     """Verify split parity integrity for a source file.
 
+    References:
+        - https://parchive.sourceforge.net/
+
     Checks that:
     1. Metadata directory exists with par2-one, par2-two, meta.json
     2. Parity files are valid JSON with "blocks" key
@@ -474,7 +495,8 @@ def verify_parity(source_path: str) -> bool:
             return False
 
         # Verify source hash
-        source_data = open(source_path, "rb").read()
+        with open(source_path, "rb") as _f:
+            source_data = _f.read()
         if hashlib.sha256(source_data).hexdigest() != meta.get("source_hash"):
             return False
 
@@ -486,6 +508,9 @@ def verify_parity(source_path: str) -> bool:
 
 def restore_parity(source_path: str) -> bool:
     """Restore data from parity if source is corrupted.
+
+    References:
+        - https://parchive.sourceforge.net/
 
     Uses RS and GC parity blocks to recover missing or corrupted data.
     This is a simplified stub - full implementation would use Galois Field math.
@@ -526,6 +551,9 @@ def restore_parity(source_path: str) -> bool:
 def regenerate_parity(source_path: str) -> bool:
     """Regenerate parity files from source.
 
+    References:
+        - https://parchive.sourceforge.net/
+
     Creates fresh parity files based on current source content.
     This is the recommended way to fix corrupted parity.
 
@@ -562,7 +590,19 @@ def test_generate_parity() -> None:
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True, 'test for generate_parity verified'
+    import os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for parity generation")
+        tmp_path = tmp.name
+    try:
+        result = generate_parity(tmp_path)
+        assert result is not None, "generate_parity should return a dict"
+        assert isinstance(result, dict), "generate_parity must return dict"
+        assert "rs_parity" in result, "Result must contain rs_parity"
+        assert "gc_parity" in result, "Result must contain gc_parity"
+        assert "source_hash" in result, "Result must contain source_hash"
+    finally:
+        os.unlink(tmp_path)
 
 def test_store_parity() -> None:
     """Test for store_parity function.
@@ -571,7 +611,20 @@ def test_store_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for store_parity verified'
+    import json, os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for store parity")
+        tmp_path = tmp.name
+    try:
+        parity_data = generate_parity(tmp_path)
+        result = store_parity(tmp_path, parity_data)
+        assert result is not None, "store_parity should return paths"
+        assert "rs_path" in result, "Result must contain rs_path"
+        assert "gc_path" in result, "Result must contain gc_path"
+        assert os.path.isfile(result["rs_path"]), "rs_path file must exist"
+        assert os.path.isfile(result["gc_path"]), "gc_path file must exist"
+    finally:
+        os.unlink(tmp_path)
 
 def test_verify_parity() -> None:
     """Test for verify_parity function.
@@ -580,7 +633,17 @@ def test_verify_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for verify_parity verified'
+    import os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for verify parity")
+        tmp_path = tmp.name
+    try:
+        parity_data = generate_parity(tmp_path)
+        store_parity(tmp_path, parity_data)
+        result = verify_parity(tmp_path)
+        assert result is True, "verify_parity should return True for valid parity"
+    finally:
+        os.unlink(tmp_path)
 
 def test_restore_parity() -> None:
     """Test for restore_parity function.
@@ -589,7 +652,17 @@ def test_restore_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     # test: covered
     """
-    assert True, 'test for restore_parity verified'
+    import os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for restore parity")
+        tmp_path = tmp.name
+    try:
+        parity_data = generate_parity(tmp_path)
+        store_parity(tmp_path, parity_data)
+        result = restore_parity(tmp_path)
+        assert result is True, "restore_parity should return True for valid parity"
+    finally:
+        os.unlink(tmp_path)
 
 def test_regenerate_parity() -> None:
     """Test for regenerate_parity function.
@@ -599,5 +672,16 @@ def test_regenerate_parity() -> None:
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True, 'test for regenerate_parity verified'
+    import os, tempfile
+    with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:
+        tmp.write(b"test content for regenerate parity")
+        tmp_path = tmp.name
+    try:
+        parity_data = generate_parity(tmp_path)
+        store_parity(tmp_path, parity_data)
+        result = regenerate_parity(tmp_path)
+        assert result is True, "regenerate_parity should return True"
+        assert verify_parity(tmp_path) is True, "Parity must be valid after regeneration"
+    finally:
+        os.unlink(tmp_path)
 

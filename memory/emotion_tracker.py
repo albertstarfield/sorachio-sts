@@ -182,8 +182,11 @@ class EmotionTracker:
         # Calculate mood stability (lower = more stable)
         if len(self._mood_history) >= 3:
             mood_list = list(self._mood_history)[-10:]
-            unique_moods = len(set(mood_list))
-            stability = 1.0 - (unique_moods / len(mood_list))
+            if not mood_list:
+                stability = 1.0
+            else:
+                unique_moods = len(set(mood_list))
+                stability = 1.0 - (unique_moods / len(mood_list))
         else:
             stability = 1.0
 
@@ -366,7 +369,8 @@ class EmotionTracker:
         Auto-generated docstring for load.
         
         # test: test_load
-        References: [Citation: utils/sabotage_verifier.py PYTHON_FUNCTION_COVERAGE]
+        References:
+            - https://docs.python.org/3/library/json.html
         """
         # invariants: function preconditions verified
 
@@ -779,6 +783,9 @@ def verify_parity(source_path: str) -> bool:
 
     Returns:
         True if parity is valid, False otherwise
+
+    References:
+        - https://parchive.sourceforge.net/
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
@@ -857,6 +864,9 @@ def restore_parity(source_path: str) -> bool:
 
     Returns:
         True if restoration succeeded, False otherwise
+
+    References:
+        - https://parchive.sourceforge.net/
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
@@ -896,6 +906,9 @@ def regenerate_parity(source_path: str) -> bool:
 
     Returns:
         True if regeneration succeeded, False otherwise
+
+    References:
+        - https://parchive.sourceforge.net/
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)

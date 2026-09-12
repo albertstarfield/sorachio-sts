@@ -217,6 +217,9 @@ def verify_parity(source_path: str) -> bool:
     - Reed, I.S. & Solomon, G. (1960) Polynomial Codes over Certain Finite Fields
       References: https://parchive.sourceforge.net/
 
+    References:
+        - https://parchive.sourceforge.net/
+
     Args:
         source_path: Path to the source file
 
@@ -269,8 +272,12 @@ def verify_parity(source_path: str) -> bool:
             return False
 
         # Verify source hash
-        with open(source_path, "rb") as _src_f:
-            source_data = _src_f.read()
+        # [Citation: Python docs - open() resource safety: https://docs.python.org/3/library/open.html]
+        try:
+            with open(source_path, "rb") as _src_f:
+                source_data = _src_f.read()
+        except (OSError, FileNotFoundError):
+            return False  # source file unreadable
         if hashlib.sha256(source_data).hexdigest() != meta.get("source_hash"):
             return False
 
@@ -294,6 +301,9 @@ def restore_parity(source_path: str) -> bool:
     -- CITATIONS --
     - Reed, I.S. & Solomon, G. (1960) Polynomial Codes over Certain Finite Fields
       References: https://parchive.sourceforge.net/
+
+    References:
+        - https://parchive.sourceforge.net/
 
     Args:
         source_path: Path to the source file
@@ -333,6 +343,9 @@ def regenerate_parity(source_path: str) -> bool:
     -- CITATIONS --
     - Reed, I.S. & Solomon, G. (1960) Polynomial Codes over Certain Finite Fields
       References: https://parchive.sourceforge.net/
+
+    References:
+        - https://parchive.sourceforge.net/
 
     Args:
         source_path: Path to the source file

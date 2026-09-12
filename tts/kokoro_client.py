@@ -121,7 +121,7 @@ class KokoroTTSClient:
         lang: str = "auto",
         sample_rate: int = 24000,
         models_dir: str = "models/tts",
-    ):
+    ) -> None:
 
         """Initialize the KokoroTTSClient with voice and synthesis parameters.
 

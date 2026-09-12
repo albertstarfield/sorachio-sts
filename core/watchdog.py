@@ -1440,7 +1440,7 @@ def test_unregister_component() -> None:
     assert "test_comp" not in wd._heartbeats, "Component must be removed"
 
 
-def test_tick_2() -> None:
+def test_tick_watchdog_2() -> None:
     """Test coverage for tick (Watchdog_A heartbeat tick).
     References:
         - https://docs.python.org/3/

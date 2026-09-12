@@ -59,7 +59,8 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
       import json
       import zlib
 
-      source_data = open(source_path, "rb").read()
+      with open(source_path, "rb") as _f:
+          source_data = _f.read()
       source_hash = hashlib.sha256(source_data).hexdigest()
 
       # Split into blocks
@@ -268,7 +269,8 @@ def verify_parity(source_path: str) -> bool:
             return False
 
         # Verify source hash
-        source_data = open(source_path, "rb").read()
+        with open(source_path, "rb") as _f:
+            source_data = _f.read()
         if hashlib.sha256(source_data).hexdigest() != meta.get("source_hash"):
             return False
 
@@ -353,45 +355,117 @@ def test_generate_parity() -> None:
 
     References:
         - https://docs.python.org/3/library/unittest.html
+        - https://docs.python.org/3/library/tempfile.html
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True, 'test for generate_parity verified'
+    import tempfile, os
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
+        f.write("# test content\n")
+        source_path = f.name
+    try:
+        result = generate_parity(source_path)
+        assert isinstance(result, dict), "generate_parity must return dict"
+        assert 'rs_parity' in result, "Missing rs_parity key"
+        assert 'gc_parity' in result, "Missing gc_parity key"
+        assert 'source_hash' in result, "Missing source_hash key"
+        assert 'rs_checksum' in result, "Missing rs_checksum key"
+        assert 'gc_checksum' in result, "Missing gc_checksum key"
+    finally:
+        os.unlink(source_path)
 
 def test_store_parity() -> None:
     """Test for store_parity function.
 
     References:
         - https://docs.python.org/3/library/unittest.html
+        - https://docs.python.org/3/library/tempfile.html
     # test: covered
     """
-    assert True, 'test for store_parity verified'
+    import tempfile, os, shutil
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
+        f.write("# test content\n")
+        source_path = f.name
+    try:
+        parity_data = generate_parity(source_path)
+        result = store_parity(source_path, parity_data)
+        assert isinstance(result, dict), "store_parity must return dict"
+        assert 'rs_path' in result, "Missing rs_path key"
+        assert 'gc_path' in result, "Missing gc_path key"
+        assert 'meta_path' in result, "Missing meta_path key"
+    finally:
+        os.unlink(source_path)
+        meta_dir = os.path.join(os.path.dirname(source_path), "metadata")
+        if os.path.isdir(meta_dir):
+            shutil.rmtree(meta_dir, ignore_errors=True)
 
 def test_verify_parity() -> None:
     """Test for verify_parity function.
 
     References:
         - https://docs.python.org/3/library/unittest.html
+        - https://docs.python.org/3/library/tempfile.html
     # test: covered
     """
-    assert True, 'test for verify_parity verified'
+    import tempfile, os, shutil
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
+        f.write("# test content\n")
+        source_path = f.name
+    try:
+        parity_data = generate_parity(source_path)
+        store_parity(source_path, parity_data)
+        result = verify_parity(source_path)
+        assert result is True, "verify_parity must return True for valid parity"
+    finally:
+        os.unlink(source_path)
+        meta_dir = os.path.join(os.path.dirname(source_path), "metadata")
+        if os.path.isdir(meta_dir):
+            shutil.rmtree(meta_dir, ignore_errors=True)
 
 def test_restore_parity() -> None:
     """Test for restore_parity function.
 
     References:
         - https://docs.python.org/3/library/unittest.html
+        - https://docs.python.org/3/library/tempfile.html
     # test: covered
     """
-    assert True, 'test for restore_parity verified'
+    import tempfile, os, shutil
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
+        f.write("# test content\n")
+        source_path = f.name
+    try:
+        parity_data = generate_parity(source_path)
+        store_parity(source_path, parity_data)
+        result = restore_parity(source_path)
+        assert result is True, "restore_parity must return True for valid parity"
+    finally:
+        os.unlink(source_path)
+        meta_dir = os.path.join(os.path.dirname(source_path), "metadata")
+        if os.path.isdir(meta_dir):
+            shutil.rmtree(meta_dir, ignore_errors=True)
 
 def test_regenerate_parity() -> None:
     """Test for regenerate_parity function.
 
     References:
         - https://docs.python.org/3/library/unittest.html
+        - https://docs.python.org/3/library/tempfile.html
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True, 'test for regenerate_parity verified'
+    import tempfile, os, shutil
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
+        f.write("# test content\n")
+        source_path = f.name
+    try:
+        parity_data = generate_parity(source_path)
+        store_parity(source_path, parity_data)
+        result = regenerate_parity(source_path)
+        assert result is True, "regenerate_parity must return True for valid source"
+    finally:
+        os.unlink(source_path)
+        meta_dir = os.path.join(os.path.dirname(source_path), "metadata")
+        if os.path.isdir(meta_dir):
+            shutil.rmtree(meta_dir, ignore_errors=True)
 

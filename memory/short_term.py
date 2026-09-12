@@ -107,7 +107,7 @@ class ShortTermMemory:
         max_messages: int = 20,
         include_emotions: bool = True,
         summary_threshold: int = 15,
-    ):
+    ) -> None:
 
         """    Init.
 
@@ -811,6 +811,9 @@ def verify_parity(source_path: str) -> bool:
 
     Returns:
         True if parity is valid, False otherwise
+
+    References:
+        - https://parchive.sourceforge.net/
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
@@ -889,6 +892,9 @@ def restore_parity(source_path: str) -> bool:
 
     Returns:
         True if restoration succeeded, False otherwise
+
+    References:
+        - https://parchive.sourceforge.net/
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
@@ -928,6 +934,9 @@ def regenerate_parity(source_path: str) -> bool:
 
     Returns:
         True if regeneration succeeded, False otherwise
+
+    References:
+        - https://parchive.sourceforge.net/
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)

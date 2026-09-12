@@ -47,7 +47,7 @@ class LTMEntry:
         keywords: list[str] | None = None,
         metadata: dict[str, Any] | None = None,
         entry_id: str | None = None,
-    ):
+    ) -> None:
 
         """    Init.
 
@@ -212,7 +212,7 @@ class LongTermMemory:
         retrieval_top_k: int = 5,
         vector_store: VectorStore | None = None,
         vector_weight: float = 0.7,
-    ):
+    ) -> None:
 
         """    Init.
 
@@ -896,6 +896,9 @@ def verify_parity(source_path: str) -> bool:
 
     Returns:
         True if parity is valid, False otherwise
+
+    References:
+        - https://parchive.sourceforge.net/
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
@@ -974,6 +977,9 @@ def restore_parity(source_path: str) -> bool:
 
     Returns:
         True if restoration succeeded, False otherwise
+
+    References:
+        - https://parchive.sourceforge.net/
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
@@ -1013,6 +1019,9 @@ def regenerate_parity(source_path: str) -> bool:
 
     Returns:
         True if regeneration succeeded, False otherwise
+
+    References:
+        - https://parchive.sourceforge.net/
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)

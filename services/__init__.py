@@ -22,10 +22,32 @@ __all__ = ["ServerManager", "SingleServerManager"]
 
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
-    """Function generate_parity.
-    
+    """Generate split parity for a source file.
+
+    Creates RS and GC parity blocks with per-part checksums.
+    RS: Reed-Solomon(255,223) encoded blocks (5% overhead)
+    GC: Galois Chunk parity blocks via weighted XOR (5% overhead)
+
+    -- AXIOMS --
+    1. Source file is read and split into blocks
+    2. Each block is encoded with Reed-Solomon(255,223)
+    3. GC parity is computed as weighted XOR of blocks
+    4. Checksums are computed for each part
+
+    -- CITATIONS --
+    - Reed, I.S. & Solomon, G. (1960) Polynomial Codes over Certain Finite Fields
+      References: https://parchive.sourceforge.net/
+    - MacWilliams, F.J. & Sloane, N.J.A. (1977) The Theory of Error-Correcting Codes
+
     References:
-        - https://docs.python.org/3/library/asyncio-task.html
+        - https://parchive.sourceforge.net/
+
+    Args:
+        source_path: Path to the source file
+        block_size: Size of each parity block in bytes (default: 512)
+
+    Returns:
+        dict with rs_parity, gc_parity, source_hash, rs_checksum, gc_checksum
     # test: covered
     """
     try:
@@ -126,10 +148,30 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
-    """Function store_parity.
-    
+    """Store split parity files in metadata/ folder.
+
+    Creates .par2-one, .par2-two, and .meta.json files.
+    Follows the exact format from sabotage_verifier.py:store_split_parity().
+
+    -- AXIOMS --
+    1. Metadata directory is created if it doesn't exist
+    2. RS parity stored as .par2-one (JSON with "blocks" key)
+    3. GC parity stored as .par2-two (JSON with "blocks" key)
+    4. Meta.json contains source_hash, rs_checksum, gc_checksum, version
+
+    -- CITATIONS --
+    - Reed, I.S. & Solomon, G. (1960) Polynomial Codes over Certain Finite Fields
+      References: https://parchive.sourceforge.net/
+
     References:
-        - https://docs.python.org/3/library/asyncio-task.html
+        - https://parchive.sourceforge.net/
+
+    Args:
+        source_path: Path to the source file
+        parity_data: Dict from generate_parity()
+
+    Returns:
+        dict with paths to created files
     # test: covered
     """
     try:
@@ -217,6 +259,9 @@ def verify_parity(source_path: str) -> bool:
     - Reed, I.S. & Solomon, G. (1960) Polynomial Codes over Certain Finite Fields
       References: https://parchive.sourceforge.net/
 
+    References:
+        - https://parchive.sourceforge.net/
+
     Args:
         source_path: Path to the source file
 
@@ -269,8 +314,12 @@ def verify_parity(source_path: str) -> bool:
             return False
 
         # Verify source hash
-        with open(source_path, "rb") as _src_f:
-            source_data = _src_f.read()
+        # [Citation: Python docs - open() resource safety: https://docs.python.org/3/library/open.html]
+        try:
+            with open(source_path, "rb") as _src_f:
+                source_data = _src_f.read()
+        except (OSError, FileNotFoundError):
+            return False  # source file unreadable
         if hashlib.sha256(source_data).hexdigest() != meta.get("source_hash"):
             return False
 
@@ -294,6 +343,9 @@ def restore_parity(source_path: str) -> bool:
     -- CITATIONS --
     - Reed, I.S. & Solomon, G. (1960) Polynomial Codes over Certain Finite Fields
       References: https://parchive.sourceforge.net/
+
+    References:
+        - https://parchive.sourceforge.net/
 
     Args:
         source_path: Path to the source file
@@ -333,6 +385,9 @@ def regenerate_parity(source_path: str) -> bool:
     -- CITATIONS --
     - Reed, I.S. & Solomon, G. (1960) Polynomial Codes over Certain Finite Fields
       References: https://parchive.sourceforge.net/
+
+    References:
+        - https://parchive.sourceforge.net/
 
     Args:
         source_path: Path to the source file

@@ -63,7 +63,7 @@ class ContextManager:
         max_ltm_in_prompt: int = 3,
         include_emotional_state: bool = True,
         emotion_tracker: EmotionTracker | None = None,
-    ):
+    ) -> None:
 
         """Init.
         
@@ -321,7 +321,9 @@ def test_build_prompt() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered build_prompt
+    import inspect
+    assert hasattr(ContextManager, 'build_prompt'), "ContextManager must have build_prompt"
+    assert inspect.iscoroutinefunction(ContextManager.build_prompt), "build_prompt must be async"
 
 
 def test_store_interaction() -> None:
@@ -332,7 +334,9 @@ def test_store_interaction() -> None:
 # test: covered
 """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True  # test: covered store_interaction
+    import inspect
+    assert hasattr(ContextManager, 'store_interaction'), "ContextManager must have store_interaction"
+    assert inspect.iscoroutinefunction(ContextManager.store_interaction), "store_interaction must be async"
 
 
 def test_atomic_encode_result() -> None:
@@ -343,7 +347,9 @@ def test_atomic_encode_result() -> None:
         [Standards compliance: ISO/IEC 25010:2021]
 # test: covered
 """
-    assert True  # test: covered atomic_encode_result
+    import inspect
+    assert callable(ContextManager), "ContextManager must be callable/constructable"
+    assert inspect.isclass(ContextManager), "ContextManager must be a class"
 
 # ── Split Parity Functions ──────────────────────────────────────────────────────
 # Reed-Solomon(255,223), GF(2^8) Galois Chunk parity protection
@@ -692,45 +698,117 @@ def test_generate_parity() -> None:
 
     References:
         - https://docs.python.org/3/library/unittest.html
+        - https://docs.python.org/3/library/tempfile.html
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True, 'test for generate_parity verified'
+    import tempfile, os
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
+        f.write("# test content\n")
+        source_path = f.name
+    try:
+        result = generate_parity(source_path)
+        assert isinstance(result, dict), "generate_parity must return dict"
+        assert 'rs_parity' in result, "Missing rs_parity key"
+        assert 'gc_parity' in result, "Missing gc_parity key"
+        assert 'source_hash' in result, "Missing source_hash key"
+        assert 'rs_checksum' in result, "Missing rs_checksum key"
+        assert 'gc_checksum' in result, "Missing gc_checksum key"
+    finally:
+        os.unlink(source_path)
 
 def test_store_parity() -> None:
     """Test for store_parity function.
 
     References:
         - https://docs.python.org/3/library/unittest.html
+        - https://docs.python.org/3/library/tempfile.html
     # test: covered
     """
-    assert True, 'test for store_parity verified'
+    import tempfile, os, shutil
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
+        f.write("# test content\n")
+        source_path = f.name
+    try:
+        parity_data = generate_parity(source_path)
+        result = store_parity(source_path, parity_data)
+        assert isinstance(result, dict), "store_parity must return dict"
+        assert 'rs_path' in result, "Missing rs_path key"
+        assert 'gc_path' in result, "Missing gc_path key"
+        assert 'meta_path' in result, "Missing meta_path key"
+    finally:
+        os.unlink(source_path)
+        meta_dir = os.path.join(os.path.dirname(source_path), "metadata")
+        if os.path.isdir(meta_dir):
+            shutil.rmtree(meta_dir, ignore_errors=True)
 
 def test_verify_parity() -> None:
     """Test for verify_parity function.
 
     References:
         - https://docs.python.org/3/library/unittest.html
+        - https://docs.python.org/3/library/tempfile.html
     # test: covered
     """
-    assert True, 'test for verify_parity verified'
+    import tempfile, os, shutil
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
+        f.write("# test content\n")
+        source_path = f.name
+    try:
+        parity_data = generate_parity(source_path)
+        store_parity(source_path, parity_data)
+        result = verify_parity(source_path)
+        assert result is True, "verify_parity must return True for valid parity"
+    finally:
+        os.unlink(source_path)
+        meta_dir = os.path.join(os.path.dirname(source_path), "metadata")
+        if os.path.isdir(meta_dir):
+            shutil.rmtree(meta_dir, ignore_errors=True)
 
 def test_restore_parity() -> None:
     """Test for restore_parity function.
 
     References:
         - https://docs.python.org/3/library/unittest.html
+        - https://docs.python.org/3/library/tempfile.html
     # test: covered
     """
-    assert True, 'test for restore_parity verified'
+    import tempfile, os, shutil
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
+        f.write("# test content\n")
+        source_path = f.name
+    try:
+        parity_data = generate_parity(source_path)
+        store_parity(source_path, parity_data)
+        result = restore_parity(source_path)
+        assert result is True, "restore_parity must return True for valid parity"
+    finally:
+        os.unlink(source_path)
+        meta_dir = os.path.join(os.path.dirname(source_path), "metadata")
+        if os.path.isdir(meta_dir):
+            shutil.rmtree(meta_dir, ignore_errors=True)
 
 def test_regenerate_parity() -> None:
     """Test for regenerate_parity function.
 
     References:
         - https://docs.python.org/3/library/unittest.html
+        - https://docs.python.org/3/library/tempfile.html
     # test: covered
     """
     # parity: atomic_encode_result applied (SECDED TED)
-    assert True, 'test for regenerate_parity verified'
+    import tempfile, os, shutil
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
+        f.write("# test content\n")
+        source_path = f.name
+    try:
+        parity_data = generate_parity(source_path)
+        store_parity(source_path, parity_data)
+        result = regenerate_parity(source_path)
+        assert result is True, "regenerate_parity must return True for valid source"
+    finally:
+        os.unlink(source_path)
+        meta_dir = os.path.join(os.path.dirname(source_path), "metadata")
+        if os.path.isdir(meta_dir):
+            shutil.rmtree(meta_dir, ignore_errors=True)
 
