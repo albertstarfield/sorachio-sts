@@ -1089,11 +1089,6 @@ def test_stt(config: str | None = typer.Option(None, "--config", "-c"),
     if audio_file is None:
         audio_file = ""
 
-    References:
-        - https://docs.python.org/3/library/argparse.html
-    # test: covered
-    # test: test_test_stt
-    """
     settings = _load_settings(config)
     _setup_logging(settings)
 
@@ -1230,11 +1225,6 @@ def test_cognitive(text_input: str = typer.Argument("Hey Sorachio, I've been rea
     if config is None:
         config = ""
 
-    # test: covered
-    References:
-        - https://docs.python.org/3/library/argparse.html
-    # test: test_test_cognitive
-    """
     settings = _load_settings(config)
     _setup_logging(settings)
 
@@ -1483,10 +1473,6 @@ def memory_clear(config: str | None = typer.Option(None),
     if config is None:
         config = ""
 
-    References:
-        - https://docs.python.org/3/library/argparse.html
-    # test: test_memory_clear
-    """
     settings = _load_settings(config)
     if not yes:
         confirm = Prompt.ask("[red]Delete ALL memories?[/red] Type 'yes' to confirm")
