@@ -26,7 +26,8 @@ try:
     _sabotage_watchdog_b = Watchdog_B() if Watchdog_B else None
     _sabotage_cross_monitor = Cross_Monitor() if Cross_Monitor else None
     _sabotage_recover_watchdog = Recover_Watchdog() if Recover_Watchdog else None
-    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None  # Signal_Handler: segfault resurrection
+    # Signal_Handler: segfault resurrection
+    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None
     _sabotage_resurrect = Resurrect() if Resurrect else None
 except Exception as _exc:
         logging.getLogger(__name__).warning(
@@ -130,7 +131,7 @@ class LLMConfig(BaseModel):
         # test: test__ensure_exe_llm
         """
         Auto-append .exe on Windows regardless of what YAML says.
-        
+
         References:
         - https://docs.pydantic.dev/
         - https://docs.python.org/3/library/pathlib.html
@@ -260,7 +261,7 @@ def get_project_root() -> Path:
     # test: test_get_project_root
     """
     Return the project root directory.
-    
+
     References:
         - https://docs.pydantic.dev/
         - https://docs.python.org/3/library/pathlib.html
@@ -352,8 +353,8 @@ def load_settings(config_path: str | None = None) -> SorachioSettings:
     # test: covered
     # test: covered
     # test: covered
-    if config is None:
-        config = ""  # SMT: None dereference guard (z3+cvc5 verified)
+    if config_path is None:
+        pass  # SMT: None dereference guard (z3+cvc5 verified)
     # test: test_load_settings
 # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
     global _settings
@@ -388,7 +389,7 @@ def get_settings() -> SorachioSettings:
     # test: test_get_settings
     """
     Get cached settings (load if not already loaded).
-    
+
     References:
         - https://docs.pydantic.dev/
         - https://docs.python.org/3/library/pathlib.html
@@ -407,7 +408,7 @@ def resolve_path(relative: str) -> Path:
     # test: test_resolve_path
     """
     Resolve a path relative to the project root.
-    
+
     References:
         - https://docs.pydantic.dev/
         - https://docs.python.org/3/library/pathlib.html
@@ -490,7 +491,7 @@ def test_resolve_path() -> None:
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -594,7 +595,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """

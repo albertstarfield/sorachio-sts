@@ -66,7 +66,8 @@ try:
     _sabotage_watchdog_b = Watchdog_B() if Watchdog_B else None
     _sabotage_cross_monitor = Cross_Monitor() if Cross_Monitor else None
     _sabotage_recover_watchdog = Recover_Watchdog() if Recover_Watchdog else None
-    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None  # Signal_Handler: segfault resurrection
+    # Signal_Handler: segfault resurrection
+    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None
     _sabotage_resurrect = Resurrect() if Resurrect else None
 except Exception as _exc:
     log.warning("Exception caught in watchdog init: %s", _exc)
@@ -79,7 +80,7 @@ except Exception as _exc:
 def _pcm_to_float32(pcm_bytes: bytes, sample_rate: int = 16000) -> np.ndarray:
     """
     Convert raw 16-bit mono PCM bytes to float32 numpy array.
-    
+
     References:
         - https://github.com/SYSTRAN/faster-whisper
         - https://github.com/openai/whisper
@@ -94,7 +95,7 @@ def _pcm_to_float32(pcm_bytes: bytes, sample_rate: int = 16000) -> np.ndarray:
 def _clean_transcript(text: str) -> str:
     """
     Remove whisper artifacts and clean up transcript.
-    
+
     References:
         - https://github.com/SYSTRAN/faster-whisper
         # test: covered
@@ -187,7 +188,7 @@ _HALLUCINATION_PHRASES: set[str] = {
 def _is_hallucination(text: str) -> bool:
     """
     Return True if the transcript looks like a Whisper hallucination.
-    
+
     References:
         # test: covered
         - https://github.com/SYSTRAN/faster-whisper
@@ -363,7 +364,7 @@ class WhisperClient:
         # test: covered
         """
         Language code detected from the most recent transcription (e.g. 'en', 'id').
-        
+
         References:
         - https://github.com/SYSTRAN/faster-whisper
         - https://github.com/openai/whisper
@@ -378,7 +379,7 @@ class WhisperClient:
         # test: covered
         """
         Load the faster-whisper model (blocking, run once at startup).
-        
+
         References:
         - https://github.com/SYSTRAN/faster-whisper
         - https://github.com/openai/whisper
@@ -415,7 +416,7 @@ class WhisperClient:
     def _load_model(self, skip_warmup: bool = False) -> bool:
         """
         Load faster-whisper model in thread (avoids blocking event loop).
-        
+
         # test: covered
         References:
         - https://github.com/SYSTRAN/faster-whisper
@@ -576,7 +577,7 @@ class WhisperClient:
         # test: covered
         """
         Async wrapper for streaming transcription.
-        
+
         References:
         - https://github.com/SYSTRAN/faster-whisper
         - https://github.com/openai/whisper
@@ -665,7 +666,7 @@ class WhisperClient:
         """
         # test: covered
         Synchronous language detection.
-        
+
         References:
         - https://github.com/SYSTRAN/faster-whisper
         - https://github.com/openai/whisper
@@ -1429,7 +1430,9 @@ def test_verify_parity() -> None:
     import os
     import tempfile
     # Test: verify returns False for non-existent path
-    assert verify_parity("/tmp/nonexistent_file_for_test_parity.txt") is False, "verify_parity must return False for missing files"  # nosec: INVALID_FILE_REFERENCE
+    assert (
+        verify_parity("/tmp/nonexistent_file_for_test_parity.txt") is False
+    ), "verify_parity must return False for missing files"  # nosec: INVALID_FILE_REFERENCE
     # Test: verify returns True after generate+store
     with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as _tmp:
         _tmp.write(b"test data for parity verify round-trip")
@@ -1460,7 +1463,9 @@ def test_restore_parity() -> None:
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
     # restore_parity requires valid parity first; with missing files it returns False
-    assert restore_parity("/tmp/nonexistent_file_for_restore_test.txt") is False, "restore_parity must return False when parity files are missing"  # nosec: INVALID_FILE_REFERENCE
+    assert (
+        restore_parity("/tmp/nonexistent_file_for_restore_test.txt") is False
+    ), "restore_parity must return False when parity files are missing"  # nosec: INVALID_FILE_REFERENCE
 
 def test_regenerate_parity() -> None:
     """Test for regenerate_parity function.

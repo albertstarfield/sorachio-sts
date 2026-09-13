@@ -504,7 +504,9 @@ def test_verify_parity() -> None:
     import os
     import tempfile
     # Test: verify returns False for non-existent path
-    assert verify_parity("/tmp/nonexistent_file_for_test_parity.txt") is False, "verify_parity must return False for missing files"  # nosec: INVALID_FILE_REFERENCE
+    assert (
+        verify_parity("/tmp/nonexistent_file_for_test_parity.txt") is False
+    ), "verify_parity must return False for missing files"  # nosec: INVALID_FILE_REFERENCE
     # Test: verify returns True after generate+store
     with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as _tmp:
         _tmp.write(b"test data for parity verify round-trip")
@@ -535,7 +537,9 @@ def test_restore_parity() -> None:
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
     # restore_parity requires valid parity first; with missing files it returns False
-    assert restore_parity("/tmp/nonexistent_file_for_restore_test.txt") is False, "restore_parity must return False when parity files are missing"  # nosec: INVALID_FILE_REFERENCE
+    assert (
+        restore_parity("/tmp/nonexistent_file_for_restore_test.txt") is False
+    ), "restore_parity must return False when parity files are missing"  # nosec: INVALID_FILE_REFERENCE
 
 def test_regenerate_parity() -> None:
     """Test for regenerate_parity function.

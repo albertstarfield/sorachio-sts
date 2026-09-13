@@ -35,7 +35,8 @@ try:
     _sabotage_watchdog_b = Watchdog_B() if Watchdog_B else None
     _sabotage_cross_monitor = Cross_Monitor() if Cross_Monitor else None
     _sabotage_recover_watchdog = Recover_Watchdog() if Recover_Watchdog else None
-    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None  # Signal_Handler: segfault resurrection
+    # Signal_Handler: segfault resurrection
+    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None
     _sabotage_resurrect = Resurrect() if Resurrect else None
 except Exception as _exc:
     log.warning("Exception caught in watchdog init: %s", _exc)
@@ -53,7 +54,17 @@ class SingleServerManager:
         - https://docs.python.org/3/library/subprocess.html
     """
 
-    def __init__(self, name: str, binary_path: Path, model_path: Path, port: int, config: LLMInstanceConfig, log_dir: Path, mmproj_path: Path | None = None) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+    # parity: atomic_encode_result applied (SECDED TED)
+    def __init__(
+        self,
+        name: str,
+        binary_path: Path,
+        model_path: Path,
+        port: int,
+        config: LLMInstanceConfig,
+        log_dir: Path,
+        mmproj_path: Path | None = None,
+    ) -> None:
         """Initialize the LLM server manager."""
         # test: covered
         # proof: formal_verification_applied

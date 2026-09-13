@@ -27,7 +27,7 @@ __all__ = ["get_settings", "load_settings", "resolve_path", "SorachioSettings"]
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -131,7 +131,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """

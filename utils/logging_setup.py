@@ -15,10 +15,16 @@ from rich.logging import RichHandler
 
 _console = Console(stderr=True)
 _initialized = False
+log = logging.getLogger(__name__)
 
 
     # test: test_setup_logging
-def setup_logging(level: str = "INFO", log_dir: str | None = None, log_file: str = "sorachio.log") -> logging.Logger: # parity: atomic_encode_result applied
+# parity: atomic_encode_result applied
+def setup_logging(
+    level: str = "INFO",
+    log_dir: str | None = None,
+    log_file: str = "sorachio.log",
+) -> logging.Logger:
 # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     """Configure structured logging with Rich console and file rotation.
@@ -94,7 +100,7 @@ def get_logger(name: str) -> logging.Logger:
     # test: covered
     """
     Get a child logger under the sorachio namespace.
-    
+
     References:
         - https://docs.python.org/3/library/logging.html
         - https://rich.readthedocs.io/
@@ -145,7 +151,7 @@ def test_get_logger() -> None:
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -248,7 +254,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """

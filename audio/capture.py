@@ -75,7 +75,8 @@ try:
     _sabotage_watchdog_b = Watchdog_B() if Watchdog_B else None
     _sabotage_cross_monitor = Cross_Monitor() if Cross_Monitor else None
     _sabotage_recover_watchdog = Recover_Watchdog() if Recover_Watchdog else None
-    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None  # Signal_Handler: segfault resurrection
+    # Signal_Handler: segfault resurrection
+    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None
     _sabotage_resurrect = Resurrect() if Resurrect else None
 except Exception as _e:
     logging.warning("Exception caught in unknown: %s", _e)
@@ -86,11 +87,11 @@ DEBUG_VERBOSE = os.environ.get("SORACHIO_DEBUG_VERBOSE", "").lower() in ("1", "t
 
 def _log_event(msg: str, force: bool = False) -> None:
     """Log Event.
-    
+
     Args:
         msg (str): Description.
         force (bool): Description.
-    
+
         Returns:
             None: Description.
        References:
@@ -149,7 +150,15 @@ class AudioCapture:
     VAD processing happens in a separate worker thread.
     """
 
-    def __init__(self, config: AudioCaptureConfig, stt_queue: asyncio.Queue, interrupt_callback: Callable | None = None, playback_active_event: asyncio.Event | None = None, interrupt_event: asyncio.Event | None = None, aec: AECProvider | None = None) -> None: # parity: atomic_encode_result applied (SECDED TED)
+    def __init__(  # parity: atomic_encode_result applied (SECDED TED)
+        self,
+        config: AudioCaptureConfig,
+        stt_queue: asyncio.Queue,
+        interrupt_callback: Callable | None = None,
+        playback_active_event: asyncio.Event | None = None,
+        interrupt_event: asyncio.Event | None = None,
+        aec: AECProvider | None = None,
+    ) -> None:
         # parity: atomic_encode_result applied (SECDED TED)
         # test: covered
         """
@@ -215,7 +224,11 @@ class AudioCapture:
         # Guard against integer overflow in frame_size computation (sample_rate * chunk_duration_ms)
         _frame_size_raw = config.sample_rate * config.chunk_duration_ms
         if _frame_size_raw > 2**31 - 1:
-            raise ValueError(f"frame_size overflow: sample_rate={config.sample_rate} * chunk_duration_ms={config.chunk_duration_ms} exceeds int32")
+            raise ValueError(
+                f"frame_size overflow: sample_rate={config.sample_rate}"
+                f" * chunk_duration_ms={config.chunk_duration_ms}"
+                " exceeds int32"
+            )
         self._frame_size = int(_frame_size_raw / 1000)
         self._raw_queue: queue.Queue = queue.Queue(maxsize=200)
         self._loop: asyncio.AbstractEventLoop | None = None
@@ -240,7 +253,7 @@ class AudioCapture:
     def _probe_input_device(self) -> bool:
         """
         Return True if we can open an input stream on the target device.
-        
+
         References:
         - https://python-sounddevice.readthedocs.io/
         # test: covered
@@ -268,7 +281,7 @@ class AudioCapture:
     def _calibrate_acoustic_gate(self) -> None:
         """
         Measure background noise floor for 0.8 seconds and calibrate Acoustic Gate threshold.
-        
+
         References:
         # test: covered
         - https://python-sounddevice.readthedocs.io/
@@ -318,7 +331,7 @@ class AudioCapture:
     def start(self, loop: asyncio.AbstractEventLoop) -> None:
         """
         Auto-generated docstring for start.
-        
+
         # test: test_start
         References:
             - https://docs.python.org/3/library/ast.html#module-ast
@@ -329,7 +342,7 @@ class AudioCapture:
 
         """
         Start capture in background threads.
-        
+
         References:
         - https://python-sounddevice.readthedocs.io/
         - https://github.com/wiseman/py-webrtcvad
@@ -379,7 +392,7 @@ class AudioCapture:
     def stop(self) -> None:
         """
         Auto-generated docstring for stop.
-        
+
         # test: test_stop
         References:
             - https://docs.python.org/3/library/ast.html#module-ast
@@ -389,7 +402,7 @@ class AudioCapture:
 
         """
         Stop capture.
-        
+
         References:
         - https://python-sounddevice.readthedocs.io/
         - https://github.com/wiseman/py-webrtcvad
@@ -410,7 +423,7 @@ class AudioCapture:
     def mute(self) -> None:
         """
         Auto-generated docstring for mute.
-        
+
         # test: test_mute
         References:
             - https://docs.python.org/3/library/ast.html#module-ast
@@ -421,7 +434,7 @@ class AudioCapture:
 
         """
         Logically mute the mic — VAD runs but speech is discarded.
-        
+
         References:
         - https://python-sounddevice.readthedocs.io/
         - https://github.com/wiseman/py-webrtcvad
@@ -433,7 +446,7 @@ class AudioCapture:
     def unmute(self) -> None:
         """
         Auto-generated docstring for unmute.
-        
+
         # test: test_unmute
         References:
             - https://docs.python.org/3/library/ast.html#module-ast
@@ -443,7 +456,7 @@ class AudioCapture:
 
         """
         Un-mute — resume sending speech segments to STT.
-        
+
         References:
         - https://python-sounddevice.readthedocs.io/
         - https://github.com/wiseman/py-webrtcvad
@@ -458,7 +471,7 @@ class AudioCapture:
     ) -> None:
         """
         sounddevice callback — runs in audio thread.
-        
+
         # test: covered
         References:
         - https://python-sounddevice.readthedocs.io/
@@ -556,7 +569,7 @@ class AudioCapture:
         """
         VAD processing thread — detects speech segments with pre-trigger history.
         # test: covered
-        
+
         References:
         - https://python-sounddevice.readthedocs.io/
         - https://github.com/wiseman/py-webrtcvad
@@ -699,7 +712,7 @@ class AudioCapture:
         """
         # test: covered
         Signal interruption (coroutine, runs in event loop).
-        
+
         References:
         - https://python-sounddevice.readthedocs.io/
         - https://github.com/wiseman/py-webrtcvad
@@ -714,7 +727,7 @@ class AudioCapture:
         # test: covered
         """
         Send accumulated speech frames to STT queue.
-        
+
         References:
         - https://python-sounddevice.readthedocs.io/
         - https://github.com/wiseman/py-webrtcvad
@@ -881,7 +894,7 @@ def test_atomic_encode_result() -> None:
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -986,7 +999,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """

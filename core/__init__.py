@@ -4,10 +4,10 @@
 
 import logging
 
-logger = logging.getLogger(__name__)
+from .events import Event, EventBus, EventType, get_bus  # noqa: E402
+from .pipeline import SorachioPipeline  # noqa: E402
 
-from .events import Event, EventBus, EventType, get_bus
-from .pipeline import SorachioPipeline
+logger = logging.getLogger(__name__)
 
 __all__ = ["SorachioPipeline", "EventBus", "EventType", "Event", "get_bus"]
 
@@ -28,7 +28,7 @@ __all__ = ["SorachioPipeline", "EventBus", "EventType", "Event", "get_bus"]
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -133,7 +133,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """

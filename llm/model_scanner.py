@@ -174,7 +174,7 @@ def log_scan_summary(name: str, info: ModelInfo) -> None:
     # test: test_log_scan_summary
     """
     Log a formatted summary of the scan results.
-    
+
     References:
         - https://docs.python.org/3/library/pathlib.html
     # test: covered
@@ -259,7 +259,7 @@ def test_log_scan_summary() -> None:
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -365,7 +365,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """

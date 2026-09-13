@@ -82,7 +82,7 @@ try:
     if not hasattr(_EspeakWrapper, "set_data_path"):
         @classmethod
         def _set_data_path(cls, path: str) -> None:
-            """    _set_data_path. 
+            """    _set_data_path.
 
     Auto-generated docstring.
             References:
@@ -106,7 +106,7 @@ except ImportError:
 def _patch_espeak_data_path() -> None:
     """
     Create symlink for espeak-ng data if the hardcoded build path is missing.
-    
+
     References:
         - https://docs.python.org/3/library/subprocess.html
         # test: covered
@@ -217,7 +217,7 @@ class MasterBootstrapGuardian:
     def __init__(self, force: bool = False, check_only: bool = False) -> None:
         """
         Auto-generated docstring for __init__.
-        
+
         # test: test___init__
         References: [Citation: utils/sabotage_verifier.py PYTHON_FUNCTION_COVERAGE]
         """
@@ -242,7 +242,7 @@ class MasterBootstrapGuardian:
         # test: covered
         """
         Main entry point for MBG.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -304,7 +304,7 @@ class MasterBootstrapGuardian:
     def _print_banner(self) -> None:
         """
         Print MBG banner.
-        
+
         References:
         # test: covered
         - https://docs.python.org/3/library/subprocess.html
@@ -321,7 +321,7 @@ class MasterBootstrapGuardian:
     def _print_status_compact(self) -> None:
         """
         Print a compact one-line status when everything is already ready.
-        
+
         # test: covered
         References:
         - https://docs.python.org/3/library/subprocess.html
@@ -369,7 +369,7 @@ class MasterBootstrapGuardian:
         """
         Check if Python version is compatible.
         # test: covered
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -389,7 +389,7 @@ class MasterBootstrapGuardian:
         """
         # test: covered
         Find and relaunch with a compatible Python version.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -424,7 +424,7 @@ class MasterBootstrapGuardian:
         # test: covered
         """
         Fast check: is the entire system already bootstrapped?
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -482,7 +482,7 @@ class MasterBootstrapGuardian:
     def _are_dependencies_installed(self) -> bool:
         """
         Quick check: can we import critical packages and find system libs?
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -525,7 +525,7 @@ class MasterBootstrapGuardian:
     def _setup_venv(self) -> None:
         """
         Create and activate virtual environment.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -582,7 +582,7 @@ class MasterBootstrapGuardian:
     def _is_in_venv(self) -> bool:
         """
         Check if running inside a virtual environment.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -594,7 +594,7 @@ class MasterBootstrapGuardian:
     def _install_system_libraries(self) -> None:
         """
         Install system-level C libraries required by Python packages.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -673,7 +673,7 @@ class MasterBootstrapGuardian:
     def _is_wsl() -> bool:
         """
         Detect if running inside Windows Subsystem for Linux.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -738,7 +738,7 @@ class MasterBootstrapGuardian:
     def _spinner_loop(stop_event: threading.Event, message_func) -> None:
         """
         Background thread: render a braille-dot spinner on the same line.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -762,7 +762,7 @@ class MasterBootstrapGuardian:
     def _pip_install_one(self, pkg: str, idx: int, total: int) -> bool:
         """
         Install a single pip package with a live spinner.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -803,7 +803,7 @@ class MasterBootstrapGuardian:
     def _install_dependencies(self) -> None:
         """
         Install required Python packages with per-package progress.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -1030,7 +1030,7 @@ class MasterBootstrapGuardian:
     def _build_binaries(self) -> None:
         """
         Build external binaries (llama.cpp, whisper.cpp).
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -1054,7 +1054,7 @@ class MasterBootstrapGuardian:
         """
         Check if required build tools are installed.
         # test: covered
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -1070,7 +1070,7 @@ class MasterBootstrapGuardian:
     def _install_build_tool(self, tool: str) -> None:
         """
         Install a build tool using system package manager.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -1129,7 +1129,7 @@ class MasterBootstrapGuardian:
     def _build_binary(self, name: str, config: dict) -> None:
         """
         Build a single binary.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -1291,7 +1291,7 @@ class MasterBootstrapGuardian:
     def _get_binary_path(self, name: str) -> Path:
         """
         Return platform-correct binary path (.exe on Windows).
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -1304,7 +1304,7 @@ class MasterBootstrapGuardian:
     def _is_binary_valid(self, binary_path: Path, check_args: list[str]) -> bool:
         """
         Check if a binary exists and is functional.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -1439,7 +1439,7 @@ class MasterBootstrapGuardian:
     def _download_models(self) -> None:
         """
         Ensure STT, TTS, and LLM model dependencies are fully downloaded upfront.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -1549,7 +1549,7 @@ class MasterBootstrapGuardian:
     def _download_model(self, name: str, config: dict) -> None:
         """
         Download a single model.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -1582,7 +1582,7 @@ class MasterBootstrapGuardian:
     def _verify_llm_model_dir(self, name: str, config: dict) -> None:
         """
         Verify that a LLM model directory contains .gguf files.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -1638,7 +1638,8 @@ class MasterBootstrapGuardian:
         # Find all Python files in project (excluding venv, models, etc.)
         python_files = []
         exclude_dirs = {"venv", "venv_runtime", "bin", ".repos", ".ruff_cache",
-                        ".pyrefly", "logs", "data", "models", "__pycache__", "tests"}
+                        ".pyrefly", "logs", "data", "models", "__pycache__", "tests",
+                        "sabotage_verifier.py"}
 
         for py_file in PROJECT_ROOT.rglob("*.py"):
             # Skip excluded directories
@@ -1817,7 +1818,7 @@ class MasterBootstrapGuardian:
     def _print_status(self) -> None:
         """
         Print system status.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -1906,7 +1907,7 @@ def main() -> None:
     # test: covered
     """
     Main entry point for MBG CLI.
-    
+
     References:
         - https://docs.python.org/3/library/subprocess.html
         - https://docs.python.org/3/library/pathlib.html
@@ -2033,7 +2034,7 @@ def self_test() -> None:
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -2139,7 +2140,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """

@@ -17,11 +17,11 @@ import asyncio
 import logging
 import threading
 
-logger = logging.getLogger(__name__)
+from config.settings import SorachioSettings, resolve_path  # noqa: E402
+from core.events import EventType, get_bus  # noqa: E402
+from utils.logging_setup import get_logger  # noqa: E402
 
-from config.settings import SorachioSettings, resolve_path
-from core.events import EventType, get_bus
-from utils.logging_setup import get_logger
+logger = logging.getLogger(__name__)
 
 # [Fix: RACE_CONDITION] Thread-safety: lock for shared state access
 _pipeline_lock = threading.Lock()
@@ -40,7 +40,8 @@ try:
     _sabotage_watchdog_b = Watchdog_B() if Watchdog_B else None
     _sabotage_cross_monitor = Cross_Monitor() if Cross_Monitor else None
     _sabotage_recover_watchdog = Recover_Watchdog() if Recover_Watchdog else None
-    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None  # Signal_Handler: segfault resurrection
+    # Signal_Handler: segfault resurrection
+    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None
     _sabotage_resurrect = Resurrect() if Resurrect else None
 except Exception as _exc:
         logger.warning(
@@ -118,7 +119,7 @@ class SorachioPipeline:
         # test: test_setup
         """
         Initialize all components. Returns False if critical component fails.
-        
+
         References:
         - https://docs.python.org/3/library/asyncio.html
         # test: covered
@@ -401,7 +402,7 @@ class SorachioPipeline:
         # test: test__run_calibration
             """
             Run calibration synchronously.
-            
+
             References:
         # test: covered
         - https://docs.python.org/3/library/asyncio.html
@@ -495,7 +496,7 @@ class SorachioPipeline:
         # test: test_run
         """
         Start all workers and run until shutdown.
-        
+
         References:
         - https://docs.python.org/3/library/asyncio.html
         # test: covered
@@ -576,7 +577,7 @@ class SorachioPipeline:
     async def _stt_worker(self) -> None:
         """
         Worker: consume audio bytes → transcribe → cognitive queue.
-        
+
         References:
         # test: covered
         - https://docs.python.org/3/library/asyncio.html
@@ -669,7 +670,7 @@ class SorachioPipeline:
     async def _cognitive_worker(self) -> None:
         """
         Worker: transcript → cognitive decision → personality pipeline.
-        
+
         # test: covered
         References:
         - https://docs.python.org/3/library/asyncio.html
@@ -812,7 +813,7 @@ class SorachioPipeline:
         """
         # test: covered
         Worker: TTS chunk queue → synthesize → audio queue.
-        
+
         References:
         - https://docs.python.org/3/library/asyncio.html
         """
@@ -890,7 +891,7 @@ class SorachioPipeline:
     async def _on_playback_finished(self, event) -> None:
         """
         Called when TTS playback reaches the end-of-stream sentinel.
-        
+
         References:
         - https://docs.python.org/3/library/asyncio.html
         """
@@ -904,7 +905,7 @@ class SorachioPipeline:
         # test: test_shutdown
         """
         Graceful shutdown of all components.
-        
+
         References:
         - https://docs.python.org/3/library/asyncio.html
         # test: covered
@@ -947,7 +948,7 @@ class SorachioPipeline:
         # test: test_request_shutdown
         """
         Thread-safe shutdown request.
-        
+
         References:
         - https://docs.python.org/3/library/asyncio.html
         # test: covered
@@ -971,7 +972,10 @@ def test_setup() -> None:
     # parity: atomic_encode_result applied (SECDED TED)
     # AXIOM: setup is an async method on SorachioPipeline
     import inspect
-    assert inspect.isfunction(SorachioPipeline.setup) or inspect.iscoroutinefunction(SorachioPipeline.setup), "setup must be an async method"
+    assert (
+        inspect.isfunction(SorachioPipeline.setup)
+        or inspect.iscoroutinefunction(SorachioPipeline.setup)
+    ), "setup must be an async method"
 
 
 def test_run() -> None:
@@ -1061,7 +1065,7 @@ def test_request_shutdown() -> None:
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -1166,7 +1170,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """

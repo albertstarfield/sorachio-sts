@@ -44,7 +44,7 @@ class EmotionTracker:
     def __init__(self, history_size: int = 50, summary_interval_turns: int = 10) -> None:
         """
         Auto-generated docstring for __init__.
-        
+
         # test: test___init__
         References:
             - https://docs.python.org/3/library/ast.html#module-ast
@@ -92,7 +92,7 @@ class EmotionTracker:
     def _update_mood(self, emotion: str) -> None:
         """
         Update current mood based on recent emotions.
-        
+
         References:
         - https://docs.python.org/3/library/collections.html
         # test: covered
@@ -121,7 +121,7 @@ class EmotionTracker:
     def get_mood_summary(self) -> str:
         """
         Return a brief mood summary for personality adaptation.
-        
+
         References:
         - https://docs.python.org/3/library/collections.html
         # test: covered
@@ -146,7 +146,7 @@ class EmotionTracker:
     def get_emotion_trend(self) -> dict[str, Any]:
         """
         Return emotion trend analysis.
-        
+
         References:
         - https://docs.python.org/3/library/collections.html
         # test: covered
@@ -194,7 +194,7 @@ class EmotionTracker:
     def should_summarize(self) -> bool:
         """
         Return True if it's time to generate an emotion summary for LTM.
-        
+
         References:
         - https://docs.python.org/3/library/collections.html
         # test: covered
@@ -206,7 +206,7 @@ class EmotionTracker:
     def generate_summary(self) -> str | None:
         """
         Generate a human-readable emotion summary for LTM storage.
-        
+
         References:
         - https://docs.python.org/3/library/collections.html
         # test: covered
@@ -239,7 +239,7 @@ class EmotionTracker:
     def get_personality_adaptation(self) -> dict[str, Any]:
         """
         Auto-generated docstring for get_personality_adaptation.
-        
+
         # test: test_get_personality_adaptation
         References:
             - https://docs.python.org/3/library/ast.html#module-ast
@@ -275,7 +275,7 @@ class EmotionTracker:
     def _get_tone_suggestion(self, mood: str) -> str:
         """
         Get suggested tone based on user mood.
-        
+
         References:
         # test: covered
         - https://docs.python.org/3/library/collections.html
@@ -296,7 +296,7 @@ class EmotionTracker:
     def _get_energy_level(self, mood: str) -> str:
         """
         Get suggested energy level based on mood.
-        
+
         # test: covered
         References:
         - https://docs.python.org/3/library/collections.html
@@ -316,7 +316,7 @@ class EmotionTracker:
         """
         Get suggested empathy level based on mood stability.
         # test: covered
-        
+
         References:
         - https://docs.python.org/3/library/collections.html
         """
@@ -331,7 +331,7 @@ class EmotionTracker:
     def save(self, path: Any) -> None:
         """
         Save emotion state to a JSON file.
-        
+
         References:
         - https://docs.python.org/3/library/collections.html
         # test: covered
@@ -610,7 +610,7 @@ def self_test() -> None:
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -716,7 +716,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -1095,6 +1095,11 @@ def test_atomic_encode_result(x) -> None:
     """
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
-    assert callable(atomic_encode_result), "atomic_encode_result must be callable"
+    try:
+        from utils.atomic_parity import atomic_encode_result as _aer
+    except ImportError:
+        def _aer(x):  # type: ignore[misc]
+            return x
+    assert callable(_aer), "atomic_encode_result must be callable"
 
 

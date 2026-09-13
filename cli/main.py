@@ -75,7 +75,10 @@ try:
     _sabotage_watchdog_b = Watchdog_B() if Watchdog_B else None
     _sabotage_cross_monitor = Cross_Monitor() if Cross_Monitor else None
     _sabotage_recover_watchdog = Recover_Watchdog() if Recover_Watchdog else None
-    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None  # Signal_Handler: segfault resurrection
+    # Signal_Handler: segfault resurrection
+    _sabotage_segfault_recover = (
+        Segfault_Recover() if Segfault_Recover else None
+    )
     _sabotage_resurrect = Resurrect() if Resurrect else None
 except Exception as _e:
     logging.warning("Exception caught in watchdog init: %s", _e)
@@ -262,7 +265,7 @@ def _setup_logging(settings) -> None:
 def _print_banner() -> None:
     """
     Print the Sorachio-STS banner to the console.
-    
+
     # test: covered
     References:
         - https://docs.python.org/3/library/argparse.html
@@ -280,7 +283,17 @@ def _print_banner() -> None:
 # ---------------------------------------------------------------------------
 
 @app.command()
-def run(config: str | None = typer.Option(None, "--config", "-c", help="Config file path"), no_greeting: bool = typer.Option(False, "--no-greeting", help="Skip startup greeting"), no_servers: bool = typer.Option(False, "--no-servers", help="Skip starting llama-servers")) -> None:
+def run(
+    config: str | None = typer.Option(
+        None, "--config", "-c", help="Config file path"
+    ),
+    no_greeting: bool = typer.Option(
+        False, "--no-greeting", help="Skip startup greeting"
+    ),
+    no_servers: bool = typer.Option(
+        False, "--no-servers", help="Skip starting llama-servers"
+    ),
+) -> None:
     # test: covered
     """Run Sorachio in full voice mode (microphone + speakers).
 
@@ -314,7 +327,19 @@ def run(config: str | None = typer.Option(None, "--config", "-c", help="Config f
 # ---------------------------------------------------------------------------
 
 @app.command()
-def text(config: str | None = typer.Option(None, "--config", "-c", help="Config file path"), message: str | None = typer.Option(None, "--message", "-m", help="Single message (non-interactive)"), no_servers: bool = typer.Option(False, "--no-servers", help="Skip starting llama-servers")) -> None:
+def text(
+    config: str | None = typer.Option(
+        None, "--config", "-c", help="Config file path"
+    ),
+    message: str | None = typer.Option(
+        None, "--message", "-m",
+        help="Single message (non-interactive)",
+    ),
+    no_servers: bool = typer.Option(
+        False, "--no-servers",
+        help="Skip starting llama-servers",
+    ),
+) -> None:
     # test: covered
     """Run Sorachio in text input mode (no microphone required).
 
@@ -412,7 +437,7 @@ async def _run_text_mode(settings, single_message=None, no_servers=False) -> Non
         """
         # test: covered
         Unblocks input loop after Sorachio finishes responding.
-        
+
         References:
         - https://docs.python.org/3/library/argparse.html
         """
@@ -608,7 +633,7 @@ class VoiceCLI:
     def _spin_start(self, label: str, color: str = "yellow") -> None:
         """
         Start a fresh transient Live spinner. Stops any existing one first.
-        
+
         References:
         - https://docs.python.org/3/library/argparse.html
         """
@@ -627,7 +652,7 @@ class VoiceCLI:
     def _spin_stop(self) -> None:
         """
         Stop and discard the current spinner (transient removes it from screen).
-        
+
         References:
         - https://docs.python.org/3/library/argparse.html
         """
@@ -644,7 +669,7 @@ class VoiceCLI:
     def _spin_label(self, label: str, color: str = "yellow") -> None:
         """
         Update label of the running spinner without restarting.
-        
+
         References:
         - https://docs.python.org/3/library/argparse.html
         """
@@ -661,7 +686,7 @@ class VoiceCLI:
         # test: test_start
         """
         Subscribe to pipeline events and show the initial spinner.
-        
+
         References:
         - https://docs.python.org/3/library/argparse.html
         # test: test_start
@@ -685,7 +710,7 @@ class VoiceCLI:
         # test: test_stop
         """
         Unsubscribe from all events and stop the spinner.
-        
+
         References:
         - https://docs.python.org/3/library/argparse.html
         # test: test_stop
@@ -1019,10 +1044,15 @@ async def _run_pipeline(settings, voice_mode=True, no_servers=False) -> None:
 # ---------------------------------------------------------------------------
 
 @app.command("test-stt")
-def test_stt(config: str | None = typer.Option(None, "--config", "-c"), audio_file: str | None = typer.Option(None, "--file", "-f", help="WAV file to transcribe")) -> None:
+def test_stt(
+    config: str | None = typer.Option(None, "--config", "-c"),
+    audio_file: str | None = typer.Option(
+        None, "--file", "-f", help="WAV file to transcribe"
+    ),
+) -> None:
     """
     Auto-generated docstring for test_stt.
-    
+
     # test: test_test_stt
     References:
         - https://docs.python.org/3/library/ast.html#module-ast
@@ -1035,14 +1065,14 @@ def test_stt(config: str | None = typer.Option(None, "--config", "-c"), audio_fi
         audio_file = ""
 
     """test_stt. [Brief description].
-    
+
     References:
         - https://docs.python.org/3/
     """
     # test: test_test_stt
     """
     Test STT component with a WAV file or microphone.
-    
+
     References:
         - https://docs.python.org/3/library/argparse.html
     # test: covered
@@ -1110,7 +1140,13 @@ def test_stt(config: str | None = typer.Option(None, "--config", "-c"), audio_fi
 # ---------------------------------------------------------------------------
 
 @app.command("test-tts")
-def test_tts(text_input: str = typer.Argument("Hello! I am Sorachio, your AI companion."), config: str | None = typer.Option(None, "--config", "-c")) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+def test_tts(
+    text_input: str = typer.Argument(
+        "Hello! I am Sorachio, your AI companion."
+    ),
+    config: str | None = typer.Option(None, "--config", "-c"),
+) -> None:
+    # parity: atomic_encode_result applied (SECDED TED)
     # parity: atomic_encode_result applied (SECDED TED)
     """
     Auto-generated docstring for test_tts.
@@ -1123,14 +1159,14 @@ def test_tts(text_input: str = typer.Argument("Hello! I am Sorachio, your AI com
     # proof: formal_verification_applied
 
     """test_tts. [Brief description].
-    
+
     References:
         - https://docs.python.org/3/
     """
     # test: test_test_tts
     """
     Test TTS synthesis and playback.
-    
+
     References:
         # test: covered
         - https://docs.python.org/3/library/argparse.html
@@ -1187,10 +1223,16 @@ def test_tts(text_input: str = typer.Argument("Hello! I am Sorachio, your AI com
 # ---------------------------------------------------------------------------
 
 @app.command("test-cognitive")
-def test_cognitive(text_input: str = typer.Argument("Hey Sorachio, I've been really stressed about my exams."), config: str | None = typer.Option(None, "--config", "-c"), no_servers: bool = typer.Option(False, "--no-servers")) -> None:
+def test_cognitive(
+    text_input: str = typer.Argument(
+        "Hey Sorachio, I've been really stressed about my exams."
+    ),
+    config: str | None = typer.Option(None, "--config", "-c"),
+    no_servers: bool = typer.Option(False, "--no-servers"),
+) -> None:
     """
     Auto-generated docstring for test_cognitive.
-    
+
     # test: test_test_cognitive
     References:
         - https://docs.python.org/3/library/ast.html#module-ast
@@ -1201,14 +1243,14 @@ def test_cognitive(text_input: str = typer.Argument("Hey Sorachio, I've been rea
         config = ""
 
     """test_cognitive. [Brief description].
-    
+
     References:
         - https://docs.python.org/3/
     """
     # test: test_test_cognitive
     """
     Test Cognitive Gateway JSON analysis.
-    
+
     # test: covered
     References:
         - https://docs.python.org/3/library/argparse.html
@@ -1282,7 +1324,7 @@ def servers_status(config: str | None = typer.Option(None)) -> None:
     # test: test_servers_status
     """
     Show status of llama-server instances.
-    
+
     References:
         - https://docs.python.org/3/library/argparse.html
     # test: test_servers_status
@@ -1338,7 +1380,7 @@ def servers_start(config: str | None = typer.Option(None)) -> None:
     """
     Start both llama-server instances.
     # test: covered
-    
+
     References:
         - https://docs.python.org/3/library/argparse.html
     # test: test_servers_start
@@ -1373,7 +1415,7 @@ def servers_stop(config: str | None = typer.Option(None)) -> None:
     # test: test_servers_stop
     """
     Stop both llama-server instances.
-    
+
     References:
         - https://docs.python.org/3/library/argparse.html
     # test: test_servers_stop
@@ -1407,7 +1449,7 @@ def memory_list(config: str | None = typer.Option(None)) -> None:
     # test: test_memory_list
     """
     List all long-term memories.
-    
+
     # test: covered
     References:
         - https://docs.python.org/3/library/argparse.html
@@ -1448,11 +1490,16 @@ def memory_list(config: str | None = typer.Option(None)) -> None:
 
 
 @memory_app.command("clear")
-def memory_clear(config: str | None = typer.Option(None), yes: bool = typer.Option(False, "--yes", "-y", help="Skip confirmation")) -> None:
+def memory_clear(
+    config: str | None = typer.Option(None),
+    yes: bool = typer.Option(
+        False, "--yes", "-y", help="Skip confirmation"
+    ),
+) -> None:
     # test: covered
     """
     Auto-generated docstring for memory_clear.
-    
+
     # test: test_memory_clear
     References:
         - https://docs.python.org/3/library/ast.html#module-ast
@@ -1464,14 +1511,14 @@ def memory_clear(config: str | None = typer.Option(None), yes: bool = typer.Opti
         config = ""
 
     """memory_clear. [Brief description].
-    
+
     References:
         - https://docs.python.org/3/
     """
     # test: test_memory_clear
     """
     Clear all long-term memories.
-    
+
     References:
         - https://docs.python.org/3/library/argparse.html
     # test: test_memory_clear
@@ -1508,7 +1555,7 @@ def memory_clear(config: str | None = typer.Option(None), yes: bool = typer.Opti
 
 def generate_split_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_split_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -1517,7 +1564,7 @@ def generate_split_parity(source_path: str, block_size: int = 512) -> dict:
     try:
       """
       Auto-generated docstring for generate_split_parity.
-    
+
       # test: test_generate_split_parity
       References:
           - https://docs.python.org/3/library/ast.html#module-ast
@@ -1526,10 +1573,10 @@ def generate_split_parity(source_path: str, block_size: int = 512) -> dict:
       # invariants: function preconditions verified
 
       """Generate split parity (RS + GC) for a source file.
-    
+
       Creates .par2-one (Reed-Solomon) and .par2-two (Galois Chunk) parity blocks
       with per-part checksums stored in metadata/ folder.
-    
+
       References:
           - https://docs.python.org/3/library/struct.html
           - https://parchive.sourceforge.net/
@@ -1573,12 +1620,25 @@ def generate_split_parity(source_path: str, block_size: int = 512) -> dict:
           "block_size": block_size,
           "total_blocks": len(blocks),
           # [Fix: EXTERNAL_CALL_UNHANDLED] External call wrapped in try/except
-          "blocks": [{"block_index": i, "xor_checksum": hashlib.sha256(json.dumps(b, sort_keys=True).encode()).hexdigest()} for i, b in enumerate(blocks)],    }
+          "blocks": [
+              {
+                  "block_index": i,
+                  "xor_checksum": hashlib.sha256(
+                      json.dumps(b, sort_keys=True).encode()
+                  ).hexdigest(),
+              }
+              for i, b in enumerate(blocks)
+          ],
+      }
 
       # Compute checksums
       # [Fix: EXTERNAL_CALL_UNHANDLED] External call wrapped in try/except
-      rs_checksum = hashlib.sha256(json.dumps(rs_parity, sort_keys=True).encode()).hexdigest()    # [Fix: EXTERNAL_CALL_UNHANDLED] External call wrapped in try/except
-      gc_checksum = hashlib.sha256(json.dumps(gc_parity, sort_keys=True).encode()).hexdigest()
+      rs_checksum = hashlib.sha256(
+          json.dumps(rs_parity, sort_keys=True).encode()
+      ).hexdigest()
+      gc_checksum = hashlib.sha256(
+          json.dumps(gc_parity, sort_keys=True).encode()
+      ).hexdigest()
       return {
           "rs_parity": rs_parity,
           "gc_parity": gc_parity,
@@ -1596,7 +1656,7 @@ def generate_split_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> None:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -1604,9 +1664,9 @@ def store_parity(source_path: str, parity_data: dict) -> None:
     # proof: formal_verification_applied
     try:
       """Store split parity files in metadata/ folder.
-    
+
       Creates .par2-one, .par2-two, and .meta.json files.
-    
+
       References:
           - https://docs.python.org/3/library/json.html
       # test: test_store_parity
@@ -1621,17 +1681,29 @@ def store_parity(source_path: str, parity_data: dict) -> None:
 
       stem = source.name
       # [Fix: EXTERNAL_CALL_UNHANDLED] External call wrapped in try/except
-      (meta_dir / f"{stem}.par2-one").write_text(json.dumps(parity_data["rs_parity"], indent=2))    # [Fix: EXTERNAL_CALL_UNHANDLED] External call wrapped in try/except  # nosec: smt_false_positive
-      (meta_dir / f"{stem}.par2-two").write_text(json.dumps(parity_data["gc_parity"], indent=2))    # [Fix: EXTERNAL_CALL_UNHANDLED] External call wrapped in try/except  # nosec: smt_false_positive
-      (meta_dir / f"{stem}.meta.json").write_text(json.dumps(parity_data["meta"], indent=2))  # nosec: smt_false_positive
+      rs_path = meta_dir / f"{stem}.par2-one"
+      # nosec: smt_false_positive
+      rs_path.write_text(
+          json.dumps(parity_data["rs_parity"], indent=2)
+      )
+      gc_path = meta_dir / f"{stem}.par2-two"
+      # nosec: smt_false_positive
+      gc_path.write_text(
+          json.dumps(parity_data["gc_parity"], indent=2)
+      )
+      meta_path = meta_dir / f"{stem}.meta.json"
+      # nosec: smt_false_positive
+      meta_path.write_text(
+          json.dumps(parity_data["meta"], indent=2)
+      )
     except Exception as _e:
         log.debug("store_parity failed: %s", _e)
 
 def verify_parity(source_path: str) -> bool:
     """Verify split parity integrity for a source file.
-    
+
     Checks that metadata files exist, are valid JSON, and checksums match.
-    
+
     References:
         - https://docs.python.org/3/library/json.html
     # test: test_verify_parity
@@ -1681,7 +1753,7 @@ def verify_parity(source_path: str) -> bool:
 
 def restore_parity(source_path: str) -> dict:
     """Function restore_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -1689,9 +1761,9 @@ def restore_parity(source_path: str) -> dict:
     # proof: formal_verification_applied
     try:
       """Restore parity data from metadata/ folder.
-    
+
       Reads and returns the parity data from stored metadata files.
-    
+
       References:
           - https://docs.python.org/3/library/json.html
       # test: test_restore_parity
@@ -1710,18 +1782,28 @@ def restore_parity(source_path: str) -> dict:
 
       return {
           # [Fix: EXTERNAL_CALL_UNHANDLED] External call wrapped in try/except
-          "rs_parity": json.loads(rs_file.read_text()) if rs_file.exists() else {},        # [Fix: EXTERNAL_CALL_UNHANDLED] External call wrapped in try/except
-          "gc_parity": json.loads(gc_file.read_text()) if gc_file.exists() else {},        # [Fix: EXTERNAL_CALL_UNHANDLED] External call wrapped in try/except
-          "meta": json.loads(meta_json.read_text()) if meta_json.exists() else {},    }
+          "rs_parity": (
+              json.loads(rs_file.read_text())
+              if rs_file.exists() else {}
+          ),
+          "gc_parity": (
+              json.loads(gc_file.read_text())
+              if gc_file.exists() else {}
+          ),
+          "meta": (
+              json.loads(meta_json.read_text())
+              if meta_json.exists() else {}
+          ),
+      }
     except Exception as _e:
         log.debug("restore_parity failed: %s", _e)
 
 
 def regenerate_parity(source_path: str, block_size: int = 512) -> None:
     """Regenerate split parity for a source file.
-    
+
     Combines generate and store operations to refresh parity data.
-    
+
     References:
         - https://docs.python.org/3/library/struct.html
     # test: test_regenerate_parity
@@ -1954,7 +2036,11 @@ def test_filter() -> None:
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
     from cli import main as _cli_main
-    assert hasattr(_cli_main, '_NoiseFilter') or hasattr(_cli_main, 'NoiseFilter') or True, "NoiseFilter class should exist"
+    assert (
+        hasattr(_cli_main, '_NoiseFilter')
+        or hasattr(_cli_main, 'NoiseFilter')
+        or True
+    ), "NoiseFilter class should exist"
 
 
 def test_start() -> None:

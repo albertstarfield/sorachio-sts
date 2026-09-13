@@ -38,10 +38,11 @@ try:
     _sabotage_watchdog_b = Watchdog_B() if Watchdog_B else None
     _sabotage_cross_monitor = Cross_Monitor() if Cross_Monitor else None
     _sabotage_recover_watchdog = Recover_Watchdog() if Recover_Watchdog else None
-    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None  # Signal_Handler: segfault resurrection
+    # Signal_Handler: segfault resurrection
+    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None
     _sabotage_resurrect = Resurrect() if Resurrect else None
 except Exception as _exc:
-        logging.getLogger(__name__).warning(
+        log.warning(
             "Caught exception in cognitive_gateway: %s", _exc
         )
 
@@ -121,8 +122,13 @@ class CognitiveGateway:
     Fast cognitive filtering + routing layer.
     """
 
-    def __init__(self, client: LlamaClient, temperature: float = 0.1, max_tokens: int = 256) -> None:  # parity: atomic_encode_result applied (SECDED TED)
     # parity: atomic_encode_result applied (SECDED TED)
+    def __init__(
+        self,
+        client: LlamaClient,
+        temperature: float = 0.1,
+        max_tokens: int = 256,
+    ) -> None:
         """Initialize CognitiveGateway with LLM client and parameters."""
         # test: covered
         self.client = client
@@ -278,7 +284,7 @@ class CognitiveGateway:
         def _close(s: str) -> str:
             """
             Add missing closing brackets and braces.
-            
+
             # test: covered
             References:
         - https://docs.python.org/3/library/json.html
@@ -301,7 +307,7 @@ class CognitiveGateway:
             """
             Strip one likely-incomplete tail pattern.
             # test: covered
-            
+
             References:
         - https://docs.python.org/3/library/json.html
             """
@@ -545,7 +551,7 @@ def test_analyze() -> None:
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -650,7 +656,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """

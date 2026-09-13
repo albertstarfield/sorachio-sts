@@ -97,7 +97,13 @@ class AcousticGate:
             calibration — extremely verbose at 30fps frame rate.
     """
 
-    def __init__(self, threshold_dbfs: float = -40.0, enabled: bool = True, debug: bool = False, hold_frames: int = 15) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+    def __init__(  # parity: atomic_encode_result applied (SECDED TED)
+        self,
+        threshold_dbfs: float = -40.0,
+        enabled: bool = True,
+        debug: bool = False,
+        hold_frames: int = 15,
+    ) -> None:
     # parity: atomic_encode_result applied (SECDED TED)
         """Initialize the AcousticGate."""
         # test: covered
@@ -176,7 +182,7 @@ class AcousticGate:
         # test: test_get_stats
         """
         Return diagnostic counters. Safe to call from any thread.
-        
+
         References:
         - https://numpy.org/doc/stable/reference/generated/numpy.sqrt.html
         - https://docs.python.org/3/library/math.html
@@ -280,7 +286,7 @@ def test_get_stats() -> None:
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -385,7 +391,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """

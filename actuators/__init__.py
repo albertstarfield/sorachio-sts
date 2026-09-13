@@ -3,6 +3,12 @@
 # metadata: source parity tracked in metadata/ directory
 # proof: formal_verification_applied
 
+import hashlib
+import json
+import logging
+
+log = logging.getLogger(__name__)
+
 # ── Split Parity Functions (auto-generated) ──────────────────────
 # [metadata: references metadata/ folder — split parity protection]
 # Reed-Solomon(255,223), GF(2^8) Galois Chunk parity protection
@@ -180,7 +186,7 @@ def regenerate_parity(source_path: str) -> bool:
 
 def test_generate_parity() -> None:
     """Test for generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/unittest.html
     """
@@ -191,7 +197,7 @@ def test_generate_parity() -> None:
 
 def test_store_parity() -> None:
     """Test for store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/unittest.html
     """
@@ -202,7 +208,7 @@ def test_store_parity() -> None:
 
 def test_verify_parity() -> None:
     """Test for verify_parity.
-    
+
     References:
         - https://docs.python.org/3/library/unittest.html
     """
@@ -213,7 +219,7 @@ def test_verify_parity() -> None:
 
 def test_restore_parity() -> None:
     """Test for restore_parity.
-    
+
     References:
         - https://docs.python.org/3/library/unittest.html
     """
@@ -224,7 +230,7 @@ def test_restore_parity() -> None:
 
 def test_regenerate_parity() -> None:
     """Test for regenerate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/unittest.html
     """

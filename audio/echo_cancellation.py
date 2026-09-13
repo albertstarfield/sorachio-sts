@@ -402,7 +402,15 @@ class CalibrationAEC(AECProvider):
         - https://docs.python.org/3/library/array.html
     """
 
-    def __init__(self, sample_rate: int = 16000, frame_size: int = 480, calibration_duration_s: float = 3.0, lms_filter_length: int = 256, lms_step_size: float = 0.01, wiener_noise_margin: float = 6.0) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+    def __init__(  # parity: atomic_encode_result applied (SECDED TED)
+        self,
+        sample_rate: int = 16000,
+        frame_size: int = 480,
+        calibration_duration_s: float = 3.0,
+        lms_filter_length: int = 256,
+        lms_step_size: float = 0.01,
+        wiener_noise_margin: float = 6.0,
+    ) -> None:
         """Initialize calibration-based AEC with adaptive filter parameters.
         # test: covered
 
@@ -800,7 +808,10 @@ class CalibrationAEC(AECProvider):
         noise_margin = 10 ** (self.wiener_noise_margin / 10)
 
         # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
-        wiener_gain = 1.0 - (echo_power / (mic_power + noise_power * noise_margin + 1e-10))  # Guard div-by-zero: add epsilon to denominator
+        # Guard div-by-zero: add epsilon to denominator
+        wiener_gain = 1.0 - (
+            echo_power / (mic_power + noise_power * noise_margin + 1e-10)
+        )
         wiener_gain = np.clip(wiener_gain, 0.1, 1.0)  # Don't suppress too much
 
         # Apply Wiener filter in frequency domain
@@ -1170,7 +1181,7 @@ def test_calibrate() -> None:
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -1280,7 +1291,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """

@@ -2,6 +2,9 @@
 # proof: formal_verification_applied
 
 import base64
+import hashlib
+import json
+from pathlib import Path
 
 # Sabotage verifier: watchdog import for architecture compliance
 try:
@@ -17,20 +20,23 @@ except ImportError:
 
 from utils.logging_setup import get_logger
 
+log = get_logger("vision.capture")
+
 # Sabotage verifier: watchdog initialization for architecture compliance
 try:
     _sabotage_watchdog_a = Watchdog_A() if Watchdog_A else None
     _sabotage_watchdog_b = Watchdog_B() if Watchdog_B else None
     _sabotage_cross_monitor = Cross_Monitor() if Cross_Monitor else None
     _sabotage_recover_watchdog = Recover_Watchdog() if Recover_Watchdog else None
-    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None  # Signal_Handler: segfault resurrection
+    # Signal_Handler: segfault resurrection
+    _sabotage_segfault_recover = (
+        Segfault_Recover() if Segfault_Recover else None
+    )
     _sabotage_resurrect = Resurrect() if Resurrect else None
 except Exception as _exc:
         log.warning(
             "Caught exception in capture: %s", _exc
         )
-
-log = get_logger("vision.capture")
 
 
 def capture_frame_base64(device_index: int = 0, max_size: int = 512) -> str | None:
@@ -143,7 +149,7 @@ def test_capture_frame_base64() -> None:
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -252,7 +258,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -361,8 +367,6 @@ def verify_parity(source_path: str) -> bool:
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
     # invariants: function preconditions verified
-    import hashlib
-    import json
     import os
 
     source_dir = os.path.dirname(source_path)

@@ -37,7 +37,16 @@ log = get_logger("memory.ltm")
 
 class LTMEntry:
     # nosec: line-level suppression  # parity: atomic_encode_result applied (SECDED TED)
-    def __init__(self, content: str, topic: str = "general", emotion: str = "neutral", importance: float = 0.5, keywords: list[str] | None = None, metadata: dict[str, Any] | None = None, entry_id: str | None = None) -> None:
+    def __init__(
+        self,
+        content: str,
+        topic: str = "general",
+        emotion: str = "neutral",
+        importance: float = 0.5,
+        keywords: list[str] | None = None,
+        metadata: dict[str, Any] | None = None,
+        entry_id: str | None = None,
+    ) -> None:
         # parity: atomic_encode_result applied (SECDED TED)
         """Initialize a long-term memory entry.
     # test: test_LTMEntry_init
@@ -135,7 +144,7 @@ class LTMEntry:
     def relevance_score(self, query_keywords: list[str]) -> float:
         """
         Compute relevance score given query keywords.
-        
+
         References:
         - https://docs.python.org/3/library/json.html
         # test: test_relevance_score
@@ -195,7 +204,15 @@ class LongTermMemory:
     """
 
     # nosec: line-level suppression  # parity: atomic_encode_result applied (SECDED TED)
-    def __init__(self, storage_path: str = "data/memory/ltm.json", max_entries: int = 500, importance_threshold: float = 0.5, retrieval_top_k: int = 5, vector_store: VectorStore | None = None, vector_weight: float = 0.7) -> None:
+    def __init__(
+        self,
+        storage_path: str = "data/memory/ltm.json",
+        max_entries: int = 500,
+        importance_threshold: float = 0.5,
+        retrieval_top_k: int = 5,
+        vector_store: VectorStore | None = None,
+        vector_weight: float = 0.7,
+    ) -> None:
 
         # parity: atomic_encode_result applied (SECDED TED)
         """    Init.
@@ -228,7 +245,7 @@ class LongTermMemory:
         # test: test_initialize
         """
         Load existing memories from disk and sync to vector store.
-        
+
         References:
         - https://docs.python.org/3/library/json.html
         # test: covered
@@ -247,7 +264,7 @@ class LongTermMemory:
     async def _sync_to_vector_store(self) -> None:
         """
         Sync all entries to vector store for semantic search.
-        
+
         References:
         - https://docs.python.org/3/library/json.html
         # test: covered
@@ -276,7 +293,15 @@ class LongTermMemory:
                 synced += 1
         log.info(f"[LTM] Synced {synced}/{len(self._entries)} entries to vector store")
 
-    async def store(self, content: str, topic: str = "general", emotion: str = "neutral", importance: float = 0.5, keywords: list[str] | None = None, metadata: dict[str, Any] | None = None) -> LTMEntry | None:
+    async def store(
+        self,
+        content: str,
+        topic: str = "general",
+        emotion: str = "neutral",
+        importance: float = 0.5,
+        keywords: list[str] | None = None,
+        metadata: dict[str, Any] | None = None,
+    ) -> LTMEntry | None:
         """Store a new memory if it meets the importance threshold.
         # test: covered
 
@@ -348,7 +373,7 @@ class LongTermMemory:
     async def retrieve(self, queries: list[str],  # nosec: smt_false_positive  # test: covered
         top_k: int | None = None) -> list[LTMEntry]:  # parity: atomic_encode_result applied
         """retrieve. [Brief description].
-        
+
         References:
             - https://docs.python.org/3/
         """
@@ -429,7 +454,7 @@ class LongTermMemory:
         # test: test_format_for_context
         """
         Format retrieved memories as a context string for LLM.
-        
+
         References:
         - https://docs.python.org/3/library/json.html
         # test: covered
@@ -448,7 +473,7 @@ class LongTermMemory:
     async def _load(self) -> None:
         """
         Load memories from JSON file.
-        
+
         # test: covered
         References:
         - https://docs.python.org/3/library/json.html
@@ -470,7 +495,7 @@ class LongTermMemory:
     async def _save(self) -> None:
         """
         Persist memories to JSON file.
-        
+
         References:
         - https://docs.python.org/3/library/json.html
         # test: test__extract_keywords
@@ -492,7 +517,7 @@ class LongTermMemory:
         """
         Simple keyword extraction (stopword removal).
         # test: covered
-        
+
         References:
         - https://docs.python.org/3/library/json.html
         """
@@ -720,7 +745,7 @@ def test_get_stats() -> None:
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -826,7 +851,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """

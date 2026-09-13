@@ -48,7 +48,7 @@ class Bootstrapper:
     def _check_python_version(self) -> None:
         """
         Check if the current Python version is within the required range.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         # test: covered
@@ -67,7 +67,7 @@ class Bootstrapper:
     def _try_relaunch_with_different_python(self) -> None:
         """
         Try to find and relaunch with a compatible Python version.
-        
+
         References:
         # test: covered
         - https://docs.python.org/3/library/subprocess.html
@@ -93,7 +93,7 @@ class Bootstrapper:
     def ensure_ready(self) -> None:
         """
         Main entry point to ensure the system is ready for execution.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         # test: covered
@@ -126,7 +126,7 @@ class Bootstrapper:
     def _is_in_venv(self) -> bool:
         """
         Check if the current process is running inside a virtual environment.
-        
+
         # test: covered
         References:
         - https://docs.python.org/3/library/subprocess.html
@@ -138,7 +138,7 @@ class Bootstrapper:
         """
         Create a virtual environment and restart the process using it.
         # test: covered
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         """
@@ -167,11 +167,17 @@ class Bootstrapper:
         subprocess.run([str(python_exe)] + sys.argv, timeout=300)
         sys.exit(0)  # nosec: SILENT_FAILURE — intentional exit, process replaced by venv Python
 
-    def _run_command(self, cmd: list[str], cwd: Path | None = None, check: bool = True, verbose: bool = False) -> subprocess.CompletedProcess:
+    def _run_command(
+        self,
+        cmd: list[str],
+        cwd: Path | None = None,
+        check: bool = True,
+        verbose: bool = False,
+    ) -> subprocess.CompletedProcess:
         # test: covered
         """
         Helper to run shell commands.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         """
@@ -219,7 +225,7 @@ class Bootstrapper:
         # test: covered
         """
         Check if a binary exists, is the correct architecture, and is functional.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         """
@@ -259,7 +265,7 @@ class Bootstrapper:
     def _install_dependencies(self) -> None:
         """
         Install all required Python packages.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         """
@@ -310,7 +316,7 @@ class Bootstrapper:
     def _install_system_tool(self, tool: str) -> bool:
         """
         Attempt to install a system tool using the available package manager.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         """
@@ -383,7 +389,7 @@ class Bootstrapper:
     def _build_external_tools(self) -> None:
         """
         Build and install external C++ tools (llama.cpp).
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         """
@@ -477,7 +483,7 @@ class Bootstrapper:
     def _run_self_checks(self) -> None:
         """
         Run linting and static analysis checks.
-        
+
         References:
         - https://docs.python.org/3/library/subprocess.html
         """

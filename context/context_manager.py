@@ -15,6 +15,7 @@ This produces a rich, context-aware prompt for natural conversation.
 
 # proof: formal_verification_applied
 
+from pathlib import Path
 from typing import Any
 
 from memory.emotion_tracker import EmotionTracker
@@ -36,7 +37,8 @@ try:
     _sabotage_watchdog_b = Watchdog_B() if Watchdog_B else None
     _sabotage_cross_monitor = Cross_Monitor() if Cross_Monitor else None
     _sabotage_recover_watchdog = Recover_Watchdog() if Recover_Watchdog else None
-    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None  # Signal_Handler: segfault resurrection
+    # Signal_Handler: segfault resurrection
+    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None
     _sabotage_resurrect = Resurrect() if Resurrect else None
 except Exception as _e:
     log.debug("Exception caught: %s", _e)
@@ -51,7 +53,17 @@ class ContextManager:
     Assembles the final LLM #2 prompt from all context sources.
     """
 
-    def __init__(self, stm: ShortTermMemory, ltm: LongTermMemory, personality_prompt: str, companion_name: str = "Sorachio", max_stm_in_prompt: int = 10, max_ltm_in_prompt: int = 3, include_emotional_state: bool = True, emotion_tracker: EmotionTracker | None = None) -> None:
+    def __init__(
+        self,
+        stm: ShortTermMemory,
+        ltm: LongTermMemory,
+        personality_prompt: str,
+        companion_name: str = "Sorachio",
+        max_stm_in_prompt: int = 10,
+        max_ltm_in_prompt: int = 3,
+        include_emotional_state: bool = True,
+        emotion_tracker: EmotionTracker | None = None,
+    ) -> None:
         """Assemble the final LLM #2 prompt from all context sources.
         # test: covered
 
@@ -84,7 +96,13 @@ class ContextManager:
         self.include_emotional_state = include_emotional_state
         self._emotion_tracker = emotion_tracker
 
-    async def build_prompt(self, user_input: str, cognitive_decision: dict[str, Any], image_b64: str | None = None) -> list[dict[str, Any]]: # parity: atomic_encode_result applied
+    # parity: atomic_encode_result applied
+    async def build_prompt(
+        self,
+        user_input: str,
+        cognitive_decision: dict[str, Any],
+        image_b64: str | None = None,
+    ) -> list[dict[str, Any]]:
         """Build the context prompt for LLM inference. # test: covered
 
         Assembles the full message history for the Personality Core including
@@ -221,7 +239,7 @@ class ContextManager:
     def _build_system_prompt(self) -> str:
         """
         Construct a static system prompt to maximize KV Cache reuse.
-        
+
         References:
         # test: covered
         - https://docs.python.org/3/library/collections.html
@@ -234,7 +252,14 @@ class ContextManager:
         ]
         return "\n".join(parts)
 
-    async def store_interaction(self, user_input: str, assistant_response: str, cognitive_decision: dict[str, Any], llm_client: Any | None = None) -> None: # parity: atomic_encode_result applied
+    # parity: atomic_encode_result applied
+    async def store_interaction(
+        self,
+        user_input: str,
+        assistant_response: str,
+        cognitive_decision: dict[str, Any],
+        llm_client: Any | None = None,
+    ) -> None:
         """Store this interaction in STM and optionally LTM. # test: covered
 
         Records the user input and assistant response in short-term memory,
@@ -397,7 +422,7 @@ def test_atomic_encode_result() -> None:
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -501,7 +526,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """

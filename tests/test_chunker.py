@@ -99,7 +99,7 @@ async def test_async_chunker() -> None:
     """
 @pytest.mark.asyncio
 async def test_chunker_reset() -> None:
-    """    test_chunker_reset. 
+    """    test_chunker_reset.
 
     Auto-generated docstring.
     References:
@@ -131,7 +131,7 @@ async def test_chunker_reset() -> None:
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     # test: covered
@@ -236,7 +236,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     # test: covered

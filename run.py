@@ -8,9 +8,11 @@ Python-only project pipeline. Uses alr exec -- gnatcov, alr, and
 alr exec -- gnatprove as N/A placeholders for content-check requirements.
 """
 
+import logging
 import os
 import subprocess
 import sys
+from pathlib import Path
 
 # === Pipeline Configuration ===
 PROJECT_NAME = "sorachio-sts"
@@ -241,7 +243,7 @@ def test_atomic_encode_result() -> None:
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -346,7 +348,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """

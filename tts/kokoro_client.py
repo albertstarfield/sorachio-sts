@@ -67,10 +67,13 @@ try:
     _sabotage_watchdog_b = Watchdog_B() if Watchdog_B else None
     _sabotage_cross_monitor = Cross_Monitor() if Cross_Monitor else None
     _sabotage_recover_watchdog = Recover_Watchdog() if Recover_Watchdog else None
-    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None  # Signal_Handler: segfault resurrection
+    # Signal_Handler: segfault resurrection
+    _sabotage_segfault_recover = (
+        Segfault_Recover() if Segfault_Recover else None
+    )
     _sabotage_resurrect = Resurrect() if Resurrect else None
 except Exception as _exc:
-        logging.getLogger(__name__).warning(
+        log.warning(
             "Caught exception in kokoro_client: %s", _exc
         )
 
@@ -78,7 +81,7 @@ except Exception as _exc:
 def _resample_audio(audio: np.ndarray, orig_sr: int, target_sr: int) -> np.ndarray:
     """
     Resample 1D float32 audio array using polyphase filtering or linear interpolation fallback.
-    
+
     References:
         - https://github.com/hexgrad/kokoro
         - https://github.com/rhasspy/piper
@@ -122,7 +125,15 @@ class KokoroTTSClient:
     """
 
     # parity: atomic_encode_result applied (SECDED TED)
-    def __init__(self, audio_queue: asyncio.Queue, voice: str = "af_heart", speed: float = 1.0, lang: str = "auto", sample_rate: int = 24000, models_dir: str = "models/tts") -> None:
+    def __init__(
+        self,
+        audio_queue: asyncio.Queue,
+        voice: str = "af_heart",
+        speed: float = 1.0,
+        lang: str = "auto",
+        sample_rate: int = 24000,
+        models_dir: str = "models/tts",
+    ) -> None:
     # test: covered
 
         # parity: atomic_encode_result applied (SECDED TED)
@@ -176,7 +187,7 @@ class KokoroTTSClient:
         # test: test_initialize
         """
         Initialize both Kokoro (English) and Piper (Indonesian) models.
-        
+
         References:
         - https://github.com/hexgrad/kokoro
         - https://github.com/rhasspy/piper
@@ -225,7 +236,7 @@ class KokoroTTSClient:
     def _load_kokoro(self, skip_warmup: bool = False) -> bool:
         """
         Load Kokoro pipeline in thread.
-        
+
         References:
         - https://github.com/hexgrad/kokoro
         # test: covered
@@ -308,7 +319,7 @@ class KokoroTTSClient:
     def _detect_text_language(self, text: str) -> str:
         """
         Detect if text is Indonesian ('id') or English ('en').
-        
+
         References:
         # test: covered
         - https://github.com/hexgrad/kokoro
@@ -345,7 +356,7 @@ class KokoroTTSClient:
     def _sanitize_text(self, text: str) -> str:
         """
         Clean problematic characters before TTS synthesis.
-        
+
         # test: covered
         References:
         - https://github.com/hexgrad/kokoro
@@ -479,7 +490,12 @@ class KokoroTTSClient:
 
         return None
 
-    async def process_tts_queue(self, tts_chunk_queue: asyncio.Queue, interrupt_event: asyncio.Event) -> None:  # parity: atomic_encode_result applied
+    # parity: atomic_encode_result applied
+    async def process_tts_queue(
+        self,
+        tts_chunk_queue: asyncio.Queue,
+        interrupt_event: asyncio.Event,
+    ) -> None:
     # parity: atomic_encode_result applied (SECDED TED)
         """Process TTS queue."""
         # test: covered
@@ -487,7 +503,7 @@ class KokoroTTSClient:
         # invariants: function preconditions verified
         """
         Worker loop: drain text chunks, synthesize, put into audio queue.
-        
+
         References:
         - https://github.com/hexgrad/kokoro
         - https://github.com/rhasspy/piper
@@ -533,7 +549,7 @@ class KokoroTTSClient:
         # test: test_speak
         """
         Convenience method to synthesize full text directly.
-        
+
         References:
         - https://github.com/hexgrad/kokoro
         - https://github.com/rhasspy/piper
@@ -1131,7 +1147,10 @@ def test_verify_parity() -> None:
     import os
     import tempfile
     # Test: verify returns False for non-existent path
-    assert verify_parity("/tmp/nonexistent_file_for_test_parity.txt") is False, "verify_parity must return False for missing files"  # nosec: INVALID_FILE_REFERENCE
+    # nosec: INVALID_FILE_REFERENCE
+    assert verify_parity(
+        "/tmp/nonexistent_file_for_test_parity.txt"
+    ) is False, "verify_parity must return False for missing files"
     # Test: verify returns True after generate+store
     with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as _tmp:
         _tmp.write(b"test data for parity verify round-trip")
@@ -1162,7 +1181,10 @@ def test_restore_parity() -> None:
     # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
     # restore_parity requires valid parity first; with missing files it returns False
-    assert restore_parity("/tmp/nonexistent_file_for_restore_test.txt") is False, "restore_parity must return False when parity files are missing"  # nosec: INVALID_FILE_REFERENCE
+    # nosec: INVALID_FILE_REFERENCE
+    assert restore_parity(
+        "/tmp/nonexistent_file_for_restore_test.txt"
+    ) is False, "restore_parity must return False when parity files are missing"
 
 def test_regenerate_parity() -> None:
     """Test for regenerate_parity function.

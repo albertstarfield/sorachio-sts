@@ -120,7 +120,7 @@ class MetricsCollector:
     def get_summary(self) -> dict[str, Any]:
         """
         Auto-generated docstring for get_summary.
-        
+
         # test: test_get_summary
         References: [Citation: utils/sabotage_verifier.py PYTHON_FUNCTION_COVERAGE]
         """
@@ -215,7 +215,7 @@ def test_get_summary() -> None:
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -318,7 +318,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """

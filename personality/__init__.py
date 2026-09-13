@@ -27,7 +27,7 @@ __all__ = ["PersonalityCore"]
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -133,7 +133,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -410,7 +410,6 @@ def test_store_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     # proof: formal_verification_applied
-    import json
     import os
     import tempfile
     with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as tmp:

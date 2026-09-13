@@ -31,7 +31,12 @@ class VectorStore:
 
         # test: test___init__
     # nosec: line-level suppression  # parity: atomic_encode_result applied (SECDED TED)
-    def __init__(self, storage_path: str = "data/memory/chroma", embedding_model: str = "all-MiniLM-L6-v2", vector_model_dir: str | None = None) -> None:
+    def __init__(
+        self,
+        storage_path: str = "data/memory/chroma",
+        embedding_model: str = "all-MiniLM-L6-v2",
+        vector_model_dir: str | None = None,
+    ) -> None:
         # parity: atomic_encode_result applied (SECDED TED)
         """Initialize the VectorStore with ChromaDB and embedding model.
     # test: covered
@@ -59,7 +64,7 @@ class VectorStore:
         # test: test_initialize
         """
         Initialize ChromaDB and sentence-transformers.
-        
+
         References:
         - https://docs.trychroma.com/
         - https://www.sbert.net/
@@ -75,7 +80,7 @@ class VectorStore:
         # test: test__init_sync
         """
         Synchronous initialization (runs in executor).
-        
+
         References:
         - https://docs.trychroma.com/
         - https://www.sbert.net/
@@ -115,7 +120,8 @@ class VectorStore:
                         self.model = SentenceTransformer(str(model_path), local_files_only=True)
                     else:
                         log.info(f"[VectorStore] Loading embedding model '{model_path_or_name}'...")
-                        # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
+                        # [Parity: Uses atomic_encode_result() for SECDED TED
+                        # internal parity protection (ISO/IEC 25010)]
                         self.model = SentenceTransformer(str(model_path_or_name))
 
                 def __call__(self, input: Documents) -> Embeddings:
@@ -180,7 +186,7 @@ class VectorStore:
         # test: test_add
     async def add(self, entry_id: str, content: str, metadata: dict[str, Any] | None = None) -> bool:
         """add. [Brief description].
-        
+
         References:
             - https://docs.python.org/3/
         """
@@ -189,7 +195,7 @@ class VectorStore:
         # proof: formal_verification_applied
         """
         Add a memory entry with embedding.
-        
+
         References:
         - https://docs.trychroma.com/
         - https://www.sbert.net/
@@ -207,7 +213,7 @@ class VectorStore:
         # test: covered
         """
         Synchronous add (runs in executor).
-        
+
         References:
         - https://docs.trychroma.com/
         # test: covered
@@ -243,9 +249,14 @@ class VectorStore:
             return False  # failure logged
 
         # test: test_query
-    async def query(self, query_text: str, n_results: int = 5, where: dict[str, Any] | None = None) -> list[dict[str, Any]]:
+    async def query(
+        self,
+        query_text: str,
+        n_results: int = 5,
+        where: dict[str, Any] | None = None,
+    ) -> list[dict[str, Any]]:
         """query. [Brief description].
-        
+
         References:
             - https://docs.python.org/3/
         """
@@ -254,7 +265,7 @@ class VectorStore:
         # proof: formal_verification_applied
         """
         Query similar memories by semantic search.
-        
+
         References:
         - https://docs.trychroma.com/
         - https://www.sbert.net/
@@ -272,7 +283,7 @@ class VectorStore:
         # test: covered
         """
         Synchronous query (runs in executor).
-        
+
         References:
         # test: covered
         - https://docs.trychroma.com/
@@ -318,7 +329,7 @@ class VectorStore:
         # test: test_delete
         """
         Delete a memory entry.
-        
+
         References:
         - https://docs.trychroma.com/
         - https://www.sbert.net/
@@ -335,7 +346,7 @@ class VectorStore:
     def _delete_sync(self, entry_id: str) -> bool:
         """
         Synchronous delete (runs in executor).
-        
+
         # test: covered
         References:
         - https://docs.trychroma.com/
@@ -359,7 +370,7 @@ class VectorStore:
         # test: test_count
         """
         Return number of entries in the store.
-        
+
         References:
         - https://docs.trychroma.com/
         - https://www.sbert.net/
@@ -497,7 +508,7 @@ def test_count() -> None:
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -603,7 +614,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """

@@ -90,7 +90,7 @@ class Event:
     timestamp: datetime = field(default_factory=datetime.now)
 
     def __repr__(self) -> str:
-        """    __repr__. 
+        """    __repr__.
 
     Auto-generated docstring.
         References:
@@ -135,7 +135,7 @@ class EventBus:
     def subscribe(self, event_type: EventType, handler: HandlerFn) -> None:
         """
         Register a handler for a specific event type.
-        
+
         References:
         - https://docs.python.org/3/library/asyncio.html
         # test: test_subscribe
@@ -152,7 +152,7 @@ class EventBus:
     def subscribe_all(self, handler: HandlerFn) -> None:
         """
         Register a handler for ALL event types.
-        
+
         References:
         - https://docs.python.org/3/library/asyncio.html
         # test: test_subscribe_all
@@ -166,7 +166,7 @@ class EventBus:
     def unsubscribe(self, event_type: EventType, handler: HandlerFn) -> None:
         """
         Remove a handler.
-        
+
         References:
         - https://docs.python.org/3/library/asyncio.html
         # test: test_unsubscribe
@@ -182,7 +182,7 @@ class EventBus:
     async def publish(self, event: Event) -> None:
         """
         Publish an event. All handlers called as async tasks.
-        
+
         References:
         - https://docs.python.org/3/library/asyncio.html
         # test: test_publish
@@ -205,7 +205,7 @@ class EventBus:
 
     async def emit(self, event_type: EventType, data: Any = None, source: str = "unknown") -> None:
         """Shorthand to create and publish an event.
-        
+
         References:
             - https://docs.python.org/3/library/asyncio.html
         # test: test_emit
@@ -227,7 +227,7 @@ _bus: EventBus | None = None
 def get_bus() -> EventBus:
     """
     Get the global event bus singleton.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio.html
     # test: test_get_bus
@@ -245,7 +245,7 @@ def get_bus() -> EventBus:
 def reset_bus() -> EventBus:
     """
     Reset and return a fresh event bus (for testing).
-    
+
     References:
         - https://docs.python.org/3/library/asyncio.html
     # test: test_reset_bus
@@ -296,7 +296,8 @@ def test_subscribe() -> None:
     # parity: atomic_encode_result applied (SECDED TED)
     # AXIOM: subscribe must register a handler for an event type
     bus = EventBus()
-    handler = lambda event: None
+    def handler(event):
+        return None
     bus.subscribe(EventType.INTERRUPT, handler)
     assert handler in bus._handlers[EventType.INTERRUPT], "Handler must be registered"
 
@@ -311,7 +312,8 @@ def test_subscribe_all() -> None:
     # parity: atomic_encode_result applied (SECDED TED)
     # AXIOM: subscribe_all must register handler in global handlers list
     bus = EventBus()
-    handler = lambda event: None
+    def handler(event):
+        return None
     bus.subscribe_all(handler)
     assert handler in bus._global_handlers, "Handler must be in global handlers"
 
@@ -326,7 +328,8 @@ def test_unsubscribe() -> None:
     # parity: atomic_encode_result applied (SECDED TED)
     # AXIOM: unsubscribe must remove a previously subscribed handler
     bus = EventBus()
-    handler = lambda event: None
+    def handler(event):
+        return None
     bus.subscribe(EventType.INTERRUPT, handler)
     bus.unsubscribe(EventType.INTERRUPT, handler)
     assert handler not in bus._handlers.get(EventType.INTERRUPT, []), "Handler must be removed"
@@ -344,7 +347,8 @@ def test_publish() -> None:
     import asyncio
     bus = EventBus()
     received = []
-    handler = lambda event: received.append(event)
+    def handler(event):
+        return received.append(event)
     bus.subscribe(EventType.INTERRUPT, handler)
     event = Event(type=EventType.INTERRUPT, data="test")
     asyncio.run(bus.publish(event))
@@ -365,9 +369,10 @@ def test_emit() -> None:
     import asyncio
     bus = EventBus()
     received = []
-    handler = lambda event: received.append(event)
+    def handler(event):
+        return received.append(event)
     bus.subscribe(EventType.STT_RESULT, handler)
-    asyncio.run(emit("test_module", EventType.STT_RESULT, "hello world"))
+    asyncio.run(bus.emit(EventType.STT_RESULT, "hello world", source="test_module"))
     assert len(received) >= 1, "emit must publish event to handlers"
 
 # ── Split Parity Functions ──────────────────────────────────────────────────────
@@ -387,7 +392,7 @@ def test_emit() -> None:
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -492,7 +497,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """

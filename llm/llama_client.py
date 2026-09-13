@@ -41,7 +41,8 @@ try:
     _sabotage_watchdog_b = Watchdog_B() if Watchdog_B else None
     _sabotage_cross_monitor = Cross_Monitor() if Cross_Monitor else None
     _sabotage_recover_watchdog = Recover_Watchdog() if Recover_Watchdog else None
-    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None  # Signal_Handler: segfault resurrection
+    # Signal_Handler: segfault resurrection
+    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None
     _sabotage_resurrect = Resurrect() if Resurrect else None
 except Exception as _e:
     log.debug("Exception caught: %s", _e)
@@ -137,7 +138,17 @@ class LlamaClient:
         - https://github.com/ggerganov/llama.cpp
     """
 
-    def __init__(self, base_url: str, temperature: float = 0.7, max_tokens: int = 512, top_p: float = 0.95, repeat_penalty: float = 1.1, timeout_s: float = 30.0, max_retries: int = 3) -> None:  # parity: atomic_encode_result applied (SECDED TED)
+    # parity: atomic_encode_result applied (SECDED TED)
+    def __init__(
+        self,
+        base_url: str,
+        temperature: float = 0.7,
+        max_tokens: int = 512,
+        top_p: float = 0.95,
+        repeat_penalty: float = 1.1,
+        timeout_s: float = 30.0,
+        max_retries: int = 3,
+    ) -> None:
         """Initialize the LLM client with llama-server connection parameters.
         # test: covered
 
@@ -267,7 +278,15 @@ class LlamaClient:
         log.error(f"Server at {self.base_url} did not become ready in {timeout_s}s")
         return False
 
-    async def complete(self, messages: list[dict[str, Any]], temperature: float | None = None, max_tokens: int | None = None, extra_params: dict[str, Any] | None = None, timeout_s: float | None = None) -> str:  # test: covered  # parity: atomic_encode_result applied
+    # test: covered  # parity: atomic_encode_result applied
+    async def complete(
+        self,
+        messages: list[dict[str, Any]],
+        temperature: float | None = None,
+        max_tokens: int | None = None,
+        extra_params: dict[str, Any] | None = None,
+        timeout_s: float | None = None,
+    ) -> str:
         """Non-streaming chat completion via the llama-server API.
 
         Args:
@@ -324,9 +343,14 @@ class LlamaClient:
 
         raise RuntimeError("All retries exhausted")
 
-    async def stream(self, messages: list[dict[str, Any]],  # nosec: smt_false_positive  # test: covered
-        temperature: float | None = None, max_tokens: int | None = None,
-        extra_params: dict[str, Any] | None = None) -> AsyncIterator[str]:  # parity: atomic_encode_result applied  # nosec: smt_false_positive
+    # nosec: smt_false_positive  # test: covered  # parity: atomic_encode_result applied
+    async def stream(
+        self,
+        messages: list[dict[str, Any]],
+        temperature: float | None = None,
+        max_tokens: int | None = None,
+        extra_params: dict[str, Any] | None = None,
+    ) -> AsyncIterator[str]:  # nosec: smt_false_positive
         """Streaming chat completion via Server-Sent Events.
 
         Args:
@@ -590,7 +614,7 @@ def test_atomic_encode_result() -> None:
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -696,7 +720,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """

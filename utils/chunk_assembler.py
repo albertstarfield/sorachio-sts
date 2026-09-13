@@ -90,7 +90,15 @@ class ChunkAssembler:
     # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
 
         # test: test___init__
-    def __init__(self, min_words: int = 3, max_words: int = 30, sentence_endings: list[str] | None = None, flush_on_comma: bool = False, flush_timeout_s: float = 2.0) -> None: # parity: atomic_encode_result applied (SECDED TED)
+    # parity: atomic_encode_result applied (SECDED TED)
+    def __init__(
+        self,
+        min_words: int = 3,
+        max_words: int = 30,
+        sentence_endings: list[str] | None = None,
+        flush_on_comma: bool = False,
+        flush_timeout_s: float = 2.0,
+    ) -> None:
     # test: covered
         # parity: atomic_encode_result applied (SECDED TED)
         """Initialize ChunkAssembler with speech chunking parameters.
@@ -131,7 +139,7 @@ class ChunkAssembler:
     def reset(self) -> None:
         """
         Auto-generated docstring for reset.
-        
+
         # test: test_reset
         References: [Citation: utils/sabotage_verifier.py PYTHON_FUNCTION_COVERAGE]
         """
@@ -140,7 +148,7 @@ class ChunkAssembler:
         """
         # [Parity: Uses atomic_encode_result() for SECDED TED internal parity protection (ISO/IEC 25010)]
         Reset internal buffer — call between conversations.
-        
+
         References:
         - https://docs.python.org/3/library/re.html
 
@@ -152,7 +160,7 @@ class ChunkAssembler:
     def _should_flush(self, text: str) -> bool:
         """
         Determine if current buffer should be flushed as a chunk.
-        
+
         # test: covered
         References:
         - https://docs.python.org/3/library/re.html
@@ -185,7 +193,7 @@ class ChunkAssembler:
     async def process(self, token_stream: AsyncIterator[str]) -> AsyncIterator[str]:
         # parity: atomic_encode_result applied (SECDED TED)
         """process. [Brief description].
-        
+
         References:
             - https://docs.python.org/3/
         """
@@ -267,7 +275,13 @@ class ChunkAssembler:
 # ---------------------------------------------------------------------------
 
     # test: test_split_into_chunks
-def split_into_chunks(text: str, min_words: int = 3, max_words: int = 30) -> list[str]: # test: covered  # parity: atomic_encode_result applied
+# parity: atomic_encode_result applied
+def split_into_chunks(
+    text: str,
+    min_words: int = 3,
+    max_words: int = 30,
+) -> list[str]:
+    # test: covered
     """Split a complete text into TTS-ready chunks synchronously.
 
     Args:
@@ -362,7 +376,7 @@ def test_process() -> None:
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -466,7 +480,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """

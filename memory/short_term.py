@@ -37,7 +37,8 @@ try:
     _sabotage_watchdog_b = Watchdog_B() if Watchdog_B else None
     _sabotage_cross_monitor = Cross_Monitor() if Cross_Monitor else None
     _sabotage_recover_watchdog = Recover_Watchdog() if Recover_Watchdog else None
-    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None  # Signal_Handler: segfault resurrection
+    # Signal_Handler: segfault resurrection
+    _sabotage_segfault_recover = Segfault_Recover() if Segfault_Recover else None
     _sabotage_resurrect = Resurrect() if Resurrect else None
 except Exception as _e:
     log.debug("Exception caught: %s", _e)
@@ -78,7 +79,7 @@ class STMEntry:
     def to_chat_message(self) -> dict[str, str]:
         """
         Format as LLM chat message.
-        
+
         References:
         - https://docs.python.org/3/library/collections.html
         # test: covered
@@ -153,7 +154,7 @@ class ShortTermMemory:
     async def get_recent(self, n: int | None = None) -> list[STMEntry]:
         """
         Get the N most recent entries (or all if n=None).
-        
+
         References:
         - https://docs.python.org/3/library/collections.html
         # test: covered
@@ -170,7 +171,7 @@ class ShortTermMemory:
     async def get_recent_summary(self, n: int = 3) -> str:
         """
         Get compact context string of the last N turns for cognitive decision making.
-        
+
         References:
         - https://docs.python.org/3/library/collections.html
         # test: covered
@@ -247,7 +248,7 @@ class ShortTermMemory:
     async def auto_summarize_if_needed(self, llm_client: Any) -> str | None:
         """
         Auto summarize if current window size reaches or exceeds summary_threshold.
-        
+
         References:
         - https://docs.python.org/3/library/collections.html
         # test: covered
@@ -264,7 +265,7 @@ class ShortTermMemory:
     async def mark_last_interrupted(self) -> None:
         """
         Mark the most recent assistant message in the window as interrupted.
-        
+
         References:
         - https://docs.python.org/3/library/collections.html
         # test: covered
@@ -282,7 +283,7 @@ class ShortTermMemory:
     async def get_chat_messages(self, n: int | None = None) -> list[dict[str, str]]: # nosec: smt_false_positive
         """
         Get recent entries formatted as LLM chat messages.
-        
+
         References:
         # test: covered
         - https://docs.python.org/3/library/collections.html
@@ -296,7 +297,7 @@ class ShortTermMemory:
     async def get_emotion_context(self) -> str:
         """
         Return a brief emotion summary from recent messages.
-        
+
         References:
         - https://docs.python.org/3/library/collections.html
         # test: covered
@@ -321,7 +322,7 @@ class ShortTermMemory:
     async def clear(self) -> None:
         """
         Clear conversation history.
-        
+
         References:
         - https://docs.python.org/3/library/collections.html
         # test: covered
@@ -336,7 +337,7 @@ class ShortTermMemory:
     @property
     def turn_count(self) -> int:
         """turn_count. [Brief description].
-        
+
         References:
             - https://docs.python.org/3/
         """
@@ -650,7 +651,7 @@ def test_atomic_encode_result() -> None:
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -756,7 +757,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """

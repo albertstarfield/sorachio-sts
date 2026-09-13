@@ -44,7 +44,16 @@ class AudioPlayback:
     # nosec: line-level suppression
     # parity: atomic_encode_result applied (SECDED TED)
 
-    def __init__(self, audio_queue: asyncio.Queue, playback_active_event: asyncio.Event, sample_rate: int = 24000, channels: int = 1, dtype: str = "float32", device_index: int | None = None, aec: AECProvider | None = None) -> None:
+    def __init__(
+        self,
+        audio_queue: asyncio.Queue,
+        playback_active_event: asyncio.Event,
+        sample_rate: int = 24000,
+        channels: int = 1,
+        dtype: str = "float32",
+        device_index: int | None = None,
+        aec: AECProvider | None = None,
+    ) -> None:
     # test: covered
 
         # parity: atomic_encode_result applied (SECDED TED)
@@ -95,7 +104,7 @@ class AudioPlayback:
         # test: test__probe_audio_device
         """
         Return True if we can open an output stream on the target device.
-        
+
         References:
         - https://python-sounddevice.readthedocs.io/
         # test: covered
@@ -129,7 +138,7 @@ class AudioPlayback:
         # test: test_run
         """
         Main playback loop — drain audio queue and play chunks.
-        
+
         References:
         - https://python-sounddevice.readthedocs.io/
         # test: covered
@@ -183,7 +192,7 @@ class AudioPlayback:
     async def _play_chunk(self, audio: np.ndarray) -> None:
         """
         Play a single audio chunk synchronously (in threadpool).
-        
+
         References:
         # test: covered
         - https://python-sounddevice.readthedocs.io/
@@ -279,7 +288,7 @@ class AudioPlayback:
         # test: test_stop
         """
         Graceful shutdown.
-        
+
         References:
         - https://python-sounddevice.readthedocs.io/
         # test: covered
@@ -362,7 +371,7 @@ def test_stop() -> None:
 
 def generate_parity(source_path: str, block_size: int = 512) -> dict:
     """Function generate_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
@@ -467,7 +476,7 @@ def generate_parity(source_path: str, block_size: int = 512) -> dict:
 
 def store_parity(source_path: str, parity_data: dict) -> dict:
     """Function store_parity.
-    
+
     References:
         - https://docs.python.org/3/library/asyncio-task.html
     """
