@@ -17755,7 +17755,7 @@ def _build_python_function_coverage_patterns() -> list[Pattern]:
             # ── Check 1: Docstring ──
             has_docstring = False
             # Scan forward from function line for triple-quoted docstring
-            for j in range(line_idx + 1, min(line_idx + 5, len(lines))):
+            for j in range(line_idx + 1, min(line_idx + 15, len(lines))):
                 # [Bounds guard] Explicit j < len(lines) for SMT_LOGIC_VERIFICATION
                 if j >= len(lines):
                     break
@@ -17763,8 +17763,15 @@ def _build_python_function_coverage_patterns() -> list[Pattern]:
                 if stripped.startswith('"""') or stripped.startswith("'''"):  # noqa: PIE810
                     has_docstring = True
                     break
-                if stripped and not stripped.startswith("#"):
-                    break  # Non-comment, non-docstring found
+                # Skip parameter lines (multi-line def signatures), comments, decorators, blank lines
+                if (not stripped
+                    or stripped.startswith("#")
+                    or stripped.startswith("@")
+                    or "=" in stripped
+                    or stripped.endswith(":")
+                    or "," in stripped):
+                    continue
+                break  # Non-parameter, non-comment, non-docstring found — stop scanning
 
             # ── Check 2: Type hints ──
             has_type_hints = False
@@ -17774,7 +17781,7 @@ def _build_python_function_coverage_patterns() -> list[Pattern]:
                 has_type_hints = True
             # Also check next few lines for continuation
             if not has_type_hints:
-                for j in range(line_idx, min(line_idx + 3, len(lines))):
+                for j in range(line_idx, min(line_idx + 10, len(lines))):
                     # [Bounds guard] Explicit j < len(lines) for SMT_LOGIC_VERIFICATION
                     if j >= len(lines):
                         break
@@ -17785,7 +17792,7 @@ def _build_python_function_coverage_patterns() -> list[Pattern]:
             # ── Check 3: Test reference ──
             has_test_ref = False
             # Check docstring area for test markers
-            for j in range(line_idx, min(line_idx + 8, len(lines))):
+            for j in range(line_idx, min(line_idx + 15, len(lines))):
                 # [Bounds guard] Explicit j < len(lines) for SMT_LOGIC_VERIFICATION
                 if j >= len(lines):
                     break

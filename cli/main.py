@@ -283,7 +283,8 @@ def _print_banner() -> None:
 # ---------------------------------------------------------------------------
 
 @app.command()
-def run(config: str | None = typer.Option(None, "--config", "-c", help="Config file path"),
+def run(
+    config: str | None = typer.Option(None, "--config", "-c", help="Config file path"),
     no_greeting: bool = typer.Option(False, "--no-greeting", help="Skip startup greeting"),
     no_servers: bool = typer.Option(False, "--no-servers", help="Skip starting llama-servers")) -> None:
     """Run Sorachio in full voice mode (microphone + speakers).
@@ -1088,15 +1089,6 @@ def test_stt(config: str | None = typer.Option(None, "--config", "-c"),
     if audio_file is None:
         audio_file = ""
 
-    """test_stt. [Brief description].
-
-    References:
-        - https://docs.python.org/3/
-    """
-    # test: test_test_stt
-    """
-    Test STT component with a WAV file or microphone.
-
     References:
         - https://docs.python.org/3/library/argparse.html
     # test: covered
@@ -1237,15 +1229,6 @@ def test_cognitive(text_input: str = typer.Argument("Hey Sorachio, I've been rea
     # [SMT_LOGIC_VERIFICATION] Guard: None → empty string for safe downstream use
     if config is None:
         config = ""
-
-    """test_cognitive. [Brief description].
-
-    References:
-        - https://docs.python.org/3/
-    """
-    # test: test_test_cognitive
-    """
-    Test Cognitive Gateway JSON analysis.
 
     # test: covered
     References:
@@ -1499,15 +1482,6 @@ def memory_clear(config: str | None = typer.Option(None),
     # [SMT_LOGIC_VERIFICATION] Guard: None → empty string for safe downstream use
     if config is None:
         config = ""
-
-    """memory_clear. [Brief description].
-
-    References:
-        - https://docs.python.org/3/
-    """
-    # test: test_memory_clear
-    """
-    Clear all long-term memories.
 
     References:
         - https://docs.python.org/3/library/argparse.html
