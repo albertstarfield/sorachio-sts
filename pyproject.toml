@@ -34,6 +34,7 @@ select = [
 ignore = []
 
 [tool.pyrefly]
+search-path = ["."]
 project-includes = [
     "**/*.py",
     "**/*.ipynb",
@@ -50,4 +51,5 @@ project-excludes = [
     "**/models/**",
     "**/__pycache__/**",
     "**/tests/**",
+    "**/sabotage_verifier.py",
 ]

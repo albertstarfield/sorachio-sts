@@ -1,0 +1,9 @@
+{
+  "source_file": "pyproject.toml",
+  "source_hash": "381cb9af58b09eb0ac5640b978df0d3bc4c8e9b1d9a087b115dc0802f7603f89",
+  "rs_checksum": "eeddb3e6f505a959582ae5a1b31eb7d8df9ac076f875c9273effa4859569f929",
+  "gc_checksum": "25568f8d6184e1e8a4e214a9d3d6dc43bbbb388d9c6d3c3b6fcabdc4916f9bef",
+  "version": "2.0",
+  "block_size": 512,
+  "total_blocks": 2
+}
