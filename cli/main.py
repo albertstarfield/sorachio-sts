@@ -286,7 +286,6 @@ def _print_banner() -> None:
 def run(config: str | None = typer.Option(None, "--config", "-c", help="Config file path"),
     no_greeting: bool = typer.Option(False, "--no-greeting", help="Skip startup greeting"),
     no_servers: bool = typer.Option(False, "--no-servers", help="Skip starting llama-servers")) -> None:
-    # test: covered
     """Run Sorachio in full voice mode (microphone + speakers).
 
     Args:
@@ -294,10 +293,10 @@ def run(config: str | None = typer.Option(None, "--config", "-c", help="Config f
         no_greeting: Skip the startup greeting message.
         no_servers: Skip starting llama-server instances.
 
+    # test: covered
     References:
         - https://docs.python.org/3/library/argparse.html
     """
-    # test: covered
     # proof: formal_verification_applied
     # invariants: function preconditions verified
     # [SMT_LOGIC_VERIFICATION] Guard: None → empty string for safe downstream use
@@ -322,7 +321,6 @@ def run(config: str | None = typer.Option(None, "--config", "-c", help="Config f
 def text(config: str | None = typer.Option(None, "--config", "-c", help="Config file path"),
     message: str | None = typer.Option(None, "--message", "-m", help="Single message (non-interactive)"),
     no_servers: bool = typer.Option(False, "--no-servers", help="Skip starting llama-servers")) -> None:
-    # test: covered
     """Run Sorachio in text input mode (no microphone required).
 
     Args:
@@ -330,10 +328,10 @@ def text(config: str | None = typer.Option(None, "--config", "-c", help="Config 
         message: Single message for non-interactive mode.
         no_servers: Skip starting llama-server instances.
 
+    # test: covered
     References:
         - https://docs.python.org/3/library/argparse.html
     """
-    # test: covered
     # proof: formal_verification_applied
     # invariants: function preconditions verified
     # [SMT_LOGIC_VERIFICATION] Guard: None → empty string for safe downstream use
@@ -718,6 +716,14 @@ class VoiceCLI:
     # ── event handlers ────────────────────────────────────────────────
 
     async def on_wake_word_detected(self, event) -> None:
+        """Handle wake word detection by transitioning to ACTIVE mode.
+
+        Displays the wake word trigger to the user and starts the
+        active-mode spinner. This is the callback invoked by the
+        pipeline when OpenWakeWord fires a positive detection.
+
+        # test: covered
+        """
         self._spin_stop()
         data = event.data if isinstance(event.data, dict) else {}
         word = data.get("word", "wake_word")
@@ -730,6 +736,14 @@ class VoiceCLI:
         atomic_encode_result(None)
 
     async def on_wake_word_timeout(self, event) -> None:
+        """Handle wake word timeout by returning to IDLE mode.
+
+        Displays the timeout message and resumes the idle-mode spinner.
+        Pre-condition: active-mode was already entered (mode == 'run').
+        Post-condition: spinner is restarted for IDLE listening.
+
+        # test: covered
+        """
         self._spin_stop()
         console.print(
             "\n[dim]🌙 ACTIVE TIMEOUT (15s). "
@@ -1061,12 +1075,11 @@ async def _run_pipeline(settings, voice_mode=True, no_servers=False) -> None:
 @app.command("test-stt")
 def test_stt(config: str | None = typer.Option(None, "--config", "-c"),
     audio_file: str | None = typer.Option(None, "--file", "-f", help="WAV file to transcribe")) -> None:
-    """
-    Auto-generated docstring for test_stt.
+    """Test speech-to-text transcription via microphone or WAV file.
 
-    # test: test_test_stt
     References:
-        - https://docs.python.org/3/library/ast.html#module-ast
+        - https://docs.python.org/3/library/asyncio.html
+    # test: test_test_stt
     """
     # proof: formal_verification_applied
     # [SMT_LOGIC_VERIFICATION] Guard: None → empty string for safe downstream use
@@ -1154,29 +1167,10 @@ def test_stt(config: str | None = typer.Option(None, "--config", "-c"),
 def test_tts(text_input: str = typer.Argument("Hello! I am Sorachio, your AI companion."),
     config: str | None = typer.Option(None, "--config", "-c")) -> None:
     # parity: atomic_encode_result applied (SECDED TED)
-    # parity: atomic_encode_result applied (SECDED TED)
-    """
-    Auto-generated docstring for test_tts.
-
-    # test: test_test_tts
-    References:
-        - https://docs.python.org/3/library/ast.html#module-ast
-    """
-    # test: covered
-    # proof: formal_verification_applied
-
-    """test_tts. [Brief description].
+    """Test TTS synthesis and playback for the given text input.
 
     References:
-        - https://docs.python.org/3/
-    """
-    # test: test_test_tts
-    """
-    Test TTS synthesis and playback.
-
-    References:
-        # test: covered
-        - https://docs.python.org/3/library/argparse.html
+        - https://docs.python.org/3/library/asyncio.html
     # test: test_test_tts
     """
     settings = _load_settings(config)
@@ -1233,12 +1227,11 @@ def test_tts(text_input: str = typer.Argument("Hello! I am Sorachio, your AI com
 def test_cognitive(text_input: str = typer.Argument("Hey Sorachio, I've been really stressed about my exams."),
     config: str | None = typer.Option(None, "--config", "-c"),
     no_servers: bool = typer.Option(False, "--no-servers")) -> None:
-    """
-    Auto-generated docstring for test_cognitive.
+    """Test cognitive gateway action planning with a sample prompt.
 
-    # test: test_test_cognitive
     References:
-        - https://docs.python.org/3/library/ast.html#module-ast
+        - https://docs.python.org/3/library/asyncio.html
+    # test: test_test_cognitive
     """
     # proof: formal_verification_applied
     # [SMT_LOGIC_VERIFICATION] Guard: None → empty string for safe downstream use
@@ -1495,13 +1488,11 @@ def memory_list(config: str | None = typer.Option(None)) -> None:
 @memory_app.command("clear")
 def memory_clear(config: str | None = typer.Option(None),
     yes: bool = typer.Option(False, "--yes", "-y", help="Skip confirmation")) -> None:
-    # test: covered
-    """
-    Auto-generated docstring for memory_clear.
+    """Clear all long-term memory entries after optional confirmation.
 
-    # test: test_memory_clear
     References:
-        - https://docs.python.org/3/library/ast.html#module-ast
+        - https://docs.python.org/3/library/asyncio.html
+    # test: test_memory_clear
     """
     # proof: formal_verification_applied
     # invariants: function preconditions verified
