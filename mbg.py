@@ -1658,7 +1658,7 @@ class MasterBootstrapGuardian:
         log.info("[MBG] Running ruff check (Anteque Ashing)...")
         try:
             result = subprocess.run(
-                [sys.executable, "-m", "ruff", "check", "."] + [str(f) for f in python_files],
+                [sys.executable, "-m", "ruff", "check"] + [str(f) for f in python_files],
                 capture_output=True,
                 text=True,
                 timeout=120,
