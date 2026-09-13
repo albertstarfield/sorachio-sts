@@ -1,11 +1,18 @@
 # [metadata: references metadata/ folder — split parity protection]
-"""Sorachio-STS actuators package — future: motors, servos, LED rings, etc."""
+"""Sorachio-STS actuators package — motors, servos, LED rings, ESP32 integration."""
 # metadata: source parity tracked in metadata/ directory
 # proof: formal_verification_applied
 
 import hashlib
 import json
 import logging
+
+from .robot_controller import (
+    ESP32RobotController,
+    MockRobotController,
+    RobotController,
+    create_robot_controller,
+)
 
 log = logging.getLogger(__name__)
 
@@ -237,3 +244,11 @@ def test_regenerate_parity() -> None:
     # test: covered
     # parity: atomic_encode_result applied (SECDED TED)
     assert callable(regenerate_parity), "regenerate_parity must be callable"
+
+
+__all__ = [
+    "RobotController",
+    "MockRobotController",
+    "ESP32RobotController",
+    "create_robot_controller",
+]

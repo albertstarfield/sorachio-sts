@@ -16,6 +16,7 @@ Interruption flows backwards: VAD → interrupt_event → Personality + TTS + Pl
 import asyncio
 import logging
 import threading
+from pathlib import Path
 
 from config.settings import SorachioSettings, resolve_path  # noqa: E402
 from core.events import EventType, get_bus  # noqa: E402
@@ -281,6 +282,35 @@ class SorachioPipeline:
         if not tts_ok:
             log.warning("[Pipeline] TTS unavailable — audio output disabled")
 
+        # ---- Robot Controller ----
+        from actuators.robot_controller import create_robot_controller
+        robot_cfg = cfg.robot
+        if robot_cfg.enabled:
+            self._robot = create_robot_controller(
+                controller_type=robot_cfg.controller,
+                esp32_url=robot_cfg.esp32_url,
+                serial_port=robot_cfg.serial_port,
+                baud_rate=robot_cfg.baud_rate,
+            )
+            log.info(f"[Pipeline] RobotController initialized ({robot_cfg.controller})")
+        else:
+            self._robot = create_robot_controller("mock")
+            log.info("[Pipeline] MockRobotController initialized (Laptop Mode)")
+
+        # ---- Web Search Engine ----
+        from utils.web_search import WebSearchEngine
+        agent_cfg = cfg.agent
+        self._web_search = WebSearchEngine(enabled=agent_cfg.enable_web_search)
+
+        # ---- Action Dispatcher ----
+        from cognition.action_dispatcher import ActionDispatcher
+        self._action_dispatcher = ActionDispatcher(
+            personality_core=self._personality,
+            robot_controller=self._robot,
+            web_search=self._web_search,
+            context_manager=self._context,
+        )
+
         # ---- Audio Capture ----
         from audio.capture import AudioCapture
         from audio.echo_cancellation import create_aec
@@ -303,6 +333,23 @@ class SorachioPipeline:
         else:
             aec_provider = create_aec("null")
 
+        # ---- Wake Word Detector ----
+        wakeword_detector = None
+        ww_cfg = cfg.wakeword
+        if ww_cfg.enabled:
+            from audio.wakeword import WakeWordDetector
+            ww_model_dir = str(root / ww_cfg.model_dir)
+            try:
+                wakeword_detector = WakeWordDetector(
+                    target_words=ww_cfg.wake_words,
+                    threshold=ww_cfg.threshold,
+                    model_dir=ww_model_dir if Path(ww_model_dir).exists() else None,
+                )
+                log.info(f"[Pipeline] WakeWordDetector initialized — target_words={ww_cfg.wake_words}")
+            except Exception as e:
+                log.warning(f"[Pipeline] WakeWordDetector initialization failed: {e} — wake word disabled")
+                wakeword_detector = None
+
         try:
             from audio.capture import AudioCapture, AudioCaptureConfig
             _ac_config = AudioCaptureConfig(
@@ -324,6 +371,9 @@ class SorachioPipeline:
                 playback_active_event=self._playback_active_event,
                 interrupt_event=self._interrupt_event if cfg.pipeline.enable_interruption else None,
                 aec=aec_provider,
+                wake_word_detector=wakeword_detector,
+                wakeword_enabled=ww_cfg.enabled,
+                active_timeout_s=ww_cfg.active_timeout_s,
             )
         except Exception as e:
             log.warning(f"[Pipeline] Audio capture initialization failed: {e} — mic input disabled")
@@ -508,6 +558,16 @@ class SorachioPipeline:
         # Subscribe to playback-finished to unmute the mic
         self.bus.subscribe(EventType.PLAYBACK_FINISHED, self._on_playback_finished)
 
+        async def _on_wake_word_detected(event):
+            log.info("[Pipeline] ⚡ Wake word detected! Triggering instant quick response.")
+            if self.settings.wakeword.confirmation_sound and self._tts and getattr(self._tts, "_available", True):
+                import random
+                quick_phrases = ["Hey there!", "I'm listening!", "Yes?", "Hello!"]
+                phrase = random.choice(quick_phrases)
+                asyncio.create_task(self._tts.speak(phrase))
+
+        self.bus.subscribe(EventType.WAKE_WORD_DETECTED, _on_wake_word_detected)
+
         assert self._playback is not None and self._capture is not None and self._tts is not None
 
         # Launch async worker tasks (playback must run for greeting)
@@ -605,7 +665,7 @@ class SorachioPipeline:
                     # Emit partial result for real-time feedback
                     if len(transcript_parts) > 1:
                         await self.bus.emit(
-                            EventType.STT_RESULT,
+                            EventType.STT_PARTIAL,
                             data=" ".join(transcript_parts),
                             source="stt",
                         )
@@ -768,46 +828,49 @@ class SorachioPipeline:
                 if not image_b64:
                     log.warning("[Vision] Failed to capture image, proceeding with text only.")
 
-            # Build context prompt
-            messages = await self._context.build_prompt(
-                user_input=transcript,
-                cognitive_decision=decision,
-                image_b64=image_b64,
-            )
-
-            # Generate streaming response
-            log.info("[Cognitive] Starting response generation")
-            await self.bus.emit(EventType.RESPONSE_START, source="cognitive")
-            response = await self._personality.generate_streaming(messages)
-            await self.bus.emit(
-                EventType.RESPONSE_END, data=response, source="cognitive"
-            )
-            log.info(f"[Cognitive] Response complete: {len(response)} chars")
-
-            # -------------------------------------------------
-            # Send response to CLI text mode callback
-            # -------------------------------------------------
-
-            if self.on_text_response:
-                try:
-                    result = self.on_text_response(transcript, decision, response)
-                    # Support both sync and async callbacks
-                    if asyncio.iscoroutine(result):
-                        await result
-                except Exception as e:
-                    log.warning(f"[Pipeline] CLI callback failed: {e}")
-
-            # End-of-stream sentinel for TTS
-            await self._tts_chunk_queue.put(None)
-
-            # Store interaction in memory
-            if response:
-                await self._context.store_interaction(
-                    user_input=transcript,
-                    assistant_response=response,
-                    cognitive_decision=decision,
-                    llm_client=self._llm_gateway,
+            try:
+                # Dispatch action (conversation, move, look, remember, search, multi)
+                log.info(f"[Cognitive] Dispatching action: {decision.get('action', 'conversation')}")
+                await self.bus.emit(EventType.RESPONSE_START, source="cognitive")
+                response = await self._action_dispatcher.dispatch(
+                    decision=decision,
+                    transcript=transcript,
+                    image_b64=image_b64,
                 )
+                await self.bus.emit(
+                    EventType.RESPONSE_END, data=response, source="cognitive"
+                )
+                log.info(f"[Cognitive] Response complete: {len(response)} chars")
+
+                # -------------------------------------------------
+                # Send response to CLI text mode callback
+                # -------------------------------------------------
+
+                if self.on_text_response:
+                    try:
+                        result = self.on_text_response(transcript, decision, response)
+                        # Support both sync and async callbacks
+                        if asyncio.iscoroutine(result):
+                            await result
+                    except Exception as e:
+                        log.warning(f"[Pipeline] CLI callback failed: {e}")
+
+                # End-of-stream sentinel for TTS
+                await self._tts_chunk_queue.put(None)
+
+                # Store interaction in memory
+                if response:
+                    await self._context.store_interaction(
+                        user_input=transcript,
+                        assistant_response=response,
+                        cognitive_decision=decision,
+                        llm_client=self._llm_gateway,
+                    )
+            finally:
+                # Unmute mic so user can speak next turn & refresh active timer
+                if self._capture:
+                    self._capture.unmute()
+                    self._capture.touch_active_time()
 
     async def _tts_worker(self) -> None:
         """

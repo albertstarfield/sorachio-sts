@@ -52,18 +52,19 @@ except Exception as _exc:
 # ---------------------------------------------------------------------------
 
 DEFAULT_DECISION: dict[str, Any] = {
+    "action": "conversation",
     "respond": True,
-    "interrupt": False,
-    "priority": "medium",
-    "speech_type": "direct_address",
-    "store_memory": False,
-    "emotion": "neutral",
     "topic": "general",
-    "social_attention": 0.5,
-    # Legacy fields preserved for backward compatibility
-    "addressed_to_ai": True,
+    "emotion": "neutral",
+    "store_memory": False,
     "importance": 0.3,
     "memory_queries": [],
+    "robot_params": None,
+    "vision_params": None,
+    "search_params": None,
+    "subactions": [],
+    "social_attention": 0.5,
+    "addressed_to_ai": True,
 }
 
 
@@ -71,44 +72,63 @@ DEFAULT_DECISION: dict[str, Any] = {
 # System prompt
 # ---------------------------------------------------------------------------
 
-SYSTEM_PROMPT = """You are a cognitive routing layer for an AI companion named Sorachio.
-Output ONLY valid minified JSON. No explanations, no markdown.
+SYSTEM_PROMPT = """You are the Action Planning Engine for an autonomous AI companion robot named Sorachio.
+Analyze the user utterance and output ONLY a valid minified JSON action plan. No markdown, no prose.
 
-Schema: {"respond": boolean, "topic": string, "emotion": string,
-"store_memory": boolean, "importance": float, "memory_queries": list}
+JSON Schema:
+{
+  "action": "conversation" | "move" | "look" | "remember" | "search" | "multi",
+  "topic": string,
+  "emotion": "neutral" | "happy" | "excited" | "curious" | "confused" | "frustrated" | "anxious",
+  "store_memory": boolean,
+  "importance": float,
+  "memory_queries": [string],
+  "robot_params": {
+    "direction": "forward" | "backward" | "left" | "right" | "stop",
+    "speed": float (0.1 to 1.0),
+    "duration_s": float,
+    "angle_deg": float
+  },
+  "vision_params": {
+    "mode": "describe" | "detect_objects" | "read_text" | "track_face"
+  },
+  "search_params": {
+    "query": string
+  },
+  "subactions": []
+}
 
-Rules:
-- respond=false: background noise, filler words (um, wait, hmm).
-- respond=true: greetings, questions, commands, direct speech to you.
-- topic: short label (greeting, focus, origin, audio_check, general).
-  Use "visual_analysis" ONLY if user explicitly asks to look/see/watch
-  something with camera (e.g. "look at this", "what is this").
-- IMPORTANT: Questions about hearing/listening/mic
-  ("Can you hear me?", "Dengar suara saya?") MUST be "audio_check"
-  or "general", NOT "visual_analysis".
-- emotion: neutral|happy|sad|anxious|frustrated|excited|confused|tired
-- store_memory=true ONLY for important personal facts, preferences,
-  goals about the USER. False for small talk/greetings.
-- importance: 0.0–1.0
-- memory_queries: up to 2 search keywords, empty list if not needed.
+Action Rules:
+- "conversation": General chat, questions, greetings, or when no physical movement/camera/search is needed.
+- "move": Commands to move, drive, turn, rotate, stop (e.g., "maju 2 meter"). Set robot_params.
+- "look": Commands asking to see/describe objects via camera (e.g., "lihat ini"). Set vision_params.
+- "remember": Storing crucial facts about user (e.g., "ingat nama teman saya"). Set store_memory=true.
+- "search": Queries requiring live web search/facts (e.g., "siapa presiden indonesia"). Set search_params.query.
+- "multi": Utterances requiring multiple sequential actions. Put subactions in list.
 
 Examples:
-"Hey, stressed about exams."
-→ {"respond":true,"topic":"exams","emotion":"anxious",
-   "store_memory":true,"importance":0.8,
-   "memory_queries":["exams","stress"]}
-"Hey Mom, turn off the TV."
-→ {"respond":false,"topic":"general","emotion":"neutral",
-   "store_memory":false,"importance":0.1,"memory_queries":[]}
-"Who made you?"
-→ {"respond":true,"topic":"origin","emotion":"neutral",
-   "store_memory":false,"importance":0.2,"memory_queries":[]}
-"Look at this, what is it?"
-→ {"respond":true,"topic":"visual_analysis","emotion":"curious",
-   "store_memory":false,"importance":0.5,"memory_queries":[]}
-"Umm... wait..."
-→ {"respond":false,"topic":"general","emotion":"neutral",
-   "store_memory":false,"importance":0.1,"memory_queries":[]}
+"Halo Sorachio, apa kabar?"
+→ {"action":"conversation","topic":"greeting","emotion":"happy","store_memory":false,"importance":0.2,
+   "memory_queries":[],"robot_params":null,"vision_params":null,"search_params":null,"subactions":[]}
+
+"Maju ke depan 2 detik"
+→ {"action":"move","topic":"movement","emotion":"neutral","store_memory":false,"importance":0.3,
+   "memory_queries":[],"robot_params":{"direction":"forward","speed":0.5,"duration_s":2.0,"angle_deg":0},
+   "vision_params":null,"search_params":null,"subactions":[]}
+
+"Lihat ini, benda apa ini?"
+→ {"action":"look","topic":"visual_analysis","emotion":"curious","store_memory":false,"importance":0.4,
+   "memory_queries":[],"robot_params":null,"vision_params":{"mode":"describe"},
+   "search_params":null,"subactions":[]}
+
+"Cari di internet siapa penemu telepon"
+→ {"action":"search","topic":"web_search","emotion":"neutral","store_memory":false,"importance":0.4,
+   "memory_queries":[],"robot_params":null,"vision_params":null,
+   "search_params":{"query":"penemu telepon"},"subactions":[]}
+
+"Ingat bahwa saya suka minum kopi tanpa gula"
+→ {"action":"remember","topic":"user_preference","emotion":"happy","store_memory":true,"importance":0.8,
+   "memory_queries":[],"robot_params":null,"vision_params":null,"search_params":null,"subactions":[]}
 
 Output ONLY valid JSON."""
 

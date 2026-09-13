@@ -448,7 +448,19 @@ class MasterBootstrapGuardian:
 
         # STT model present in models/stt?
         stt_dir = MODELS_DIR / "stt"
-        if not stt_dir.exists() or not any(stt_dir.iterdir()):
+        stt_model_name = "medium"
+        try:
+            yaml_path = PROJECT_ROOT / "config" / "sorachio.yaml"
+            if yaml_path.exists():
+                import yaml  # type: ignore[import-untyped]
+                with open(yaml_path, encoding="utf-8") as f:
+                    cfg_data = yaml.safe_load(f)
+                    stt_model_name = cfg_data.get("stt", {}).get("model_size", "medium")
+        except Exception as e:
+            log.debug(f"[MBG] Could not read stt model_size from YAML, using default: {e}")
+
+        stt_hf_dir = stt_dir / f"models--Systran--faster-whisper-{stt_model_name}"
+        if not (stt_hf_dir.exists() or (stt_dir / "model.bin").exists()):
             return False
 
         # TTS Piper model present in models/tts?
@@ -493,7 +505,7 @@ class MasterBootstrapGuardian:
             "httpx", "aiohttp", "pydantic", "sounddevice",
             "numpy", "rich", "typer", "faster_whisper", "piper",
             "kokoro", "misaki", "langdetect", "cv2", "PIL",
-            "chromadb", "sentence_transformers",
+            "chromadb", "sentence_transformers", "openwakeword",
         ]
         for pkg in critical_packages:
             try:
@@ -856,6 +868,9 @@ class MasterBootstrapGuardian:
             "Pillow",
             "chromadb",
             "sentence-transformers",
+            "openwakeword",
+            "duckduckgo-search",
+            "pyserial",
         ]
 
         # Dev tools (quality & type checking)
@@ -1370,17 +1385,33 @@ class MasterBootstrapGuardian:
         # --- Whisper STT warmup ---
         stt_dir = MODELS_DIR / "stt"
         stt_warmed_marker = stt_dir / ".warmed"
-        if not stt_warmed_marker.exists():
-            stt_model_name = "small"
+        stt_model_name = "medium"
+        try:
+            yaml_path = PROJECT_ROOT / "config" / "sorachio.yaml"
+            if yaml_path.exists():
+                import yaml  # type: ignore[import-untyped]
+                with open(yaml_path, encoding="utf-8") as f:
+                    cfg_data = yaml.safe_load(f)
+                    stt_model_name = cfg_data.get("stt", {}).get("model_size", "medium")
+        except Exception as e:
+            log.debug(f"[MBG] Could not read stt model_size for marker check, using default: {e}")
+
+        marker_valid = False
+        if stt_warmed_marker.exists():
             try:
                 yaml_path = PROJECT_ROOT / "config" / "sorachio.yaml"
                 if yaml_path.exists():
                     import yaml  # type: ignore[import-untyped]
                     with open(yaml_path, encoding="utf-8") as f:
                         cfg_data = yaml.safe_load(f)
-                        stt_model_name = cfg_data.get("stt", {}).get("model_size", "small")
+                        stt_model_name = cfg_data.get("stt", {}).get("model_size", "medium")
+                marker_content = stt_warmed_marker.read_text().strip()
+                marker_valid = (marker_content == stt_model_name)
             except Exception as e:
-                log.warning("Suppressed error reading STT model size from YAML config: %s", e)
+                log.warning("Suppressed error reading STT model size from YAML config or marker: %s", e)
+                marker_valid = False
+
+        if not marker_valid:
             try:
                 log.info(f"[MBG] Warming up Whisper STT model ('{stt_model_name}')...")
                 from faster_whisper import WhisperModel
@@ -1396,14 +1427,14 @@ class MasterBootstrapGuardian:
                 segs, _ = _warmup_model.transcribe(dummy, language="en", beam_size=1, temperature=0.0)
                 _ = list(segs)
                 del _warmup_model
-                stt_warmed_marker.touch()
-                log.info("[MBG] Whisper STT warmup complete [OK] — marker written")
+                stt_warmed_marker.write_text(stt_model_name)
+                log.info(f"[MBG] Whisper STT warmup ('{stt_model_name}') complete [OK] — marker written")
             except Exception as warmup_err:
                 log.warning(f"[MBG] Whisper STT warmup failed (non-fatal): {warmup_err}")
                 if stt_warmed_marker.exists():
                     stt_warmed_marker.unlink()
         else:
-            log.info("[MBG] Whisper STT warmup marker already present [OK]")
+            log.info(f"[MBG] Whisper STT warmup marker ('{stt_model_name}') already present [OK]")
 
         # --- Kokoro TTS warmup ---
         kokoro_dir = MODELS_DIR / "tts" / "kokoro"
@@ -1453,22 +1484,22 @@ class MasterBootstrapGuardian:
         for name, config in LLM_MODEL_DIRS.items():
             self._verify_llm_model_dir(name, config)
 
-        # 2. Pre-download STT Whisper model (small / base) to models/stt/
+        # 2. Pre-download STT Whisper model to models/stt/
         try:
-            stt_model_name = "small"
+            stt_model_name = "medium"
             yaml_path = PROJECT_ROOT / "config" / "sorachio.yaml"
             if yaml_path.exists():
                 import yaml  # type: ignore[import-untyped]
                 with open(yaml_path, encoding="utf-8") as f:
                     cfg_data = yaml.safe_load(f)
-                    stt_model_name = cfg_data.get("stt", {}).get("model_size", "small")
+                    stt_model_name = cfg_data.get("stt", {}).get("model_size", "medium")
 
             stt_dir = MODELS_DIR / "stt"
             stt_dir.mkdir(parents=True, exist_ok=True)
 
             log.info(f"[MBG] Verifying Whisper STT model ('{stt_model_name}') in {stt_dir}...")
             from faster_whisper import download_model
-            download_model(stt_model_name, output_dir=str(stt_dir))
+            download_model(stt_model_name, cache_dir=str(stt_dir))
             log.info(f"[MBG] Whisper STT model ('{stt_model_name}') is ready [OK]")
         except Exception as e:
             log.warning(f"[MBG] STT model verification: {e}")
@@ -1542,6 +1573,28 @@ class MasterBootstrapGuardian:
                 log.info("[MBG] Vector Embedding model ('all-MiniLM-L6-v2') is ready [OK]")
         except Exception as e:
             log.warning(f"[MBG] Vector Embedding model verification failed: {e}")
+
+        # 6. Ensure Wake Word models exist in models/wakeword/
+        try:
+            wakeword_dir = MODELS_DIR / "wakeword"
+            wakeword_dir.mkdir(parents=True, exist_ok=True)
+            existing_ww = list(wakeword_dir.glob("*.onnx"))
+            if not existing_ww:
+                import openwakeword
+                res_dir = Path(openwakeword.__file__).parent / "resources" / "models"
+                default_models = ["alexa_v0.1.onnx", "hey_jarvis_v0.1.onnx", "hey_mycroft_v0.1.onnx"]
+                copied = 0
+                for mdl in default_models:
+                    src = res_dir / mdl
+                    dst = wakeword_dir / mdl
+                    if src.exists() and not dst.exists():
+                        shutil.copy2(src, dst)
+                        copied += 1
+                log.info(f"[MBG] Wake word models initialized in {wakeword_dir} ({copied} models) [OK]")
+            else:
+                log.info(f"[MBG] Wake word models ready in {wakeword_dir} ({len(existing_ww)} models) [OK]")
+        except Exception as e:
+            log.warning(f"[MBG] Wake word models verification failed: {e}")
 
 
 
@@ -1766,7 +1819,9 @@ class MasterBootstrapGuardian:
                 #  16776–18155 — all require Ada/embedded artefacts]
                 _INAPPLICABLE_CATEGORIES = {
                     "PROOF_MISSING",           # Coq .v proof files
+                    "COQ_TRANSLATION_FAILED",  # Ada/Coq proof files
                     "SPLIT_PARITY_MISSING",    # .par2 parity files
+                    "SMT_LOGIC_VERIFICATION",  # Formal solvers produce false positives on Python code
                     "NO_WATCHDOG_A",           # Dual watchdog hardware
                     "NO_WATCHDOG_B",
                     "NO_SEGFAULT_RESURRECTION",

@@ -44,16 +44,24 @@ class EventType(Enum):
     SHUTDOWN = auto()
     PIPELINE_IDLE = auto()
 
-    # Audio / VAD
+    # Audio / VAD / Wake Word
     USER_SPEECH_START = auto()
     USER_SPEECH_END = auto()
     INTERRUPT = auto()
     BARGE_IN = auto()
     ACOUSTIC_GATE_DROP = auto()
     AEC_ACTIVE = auto()
+    WAKE_WORD_DETECTED = auto()
+    WAKE_WORD_TIMEOUT = auto()
+
+    # Agent / Actions
+    ACTION_DISPATCHED = auto()
+    ACTION_COMPLETED = auto()
+    ACTION_FAILED = auto()
 
     # STT
     STT_RESULT = auto()
+    STT_PARTIAL = auto()
 
     # Cognitive
     COGNITIVE_RESULT = auto()

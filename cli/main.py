@@ -676,8 +676,10 @@ class VoiceCLI:
         # proof: formal_verification_applied
         from core.events import EventType
         if self.mode == "run":
-            self._spin_start("Listening…", "cyan")
+            self._spin_start("IDLE Mode — Listening for 'Hey Sorachio'…", "cyan")
             self.bus.subscribe(EventType.USER_SPEECH_START, self.on_speech_start)
+            self.bus.subscribe(EventType.WAKE_WORD_DETECTED, self.on_wake_word_detected)
+            self.bus.subscribe(EventType.WAKE_WORD_TIMEOUT,  self.on_wake_word_timeout)
         else:
             self._spin_start("Thinking…", "yellow")
         self.bus.subscribe(EventType.STT_RESULT,      self.on_stt)
@@ -703,6 +705,8 @@ class VoiceCLI:
         self._spin_stop()
         if self.mode == "run":
             self.bus.unsubscribe(EventType.USER_SPEECH_START, self.on_speech_start)
+            self.bus.unsubscribe(EventType.WAKE_WORD_DETECTED, self.on_wake_word_detected)
+            self.bus.unsubscribe(EventType.WAKE_WORD_TIMEOUT,  self.on_wake_word_timeout)
         self.bus.unsubscribe(EventType.STT_RESULT,      self.on_stt)
         self.bus.unsubscribe(EventType.COGNITIVE_RESULT, self.on_cognitive)
         self.bus.unsubscribe(EventType.RESPONSE_START,  self.on_response_start)
@@ -712,6 +716,29 @@ class VoiceCLI:
         # parity: atomic_encode_result applied
 
     # ── event handlers ────────────────────────────────────────────────
+
+    async def on_wake_word_detected(self, event) -> None:
+        self._spin_stop()
+        data = event.data if isinstance(event.data, dict) else {}
+        word = data.get("word", "wake_word")
+        console.print(
+            f"\n[bold yellow]⚡ WAKE WORD DETECTED![/bold yellow] "
+            f"[dim]Trigger: '{word}' | Mode: ACTIVE (Listening...)[/dim]"
+        )
+        if self.mode == "run":
+            self._spin_start("Active Mode — Listening for commands…", "green")
+        atomic_encode_result(None)
+
+    async def on_wake_word_timeout(self, event) -> None:
+        self._spin_stop()
+        console.print(
+            "\n[dim]🌙 ACTIVE TIMEOUT (15s). "
+            "Returning to Mode: IDLE "
+            "(Listening for Wake Word...)[/dim]\n"
+        )
+        if self.mode == "run":
+            self._spin_start("IDLE Mode — Listening for 'Hey Sorachio'…", "cyan")
+        atomic_encode_result(None)
 
     async def on_speech_start(self, event) -> None:
         # test: test_on_speech_start
@@ -725,7 +752,8 @@ class VoiceCLI:
         # test: test_on_speech_start
         """
         # proof: formal_verification_applied
-        self._spin_label("Listening…", "cyan")
+        if self.mode == "run":
+            self._spin_label("Active Mode — Listening to speech…", "green")
         atomic_encode_result(None)
 
     async def on_stt(self, event) -> None:
@@ -742,10 +770,12 @@ class VoiceCLI:
         # proof: formal_verification_applied
         # parity: atomic_encode_result applied (SECDED TED)
         transcript = event.data
+        if not transcript or not transcript.strip():
+            return
         if self.mode == "run":
             # Stop spinner → clean print → restart spinner for thinking
             self._spin_stop()
-            console.print(f"[bold cyan]You:[/bold cyan] {transcript}")
+            console.print(f"\n[bold cyan]You:[/bold cyan] {transcript}")
             self._spin_start("Thinking…", "yellow")
         else:
             self._spin_label("Thinking…", "yellow")
@@ -770,17 +800,16 @@ class VoiceCLI:
 
         decision         = event.data
         emotion          = decision.get("emotion",          "neutral")
-        respond          = decision.get("respond",          True)
         memory           = decision.get("store_memory",     False)
         topic            = decision.get("topic",            "general")
         priority         = decision.get("priority",         "medium")
+        action           = decision.get("action",           "conversation")
+        search_query     = (decision.get("search_params") or {}).get("query", "")
 
         icon, emo_color = self._EMOTION_ICON.get(emotion, ("○", "bright_black"))
 
         if self.mode == "run":
             # ── Pill/capsule background colors ────────────────────────────
-            #   Use Rich's "on <bg>" syntax for the filled-pill look.
-            #   Emotion pill
             _EMO_BG = {
                 "neutral":    "grey23",
                 "happy":      "dark_goldenrod",
@@ -794,11 +823,17 @@ class VoiceCLI:
             emo_bg   = _EMO_BG.get(emotion, "grey23")
             emo_pill = f"[bold white on {emo_bg}] {icon} {emotion} [/]"
 
-            # Respond pill
-            if respond:
-                r_pill = "[bold white on dark_green] ✓ respond [/]"
-            else:
-                r_pill = "[bold white on dark_red] ✗ ignore [/]"
+            # Action pill (replaces old 'respond' pill — LLM1 is now Action Planner)
+            _ACTION_BG = {
+                "conversation": "dark_blue",
+                "move": "dark_red",
+                "look": "dark_magenta",
+                "remember": "dark_cyan",
+                "search": "dark_green",
+                "multi": "purple",
+            }
+            act_bg = _ACTION_BG.get(action, "dark_blue")
+            act_pill = f"[bold white on {act_bg}] ⚡ {action} [/]"
 
             # Memory pill
             if memory:
@@ -818,39 +853,33 @@ class VoiceCLI:
             p_color = _PRIORITY_COLORS.get(priority, "yellow")
             p_pill = f"[{p_color}] ⚡ {priority} [/]"
 
-
-
             # ── Print the status capsule row ──────────────────────────────
             sep = "  [dim][/dim]  "
-            console.print(
+            status_row = (
                 "  [bold dim]>>> STATUS[/bold dim]  "
                 + emo_pill
-                + sep + r_pill
+                + sep + act_pill
                 + sep + p_pill
                 + sep + m_pill
                 + sep + t_pill
             )
+            # Append search query inline if action is 'search'
+            if action == "search" and search_query:
+                status_row += f"  [dim italic]🔍 {search_query[:40]}[/dim italic]"
+            console.print(status_row)
         else:
-            intent_str = "respond" if respond else "ignore"
             mem_str = "true" if memory else "false"
 
             console.print("\n[bold magenta]Cognition[/bold magenta]")
+            console.print(f"├─ action      {action}")
             console.print(f"├─ mood        {emotion}")
-            console.print(f"├─ intent      {intent_str}")
             console.print(f"├─ energy      {priority}")
             console.print(f"├─ memory      {mem_str}")
+            if search_query:
+                console.print(f"├─ query       {search_query}")
             console.print(f"└─ topic       {topic}\n")
 
-            if not respond:
-                console.print("[dim][ IGNORED ][/dim]")
-                console.print("[dim]Low-priority input filtered by cognitive layer.[/dim]\n")
-                console.print("────────────────────────────────────────")
-
-        if respond:
             self._spin_start(f"{icon} Composing…", emo_color)
-        elif self.mode == "run":
-            # In run mode, don't wait for a response that won't come — go back to listening
-            self._spin_start("Listening…", "cyan")
         atomic_encode_result(None)
 
     async def on_response_start(self, event) -> None:
@@ -869,9 +898,9 @@ class VoiceCLI:
         self.response_text = ""
         self._spin_stop()
         if self.mode == "text":
-            console.print("[bold green]Sorachio[/bold green]\n> ", end="")
+            console.print("\n[bold green]Sorachio[/bold green]\n> ", end="")
         else:
-            console.print("[bold cyan]Sorachio:[/bold cyan] ", end="")
+            console.print("\n[bold cyan]Sorachio:[/bold cyan] ", end="")
         atomic_encode_result(None)
 
     async def on_token(self, event) -> None:
@@ -911,7 +940,9 @@ class VoiceCLI:
         if self.mode == "text":
             console.print("\n────────────────────────────────────────")
         elif self.mode == "run":
-            self._spin_start("Listening…", "cyan")
+            self._spin_start(
+                "Active Mode — Listening for commands…", "green"
+            )
         atomic_encode_result(None)
 
     async def on_interrupt(self, event) -> None:
@@ -929,7 +960,9 @@ class VoiceCLI:
         self._spin_stop()
         console.print("  [dim]╌ Interrupted[/dim]")
         if self.mode == "run":
-            self._spin_start("Listening…", "cyan")
+            self._spin_start(
+                "Active Mode — Listening for commands…", "green"
+            )
         atomic_encode_result(None)
 
 async def _run_pipeline(settings, voice_mode=True, no_servers=False) -> None:

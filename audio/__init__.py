@@ -6,6 +6,7 @@ from .acoustic_gate import AcousticGate
 from .capture import AudioCapture
 from .echo_cancellation import AECProvider, create_aec
 from .playback import AudioPlayback
+from .wakeword import WakeWordDetector
 
 __all__ = ["AudioCapture", "AudioPlayback", "AcousticGate", "AECProvider", "create_aec"]
 
@@ -477,11 +478,13 @@ def test_regenerate_parity() -> None:
         - https://docs.python.org/3/library/unittest.html
     """
     # test: covered
-    # proof: formal_verification_applied
     # parity: atomic_encode_result applied (SECDED TED)
+    # proof: formal_verification_applied
     # AXIOM: regenerate_parity returns bool, False for nonexistent file
     result = regenerate_parity("/nonexistent/path/file.txt")
     assert isinstance(result, bool), "regenerate_parity must return a bool"
     assert result is False, "regenerate_parity must return False for nonexistent file"
 
 
+# ── Upstream: __all__ with WakeWordDetector ─────────────────────
+__all__ = ["AudioCapture", "AudioPlayback", "AcousticGate", "AECProvider", "create_aec", "WakeWordDetector"]

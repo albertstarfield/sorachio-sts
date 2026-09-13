@@ -231,6 +231,34 @@ class VisionConfig(BaseModel):
     max_size: int = 512
 
 
+class WakeWordConfig(BaseModel):
+    enabled: bool = True
+    model_dir: str = "models/wakeword"
+    wake_words: list[str] = ["hey_sorachio", "alexa", "hey_jarvis"]
+    threshold: float = 0.5
+    active_timeout_s: float = 15.0
+    confirmation_sound: bool = True
+    rejection_sound: bool = False
+
+
+class RobotConfig(BaseModel):
+    enabled: bool = False
+    controller: str = "mock"              # "mock" | "esp32" | "serial"
+    serial_port: str = "/dev/ttyUSB0"
+    baud_rate: int = 115200
+    esp32_url: str = "http://192.168.1.100"
+    default_speed: float = 0.5
+    max_speed: float = 1.0
+    safety_stop_on_error: bool = True
+
+
+class AgentConfig(BaseModel):
+    enable_web_search: bool = False
+    enable_multi_action: bool = True
+    action_timeout_s: float = 10.0
+    max_subactions: int = 5
+
+
 # ---------------------------------------------------------------------------
 # Root Settings
 # ---------------------------------------------------------------------------
@@ -238,6 +266,9 @@ class VisionConfig(BaseModel):
 class SorachioSettings(BaseModel):
     system: SystemConfig = Field(default_factory=SystemConfig)
     vision: VisionConfig = Field(default_factory=VisionConfig)
+    wakeword: WakeWordConfig = Field(default_factory=WakeWordConfig)
+    robot: RobotConfig = Field(default_factory=RobotConfig)
+    agent: AgentConfig = Field(default_factory=AgentConfig)
     audio: AudioConfig = Field(default_factory=AudioConfig)
     stt: STTConfig = Field(default_factory=STTConfig)
     llm: LLMConfig

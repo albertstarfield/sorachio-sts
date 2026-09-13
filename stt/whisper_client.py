@@ -391,11 +391,17 @@ class WhisperClient:
         # invariants: function preconditions verified
         loop = asyncio.get_event_loop()  # test: covered
 
-        # Skip warmup if MBG already did it (detected via marker file)
+        # Skip warmup if MBG already did it (detected via marker file matching model_size)
         stt_warmed_marker = self.models_dir / ".warmed"
-        skip_warmup = stt_warmed_marker.exists()
+        skip_warmup = False
+        if stt_warmed_marker.exists():
+            try:
+                content = stt_warmed_marker.read_text().strip()
+                skip_warmup = (content == self.model_size or content == "")
+            except Exception:
+                skip_warmup = True
         if skip_warmup:
-            log.info("[STT] Whisper warmup marker found — skipping JIT warmup (already done by MBG)")
+            log.info(f"[STT] Whisper warmup marker found for '{self.model_size}' — skipping JIT warmup")
 
         ok = await loop.run_in_executor(None, self._load_model, skip_warmup)
         self._available = ok
@@ -615,9 +621,9 @@ class WhisperClient:
                         min_silence_duration_ms=300,
                         speech_pad_ms=200,
                     ),
-                    compression_ratio_threshold=2.0,
-                    log_prob_threshold=-1.0,
-                    no_speech_threshold=0.6,
+                    compression_ratio_threshold=1.8,
+                    log_prob_threshold=-0.5,
+                    no_speech_threshold=0.65,
                     condition_on_previous_text=False,
                 )
 
@@ -769,9 +775,12 @@ class WhisperClient:
 
             # Audio is pre-filtered by capture.py VAD; disabling secondary VAD
             # speeds up transcription by ~1s
+            # initial_prompt helps Whisper handle AI/tech proper nouns
             init_prompt = (
                 "Sorachio is an AI companion created by izzulgod. "
-                "Conversation in English and Indonesian."
+                "Common AI topics: Qwen, Gemini, LLaMA, GPT, Claude, Mistral, Phi, "
+                "DeepSeek, Gemma, GGUF, llama.cpp, OpenWakeWord, Whisper, Kokoro, "
+                "Piper, Python, Arduino, ESP32, Raspberry Pi, TTS, STT, LLM."
             )
             segments_gen, info = self._model.transcribe(
                 audio,
@@ -780,10 +789,10 @@ class WhisperClient:
                 temperature=self.temperature,
                 vad_filter=False,
                 initial_prompt=init_prompt,
-                # Prevent repetition loops (hallucinations)
-                compression_ratio_threshold=2.0,
-                log_prob_threshold=-1.0,
-                no_speech_threshold=0.6,
+                # Tighter hallucination thresholds
+                compression_ratio_threshold=1.8,
+                log_prob_threshold=-0.5,
+                no_speech_threshold=0.65,
                 # DO NOT carry over context/loops from previous turns
                 condition_on_previous_text=False,
             )
