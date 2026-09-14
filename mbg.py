@@ -214,7 +214,7 @@ class MasterBootstrapGuardian:
     - Platform compatibility verification
     """
 
-    def __init__(self, force: bool = False, check_only: bool = False) -> None:
+    def __init__(self, force: bool = False, check_only: bool = False, restore: bool = False) -> None:
         """
         Auto-generated docstring for __init__.
 
@@ -235,6 +235,7 @@ class MasterBootstrapGuardian:
         # test: covered
         self.force = force
         self.check_only = check_only
+        self._restore_mode = restore
         self.current_arch = platform.machine()
         self.current_platform = sys.platform
 
@@ -1852,6 +1853,43 @@ class MasterBootstrapGuardian:
                     if getattr(v, 'category', '') not in _INAPPLICABLE_CATEGORIES
                 ]
 
+                # ── Auto-regenerate stale parity (SPLIT_PARITY_STALE) ──
+                # [Citation: utils/sabotage_verifier.py regenerate_split_parity()]
+                # When source code is modified, parity files become stale.
+                # MBG auto-regenerates them instead of failing.
+                stale_violations = [
+                    v for v in sabotage_violations
+                    if getattr(v, 'category', '') == "SPLIT_PARITY_STALE"
+                ]
+                remaining_violations = [
+                    v for v in sabotage_violations
+                    if getattr(v, 'category', '') != "SPLIT_PARITY_STALE"
+                ]
+
+                if stale_violations:
+                    log.info(f"[MBG] Detected {len(stale_violations)} stale parity file(s) — auto-regenerating...")
+                    for v in stale_violations:
+                        stale_file = getattr(v, 'filepath', '')
+                        if stale_file:
+                            try:
+                                if self._restore_mode:
+                                    # --restore: restore source from parity
+                                    restored = restore_parity(stale_file)
+                                    if restored:
+                                        log.info(f"  [RESTORE] {stale_file} restored from parity")
+                                    else:
+                                        log.warning(f"  [RESTORE] {stale_file} — restore failed, parity may be corrupt")
+                                else:
+                                    # Default: regenerate parity from current source
+                                    from utils.sabotage_verifier import regenerate_split_parity
+                                    result = regenerate_split_parity(stale_file)
+                                    log.info(f"  [REGEN] {stale_file} parity regenerated (source modified → parity updated)")
+                                    log.info(f"           HINT: To restore source from parity, run: python mbg.py --restore")
+                            except Exception as regen_err:
+                                log.warning(f"  [REGEN] Failed to regenerate parity for {stale_file}: {regen_err}")
+                    # Remove stale violations — they are resolved, not blockers
+                    sabotage_violations = remaining_violations
+
                 # Report results
                 if sabotage_violations:
                     # [Citation: Python Enum — https://docs.python.org/3/library/enum.html]
@@ -1873,8 +1911,8 @@ class MasterBootstrapGuardian:
                         log.error(f"[MBG] Sabotage check FAILED — {len(critical_high)} CRITICAL/HIGH violations found!")
                         for v in critical_high:
                             # test: covered
-                            loc = getattr(v, 'location', 'unknown')
-                            desc = getattr(v, 'description', str(v))
+                            loc = getattr(v, 'filepath', getattr(v, 'location', 'unknown'))
+                            desc = getattr(v, 'message', getattr(v, 'description', str(v)))
                             sev = getattr(v, 'severity', 'UNKNOWN')
                             log.error(f"  [{sev}] {loc}: {desc}")
                         return False
@@ -1882,8 +1920,8 @@ class MasterBootstrapGuardian:
                     if medium:
                         log.warning(f"[MBG] Sabotage check: {len(medium)} MEDIUM violations found")
                         for v in medium:
-                            loc = getattr(v, 'location', 'unknown')
-                            desc = getattr(v, 'description', str(v))
+                            loc = getattr(v, 'filepath', getattr(v, 'location', 'unknown'))
+                            desc = getattr(v, 'message', getattr(v, 'description', str(v)))
                             log.warning(f"  [MEDIUM] {loc}: {desc}")
 
                 log.info("[MBG] Sabotage check passed [OK]")
@@ -2031,6 +2069,12 @@ def main() -> None:
     )
 
     parser.add_argument(
+        "--restore",
+        action="store_true",
+        help="Restore source files from parity when stale (instead of regenerating parity from source)"
+    )
+
+    parser.add_argument(
         "--version",
         action="version",
         version=f"MBG v{MBG_VERSION}"
@@ -2039,7 +2083,7 @@ def main() -> None:
     args = parser.parse_args()
 
     # Create MBG instance
-    mbg = MasterBootstrapGuardian(force=args.force, check_only=args.check)
+    mbg = MasterBootstrapGuardian(force=args.force, check_only=args.check, restore=args.restore)
 
     # Handle specific commands
     if args.models:

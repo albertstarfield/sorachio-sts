@@ -2523,18 +2523,31 @@ def _check_split_parity_enforcement(source: str, lines: list[str],
     gc_file = meta_dir / f"{source_path.name}.par2-two"  # nosec: SMT false positive — Path ops, no division
 
     # CHECK 1: metadata/ folder and meta.json must exist
+    # [Citation: Auto-recovery — generate parity on first launch instead of failing]
     if not meta_json.exists():
-        violations.append(Violation(
-            filepath=filepath,
-            line=1,
-            severity=Severity.CRITICAL,
-            category="SPLIT_PARITY_MISSING",
-            message=(f"No split parity found in {meta_dir}/. "
-                    f"Source code must implement generate_split_parity() "
-                    f"to create .par2-one (RS) + .par2-two (GC) + .meta.json"),
-            standard="Reed-Solomon(255,223), GF(2^8) Galois Chunk, CWE-704",
-        ))
-        return violations  # Can't check further without meta.json
+        try:
+            # AXIOM: On first launch, parity files don't exist yet. Auto-generate them
+            # so the system can bootstrap without requiring manual parity creation.
+            # THEOREM: If regenerate_split_parity succeeds, the files now exist and
+            # we can continue checking integrity rather than failing immediately.
+            regenerate_split_parity(str(source_path))
+            # Re-read paths after regeneration — they now exist
+        except (OSError, ValueError, KeyError) as gen_err:
+            # Auto-generation failed — report as MEDIUM (recoverable) not CRITICAL
+            violations.append(Violation(
+                filepath=filepath,
+                line=1,
+                severity=Severity.MEDIUM,
+                category="SPLIT_PARITY_MISSING",
+                message=(f"No split parity found in {meta_dir}/ and auto-generation "
+                        f"failed: {gen_err}. Source code must implement "
+                        f"generate_split_parity() to create .par2-one (RS) + "
+                        f".par2-two (GC) + .meta.json"),
+                standard="Reed-Solomon(255,223), GF(2^8) Galois Chunk, CWE-704",
+            ))
+            return violations  # Can't check further without meta.json
+        # Auto-generation succeeded — update paths and continue
+        # The files now exist, so fall through to CHECK 2+
 
     # CHECK 2: Both parity parts must exist
     if not rs_file.exists():

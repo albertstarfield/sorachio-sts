@@ -187,9 +187,6 @@ def _load_settings(config: str | None = None) -> None:
     References:
     - https://docs.python.org/3/library/argparse.html
     """
-    # [SMT_LOGIC_VERIFICATION] Guard: None → empty string for safe downstream use
-    if config is None:
-        config = ""
     # test: covered
     # proof: formal_verification_applied
     # nosec: line-level suppression
@@ -300,9 +297,6 @@ def run(
     """
     # proof: formal_verification_applied
     # invariants: function preconditions verified
-    # [SMT_LOGIC_VERIFICATION] Guard: None → empty string for safe downstream use
-    if config is None:
-        config = ""
     settings = _load_settings(config)
     _setup_logging(settings)
     _print_banner()
@@ -335,9 +329,6 @@ def text(config: str | None = typer.Option(None, "--config", "-c", help="Config 
     """
     # proof: formal_verification_applied
     # invariants: function preconditions verified
-    # [SMT_LOGIC_VERIFICATION] Guard: None → empty string for safe downstream use
-    if config is None:
-        config = ""
     if message is None:
         message = ""
     settings = _load_settings(config)
@@ -1083,9 +1074,6 @@ def test_stt(config: str | None = typer.Option(None, "--config", "-c"),
     # test: test_test_stt
     """
     # proof: formal_verification_applied
-    # [SMT_LOGIC_VERIFICATION] Guard: None → empty string for safe downstream use
-    if config is None:
-        config = ""
     if audio_file is None:
         audio_file = ""
 
@@ -1221,10 +1209,6 @@ def test_cognitive(text_input: str = typer.Argument("Hey Sorachio, I've been rea
     # test: test_test_cognitive
     """
     # proof: formal_verification_applied
-    # [SMT_LOGIC_VERIFICATION] Guard: None → empty string for safe downstream use
-    if config is None:
-        config = ""
-
     settings = _load_settings(config)
     _setup_logging(settings)
 
@@ -1469,10 +1453,6 @@ def memory_clear(config: str | None = typer.Option(None),
     """
     # proof: formal_verification_applied
     # invariants: function preconditions verified
-    # [SMT_LOGIC_VERIFICATION] Guard: None → empty string for safe downstream use
-    if config is None:
-        config = ""
-
     settings = _load_settings(config)
     if not yes:
         confirm = Prompt.ask("[red]Delete ALL memories?[/red] Type 'yes' to confirm")
