@@ -94,6 +94,9 @@ thoughts/
 **/.verifier_cache/
 .verifier_audit.log
 .link_verification_cache.json
+**/*.par2*
+**/*.meta.json
+**/*.parity
 
 # Temp scripts (one-time fixers)
 _add_docstrings.py

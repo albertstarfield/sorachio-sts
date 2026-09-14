@@ -1,9 +1,0 @@
-{
-  "source_file": "cognitive_gateway.py",
-  "source_hash": "4f4aaeee33a15fd3e3bc55593a5eaa1c95f60dbaa50274f4efef49ec69d16d33",
-  "rs_checksum": "51124febdf9af0e8c27741be1ac3c2631b32035724f87974c167248a9e4b86d4",
-  "gc_checksum": "a3f85ae63abe35d3adda28395d173713869684ff4ed5dc189a79a59a70866792",
-  "version": "2.0",
-  "block_size": 512,
-  "total_blocks": 73
-}

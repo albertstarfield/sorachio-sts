@@ -1,9 +1,0 @@
-{
-  "source_file": "pipeline.py",
-  "source_hash": "cc0f91e44762a1950a0390de8117879d90bc05335444e6d4d31d0ab2c04b9285",
-  "rs_checksum": "06375bb8f26c6c5035d960d5a568c03caaf1745f191097f4f211770dc3ca0082",
-  "gc_checksum": "8f76893f1fcd2d3ea764b71eb8a63e4ef3cf05364104724054b092b14240bc82",
-  "version": "2.0",
-  "block_size": 512,
-  "total_blocks": 123
-}

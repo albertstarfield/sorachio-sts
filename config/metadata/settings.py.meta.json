@@ -1,9 +1,0 @@
-{
-  "source_file": "settings.py",
-  "source_hash": "0b097d96675e23f4226d538b9781e06b05b0857f91a73ab056560bc9651942ee",
-  "rs_checksum": "0397dbd8db28a1555d913ed84424920b1bc722e3da5b8aa2fba8b3bad70d752a",
-  "gc_checksum": "0a5d5ad8820faf19fe90d8262408607f9c7eff876f7ad3ad6e577183e04d95be",
-  "version": "2.0",
-  "block_size": 512,
-  "total_blocks": 67
-}
